@@ -5,7 +5,7 @@ from asyncpg.exceptions import UniqueViolationError
 from fastapi import HTTPException
 import logging
 
-from src.exceptions import ObjectNotFoundException, ObjectAlreadyExistsException
+from src.exceptions import ObjectNotFoundException, ObjectAlreadyExistsException, SeveralObjectsFoundException
 from src.repositories.mappers.base import DataMapper
 
 
@@ -74,9 +74,9 @@ class BaseRepository:
         items = result.scalars().all()
 
         if len(items) == 0:
-            raise HTTPException(status_code=404, detail="Объект не найден")
+            raise ObjectNotFoundException
         elif len(items) > 1:
-            raise HTTPException(status_code=400, detail="Найдено несколько объектов")
+            raise SeveralObjectsFoundException
 
         edit_stmt = (
             update(self.model)

@@ -21,6 +21,10 @@ class ObjectNotFoundException(MyAppException):
     detail = "Объект не найден"
 
 
+class SeveralObjectsFoundException(MyAppException):
+    detail = "Найдено несколько объектов"
+
+
 class ObjectAlreadyExistsException(MyAppException):
     detail = "Похожий объект уже существует"
 
@@ -47,6 +51,16 @@ class UserAlreadyExistsException(MyAppException):
 
 class IncorrectTokenHTTPException(MyAppHTTPException):
     detail = "Некорректный токен"
+
+
+class ObjectNotFoundHTTPException(MyAppHTTPException):
+    status_code = 404
+    detail = "Объект не найден"
+
+
+class SeveralObjectsFoundHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Найдено несколько объектов"
 
 
 class EmailNotRegisteredHTTPException(MyAppHTTPException):
