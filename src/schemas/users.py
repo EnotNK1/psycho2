@@ -44,3 +44,17 @@ class User(BaseModel):
 
 class UserWithHashedPassword(User):
     hashed_password: str
+
+
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+
+
+class HashedPassword(BaseModel):
+    hashed_password: str
+
+
+class PasswordChangeRequest(BaseModel):
+    token: str
+    password: str
+    confirm_new_password: str

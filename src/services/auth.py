@@ -1,5 +1,6 @@
 import uuid
 
+from itsdangerous import URLSafeTimedSerializer, BadData
 from passlib.context import CryptContext
 from fastapi import HTTPException
 import jwt
@@ -17,7 +18,9 @@ from src.exceptions import (
     UserAlreadyExistsException,
     PasswordDoNotMatchException,
 )
-from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn
+from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordChangeRequest, HashedPassword
+
+serializer = URLSafeTimedSerializer('secret_key')
 
 
 class AuthService(BaseService):
@@ -73,5 +76,17 @@ class AuthService(BaseService):
         access_token = self.create_access_token({"user_id": str(user.id)})
         return access_token
 
-    async def get_one_or_none_user(self, user_id: int):
-        return await self.db.users.get_one_or_none(id=user_id)
+    async def get_one_or_none_user(self, **filter_by):
+        return await self.db.users.get_one_or_none(**filter_by)
+
+    async def change_password(self, password_data: PasswordChangeRequest):
+        try:
+            email = serializer.loads(password_data.token, max_age=3600)
+        except BadData:
+            raise IncorrectTokenException
+        if password_data.password != password_data.confirm_new_password:
+            raise PasswordDoNotMatchException
+        hashed_password = self.hash_password(password_data.password)
+        _hashed_password = HashedPassword(hashed_password=hashed_password)
+        await self.db.users.edit(_hashed_password, exclude_unset=True, email=email)
+        await self.db.commit()
