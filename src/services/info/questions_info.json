@@ -1,0 +1,2508 @@
+[
+  {
+    "id": "52d2bcc0-507b-45ab-a2b0-18288e762670",
+    "text": "Я чувствую себя эмоционально опустошенным.",
+    "number": 1,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "fc0aa7f1-64c6-407a-8f2c-90e77740103d",
+    "text": "После работы я чувствую себя как «выжатый лимон».",
+    "number": 2,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "81e5e1f9-1988-435c-a663-2bf3345800bc",
+    "text": "Утром я чувствую усталость и нежелание идти на работу.",
+    "number": 3,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "43241c8b-ffc3-4f1b-bfaa-60d5f71c4a17",
+    "text": "Я хорошо понимаю, что чувствуют мои подчиненные и коллеги, и стараюсь учитывать это в интересах дела.",
+    "number": 4,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "905ce7ba-5a63-4713-a3ce-1d9c58c4bded",
+    "text": "Я чувствую, что общаюсь с некоторыми подчиненными и коллегами как с предметами (без теплоты и расположения к ним).",
+    "number": 5,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "f0bc80eb-67c4-48d5-bb2f-b049de4ea84f",
+    "text": "Я чувствую себя энергичным и эмоционально воодушевленным.",
+    "number": 6,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "72c1fbb3-fc46-44c2-aaf4-ff76c152939a",
+      "4afa602f-9e3f-4100-b360-ecb0d2ae25db",
+      "c272c99e-61dd-45db-865b-68648646ba84",
+      "ff5c675c-19bf-4aa5-87f4-d3583e5a5c9f",
+      "ab9b8b46-b5f1-4a07-bdee-984178832242",
+      "597d15ea-f9e4-4ca9-ac98-95cc87bdbc18",
+      "a414819d-9192-41dc-9f59-33301ef8a261"
+    ]
+  },
+  {
+    "id": "a4e16175-c8b0-40a8-ab62-1af5656cbefc",
+    "text": "Я умею находить правильное решение в конфликтных ситуациях, возникающих при общении с коллегами.",
+    "number": 7,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "977cc884-d952-4b40-877a-a5c15910ff4d",
+    "text": "Я чувствую угнетенность и апатию.",
+    "number": 8,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "0044d41f-272c-4531-a4b1-55b24afc2d9e",
+    "text": "Я уверен, что моя работа нужна людям.",
+    "number": 9,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "d0bfbd8d-9f28-4c30-ae55-acdeaaa19120",
+    "text": "В последнее время я стал более «черствым» по отношению к тем, с кем работаю.",
+    "number": 10,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "268dc709-b701-4d2f-867f-5edcdd377af4",
+    "text": "Я замечаю, что моя работа ожесточает меня.",
+    "number": 11,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "0c8565d9-0481-43f8-8378-240b94f48cde",
+    "text": "У меня много планов на будущее, и я верю в их осуществление.",
+    "number": 12,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "e2908a94-c691-4473-a216-1ee112331baa",
+    "text": "Моя работа всё больше меня разочаровывает.",
+    "number": 13,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "445660fa-ad5a-40c7-ba65-ae906b12c891",
+    "text": "Мне кажется, что я слишком много работаю.",
+    "number": 14,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "7cf3bdcb-fba7-4f46-9be4-7eaf269934ff",
+    "text": "Бывает, что мне действительно безразлично то, что происходит c некоторыми моими подчиненными и коллегами.",
+    "number": 15,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "6546dad2-2563-43e0-97fe-ab14a9dbcab5",
+    "text": "Мне хочется уединиться и отдохнуть от всего и всех.",
+    "number": 16,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "0bec321e-231d-4217-ac84-fc5c7cbe8861",
+    "text": "Я легко могу создать атмосферу доброжелательности и сотрудничества в коллективе.",
+    "number": 17,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "ef306202-c1b9-4e84-b312-483f0b9e0261",
+    "text": "Во время работы я чувствую приятное оживление.",
+    "number": 18,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "d1fedb19-3ec0-4f07-9477-0f9b5a41fdc6",
+    "text": "Благодаря своей работе я уже сделал в жизни много действительно ценного.",
+    "number": 19,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "76b7e4e4-3448-4b6f-b257-7490360f44de",
+    "text": "Я чувствую равнодушие и потерю интереса ко многому, что радовало меня в моей работе.",
+    "number": 20,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "f79be9e4-2bbd-4baa-886e-e242eabca8f4",
+    "text": "На работе я спокойно справляюсь с эмоциональными проблемами.",
+    "number": 21,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "a61c854e-7125-4852-9906-154a84a28ed8",
+    "text": "В последнее время мне кажется, что коллеги и подчиненные всё чаще перекладывают на меня груз своих проблем и обязанностей.",
+    "number": 22,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "answer_choice": [
+      "c492b2d1-b971-4316-8003-bb0d414bb76d",
+      "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+      "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+      "6b002714-596c-40bb-97df-fc934c7f99ba",
+      "d575bd4a-d197-4447-b615-ce9119e5c54e",
+      "ec3ee878-2213-4a70-b095-85f9da50eae7",
+      "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+    ]
+  },
+  {
+    "id": "2dfda588-1eec-4fe1-a144-0b4ebe96995f",
+    "text": "Мне было трудно успокоиться.",
+    "number": 1,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "43607c32-0f04-43c1-8160-7baf425943d5",
+    "text": "Я чувствовал сухость во рту.",
+    "number": 2,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "9c9cf6bc-7ed9-48ad-a7a4-88f12d06310f",
+    "text": "Мне кажется, что я не испытывал никаких позитивных чувств.",
+    "number": 3,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "39e7bfca-9ea7-41ce-83c1-62cea27f1fe6",
+    "text": "У меня были проблемы с дыханием (например, учащенное дыхание, одышка при отсутствии физической активности).",
+    "number": 4,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "1bbdce47-981b-4146-928a-53ff5a293a4c",
+    "text": "Мне было трудно проявить инициативу для того, чтобы что-то сделать.",
+    "number": 5,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "013273a8-bd34-43eb-bf44-0a1e4035ac5b",
+    "text": "Я слишком остро реагировал на некоторые ситуации.",
+    "number": 6,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "337a0703-374f-45b2-bee3-48508fe61304",
+    "text": "У меня была дрожь (например, в руках).",
+    "number": 7,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "4e0d0fc9-ec5f-43db-8426-9c1f1dbc7f38",
+    "text": "Я чувствовал, что трачу много нервов.",
+    "number": 8,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "7f53b92a-e0b1-4c51-82f9-9097ff6e0521",
+    "text": "Меня тревожили ситуации, в которых я мог запаниковать и выглядеть глупо.",
+    "number": 9,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "d1879339-f048-42fd-b672-910a4e79a92d",
+    "text": "Я чувствовал, что мне не на что надеяться.",
+    "number": 10,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "7f29cdf7-6c2e-49e4-8149-2e17b38e48bd",
+    "text": "Я обнаруживал себя взволнованным.",
+    "number": 11,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "51bc194f-0505-4d09-9549-3344b5565e14",
+    "text": "Мне было трудно расслабиться.",
+    "number": 12,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "b1fc0458-cc77-436f-91b9-cf64f541bf8d",
+    "text": "Я чувствовал себя унылым и подавленным.",
+    "number": 13,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "34dd7601-4967-41aa-8578-7096a93060ca",
+    "text": "Я был нетерпим ко всему, что мешало мне в моих делах.",
+    "number": 14,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "b6c44bbe-5076-420c-938c-f9386db57e3b",
+    "text": "Я был близок к панике.",
+    "number": 15,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "6e36e51f-0b66-44dc-ad89-f8d7a27e8017",
+    "text": "Я не мог ничем увлечься.",
+    "number": 16,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "dcd4474f-52ca-4d7a-b725-235d3f3a69d7",
+    "text": "Мне казалось, что как человек я ничего не стою.",
+    "number": 17,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "a62077d5-17f4-4dde-afa4-b2f5f04c4da0",
+    "text": "Я чувствовал, что был довольно обидчив.",
+    "number": 18,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "afa478a5-ef6b-46ad-b98b-e39565855a04",
+    "text": "Я чувствовал работу своего сердца при отсутствии физической активности (например, ощущение увеличения частоты сердечных сокращений, пропуска сердечных ударов).",
+    "number": 19,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "38ee77b1-9db6-4d5f-8021-d19488786fd3",
+    "text": "Мне было страшно без всякой на то причины.",
+    "number": 20,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "9dceb31e-d3e2-4acc-9c01-bde6b93029d3",
+    "text": "Мне казалось, что жизнь бессмысленна.",
+    "number": 21,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "answer_choice": [
+      "99246de3-21c7-44f3-ad87-9bd279c0e4de",
+      "2182fb96-a965-4653-890c-66bd5f672d04",
+      "5d7ae7d4-0e19-4cfd-a4ab-b5bd12869aae",
+      "d8a25dc7-7004-4a75-b9aa-a0f90ab0f71e"
+    ]
+  },
+  {
+    "id": "a0487b95-4b34-47f4-96b6-e532383bf94c",
+    "text": "В данный момент я спокоен.",
+    "number": 1,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "ec18adbc-03fa-4ebf-bcc0-9fcadf3f44b0",
+    "text": "В данный момент мне ничто не угрожает.",
+    "number": 2,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "b134aa26-a702-41dc-9360-7d8d2054c5a3",
+    "text": "В данный момент я нахожусь в напряжении.",
+    "number": 3,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "e13673a6-a706-4d0b-b54c-da07b11c9ed5",
+    "text": "В данный момент я внутренне скован.",
+    "number": 4,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "072959ee-fd11-4218-8c6a-b8bfd799da6b",
+    "text": "В данный момент я чувствую себя свободно.",
+    "number": 5,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "a0833095-44d2-4d78-93a0-6861c6fde076",
+    "text": "В данный момент я расстроен.",
+    "number": 6,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "0552fe44-96be-4c27-a987-384c0654538c",
+    "text": "В данный момент меня волнуют возможные неудачи.",
+    "number": 7,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "18a676a8-744e-4c45-8326-6a0468287d8e",
+    "text": "В данный момент я ощущаю душевный покой.",
+    "number": 8,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "0cb0837d-b3ee-4d4d-8edd-198cd3e6269b",
+    "text": "В данный момент я встревожен.",
+    "number": 9,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "591a2e15-c106-4c76-8be1-8a261fffb2aa",
+    "text": "В данный момент я испытываю чувство внутреннего удовлетворения.",
+    "number": 10,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "cd63cb77-8453-436e-9a43-8a412bb5abf7",
+    "text": "В данный момент я уверен в себе.",
+    "number": 11,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "777440be-a186-400e-92de-8ea8ff17bcb7",
+    "text": "В данный момент я нервничаю.",
+    "number": 12,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "43c548e2-54e9-4aab-ada0-7daab4bf3c82",
+    "text": "В данный момент я не нахожу себе места.",
+    "number": 13,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "d5baf6e8-ad09-442f-94ad-38d050d3bff2",
+    "text": "В данный момент я взвинчен.",
+    "number": 14,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "fb39fcb8-b163-4cab-b5e1-1025a2157475",
+    "text": "В данный момент я не чувствую скованности, напряжения.",
+    "number": 15,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "dfc0e7e6-b839-4536-a984-86b8db6759fa",
+    "text": "В данный момент я доволен.",
+    "number": 16,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "ea4837bd-16a5-4f87-ac0f-652989a03ea7",
+    "text": "В данный момент я озабочен.",
+    "number": 17,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "77602385-6736-4113-b9a7-8ff54ec919fe",
+    "text": "В данный момент я слишком возбужден и мне не по себе.",
+    "number": 18,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "42f0be6a-d0c5-49c1-ad8d-77a810b6ef5f",
+    "text": "В данный момент мне радостно.",
+    "number": 19,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "f34aa197-353f-4d09-91cd-bf177c6ccf6e",
+    "text": "В данный момент мне приятно.",
+    "number": 20,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "09d761cf-cad0-4ec3-9584-910b4bd1254d",
+      "a76e4ee5-8b8c-4bc8-8865-fc7321f2d02c",
+      "1b492935-c47f-4421-8daa-aefb42947466",
+      "6aa3f37a-c8fc-4425-9cbd-8d963bf743be"
+    ]
+  },
+  {
+    "id": "1bf54e6a-f173-47cb-bcbb-21d0fa32a592",
+    "text": "У меня бывает приподнятое настроение.",
+    "number": 1,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "25868caf-4735-4d58-bef6-fe7c51639ed3",
+      "fd67b86a-9c96-4752-ae2e-1f5acf030b1c",
+      "0544ff68-14de-429f-81e6-0de384d363a1",
+      "932b1320-db2e-4ba2-b351-2f459e3bd779"
+    ]
+  },
+  {
+    "id": "46c79a09-c27c-4bcc-9322-bedcc1eb1c45",
+    "text": "Я бываю раздражительным.",
+    "number": 2,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "f741e957-bf57-49b9-886f-f8dd89425f10",
+    "text": "Я легко расстраиваюсь.",
+    "number": 3,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "dfc070d0-8c87-4475-b59f-5d90cc58ce69",
+    "text": "Я хотел бы быть таким же удачливым, как и другие.",
+    "number": 4,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "e0875b3e-476b-4f3b-86be-557ac9c9226f",
+    "text": "Я сильно переживаю неприятности и долго не могу о них забыть.",
+    "number": 5,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "bdb92c24-d526-4195-9037-7274b4049640",
+    "text": "Я чувствую прилив сил и желание работать.",
+    "number": 6,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "25868caf-4735-4d58-bef6-fe7c51639ed3",
+      "fd67b86a-9c96-4752-ae2e-1f5acf030b1c",
+      "0544ff68-14de-429f-81e6-0de384d363a1",
+      "932b1320-db2e-4ba2-b351-2f459e3bd779"
+    ]
+  },
+  {
+    "id": "0d953fa3-f1b4-4369-b170-ff633624cb73",
+    "text": "Я спокоен, хладнокровен и собран.",
+    "number": 7,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "25868caf-4735-4d58-bef6-fe7c51639ed3",
+      "fd67b86a-9c96-4752-ae2e-1f5acf030b1c",
+      "0544ff68-14de-429f-81e6-0de384d363a1",
+      "932b1320-db2e-4ba2-b351-2f459e3bd779"
+    ]
+  },
+  {
+    "id": "1dc9d45a-2fc1-4734-b323-894748f61256",
+    "text": "Меня тревожат возможные трудности.",
+    "number": 8,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "9fb4b112-3736-4eed-95c4-096d1925a231",
+    "text": "Я слишком переживаю из-за пустяков.",
+    "number": 9,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "9e660a65-d59c-4180-8b0d-cb4074ea5a79",
+    "text": "Я бываю вполне счастлив.",
+    "number": 10,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "25868caf-4735-4d58-bef6-fe7c51639ed3",
+      "fd67b86a-9c96-4752-ae2e-1f5acf030b1c",
+      "0544ff68-14de-429f-81e6-0de384d363a1",
+      "932b1320-db2e-4ba2-b351-2f459e3bd779"
+    ]
+  },
+  {
+    "id": "84393d02-8c29-4d3d-8e54-7a380c67d96b",
+    "text": "Я всё принимаю близко к сердцу.",
+    "number": 11,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "33c714aa-6d2e-4999-8ae2-f57c2c9413df",
+    "text": "Мне не хватает уверенности в себе.",
+    "number": 12,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "e34ca804-4c52-4746-aae2-7ed214003359",
+    "text": "Я чувствую себя беззащитным.",
+    "number": 13,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "a3334d61-5de1-4287-afcb-790771054a38",
+    "text": "Я стараюсь избегать критических ситуаций и трудностей.",
+    "number": 14,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "27899835-d12b-47cd-96a1-750ea8bc774f",
+    "text": "У меня бывает хандра.",
+    "number": 15,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "40e89a7f-6e45-4e34-bb28-3bf37a8052bc",
+    "text": "Я бываю доволен.",
+    "number": 16,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "25868caf-4735-4d58-bef6-fe7c51639ed3",
+      "fd67b86a-9c96-4752-ae2e-1f5acf030b1c",
+      "0544ff68-14de-429f-81e6-0de384d363a1",
+      "932b1320-db2e-4ba2-b351-2f459e3bd779"
+    ]
+  },
+  {
+    "id": "219785e2-96cc-4e2e-96a9-f550fe5e9153",
+    "text": "Всякие пустяки отвлекают и волнуют меня.",
+    "number": 17,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "893eca68-87f9-4ccc-a6b3-c2b1f72bd5cf",
+    "text": "Бывает, что я чувствую себя неудачником.",
+    "number": 18,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "b0091117-20b3-48d1-a082-d03e0396d970",
+    "text": "Я уравновешенный человек.",
+    "number": 19,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "25868caf-4735-4d58-bef6-fe7c51639ed3",
+      "fd67b86a-9c96-4752-ae2e-1f5acf030b1c",
+      "0544ff68-14de-429f-81e6-0de384d363a1",
+      "932b1320-db2e-4ba2-b351-2f459e3bd779"
+    ]
+  },
+  {
+    "id": "9c9e493f-ef47-4e13-bc93-aa15bedba7a7",
+    "text": "Меня охватывает беспокойство, когда я думаю о своих делах и заботах.",
+    "number": 20,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25",
+    "answer_choice": [
+      "866a6a8f-d6c3-4897-8881-70cf57f53e5f",
+      "d717ee0e-9520-44fb-88e0-211b1687c4fa",
+      "557b67e2-ddbe-4989-97eb-5bb973840475",
+      "d9e69eb3-b17a-430e-ad63-b2fa8307c704"
+    ]
+  },
+  {
+    "id": "8c864fe8-133d-4258-afb4-b066f63a5d84",
+    "text": "Позволяю себе поделиться чувством с другом.",
+    "number": 1,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "770247bc-7b30-44a5-9b8c-defd00573407",
+    "text": "Стараюсь все сделать так, чтобы иметь возможность наилучшим образом решить проблему.",
+    "number": 2,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "62248ee3-619b-44ac-970c-8ccb9090ac32",
+    "text": "Осуществляю поиск всех возможных решений, прежде чем что-то предпринять.",
+    "number": 3,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "0033ff75-3926-4674-bbfb-768b876baa91",
+    "text": "Пытаюсь отвлечься от проблемы.",
+    "number": 4,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "bfaf5cef-ed0e-4a2a-895d-f81e73091f6b",
+    "text": "Принимаю сочувствие и понимание от кого-либо.",
+    "number": 5,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "6244ea8d-69f9-4e96-a762-c17527453be8",
+    "text": "Делаю все возможное, чтобы не дать окружающим увидеть, что мои дела плохи.",
+    "number": 6,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "fddc5db8-3c11-4a7e-856c-48bb1d262075",
+    "text": "Обсуждаю ситуацию с людьми, так как обсуждение помогает мне чувствовать себя лучше.",
+    "number": 7,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "fcc3999d-62f0-464e-832c-6c063c6a4734",
+    "text": "Ставлю для себя ряд целей, позволяющих постепенно справляться с ситуацией.",
+    "number": 8,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "b3d99070-18fa-468a-b8f3-0cc2a2894f23",
+    "text": "Очень тщательно взвешиваю возможности выбора.",
+    "number": 9,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "209a2229-fc90-45df-af21-4f6021ff0bf3",
+    "text": "Мечтаю, фантазирую о лучших временах.",
+    "number": 10,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "4be37341-37e4-4c3b-bf34-093acb2ee604",
+    "text": "Пытаюсь различными способами решать проблему, пока не найду подходящий.",
+    "number": 11,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "5f7eac03-b17d-438d-a3c1-11b4be47f223",
+    "text": "Доверяю свои страхи родственнику или другу.",
+    "number": 12,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "fb10e450-023a-4a40-9ed7-eb1e9ec9dad4",
+    "text": "Больше времени, чем обычно, провожу один.",
+    "number": 13,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "6e7ad054-d338-4125-a9a5-375744f4757c",
+    "text": "Рассказываю другим людям о ситуации, так как только ее обсуждение помогает мне прийти к ее разрешению.",
+    "number": 14,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "8891276c-84ae-4145-afa0-419004d4f550",
+    "text": "Думаю о том, что нужно сделать, чтобы исправить положение.",
+    "number": 15,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "a70e3f43-fc2d-467e-8784-e6f578672cfa",
+    "text": "Сосредотачиваюсь полностью на решении проблемы.",
+    "number": 16,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "f51e2e82-671b-471b-9858-3d5fdb9eac31",
+    "text": "Обдумываю про себя план действий.",
+    "number": 17,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "e0d123c3-5283-4c0a-b1c5-d698ea6001d4",
+    "text": "Смотрю телевизор дольше, чем обычно.",
+    "number": 18,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "63298a8e-1f0f-4a2c-a933-dbded82466da",
+    "text": "Иду к кому-нибудь (другу или специалисту), чтобы он помог мне чувствовать себя лучше.",
+    "number": 19,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "23f25505-6e7c-47ad-93a6-26c770cdd8c9",
+    "text": "Стою твердо и борюсь за то, что мне нужно в этой ситуации.",
+    "number": 20,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "8ba4fa18-8a14-449c-96fc-a159d61eb255",
+    "text": "Избегаю общения с людьми.",
+    "number": 21,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "f5b3a3f3-c05d-4170-ba27-c0c95724b718",
+    "text": "Переключаюсь на хобби или занимаюсь спортом, чтобы избежать проблем.",
+    "number": 22,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "8028582b-5b98-4880-a2c5-7dfd34221d4c",
+    "text": "Иду к другу за советом - как исправить ситуацию.",
+    "number": 23,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "db81b9c5-ded1-4676-b9c5-a93ac5abfe3d",
+    "text": "Иду к другу, чтобы он помог мне лучше почувствовать проблему.",
+    "number": 24,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "6e40c3a6-ba99-4518-8662-00880fe15859",
+    "text": "Принимаю сочувствие, взаимопонимание друзей.",
+    "number": 25,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "abeabc67-e090-4e7d-8d34-a86c63b213b9",
+    "text": "Сплю больше обычного.",
+    "number": 26,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "39cf3462-a66d-4ed6-96a9-ea660a6c495d",
+    "text": "Фантазирую о том, что все могло бы быть иначе.",
+    "number": 27,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "2bb8bf9f-b351-4354-9699-082e37c770ca",
+    "text": "Представляю себя героем книги или кино.",
+    "number": 28,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "32567e58-e110-4a48-b7e8-ae021f0d2489",
+    "text": "Пытаюсь решить проблему.",
+    "number": 29,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "2a5f306d-d855-422d-b302-ad6b281d6095",
+    "text": "Хочу, чтобы люди оставили меня одного.",
+    "number": 30,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "f417cdbf-6b19-4d66-b51a-43abed4d1d94",
+    "text": "Принимаю помощь от друзей или родственников.",
+    "number": 31,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "c1305667-cc45-450c-9b5d-21dc5eb29a57",
+    "text": "Ищу успокоения у тех, кто знает меня лучше.",
+    "number": 32,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "19020f03-1be6-4297-90a4-6d0207bcd8bb",
+    "text": "Пытаюсь тщательно планировать свои действия, а не действовать импульсивно под влиянием внешнего побуждения.",
+    "number": 33,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "answer_choice": [
+      "9a1aca78-0365-40fb-8ae5-a71b66937b43",
+      "2d1bae58-a855-4ec4-9d47-85b0e20109cf",
+      "54095e28-5398-4f43-98aa-3abc4186c7e0"
+    ]
+  },
+  {
+    "id": "1b6e446f-bc32-49d1-bd5c-cb1439226412",
+    "text": "Я слишком бурно реагирую даже на самые мелкие проблемы.",
+    "number": 1,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "4a60a64f-0abb-4e0e-af0a-604542f5a509",
+    "text": "Мне говорят, что я делаю из мухи слона.",
+    "number": 2,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "e5b471d7-dc69-43b8-8d67-994f3fb3509b",
+    "text": "Я легко прихожу в возбуждение.",
+    "number": 3,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "6069b3b4-e5b5-4878-a679-58f8f575bd89",
+    "text": "Не стоит даже пробовать, всё равно ничего не получится.",
+    "number": 4,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "dd75274f-40e6-4119-a2a9-d299d2c137cd",
+    "text": "Я заранее знаю, что всё будет плохо.",
+    "number": 5,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "826ce2d1-92a0-4c4a-9462-081ccb227754",
+    "text": "Я могу точно сказать, о чем думают другие.",
+    "number": 6,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "ab40fceb-24c9-4b44-8da4-5691a2d027fe",
+    "text": "Мои близкие должны знать, чего я хочу.",
+    "number": 7,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "465f863f-f35d-4c19-8fe5-9dcd124df85e",
+    "text": "Всегда можно определить, что думает человек, понаблюдав за его жестами и мимикой.",
+    "number": 8,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "aab66a4f-0add-424f-a361-dd752e92c861",
+    "text": "Я полагаю, что, когда люди проводят много времени вместе, они настраиваются на мысли друг друга.",
+    "number": 9,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "56319bbb-45c2-4368-8c09-6996b1c47487",
+    "text": "Я расстраиваюсь из-за того, что, как мне кажется, думает другой человек, а потом оказывается, что я был не прав.",
+    "number": 10,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "5fc08bcc-3fcb-47ef-9cd9-a2ebc668889e",
+    "text": "Я в ответе за то, чтобы любимые мною люди были счастливы.",
+    "number": 11,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "c3831a67-bc8c-4108-8c0c-c8ae4b8fe0e7",
+    "text": "Если что-то не получается, я чувствую, что это моя вина.",
+    "number": 12,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "d13575ad-2e32-4412-8ba6-a9c6b34b808b",
+    "text": "Меня критикуют чаще, чем других людей.",
+    "number": 13,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "7ce8044b-aeab-4cf3-9bcc-91cb164c3179",
+    "text": "Я всегда могу определить, когда человек нападает именно на меня, даже если он не упоминает моего имени.",
+    "number": 14,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "163358db-36d8-461e-a6bf-ffe46ae3a0a5",
+    "text": "Я чувствую, что меня несправедливо обвиняют в том, что находится вне моего контроля.",
+    "number": 15,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "a3870f2c-fbdb-4dc6-9c39-10ab19f373ed",
+    "text": "Люди сознательно затрагивают именно те области, в которых я особенно чувствителен к критике.",
+    "number": 16,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "9d0e211c-fc34-4fdf-94d9-96117bdc31f5",
+    "text": "В отношении критики у меня действует шестое чувство, я всегда угадываю, когда говорят обо мне.",
+    "number": 17,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "3cc58554-2f1b-49aa-83ce-810836828e98",
+    "text": "Негативные замечания ранят меня по-настоящему, иногда я впадаю в депрессивное состояние.",
+    "number": 18,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "1b4e10bb-89c8-48ca-98de-e86676314555",
+    "text": "Я слышу только негативные замечания и часто не замечаю похвалы.",
+    "number": 19,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "df3b1dc4-5380-46bc-86be-8e61ddaf9679",
+    "text": "Я полагаю, что все замечания означают одно и то же, им одна негативная цена.",
+    "number": 20,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "e51aba71-e6e7-4f0e-9811-9e68fffedd71",
+    "text": "Я расстраиваюсь, если мне не удается завершить дело.",
+    "number": 21,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "205805d6-327d-4edc-b700-3345fffd6d07",
+    "text": "Если обо мне говорят, что я такой же, как все, или один из многих, я чувствую себя оскорбленным.",
+    "number": 22,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "b48d4157-b8a8-474d-807f-42c5c2d6e841",
+    "text": "Лучше я ничего не буду делать, чем возьмусь за работу ниже моего достоинства.",
+    "number": 23,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "38e24242-5aee-48c4-85ff-51f3814b0ed5",
+    "text": "Для меня очень важно, чтобы люди воспринимали меня как человека, ни на йоту не отступающего от стандарта безупречности.",
+    "number": 24,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "44a4e62a-d41e-4442-82f1-f0899f3ceea1",
+    "text": "Даже самая незначительная ошибка может испортить мне весь день и даже всю жизнь.",
+    "number": 25,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "18775b71-bfc1-41ed-a1ed-167eff609e3a",
+    "text": "По сравнению с другими я неудачник.",
+    "number": 26,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "a8a71f56-ef02-4f14-ab80-9ffd87f9d37b",
+    "text": "Во мне силен дух соревнования.",
+    "number": 27,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "6a4b4e63-f2e9-43f7-ab8e-c122ecc326ac",
+    "text": "Я расстраиваюсь, когда слышу об успехах других людей.",
+    "number": 28,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "cddb0feb-5745-49f8-8b6c-68ab7ddb6e49",
+    "text": "Я падаю духом оттого, что нахожусь не там, где должен быть.",
+    "number": 29,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "e38d5107-3316-4976-997e-658ca0b40715",
+    "text": "Мне кажется, что если хочешь добиться успеха, то надо постоянно сравнивать себя с другими.",
+    "number": 30,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "1fb3d8f2-188c-4d4a-bd68-6e427a005cb2",
+    "text": "Мир, знаете ли, очень опасное место.",
+    "number": 31,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "d467a0f5-a3e5-4551-8b50-7ecb22fa52a7",
+    "text": "Если не хочешь иметь неприятности, соблюдай осторожность в словах и делах.",
+    "number": 32,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "8ab5a5d6-8cd5-4964-b416-26504daa1601",
+    "text": "Не люблю пользоваться случаем.",
+    "number": 33,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "b7d7283f-5fce-4f13-a420-bc6c512ea732",
+    "text": "Я упустил хорошую возможность, потому что опасался рисковать.",
+    "number": 34,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "b97b669d-1101-41af-b20c-d7f31ccf8665",
+    "text": "Я избегаю предпринимать какие-то действия из-за боязни травмы и неудачи.",
+    "number": 35,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "8cb4c632-0360-48ae-a6b4-802b431de6fa",
+    "text": "Я испытываю чувство вины из-за того, что должен был сделать что-то в прошлом, но не сделал.",
+    "number": 36,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "0cf250cb-2d79-4002-9bcd-43d0a95e56b0",
+    "text": "Я считаю, что надо жить по правилам.",
+    "number": 37,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "44c06fea-1c1b-482b-ae1e-57f5056c8227",
+    "text": "Оглядываясь на прожитую жизнь, я вижу больше неудач, нежели успехов.",
+    "number": 38,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "2e779b39-6f06-4df6-bdcf-37adcc4bb97f",
+    "text": "На меня давит необходимость поступать правильно.",
+    "number": 39,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "2d08ebe7-1f3e-451a-b12f-c4920a1bd445",
+    "text": "Меня угнетает необходимость сделать все дела.",
+    "number": 40,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "6a56f3ca-2a00-49c5-abec-96cbf5cee294",
+    "text": "Мне безразлично мнение окружающих.",
+    "number": 41,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "f267cbcf-7e38-4275-ad7c-462bf4167f73",
+    "text": "Люди упрекают меня в том, что я не умею слушать.",
+    "number": 42,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "a0851176-71f0-4be7-82e8-2d8ebd5df078",
+    "text": "Когда меня просят что-то сделать, я бываю недовольным, ершистым.",
+    "number": 43,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "fd235d94-4379-4310-a019-ae5491ce4565",
+    "text": "Я считаю, что все должно делаться по-моему или не делаться вовсе.",
+    "number": 44,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "3b0ee663-c175-4431-a2f6-d783fb2c91b0",
+    "text": "Я склонен откладывать очень важные дела и бываю очень медлительным.",
+    "number": 45,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a",
+    "answer_choice": [
+      "c5b2119d-bb18-49fe-8844-50da5ab90017",
+      "e06a5c76-f359-4530-a9fa-8644d0a6c4c6",
+      "4986f36d-2b8b-484b-9edd-c2fe3ec4bdb3",
+      "efccd9c9-6872-40e5-bc0a-3423f8110418"
+    ]
+  },
+  {
+    "id": "adb25772-8893-4aeb-a94d-a45a715b0ea8",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 1,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "1df28c33-7e63-42e5-b2a5-c850fe952919",
+      "ea2a7a5a-9667-4de2-8177-6c84e49feaf4",
+      "b24cf69b-0e25-4cf4-8fec-652afd2ffb88",
+      "922eff95-dd49-4f64-a856-948f87961843"
+    ]
+  },
+  {
+    "id": "ef551e92-3bc8-4f5b-be37-8f3760495fa9",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 2,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "87e1b582-7b90-4402-b69b-9e06ce6f6673",
+      "bada65ed-1125-4852-a8bc-27c5bfa2dd1f",
+      "a85a583b-d4a1-4aec-80a6-025acd257520",
+      "96d2157b-878d-4514-ad81-3eaf5d2a9a73"
+    ]
+  },
+  {
+    "id": "900c3a60-2452-4489-8921-ce1087623976",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 3,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "468d595e-cf4f-4644-a85d-ddb138eb8fc6",
+      "e6fec3d9-5e97-48c3-aa14-b349218f0df9",
+      "95dfbc08-48a1-4c55-968c-a928d00c5c0d",
+      "3820f585-5761-49b0-bffb-11ec6add2375"
+    ]
+  },
+  {
+    "id": "7461b717-f98b-47ca-9f38-2a30a46a0c22",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 4,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "328a8314-25ec-4ae6-853d-b1951586a49f",
+      "42a97b5e-2bb2-4648-b68f-aaa7641aa28d",
+      "80ff3f10-9d12-4a41-8553-616fa6f766af",
+      "d0645749-7341-42a3-8d5b-65a2d161e632"
+    ]
+  },
+  {
+    "id": "659275a2-f6ba-46ea-9e68-cbc9e2b28ac3",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 5,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "eb67c944-6ebd-4acf-b5d2-581b8f472240",
+      "74e76267-0c51-47fc-85ba-d69d03a75b05",
+      "cc7235aa-1a1c-48b3-9493-5c43c6316cf1",
+      "bb9fb510-ccbf-42cd-9b4d-d91b2c5ef646"
+    ]
+  },
+  {
+    "id": "19704ff3-04b4-4ca2-89a7-b5bf47a81f38",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 6,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "97d8f9e3-9964-4de5-b26e-1fc39ef93aa1",
+      "9754536a-c927-4e73-814e-f817c2eceaf7",
+      "d0daa6aa-eb78-44d8-b69d-448f6145fac1",
+      "bd8d4339-32af-4444-89f5-dff8843d5ae8"
+    ]
+  },
+  {
+    "id": "d8366697-6896-4669-bde3-6531dfe3f7b9",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 7,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "7af5a85f-a104-4dc2-bd33-82d6750ef1e8",
+      "32437a4c-377e-4be1-a969-4118114e35d6",
+      "a1c2a97d-d4e4-4cfe-bf52-170ad98f1d30",
+      "d3b18b77-ed24-4783-acce-6e67744d504e"
+    ]
+  },
+  {
+    "id": "8b0c7736-7426-444f-8590-85679251fee3",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 8,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "005032a6-6bfe-49f9-962f-bee28057e0af",
+      "98fdf97d-300f-4a12-a1b0-296797df85ad",
+      "4ca5feef-25b4-4675-8d8d-bb37b050e073",
+      "72d4de63-555f-46e2-b78c-615dbea44dca"
+    ]
+  },
+  {
+    "id": "7bce0e6c-e93a-41fc-a683-df24dfa7edc2",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 9,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "88fbeb71-6dfb-45b9-ba04-c122ceb270ae",
+      "ca653c68-ae95-450b-9cc8-d7d3ba275d7d",
+      "c7353de3-b44d-4324-8e69-1163e5ee09b3",
+      "f7d0294f-ebfd-480a-9e44-249a8faf59d6"
+    ]
+  },
+  {
+    "id": "e6cc745b-7943-40e1-a4e7-0d3e80caba18",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 10,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "ffe742c9-1a14-45ae-b87e-9d28264f73e9",
+      "9bd653c3-55c0-4774-bf23-d8b076e100ec",
+      "5b6c6374-46e4-4ecb-8b2a-f1f10a067691",
+      "3e9da676-d213-43d5-b8a1-6e1f367969cd"
+    ]
+  },
+  {
+    "id": "6c17dc36-afac-477e-91f9-30e05e072d16",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 11,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "bada772d-302d-4cef-a655-a3813a4806d9",
+      "8c131b82-f3c2-4ebe-b63a-d235a1eecef3",
+      "63b9027f-bd51-4af0-92b8-edc134ac551d",
+      "842a2d55-de1b-4ae8-926c-08ca9401a787"
+    ]
+  },
+  {
+    "id": "2e866000-8ca5-4484-aa54-9a0c0717efe7",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 12,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "394b51a6-322b-41ee-b770-56eaabe63113",
+      "3113b1cc-b7ca-4b9d-abc7-1ffbf7acdbd7",
+      "64ad41c4-9ee0-4db9-841c-c912a5da6bc2",
+      "8cde91fe-6374-4082-adc3-bd857ea832af"
+    ]
+  },
+  {
+    "id": "a53f1840-21c1-4bca-997c-8dc1b10fe856",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 13,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "8e042873-735a-4c33-bfa3-6325aeea7f8a",
+      "bb239a04-c604-4c39-8635-870ac0bf9c81",
+      "97642a42-b255-488a-898e-7ff88b72c515",
+      "2833275f-1249-4502-8059-f30581a7fab2"
+    ]
+  },
+  {
+    "id": "c30e848e-2d7f-4df7-81f4-c4e973ab69d0",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 14,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "cd8876d0-b379-4ef2-8bbc-06edca362f42",
+      "568ceb04-9889-4d9c-a783-00a7df2ebdb6",
+      "ba1958a8-db9b-4bae-8d89-3ee523634e9b",
+      "ec604008-b56d-4f14-b40b-8b38e4c7f2a4"
+    ]
+  },
+  {
+    "id": "4ed2770b-12c5-41f9-9a03-fd8c69c5f7d1",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 15,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "0fa8502a-49fa-4b8d-8eef-9005c5fee8fc",
+      "d5e5a5b4-cc69-443b-84ab-356fbc681746",
+      "faa9121e-10e9-48ef-bdfc-1b8d8c8aacdc",
+      "a51ef82e-b22f-4f16-b38d-fc8179a59d31"
+    ]
+  },
+  {
+    "id": "35276b61-aabd-4a7e-a1d3-d1473d2d28a7",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 16,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "2dce8df1-9933-4a8b-b1f7-220a01421468",
+      "cf90e791-2a48-4ea8-a40c-05dbacb1c744",
+      "457e598b-ba83-43ed-9333-afd8a2cbe27e",
+      "6eda0389-69cd-44af-9e88-59b02da237af"
+    ]
+  },
+  {
+    "id": "d716a9df-744f-491b-a2b9-83c0e7d17b35",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 17,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "7a6ae425-34c1-48e8-8c6c-24acd0ea144e",
+      "18c2572a-b456-460e-9126-804154b1f4ea",
+      "aadd7de3-58ca-4c59-8c9b-0389f9e42472",
+      "f2a80921-a406-47a0-96a9-21c3cb8259b3"
+    ]
+  },
+  {
+    "id": "e7764100-527f-48ba-ae3c-9f2828eca275",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 18,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "9ad021c3-7b93-4e48-8d36-69816dab28b9",
+      "ed323598-5dc6-4fc0-b6b9-55260398201d",
+      "c01e125a-b57d-414e-9525-8630afe8b6ff",
+      "3abb40c5-486b-4bbd-9f3a-2421cea58eba"
+    ]
+  },
+  {
+    "id": "842a7513-0cf1-45e0-9b4c-9c3068597831",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 19,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "46dae454-0752-49c7-893b-7cb85c20e903",
+      "c7087275-3dd0-4120-aac6-1e45e7b8089b",
+      "7a7a9655-0452-4009-b6d6-38a036260499",
+      "d0914fac-eb3d-4476-8a1f-1a618567047b"
+    ]
+  },
+  {
+    "id": "3d72b9c8-abad-40d5-94dc-803bdca6462b",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 20,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "405efc84-072f-4853-8d46-3afa19d65817",
+      "63238ba7-d501-434d-8806-6e5385ce64a0",
+      "e1ba50cd-f7fa-4c56-bc13-b2884c65440c",
+      "f5c69a80-4bd5-444e-9f88-a86b2d392bad"
+    ]
+  },
+  {
+    "id": "997bbf3e-5985-4499-abcc-7272b45d775e",
+    "text": "Что лучше описывает ваше состояние за прошедшую неделю и сегодня?",
+    "number": 21,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d",
+    "answer_choice": [
+      "8a30cd04-8ca2-4252-a84a-d8fa30391f39",
+      "14c55036-3d47-4da2-9844-01777b22f931",
+      "de7ecb64-ec6f-4417-96b3-92f228493497",
+      "00fb9074-63d2-4c17-8ead-ff4b60ce493b"
+    ]
+  },
+  {
+    "id": "ad73799a-e1b0-411d-a581-008aa48ec9b6",
+    "text": "Мне трудно чем-либо мотивировать себя в работе",
+    "number": 1,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "f7c859fc-74cb-4d43-a5ae-9ceb34488f6a",
+    "text": "Я безразличен к своей работе.",
+    "number": 2,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "df9de2a6-9595-4d4f-8a14-f3ae7d72d119",
+    "text": "Мне трудно чем-либо мотивировать себя в работе",
+    "number": 1,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "0cac1092-6d33-4d43-ac16-4c40cf668685",
+    "text": "Я безразличен к своей работе.",
+    "number": 2,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "ec8edab1-9ab5-4871-8c84-e5f7efee06fd",
+    "text": "Я не испытываю интеллектуального вовлечения в свою работу.",
+    "number": 3,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "de3c2f09-77ab-4a27-830e-f6d9e91859d8",
+    "text": "Я эмоционально отстранен от своей работы.",
+    "number": 4,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "6cc5b503-5c55-4ba5-afa4-462a7e71c4fa",
+    "text": "Мое отношение к работе можно охарактеризовать как пассивное.",
+    "number": 5,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "c2a8e888-cbce-49ee-bc5e-465969eecbe4",
+    "text": "Если я сразу не найду чего-то, что необходимо для выполнения рабочего задания, то достаточно быстро прекращу поиски.",
+    "number": 6,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "19097ba2-2fcf-41a6-a058-52cd26595871",
+    "text": "Хотя я и выполняю всё, что мне поручено, я обычно не работаю усерднее, чем необходимо.",
+    "number": 7,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "33c969a3-0205-44cd-9e1d-83a68d0867ad",
+    "text": "Работа с результатом среднего качества кажется мне вполне допустимой.",
+    "number": 8,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "b3f1ea82-d5a0-46ab-9b44-96929532933b",
+    "text": "Когда появляются новые рабочие задачи, я не возражаю, если за них берутся другие.",
+    "number": 9,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "7d4212ac-9073-4e31-945a-67fec99472e6",
+    "text": "Обычно я не проявляю инициативу, когда начальство распределяет задания.",
+    "number": 10,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af",
+    "answer_choice": [
+      "330d4937-f42b-4e30-aa35-9e9e4bdd8ad9",
+      "da2e85fe-7a9e-4918-9086-0627dd3c2e21",
+      "f8441262-b458-4c38-8b9e-77ec2fb08bb8",
+      "06e71127-ee97-4e84-ab8e-2179aab8ca69",
+      "05f167a9-80fe-480e-8604-38cdf9aaabfe"
+    ]
+  },
+  {
+    "id": "240a669d-b9f0-4953-adad-d9176e7784f9",
+    "text": "Как часто за последний месяц вы расстраивались из-за того, что происходило неожиданно?",
+    "number": 1,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a",
+    "answer_choice": [
+      "4a4d9653-c09d-429d-9a84-913eb6203b9e",
+      "d8674970-74cb-4baf-aba9-6f0ab5ab1d5a",
+      "320ebf48-654f-4ec3-bfb2-9f941860e46d",
+      "52387e87-ce7a-4cf6-91c5-e9b6eeced620",
+      "42bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "e1366c04-389c-437e-8757-85ec80730315",
+    "text": "Как часто за последний месяц вы чувствовали, что не способны контролировать важные моменты своей жизни?",
+    "number": 2,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a",
+    "answer_choice": [
+      "4a4d9653-c09d-429d-9a84-913eb6203b9e",
+      "d8674970-74cb-4baf-aba9-6f0ab5ab1d5a",
+      "320ebf48-654f-4ec3-bfb2-9f941860e46d",
+      "52387e87-ce7a-4cf6-91c5-e9b6eeced620",
+      "42bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "09e1efa8-427a-46a9-8dc9-1cbeef317021",
+    "text": "Как часто за последний месяц вы нервничали и испытывали стресс?",
+    "number": 3,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a",
+    "answer_choice": [
+      "4a4d9653-c09d-429d-9a84-913eb6203b9e",
+      "d8674970-74cb-4baf-aba9-6f0ab5ab1d5a",
+      "320ebf48-654f-4ec3-bfb2-9f941860e46d",
+      "52387e87-ce7a-4cf6-91c5-e9b6eeced620",
+      "42bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "f4904a82-4b44-4d8b-919f-ee1df1e5156b",
+    "text": "Как часто за последний месяц вы чувствовали уверенность в своей способности справляться с личными проблемами?",
+    "number": 4,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a",
+    "answer_choice": [
+      "37d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "2f83bf73-a478-4064-8c3d-032e04cefa39",
+      "9d3a555e-82aa-438a-998c-8ce92e002571",
+      "0fea04ba-366b-487b-aded-ee99cc670edc",
+      "1200acbd-74ca-4b89-8863-5a116fdddee9"
+    ]
+  },
+  {
+    "id": "61edd76e-7a07-4e7d-ba9e-d4147e5a0bf1",
+    "text": "Как часто за последний месяц вы чувствовали, что всё идет так, как это нужно вам?",
+    "number": 5,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a",
+    "answer_choice": [
+      "37d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "2f83bf73-a478-4064-8c3d-032e04cefa39",
+      "9d3a555e-82aa-438a-998c-8ce92e002571",
+      "0fea04ba-366b-487b-aded-ee99cc670edc",
+      "1200acbd-74ca-4b89-8863-5a116fdddee9"
+    ]
+  },
+  {
+    "id": "f48541d3-6f67-461e-8d62-f80392d0c5db",
+    "text": "Как часто за последний месяц вы обнаруживали, что не можете справиться со всем, что вам приходилось делать?",
+    "number": 6,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a",
+    "answer_choice": [
+      "4a4d9653-c09d-429d-9a84-913eb6203b9e",
+      "d8674970-74cb-4baf-aba9-6f0ab5ab1d5a",
+      "320ebf48-654f-4ec3-bfb2-9f941860e46d",
+      "52387e87-ce7a-4cf6-91c5-e9b6eeced620",
+      "42bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "c0fab2ba-357b-448b-a41f-75bb8b10e101",
+    "text": "Как часто за последний месяц вы могли контролировать свою раздражительность?",
+    "number": 7,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a",
+    "answer_choice": [
+      "37d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "2f83bf73-a478-4064-8c3d-032e04cefa39",
+      "9d3a555e-82aa-438a-998c-8ce92e002571",
+      "0fea04ba-366b-487b-aded-ee99cc670edc",
+      "1200acbd-74ca-4b89-8863-5a116fdddee9"
+    ]
+  },
+  {
+    "id": "e5b1689d-3f79-46f0-953a-c8b71bdb7da8",
+    "text": "Как часто за последний месяц вы чувствовали, что находитесь на вершине успеха?",
+    "number": 8,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a",
+    "answer_choice": [
+      "37d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "2f83bf73-a478-4064-8c3d-032e04cefa39",
+      "9d3a555e-82aa-438a-998c-8ce92e002571",
+      "0fea04ba-366b-487b-aded-ee99cc670edc",
+      "1200acbd-74ca-4b89-8863-5a116fdddee9"
+    ]
+  },
+  {
+    "id": "254dca3a-8184-4477-9f7e-50a328dfd831",
+    "text": "Как часто за последний месяц вы злились из-за того, что происходило без контроля с вашей стороны?",
+    "number": 9,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a",
+    "answer_choice": [
+      "4a4d9653-c09d-429d-9a84-913eb6203b9e",
+      "d8674970-74cb-4baf-aba9-6f0ab5ab1d5a",
+      "320ebf48-654f-4ec3-bfb2-9f941860e46d",
+      "52387e87-ce7a-4cf6-91c5-e9b6eeced620",
+      "42bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "2b86bab7-f081-403d-aabd-646c5b93d87b",
+    "text": "Как часто за последний месяц вы чувствовали, что вам не преодолеть всех скопившихся трудностей?",
+    "number": 10,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a",
+    "answer_choice": [
+      "4a4d9653-c09d-429d-9a84-913eb6203b9e",
+      "d8674970-74cb-4baf-aba9-6f0ab5ab1d5a",
+      "320ebf48-654f-4ec3-bfb2-9f941860e46d",
+      "52387e87-ce7a-4cf6-91c5-e9b6eeced620",
+      "42bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  }
+]
+
+
+

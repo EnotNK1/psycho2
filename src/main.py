@@ -12,6 +12,7 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 
 from src.api.auth import router as router_auth
+from src.api.tests import router as router_tests
 
 from src.init import redis_manager
 
@@ -21,7 +22,7 @@ logging.basicConfig(level=logging.INFO)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await redis_manager.connect()
-    FastAPICache.init(RedisBackend(redis_manager.redis), prefix="fastapi-cache")
+    FastAPICache.init(RedisBackend(redis_manager.redis  ), prefix="fastapi-cache")
     logging.info("FastAPI cache initialized")
     yield
     await redis_manager.close()
@@ -30,6 +31,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(router_auth)
+app.include_router(router_tests)
 
 
 @app.get("/docs", include_in_schema=False)

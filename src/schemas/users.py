@@ -58,3 +58,4 @@ class PasswordChangeRequest(BaseModel):
     token: str
     password: str
     confirm_new_password: str
+

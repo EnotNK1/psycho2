@@ -15,6 +15,7 @@ class BaseRepository:
 
     def __init__(self, session):
         self.session = session
+        self.mapper = self.mapper()
 
     async def get_filtered(self, *filter, **filtered_by):
         query = select(self.model).filter(*filter).filter_by(**filtered_by)
