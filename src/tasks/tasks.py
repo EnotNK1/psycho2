@@ -27,11 +27,11 @@ def send_email(receiver_email: str, subject: str, message: str):
     password = "GhAQewHficykLEQkejUZ"
 
     msg = MIMEText(message)
-    msg['Subject'] = subject
-    msg['From'] = sender_email
-    msg['To'] = receiver_email
+    msg["Subject"] = subject
+    msg["From"] = sender_email
+    msg["To"] = receiver_email
 
-    server = smtplib.SMTP_SSL('smtp.mail.ru', 465)
+    server = smtplib.SMTP_SSL("smtp.mail.ru", 465)
     server.login(sender_email, password)
     server.sendmail(sender_email, receiver_email, msg.as_string())
     server.quit()

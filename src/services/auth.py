@@ -18,9 +18,15 @@ from src.exceptions import (
     UserAlreadyExistsException,
     PasswordDoNotMatchException,
 )
-from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordChangeRequest, HashedPassword
+from src.schemas.users import (
+    UserRequestAdd,
+    UserAdd,
+    UserRequestLogIn,
+    PasswordChangeRequest,
+    HashedPassword,
+)
 
-serializer = URLSafeTimedSerializer('secret_key')
+serializer = URLSafeTimedSerializer("secret_key")
 
 
 class AuthService(BaseService):

@@ -12,6 +12,7 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 
 from src.api.auth import router as router_auth
+from src.api.review import router as router_review
 
 from src.init import redis_manager
 
@@ -30,6 +31,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(router_auth)
+app.include_router(router_review)
 
 
 @app.get("/docs", include_in_schema=False)

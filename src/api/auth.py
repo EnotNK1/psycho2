@@ -10,10 +10,19 @@ from src.exceptions import (
     UserAlreadyExistsException,
     UserEmailAlreadyExistsHTTPException,
     PasswordDoNotMatchException,
-    PasswordDoNotMatchHTTPException, ObjectNotFoundException, ObjectNotFoundHTTPException, IncorrectTokenException,
+    PasswordDoNotMatchHTTPException,
+    ObjectNotFoundException,
+    ObjectNotFoundHTTPException,
+    IncorrectTokenException,
     IncorrectTokenHTTPException,
 )
-from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordResetRequest, PasswordChangeRequest
+from src.schemas.users import (
+    UserRequestAdd,
+    UserAdd,
+    UserRequestLogIn,
+    PasswordResetRequest,
+    PasswordChangeRequest,
+)
 from src.services.auth import AuthService
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
@@ -67,6 +76,7 @@ async def password_reset_request(db: DBDep, data: PasswordResetRequest):
         raise ObjectNotFoundHTTPException
     send_email_to_recover_password.delay(data.email)
     return {"status": "OK"}
+
 
 @router.post("/password-reset")
 async def password_change(db: DBDep, password_data: PasswordChangeRequest):

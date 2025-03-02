@@ -5,7 +5,11 @@ from asyncpg.exceptions import UniqueViolationError
 from fastapi import HTTPException
 import logging
 
-from src.exceptions import ObjectNotFoundException, ObjectAlreadyExistsException, SeveralObjectsFoundException
+from src.exceptions import (
+    ObjectNotFoundException,
+    ObjectAlreadyExistsException,
+    SeveralObjectsFoundException,
+)
 from src.repositories.mappers.base import DataMapper
 
 
