@@ -1,3 +1,5 @@
+import uuid
+
 from sqlalchemy import select, insert, delete, update
 from sqlalchemy.exc import NoResultFound, IntegrityError
 from pydantic import BaseModel
@@ -89,3 +91,10 @@ class BaseRepository:
     async def delete(self, **filter_by):
         delete_stmt = delete(self.model).filter_by(**filter_by)
         await self.session.execute(delete_stmt)
+
+    async def get_by_ids(self, ids: list[uuid.UUID]) -> list[BaseModel]:
+        query = select(self.model).where(self.model.id.in_(ids))
+        result = await self.session.execute(query)
+        return [
+            self.mapper.map_to_domain_entity(model) for model in result.scalars().all()
+        ]

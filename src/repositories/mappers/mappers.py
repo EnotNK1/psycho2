@@ -1,3 +1,4 @@
+from datetime import datetime
 from symtable import Class
 
 from src.models import ScaleOrm
@@ -88,3 +89,11 @@ class QuestionDataMapper(DataMapper):
             test_id=db_model.test_id,
             answer_choice=db_model.answer_choice  # Список ID ответов
         )
+
+class TestResultDataMapper(DataMapper):
+    db_model = TestResultOrm
+    schema = TestResult
+
+class ScaleResultDataMapper(DataMapper):
+    db_model = ScaleResultOrm
+    schema = ScaleResult

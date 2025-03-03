@@ -1,3 +1,7 @@
+import uuid
+
+from sqlalchemy.util import await_only
+
 from src.repositories.answer_choices import AnswerChoiceRepository
 from src.repositories.borders import BordersRepository
 from src.repositories.questions import QuestionRepository
@@ -32,3 +36,12 @@ class DBManager:
 
     async def rollback(self):
         await self.session.rollback()
+
+    async def execute(self, query):
+        return await self.session.execute(query)
+
+    async def get(self, model, id: uuid.UUID):
+        return await self.session.get(model, id)
+
+    async def add(self, entity):
+        self.session.add(entity)

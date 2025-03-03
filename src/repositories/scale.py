@@ -13,3 +13,11 @@ from src.schemas.tests import Scale, ScaleAdd
 class ScalesRepository(BaseRepository):
     model = ScaleOrm
     mapper = ScaleDataMapper
+
+    async def get_all_by_test_id(self, test_id: uuid.UUID) -> list[ScaleOrm]:
+        """
+        Возвращает все шкалы, связанные с тестом по его ID.
+        """
+        query = select(ScaleOrm).where(ScaleOrm.test_id == test_id)
+        result = await self.session.execute(query)
+        return result.scalars().all()

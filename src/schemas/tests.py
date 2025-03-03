@@ -2,7 +2,7 @@ import datetime
 import uuid
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import BaseModel, EmailStr, Field, field_validator, ConfigDict
 
 
 class ScaleResult(BaseModel):
@@ -10,6 +10,11 @@ class ScaleResult(BaseModel):
     score: float
     scale_id: uuid.UUID
     test_result_id: uuid.UUID
+
+class TestResultRequest(BaseModel):
+    test_id: uuid.UUID
+    date: datetime.datetime
+    results: list[float]
 
 
 class TestResult(BaseModel):
