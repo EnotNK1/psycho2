@@ -16,6 +16,7 @@ from src.services.base import BaseService
 
 logger = logging.getLogger(__name__)
 
+
 class TestService(BaseService):
     def __init__(self, db):
         super().__init__(db)
@@ -197,11 +198,22 @@ class TestService(BaseService):
             logger.error(f"Ошибка при получении вопросов: {ex}")
             raise HTTPException(status_code=500, detail=f"Ошибка при получении вопросов: {ex}")
 
-    async def answers_by_question_id(self, question_id: uuid.UUID) -> list[AnswerChoiceOrm]:
+    async def answers_by_question_id(self, test_id: uuid.UUID, question_id: uuid.UUID) -> list[AnswerChoiceOrm]:
         """
-        Получает все ответы, связанные с вопросом по его ID.
+        Получает все ответы, связанные с вопросом по его ID, и проверяет, что вопрос принадлежит указанному тесту.
         """
         try:
+            # Проверяем, существует ли тест
+            test = await self.db.tests.get_one_or_none(id=test_id)
+            if not test:
+                raise HTTPException(status_code=404, detail="Тест не найден")
+
+            # Проверяем, существует ли вопрос и принадлежит ли он указанному тесту
+            question = await self.question_repo.get_one_or_none(id=question_id, test_id=test_id)
+            if not question:
+                raise HTTPException(status_code=404, detail="Вопрос не найден или не принадлежит указанному тесту")
+
+            # Получаем ответы для вопроса
             answers = await self.answer_choice_repo.all_by_question_id(question_id)
             if not answers:
                 raise HTTPException(status_code=404, detail="Ответы для данного вопроса не найдены")
@@ -215,6 +227,8 @@ class TestService(BaseService):
             raise HTTPException(status_code=500, detail=f"Ошибка при получении ответов: {ex}")
 
     async def details(self, test_id: uuid.UUID) -> Dict[str, Any]:
+        logger.info(f"Получен запрос на детали теста с test_id={test_id}")
+        # Остальной код метода
         """
         Получает тест со всеми связанными данными: шкалы, границы, вопросы, ответы.
         """
@@ -324,3 +338,165 @@ class TestService(BaseService):
             logger.error(f"Ошибка при сохранении результатов теста: {ex}")
             raise HTTPException(status_code=500, detail=f"Ошибка при сохранении результатов теста: {ex}")
 
+    async def get_test_result_by_user_and_test(
+            self, test_id: uuid.UUID, user_id: uuid.UUID
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Получает результат теста по test_id и user_id.
+        Возвращает результат в формате, соответствующем примеру выходных данных.
+        """
+        try:
+            # Получаем результат теста для указанного пользователя и теста
+            test_result = await self.test_result_repo.get_one_or_none(
+                test_id=test_id, user_id=user_id
+            )
+            if not test_result:
+                raise HTTPException(status_code=404, detail="Результат теста не найден")
+
+            # Получаем результаты шкал для данного результата теста
+            scale_results = await self.scale_result_repo.get_all_by_test_result_id(test_result.id)
+
+            # Формируем ответ
+            result = {
+                "test_id": str(test_result.test_id),
+                "test_result_id": str(test_result.id),
+                "datetime": test_result.date.isoformat(),  # Преобразуем дату в строку в формате ISO
+                "scale_results": [],
+            }
+
+            # Для каждого результата шкалы получаем дополнительные данные
+            for sr in scale_results:
+                # Получаем информацию о шкале
+                scale = await self.scale_repo.get_one(id=sr.scale_id)
+                if not scale:
+                    continue  # Пропускаем, если шкала не найдена
+
+                # Получаем границы для шкалы
+                borders = await self.borders_repo.all_by_scale_id(scale.id)
+
+                # Определяем вывод и рекомендации на основе score
+                conclusion = ""
+                color = ""
+                user_recommendation = ""
+                for border in borders:
+                    if border.left_border <= sr.score <= border.right_border:
+                        conclusion = border.title
+                        color = border.color
+                        user_recommendation = border.user_recommendation
+                        break
+
+                # Добавляем результат шкалы в ответ
+                result["scale_results"].append({
+                    "scale_id": str(scale.id),
+                    "scale_title": scale.title,
+                    "score": sr.score,
+                    "max_score": scale.max,  # Максимальное значение шкалы
+                    "conclusion": conclusion,
+                    "color": color,
+                    "user_recommendation": user_recommendation,
+                })
+
+            return result
+
+        except HTTPException as ex:
+            raise ex
+        except Exception as ex:
+            logger.error(f"Ошибка при получении результата теста: {ex}")
+            raise HTTPException(status_code=500, detail=f"Ошибка при получении результата теста: {ex}")
+
+    async def get_test_result_by_id(self, result_id: uuid.UUID) -> Dict[str, Any]:
+        """
+        Получает результат теста по его ID.
+        Возвращает результат в формате, соответствующем примеру выходных данных.
+        """
+        try:
+            # Получаем результат теста по его ID
+            test_result = await self.test_result_repo.get_one(id=result_id)
+            if not test_result:
+                raise HTTPException(status_code=404, detail="Результат теста не найден")
+
+            # Получаем результаты шкал для данного результата теста
+            scale_results = await self.scale_result_repo.get_all_by_test_result_id(test_result.id)
+
+            # Формируем ответ
+            result = {
+                "test_id": str(test_result.test_id),
+                "test_result_id": str(test_result.id),
+                "datetime": test_result.date.isoformat(),  # Преобразуем дату в строку в формате ISO
+                "scale_results": [],
+            }
+
+            # Для каждого результата шкалы получаем дополнительные данные
+            for sr in scale_results:
+                # Получаем информацию о шкале
+                scale = await self.scale_repo.get_one(id=sr.scale_id)
+                if not scale:
+                    continue  # Пропускаем, если шкала не найдена
+
+                # Получаем границы для шкалы
+                borders = await self.borders_repo.all_by_scale_id(scale.id)
+
+                # Определяем вывод и рекомендации на основе score
+                conclusion = ""
+                color = ""
+                user_recommendation = ""
+                for border in borders:
+                    if border.left_border <= sr.score <= border.right_border:
+                        conclusion = border.title
+                        color = border.color
+                        user_recommendation = border.user_recommendation
+                        break
+
+                # Добавляем результат шкалы в ответ
+                result["scale_results"].append({
+                    "scale_id": str(scale.id),
+                    "scale_title": scale.title,
+                    "score": sr.score,
+                    "max_score": scale.max,  # Максимальное значение шкалы
+                    "conclusion": conclusion,
+                    "color": color,
+                    "user_recommendation": user_recommendation,
+                })
+
+            return result
+
+        except HTTPException as ex:
+            raise ex
+        except Exception as ex:
+            logger.error(f"Ошибка при получении результата теста: {ex}")
+            raise HTTPException(status_code=500, detail=f"Ошибка при получении результата теста: {ex}")
+
+    async def get_passed_tests_by_user(self, user_id: uuid.UUID) -> list[Dict[str, Any]]:
+        """
+        Получает все пройденные тесты для указанного пользователя.
+        Возвращает список тестов с их названиями, описаниями, ID и ссылками.
+        """
+        try:
+            # Получаем все результаты тестов для указанного пользователя
+            test_results = await self.test_result_repo.get_all_by_user_id(user_id)
+            if not test_results:
+                raise HTTPException(status_code=404, detail="Пройденные тесты не найдены")
+
+            # Формируем список пройденных тестов
+            passed_tests = []
+            for test_result in test_results:
+                # Получаем информацию о тесте
+                test = await self.db.tests.get_one(test_id=test_result.test_id)  # Используем test_id
+                if not test:
+                    continue  # Пропускаем, если тест не найден
+
+                # Добавляем тест в список пройденных
+                passed_tests.append({
+                    "title": test.title,
+                    "description": test.description,
+                    "test_id": str(test.id),
+                    "link": test.link,
+                })
+
+            return passed_tests
+
+        except HTTPException as ex:
+            raise ex
+        except Exception as ex:
+            logger.error(f"Ошибка при получении пройденных тестов: {ex}")
+            raise HTTPException(status_code=500, detail=f"Ошибка при получении пройденных тестов: {ex}")
