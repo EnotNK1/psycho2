@@ -16,9 +16,10 @@ from src.exceptions import (
     IncorrectPasswordException,
     ObjectAlreadyExistsException,
     UserAlreadyExistsException,
-    PasswordDoNotMatchException,
+    PasswordDoNotMatchException, ObjectNotFoundException,
 )
-from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordChangeRequest, HashedPassword
+from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordChangeRequest, HashedPassword, \
+    UpdateUserRequest
 
 serializer = URLSafeTimedSerializer('secret_key')
 
@@ -59,7 +60,7 @@ class AuthService(BaseService):
             **data.model_dump(exclude={"password", "confirm_password"}),
             hashed_password=hashed_password,
             role_id=1,
-            id=uuid.uuid4(),
+            id=uuid.uuid4()
         )
         try:
             await self.db.users.add(new_user_data)
@@ -89,4 +90,13 @@ class AuthService(BaseService):
         hashed_password = self.hash_password(password_data.password)
         _hashed_password = HashedPassword(hashed_password=hashed_password)
         await self.db.users.edit(_hashed_password, exclude_unset=True, email=email)
+        await self.db.commit()
+
+    async def update_user(self, user_id: uuid.UUID, data: UpdateUserRequest):
+        user = await self.db.users.get_one_or_none(id=user_id)
+        if not user:
+            raise ObjectNotFoundException("User not found")
+
+        # Обновляем данные пользователя
+        await self.db.users.edit(data, exclude_unset=True, id=user_id)
         await self.db.commit()

@@ -14,6 +14,7 @@ from fastapi_cache.backends.redis import RedisBackend
 
 from src.api.auth import router as router_auth
 from src.api.tests import router as router_tests, images_router
+from src.api.manager import router as router_manager
 
 from src.init import redis_manager
 
@@ -34,7 +35,7 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(router_auth)
 app.include_router(router_tests)
 app.include_router(images_router)
-
+app.include_router(router_manager)
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html():

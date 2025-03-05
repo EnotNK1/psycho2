@@ -13,7 +13,8 @@ from src.exceptions import (
     PasswordDoNotMatchHTTPException, ObjectNotFoundException, ObjectNotFoundHTTPException, IncorrectTokenException,
     IncorrectTokenHTTPException,
 )
-from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordResetRequest, PasswordChangeRequest
+from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordResetRequest, PasswordChangeRequest, \
+    UpdateUserRequest
 from src.services.auth import AuthService
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
@@ -24,8 +25,8 @@ router = APIRouter(prefix="/auth", tags=["Авторизация и аутент
 
 @router.get("/me")
 async def get_me(
-    db: DBDep,
-    user_id: UserIdDep,
+        db: DBDep,
+        user_id: UserIdDep,
 ):
     return await AuthService(db).get_one_or_none_user(id=user_id)
 
@@ -68,6 +69,7 @@ async def password_reset_request(db: DBDep, data: PasswordResetRequest):
     send_email_to_recover_password.delay(data.email)
     return {"status": "OK"}
 
+
 @router.post("/password-reset")
 async def password_change(db: DBDep, password_data: PasswordChangeRequest):
     try:
@@ -77,3 +79,18 @@ async def password_change(db: DBDep, password_data: PasswordChangeRequest):
     except PasswordDoNotMatchException:
         raise PasswordDoNotMatchHTTPException
     return {"status": "OK"}
+
+
+@router.put("/update")
+async def update_user(
+        db: DBDep,
+        user_id: UserIdDep,
+        data: UpdateUserRequest
+):
+    try:
+        await AuthService(db).update_user(user_id, data)
+        return {"status": "OK", "message": "User data updated successfully"}
+    except ObjectNotFoundException:
+        raise HTTPException(status_code=404, detail="User not found")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

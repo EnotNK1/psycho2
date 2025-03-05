@@ -1,7 +1,9 @@
 import datetime
 import uuid
+from typing import Optional
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_validator
+from sqlalchemy import DateTime
 
 
 class UserRequestAdd(BaseModel):
@@ -39,7 +41,7 @@ class User(BaseModel):
     birth_date: datetime.date
     gender: str
     city: str
-    phone_number: str
+    phone_number: Optional[str]
 
 
 class UserWithHashedPassword(User):
@@ -59,3 +61,46 @@ class PasswordChangeRequest(BaseModel):
     password: str
     confirm_new_password: str
 
+class BecomeManagerRequest(BaseModel):
+    username: str
+    description: str
+    city: str
+    company: str
+    online: bool
+    gender: str
+    birth_date: str
+
+
+class UpdateUserRequest(BaseModel):
+    username: Optional[str] = None
+    description: Optional[str] = None
+    city: Optional[str] = None
+    company: Optional[str] = None
+    online: Optional[bool] = None
+    gender: Optional[str] = None
+    birth_date: Optional[datetime.date] = None
+    phone_number: Optional[str] = None
+
+class UpdateManagerRequest(BaseModel):
+    username: Optional[str] = None
+    description: Optional[str] = None
+    city: Optional[str] = None
+    company: Optional[str] = None
+    online: Optional[bool] = None
+    gender: Optional[str] = None
+    birth_date: Optional[datetime.date] = None
+    phone_number: Optional[str] = None
+    role_id: Optional[int] = None
+
+class GetAllManagerRequest(BaseModel):
+    username: str
+    description: Optional[str]
+    city: Optional[str]
+    company: Optional[str]
+    online: Optional[bool]
+    gender: Optional[str]
+    birth_date: Optional[datetime.date]
+    is_active: Optional[bool]
+    department: Optional[str]
+    phone_number: Optional[str]
+    face_to_face: Optional[bool]
