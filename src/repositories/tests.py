@@ -14,23 +14,20 @@ class TestsRepository(BaseRepository):
     model = TestOrm
     mapper = TestDataMapper
 
-    async def get_one(self, test_id: uuid.UUID) -> Optional[TestOrm]:
+    async def get_one(self, id: uuid.UUID) -> Optional[TestOrm]:
         try:
             query = (
                 select(TestOrm)
                 .options(
-                    # Eager load related scales and their borders
                     selectinload(TestOrm.scale).selectinload(ScaleOrm.borders)
-                    # Eager load questions and their associated answer choices
-
                 )
-                .where(TestOrm.id == test_id)
+                .where(TestOrm.id == id)  # Используем переданный id
             )
             result = await self.session.execute(query)
             test = result.scalars().first()
 
             if not test:
-                logger.warning(f"Тест с id={test_id} не найден.")
+                logger.warning(f"Тест с id={id} не найден.")
                 return None
 
             return test

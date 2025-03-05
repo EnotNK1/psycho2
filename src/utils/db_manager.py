@@ -4,8 +4,10 @@ from sqlalchemy.util import await_only
 
 from src.repositories.answer_choices import AnswerChoiceRepository
 from src.repositories.borders import BordersRepository
+from src.repositories.clients import ClientsRepository
 from src.repositories.questions import QuestionRepository
 from src.repositories.scale import ScalesRepository
+from src.repositories.tasks import TasksRepository
 from src.repositories.tests import TestsRepository
 from src.repositories.users import UsersRepository
 from src.schemas.tests import AnswerChoice, Question
@@ -24,6 +26,8 @@ class DBManager:
         self.borders = BordersRepository(self.session)
         self.answer_choice = AnswerChoiceRepository(self.session)
         self.question = QuestionRepository(self.session)
+        self.tasks = TasksRepository(self.session)
+        self.clients = ClientsRepository(self.session)
 
         return self
 

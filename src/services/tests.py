@@ -481,7 +481,7 @@ class TestService(BaseService):
             passed_tests = []
             for test_result in test_results:
                 # Получаем информацию о тесте
-                test = await self.db.tests.get_one(test_id=test_result.test_id)  # Используем test_id
+                test = await self.db.tests.get_one(id=test_result.test_id)  # Используем test_id
                 if not test:
                     continue  # Пропускаем, если тест не найден
 

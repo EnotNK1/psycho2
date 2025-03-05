@@ -1,11 +1,14 @@
 from datetime import datetime
 from symtable import Class
 
+from celery.worker.consumer import Tasks
+
 from src.models import ScaleOrm
+from src.models.clients import TasksOrm, ClientsOrm
 from src.models.tests import TestOrm, QuestionOrm, AnswerChoiceOrm, ScaleResultOrm, BordersOrm, TestResultOrm
 from src.repositories.mappers.base import DataMapper
 from src.schemas.tests import Test, Scale, TestResult, Question, AnswerChoice, ScaleResult, Borders
-from src.schemas.users import User
+from src.schemas.users import User, TaskRequest, ClientSchema, GetAllManagerRequest
 from src.models.users import UsersOrm
 
 
@@ -13,6 +16,23 @@ class UserDataMapper(DataMapper):
     db_model = UsersOrm
     schema = User
 
+    @staticmethod
+    def map_to_domain_entity(model):
+        return GetAllManagerRequest(
+            id=model.id,
+            username=model.username,
+            email=model.email,
+            city=model.city,
+            company=model.company,
+            online=model.online,
+            gender=model.gender,
+            birth_date=model.birth_date,
+            phone_number=model.phone_number,
+            description=model.description,
+            is_active=model.is_active,
+            department=model.department,
+            face_to_face=model.face_to_face
+        )
 
 class TestDataMapper(DataMapper):
     db_model = TestOrm
@@ -97,3 +117,21 @@ class TestResultDataMapper(DataMapper):
 class ScaleResultDataMapper(DataMapper):
     db_model = ScaleResultOrm
     schema = ScaleResult
+
+class TasksDataMapper(DataMapper):
+    db_model = TasksOrm
+    schema = TaskRequest
+
+class ClientsDataMapper(DataMapper):
+    db_model = ClientsOrm
+    schema = User
+
+    @classmethod
+    def map_to_domain_entity(cls, model):
+        return ClientSchema(
+            id=model.id,
+            client_id=model.client_id,
+            mentor_id=model.mentor_id,
+            text=model.text,
+            status=model.status
+        )

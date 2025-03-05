@@ -98,3 +98,13 @@ class BaseRepository:
         return [
             self.mapper.map_to_domain_entity(model) for model in result.scalars().all()
         ]
+
+    async def create(self, **data):
+        """
+        Создаёт новую запись в таблице.
+        """
+        instance = self.model(**data)
+        self.session.add(instance)
+        await self.session.commit()
+        await self.session.refresh(instance)
+        return instance
