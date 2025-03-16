@@ -9,7 +9,7 @@ class ClientsRepository(BaseRepository):
     model = ClientsOrm
     mapper = ClientsDataMapper
 
-    async def get_all(self):
-        query = select(self.model)
-        result = await self.session.execute(query)
-        return [self.mapper.map_to_domain_entity(model) for model in result.scalars().all()]
+    # async def get_all(self):
+    #     query = select(self.model)
+    #     result = await self.session.execute(query)
+    #     return [self.mapper.map_to_domain_entity(model) for model in result.scalars().all()]

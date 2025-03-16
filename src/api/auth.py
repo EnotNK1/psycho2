@@ -11,7 +11,8 @@ from src.exceptions import (
     UserEmailAlreadyExistsHTTPException,
     PasswordDoNotMatchException,
     PasswordDoNotMatchHTTPException, ObjectNotFoundException, ObjectNotFoundHTTPException, IncorrectTokenException,
-    IncorrectTokenHTTPException,
+    IncorrectTokenHTTPException, MyAppException, SeveralObjectsFoundException, SeveralObjectsFoundHTTPException,
+    MyAppHTTPException,
 )
 from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordResetRequest, PasswordChangeRequest, \
     UpdateUserRequest
@@ -81,7 +82,7 @@ async def password_change(db: DBDep, password_data: PasswordChangeRequest):
     return {"status": "OK"}
 
 
-@router.put("/update")
+@router.patch("/update")
 async def update_user(
         db: DBDep,
         user_id: UserIdDep,
@@ -91,6 +92,13 @@ async def update_user(
         await AuthService(db).update_user(user_id, data)
         return {"status": "OK", "message": "User data updated successfully"}
     except ObjectNotFoundException:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise ObjectNotFoundHTTPException()
+    except SeveralObjectsFoundException:
+        raise SeveralObjectsFoundHTTPException()
+    except IncorrectTokenException:
+        raise IncorrectTokenHTTPException()
+    except MyAppException as e:
+        raise e
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise MyAppHTTPException(detail="An unexpected error occurred: " + str(e))
+

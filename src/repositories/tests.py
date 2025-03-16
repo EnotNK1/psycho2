@@ -10,6 +10,7 @@ from src.repositories.mappers.mappers import TestDataMapper
 
 logger = logging.getLogger(__name__)
 
+
 class TestsRepository(BaseRepository):
     model = TestOrm
     mapper = TestDataMapper

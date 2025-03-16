@@ -34,6 +34,7 @@ class UserDataMapper(DataMapper):
             face_to_face=model.face_to_face
         )
 
+
 class TestDataMapper(DataMapper):
     db_model = TestOrm
     schema = Test
@@ -110,17 +111,21 @@ class QuestionDataMapper(DataMapper):
             answer_choice=db_model.answer_choice  # Список ID ответов
         )
 
+
 class TestResultDataMapper(DataMapper):
     db_model = TestResultOrm
     schema = TestResult
+
 
 class ScaleResultDataMapper(DataMapper):
     db_model = ScaleResultOrm
     schema = ScaleResult
 
+
 class TasksDataMapper(DataMapper):
     db_model = TasksOrm
     schema = TaskRequest
+
 
 class ClientsDataMapper(DataMapper):
     db_model = ClientsOrm

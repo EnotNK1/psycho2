@@ -11,10 +11,11 @@ class MyAppException(Exception):
 
 class MyAppHTTPException(HTTPException):
     status_code = 500
-    detail = None
+    detail: str
 
-    def __init__(self):
-        super().__init__(status_code=self.status_code, detail=self.detail)
+    def __init__(self, detail: str):
+        super().__init__(status_code=self.status_code, detail=detail)
+        self.detail = detail
 
 
 class ObjectNotFoundException(MyAppException):
@@ -86,3 +87,8 @@ class IncorrectPasswordHTTPException(MyAppHTTPException):
 class NoAccessTokenHTTPException(MyAppHTTPException):
     status_code = 401
     detail = "Вы не предоставили токен доступа"
+
+
+class AccessDeniedHTTPException(MyAppHTTPException):
+    status_code = 403  # 403 Forbidden
+    detail = "Доступ запрещён: недостаточно прав"

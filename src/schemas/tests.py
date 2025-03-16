@@ -11,6 +11,7 @@ class ScaleResult(BaseModel):
     scale_id: uuid.UUID
     test_result_id: uuid.UUID
 
+
 class TestResultRequest(BaseModel):
     test_id: uuid.UUID
     date: datetime.datetime
@@ -84,3 +85,43 @@ class Test(TestAdd):
     test_result: list[TestResult]
     question: list[Question]
     scale: list[Scale]
+
+
+class BorderDetail(BaseModel):
+    id: uuid.UUID
+    left_border: float
+    right_border: float
+    color: str
+    title: str
+    user_recommendation: str
+
+
+class ScaleDetail(BaseModel):
+    id: uuid.UUID
+    title: str
+    min: int
+    max: int
+    borders: list[BorderDetail]
+
+
+class AnswerChoiceDetail(BaseModel):
+    id: uuid.UUID
+    text: str
+    score: int
+
+
+class QuestionDetail(BaseModel):
+    id: uuid.UUID
+    text: str
+    number: int
+    answers: list[AnswerChoiceDetail]
+
+
+class TestDetailsResponse(BaseModel):
+    id: uuid.UUID
+    title: str
+    description: str
+    short_desc: str
+    link: str
+    scales: list[ScaleDetail]
+    questions: list[QuestionDetail]

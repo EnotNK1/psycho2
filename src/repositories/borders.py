@@ -11,9 +11,4 @@ class BordersRepository(BaseRepository):
     mapper = BordersDataMapper
 
     async def all_by_scale_id(self, scale_id: uuid.UUID) -> list[BordersOrm]:
-        """
-        Возвращает все границы, связанные со шкалой по её ID.
-        """
-        query = select(BordersOrm).where(BordersOrm.scale_id == scale_id)
-        result = await self.session.execute(query)
-        return result.scalars().all()
+        return await self.get_all_by_filter(scale_id=scale_id)

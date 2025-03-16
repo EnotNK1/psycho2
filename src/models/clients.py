@@ -13,6 +13,7 @@ class ClientsOrm(Base):
     text: Mapped[str]
     status: Mapped[bool]
 
+
 class TasksOrm(Base):
     __tablename__ = "tasks"
 

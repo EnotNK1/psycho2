@@ -107,7 +107,7 @@ async def get_passed_tests_by_user(
     return await test_service.get_passed_tests_by_user(user_id)
 
 
-@router.get("/passed/user", summary="Получение всех пройденных тестов для текущего пользователя")
+@router.get("/passed", summary="Получение всех пройденных тестов для текущего пользователя")
 async def get_passed_tests(
         user_id: UserIdDep,  # Извлекаем user_id из токена
         db: DBDep

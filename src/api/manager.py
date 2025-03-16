@@ -13,7 +13,7 @@ from src.services.manager import ManagerService
 router = APIRouter(prefix="/managers", tags=["Менеджер"])
 
 
-@router.post("/become-manager")
+@router.patch("/manager")
 async def become_manager(
         db: DBDep,
         user_id: UserIdDep,

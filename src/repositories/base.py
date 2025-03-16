@@ -100,11 +100,13 @@ class BaseRepository:
         ]
 
     async def create(self, **data):
-        """
-        Создаёт новую запись в таблице.
-        """
         instance = self.model(**data)
         self.session.add(instance)
         await self.session.commit()
         await self.session.refresh(instance)
         return instance
+
+    async def get_all_by_filter(self, **filters) -> list:
+        query = select(self.model).filter_by(**filters)
+        result = await self.session.execute(query)
+        return result.scalars().all()

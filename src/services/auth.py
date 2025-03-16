@@ -74,7 +74,7 @@ class AuthService(BaseService):
             raise EmailNotRegisteredException
         if not self.verify_password(data.password, user.hashed_password):
             raise IncorrectPasswordException
-        access_token = self.create_access_token({"user_id": str(user.id)})
+        access_token = self.create_access_token({"user_id": str(user.id), "role_id": user.role_id})  # Добавлено role_id
         return access_token
 
     async def get_one_or_none_user(self, **filter_by):

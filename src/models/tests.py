@@ -36,6 +36,7 @@ class TestResultOrm(Base):
         lazy="selectin"  # Используем selectin для асинхронной загрузки
     )
 
+
 class ScaleOrm(Base):
     __tablename__ = "scale"
 
@@ -88,10 +89,10 @@ class QuestionOrm(Base):
     # Отношение к тесту
     test: Mapped["TestOrm"] = relationship(back_populates="question")
 
+
 class AnswerChoiceOrm(Base):
     __tablename__ = "answer_choice"
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     text: Mapped[str]
     score: Mapped[int]
-

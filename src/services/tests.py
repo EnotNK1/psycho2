@@ -4,6 +4,9 @@ import logging
 from fastapi import HTTPException
 from sqlalchemy import select
 from typing import Dict, Any, Optional
+
+from sqlalchemy.orm import joinedload, selectinload
+
 from src.models import TestOrm, ScaleOrm, BordersOrm, QuestionOrm, AnswerChoiceOrm, TestResultOrm, ScaleResultOrm
 from src.repositories.answer_choices import AnswerChoiceRepository
 from src.repositories.borders import BordersRepository
@@ -11,8 +14,21 @@ from src.repositories.questions import QuestionRepository
 from src.repositories.scale import ScalesRepository
 from src.repositories.scale_result import ScaleResultRepository
 from src.repositories.test_result import TestResultRepository
-from src.schemas.tests import TestAdd, ScaleAdd, BordersAdd, AnswerChoice, Question, TestResultRequest
+from src.schemas.tests import TestAdd, ScaleAdd, BordersAdd, AnswerChoice, Question, TestResultRequest, \
+    TestDetailsResponse, AnswerChoiceDetail, QuestionDetail, BorderDetail, ScaleDetail, Test, Scale
 from src.services.base import BaseService
+from src.exceptions import (
+    ObjectNotFoundException,
+    SeveralObjectsFoundException,
+    ObjectAlreadyExistsException,
+    ObjectNotFoundHTTPException,
+    SeveralObjectsFoundHTTPException,
+    UserEmailAlreadyExistsHTTPException,
+    IncorrectPasswordHTTPException,
+    NoAccessTokenHTTPException,
+    EmailNotRegisteredHTTPException,
+    PasswordDoNotMatchHTTPException, MyAppHTTPException,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -46,10 +62,12 @@ class TestService(BaseService):
                 else:
                     await self.db.tests.add(test)
                     logger.info(f"Тест с id={test.id} добавлен.")
+            except ObjectAlreadyExistsException as ex:
+                logger.info(f"Тест с id={test.id} уже существует. Пропускаем.")
             except Exception as ex:
                 logger.error(f"Ошибка при добавлении теста: {ex}")
                 await self.db.rollback()
-                raise
+                raise MyAppHTTPException(detail=f"Ошибка при добавлении теста: {ex}")
 
     async def add_scales_and_borders(self, scales_data):
         scales = [ScaleAdd.model_validate(scale) for scale in scales_data]
@@ -76,15 +94,19 @@ class TestService(BaseService):
                         try:
                             await self.db.borders.add(border)
                             logger.info(f"Граница для шкалы {scale.id} добавлена.")
+                        except ObjectAlreadyExistsException as ex:
+                            logger.info(f"Граница для шкалы {scale.id} уже существует. Пропускаем.")
                         except Exception as ex:
                             logger.error(f"Ошибка при добавлении границы: {ex}")
                             await self.db.rollback()
-                            raise
+                            raise MyAppHTTPException(detail=f"Ошибка при добавлении границы: {ex}")
 
+            except ObjectAlreadyExistsException as ex:
+                logger.info(f"Шкала с id={scale.id} уже существует. Пропускаем.")
             except Exception as ex:
                 logger.error(f"Ошибка при добавлении шкалы: {ex}")
                 await self.db.rollback()
-                raise
+                raise MyAppHTTPException(detail=f"Ошибка при добавлении шкалы: {ex}")
 
     async def add_answer_choices(self, answer_choices_data):
         answer_choices = [AnswerChoice.model_validate(answer) for answer in answer_choices_data]
@@ -96,9 +118,12 @@ class TestService(BaseService):
                 else:
                     await self.db.answer_choice.add(answer)
                     logger.info(f"Ответ с id={answer.id} добавлен.")
+            except ObjectAlreadyExistsException as ex:
+                logger.info(f"Ответ с id={answer.id} уже существует. Пропускаем.")
             except Exception as ex:
                 logger.error(f"Ошибка при добавлении ответа: {ex}")
                 await self.db.rollback()
+                raise MyAppHTTPException(detail=f"Ошибка при добавлении ответа: {ex}")
 
     async def add_questions(self, questions_data):
         questions = [Question.model_validate(question) for question in questions_data]
@@ -110,34 +135,40 @@ class TestService(BaseService):
                 else:
                     await self.db.question.add(question)
                     logger.info(f"Вопрос с id={question.id} добавлен.")
+            except ObjectAlreadyExistsException as ex:
+                logger.info(f"Вопрос с id={question.id} уже существует. Пропускаем.")
             except Exception as ex:
                 logger.error(f"Ошибка при добавлении вопроса: {ex}")
                 await self.db.rollback()
+                raise MyAppHTTPException(detail=f"Ошибка при добавлении вопроса: {ex}")
 
     async def auto_create(self):
-        with open("services/info/test_info.json", encoding="utf-8") as file:
-            tests_data = json.load(file)
-        await self.add_tests(tests_data)
+        try:
+            with open("services/info/test_info.json", encoding="utf-8") as file:
+                tests_data = json.load(file)
+            await self.add_tests(tests_data)
 
-        with open("services/info/scale_info.json", encoding="utf-8") as file:
-            scales_data = json.load(file)
-        await self.add_scales_and_borders(scales_data)
+            with open("services/info/scale_info.json", encoding="utf-8") as file:
+                scales_data = json.load(file)
+            await self.add_scales_and_borders(scales_data)
 
-        with open("services/info/answer_choices_info.json", encoding="utf-8") as file:
-            answer_choices_data = json.load(file)
-        await self.add_answer_choices(answer_choices_data)
+            with open("services/info/answer_choices_info.json", encoding="utf-8") as file:
+                answer_choices_data = json.load(file)
+            await self.add_answer_choices(answer_choices_data)
 
-        with open("services/info/questions_info.json", encoding="utf-8") as file:
-            questions_data = json.load(file)
-        await self.add_questions(questions_data)
+            with open("services/info/questions_info.json", encoding="utf-8") as file:
+                questions_data = json.load(file)
+            await self.add_questions(questions_data)
 
-        await self.db.commit()
-        return {"status": "OK", "message": "Тесты, шкалы, границы, ответы и вопросы успешно созданы или пропущены"}
+            await self.db.commit()
+            return {"status": "OK", "message": "Тесты, шкалы, границы, ответы и вопросы успешно созданы или пропущены"}
+
+        except Exception as ex:
+            logger.error(f"Ошибка при автоматическом создании данных: {ex}")
+            await self.db.rollback()
+            raise MyAppHTTPException(detail=f"Ошибка при автоматическом создании данных: {ex}")
 
     async def all_tests(self) -> list[Dict[str, Any]]:
-        """
-        Получаем все тесты
-        """
         try:
             # Получаем все тесты
             tests = await self.db.tests.get_all()
@@ -157,16 +188,22 @@ class TestService(BaseService):
         except Exception as ex:
             logger.error(f"Ошибка при получении списка тестов: {ex}")
             await self.db.rollback()
-            return []
+            raise MyAppHTTPException(detail=f"Ошибка при получении списка тестов: {ex}")
 
     async def test_by_id(self, test_id: uuid.UUID) -> Optional[Dict[str, Any]]:
         """
         Получаем тест по его id
         """
-        test = await self.db.tests.get_one(test_id)
-        if not test:
-            return None
-        return test
+        try:
+            test = await self.db.tests.get_one(test_id)
+            if not test:
+                raise ObjectNotFoundHTTPException(detail="Тест не найден")
+            return test
+        except ObjectNotFoundHTTPException as ex:
+            raise ex
+        except Exception as ex:
+            logger.error(f"Ошибка при получении теста: {ex}")
+            raise MyAppHTTPException(detail=f"Ошибка при получении теста: {ex}")
 
     async def test_questions(self, test_id: uuid.UUID) -> Optional[Dict[str, Any]]:
         """
@@ -176,7 +213,7 @@ class TestService(BaseService):
             # Получаем вопросы по test_id
             questions = await self.question_repo.all_by_test_id(test_id)
             if not questions:
-                raise HTTPException(status_code=404, detail="Вопросы для данного теста не найдены")
+                raise ObjectNotFoundHTTPException(detail="Вопросы для данного теста не найдены")
 
             # Формируем ответ
             result = []
@@ -192,11 +229,11 @@ class TestService(BaseService):
 
             return result
 
-        except HTTPException as ex:
+        except ObjectNotFoundHTTPException as ex:
             raise ex
         except Exception as ex:
             logger.error(f"Ошибка при получении вопросов: {ex}")
-            raise HTTPException(status_code=500, detail=f"Ошибка при получении вопросов: {ex}")
+            raise MyAppHTTPException(detail=f"Ошибка при получении вопросов: {ex}")
 
     async def answers_by_question_id(self, test_id: uuid.UUID, question_id: uuid.UUID) -> list[AnswerChoiceOrm]:
         """
@@ -206,37 +243,33 @@ class TestService(BaseService):
             # Проверяем, существует ли тест
             test = await self.db.tests.get_one_or_none(id=test_id)
             if not test:
-                raise HTTPException(status_code=404, detail="Тест не найден")
+                raise ObjectNotFoundHTTPException(detail="Тест не найден")
 
             # Проверяем, существует ли вопрос и принадлежит ли он указанному тесту
             question = await self.question_repo.get_one_or_none(id=question_id, test_id=test_id)
             if not question:
-                raise HTTPException(status_code=404, detail="Вопрос не найден или не принадлежит указанному тесту")
+                raise ObjectNotFoundHTTPException(detail="Вопрос не найден или не принадлежит указанному тесту")
 
             # Получаем ответы для вопроса
             answers = await self.answer_choice_repo.all_by_question_id(question_id)
             if not answers:
-                raise HTTPException(status_code=404, detail="Ответы для данного вопроса не найдены")
+                raise ObjectNotFoundHTTPException(detail="Ответы для данного вопроса не найдены")
 
             return answers
 
-        except HTTPException as ex:
+        except ObjectNotFoundHTTPException as ex:
             raise ex
         except Exception as ex:
             logger.error(f"Ошибка при получении ответов: {ex}")
-            raise HTTPException(status_code=500, detail=f"Ошибка при получении ответов: {ex}")
+            raise MyAppHTTPException(detail=f"Ошибка при получении ответов: {ex}")
 
-    async def details(self, test_id: uuid.UUID) -> Dict[str, Any]:
+    async def details(self, test_id: uuid.UUID) -> TestDetailsResponse:
         logger.info(f"Получен запрос на детали теста с test_id={test_id}")
-        # Остальной код метода
-        """
-        Получает тест со всеми связанными данными: шкалы, границы, вопросы, ответы.
-        """
         try:
             # Получаем тест
             test = await self.db.tests.get_one(test_id)
             if not test:
-                raise HTTPException(status_code=404, detail="Тест не найден")
+                raise ObjectNotFoundHTTPException(detail="Тест не найден")
 
             # Получаем шкалы для теста
             scales = await self.scale_repo.get_all_by_test_id(test_id)
@@ -244,20 +277,20 @@ class TestService(BaseService):
             for scale in scales:
                 # Получаем границы для каждой шкалы
                 borders = await self.borders_repo.all_by_scale_id(scale.id)
-                scale_details.append({
-                    "id": scale.id,
-                    "title": scale.title,
-                    "min": scale.min,
-                    "max": scale.max,
-                    "borders": [{
-                        "id": border.id,
-                        "left_border": border.left_border,
-                        "right_border": border.right_border,
-                        "color": border.color,
-                        "title": border.title,
-                        "user_recommendation": border.user_recommendation
-                    } for border in borders]
-                })
+                scale_details.append(ScaleDetail(
+                    id=scale.id,
+                    title=scale.title,
+                    min=scale.min,
+                    max=scale.max,
+                    borders=[BorderDetail(
+                        id=border.id,
+                        left_border=border.left_border,
+                        right_border=border.right_border,
+                        color=border.color,
+                        title=border.title,
+                        user_recommendation=border.user_recommendation
+                    ) for border in borders]
+                ))
 
             # Получаем вопросы для теста
             questions = await self.question_repo.all_by_test_id(test_id)
@@ -265,33 +298,33 @@ class TestService(BaseService):
             for question in questions:
                 # Получаем ответы для каждого вопроса
                 answers = await self.answer_choice_repo.all_by_question_id(question.id)
-                question_details.append({
-                    "id": question.id,
-                    "text": question.text,
-                    "number": question.number,
-                    "answers": [{
-                        "id": answer.id,
-                        "text": answer.text,
-                        "score": answer.score
-                    } for answer in answers]
-                })
+                question_details.append(QuestionDetail(
+                    id=question.id,
+                    text=question.text,
+                    number=question.number,
+                    answers=[AnswerChoiceDetail(
+                        id=answer.id,
+                        text=answer.text,
+                        score=answer.score
+                    ) for answer in answers]
+                ))
 
             # Формируем итоговый ответ
-            return {
-                "id": test.id,
-                "title": test.title,
-                "description": test.description,
-                "short_desc": test.short_desc,
-                "link": test.link,
-                "scales": scale_details,
-                "questions": question_details
-            }
+            return TestDetailsResponse(
+                id=test.id,
+                title=test.title,
+                description=test.description,
+                short_desc=test.short_desc,
+                link=test.link,
+                scales=scale_details,
+                questions=question_details
+            )
 
-        except HTTPException as ex:
+        except ObjectNotFoundHTTPException as ex:
             raise ex
         except Exception as ex:
             logger.error(f"Ошибка при получении теста: {ex}")
-            raise HTTPException(status_code=500, detail=f"Ошибка при получении теста: {ex}")
+            raise MyAppHTTPException(detail=f"Ошибка при получении теста: {ex}")
 
     async def save_result(self, test_result_data: TestResultRequest, user_id: uuid.UUID):
         try:
@@ -308,14 +341,13 @@ class TestService(BaseService):
                 date=test_result_data.date  # Используем преобразованную дату
             )
 
-            # Используем async with для управления сессией
             async with self.session.begin():  # This ensures the session is committed or rolled back
                 self.session.add(test_result)
 
                 # Получаем все шкалы для данного теста
                 scales = await self.scale_repo.get_all_by_test_id(test_result_data.test_id)
                 if not scales:
-                    raise HTTPException(status_code=404, detail="Шкалы для данного теста не найдены")
+                    raise ObjectNotFoundHTTPException(detail="Шкалы для данного теста не найдены")
 
                 # Сохраняем результаты для каждой шкалы
                 for scale, result in zip(scales, test_result_data.results):
@@ -326,32 +358,29 @@ class TestService(BaseService):
                         scale_id=scale.id,
                         test_result_id=test_result_id
                     )
-                    self.session.add(scale_result)
+                    self.session.add(scale_result)  # Убрали await, так как add не асинхронный
 
             # Коммитим изменения после завершения сессии
             await self.session.commit()
             return {"status": "OK", "message": "Результаты теста успешно сохранены"}
 
-        except HTTPException as ex:
+        except ObjectNotFoundHTTPException as ex:
             raise ex
         except Exception as ex:
             logger.error(f"Ошибка при сохранении результатов теста: {ex}")
-            raise HTTPException(status_code=500, detail=f"Ошибка при сохранении результатов теста: {ex}")
+            raise MyAppHTTPException(detail=f"Ошибка при сохранении результатов теста: {ex}")
 
     async def get_test_result_by_user_and_test(
             self, test_id: uuid.UUID, user_id: uuid.UUID
     ) -> Optional[Dict[str, Any]]:
-        """
-        Получает результат теста по test_id и user_id.
-        Возвращает результат в формате, соответствующем примеру выходных данных.
-        """
+
         try:
             # Получаем результат теста для указанного пользователя и теста
             test_result = await self.test_result_repo.get_one_or_none(
                 test_id=test_id, user_id=user_id
             )
             if not test_result:
-                raise HTTPException(status_code=404, detail="Результат теста не найден")
+                raise ObjectNotFoundHTTPException(detail="Результат теста не найден")
 
             # Получаем результаты шкал для данного результата теста
             scale_results = await self.scale_result_repo.get_all_by_test_result_id(test_result.id)
@@ -398,11 +427,11 @@ class TestService(BaseService):
 
             return result
 
-        except HTTPException as ex:
+        except ObjectNotFoundHTTPException as ex:
             raise ex
         except Exception as ex:
             logger.error(f"Ошибка при получении результата теста: {ex}")
-            raise HTTPException(status_code=500, detail=f"Ошибка при получении результата теста: {ex}")
+            raise MyAppHTTPException(detail=f"Ошибка при получении результата теста: {ex}")
 
     async def get_test_result_by_id(self, result_id: uuid.UUID) -> Dict[str, Any]:
         """
@@ -413,7 +442,7 @@ class TestService(BaseService):
             # Получаем результат теста по его ID
             test_result = await self.test_result_repo.get_one(id=result_id)
             if not test_result:
-                raise HTTPException(status_code=404, detail="Результат теста не найден")
+                raise ObjectNotFoundHTTPException(detail="Результат теста не найден")
 
             # Получаем результаты шкал для данного результата теста
             scale_results = await self.scale_result_repo.get_all_by_test_result_id(test_result.id)
@@ -460,11 +489,11 @@ class TestService(BaseService):
 
             return result
 
-        except HTTPException as ex:
+        except ObjectNotFoundHTTPException as ex:
             raise ex
         except Exception as ex:
             logger.error(f"Ошибка при получении результата теста: {ex}")
-            raise HTTPException(status_code=500, detail=f"Ошибка при получении результата теста: {ex}")
+            raise MyAppHTTPException(detail=f"Ошибка при получении результата теста: {ex}")
 
     async def get_passed_tests_by_user(self, user_id: uuid.UUID) -> list[Dict[str, Any]]:
         """
@@ -475,7 +504,7 @@ class TestService(BaseService):
             # Получаем все результаты тестов для указанного пользователя
             test_results = await self.test_result_repo.get_all_by_user_id(user_id)
             if not test_results:
-                raise HTTPException(status_code=404, detail="Пройденные тесты не найдены")
+                raise ObjectNotFoundHTTPException(detail="Пройденные тесты не найдены")
 
             # Формируем список пройденных тестов
             passed_tests = []
@@ -495,8 +524,8 @@ class TestService(BaseService):
 
             return passed_tests
 
-        except HTTPException as ex:
+        except ObjectNotFoundHTTPException as ex:
             raise ex
         except Exception as ex:
             logger.error(f"Ошибка при получении пройденных тестов: {ex}")
-            raise HTTPException(status_code=500, detail=f"Ошибка при получении пройденных тестов: {ex}")
+            raise MyAppHTTPException(detail=f"Ошибка при получении пройденных тестов: {ex}")

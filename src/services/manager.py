@@ -38,41 +38,28 @@ class ManagerService(BaseService):
         await self.db.commit()
 
     async def get_all_manager(self):
-        managers = await self.db.users.get_filtered(role_id=2)
-        result = []
-        for manager in managers:
-            manager_data = manager.__dict__
-            # Убедимся, что все поля присутствуют
-            manager_data.setdefault("company", None)
-            manager_data.setdefault("online", None)
-            manager_data.setdefault("description", None)
-            manager_data.setdefault("is_active", None)
-            manager_data.setdefault("department", None)
-            manager_data.setdefault("face_to_face", None)
-            result.append(GetAllManagerRequest(**manager_data))
-        return result
+        # Используем get_all с фильтром по role_id=2
+        managers = await self.db.users.get_all_by_filter(role_id=2)
+        return managers
 
     async def task(self, mentor_id: str, data: Dict[str, Any]):
-        # Проверяем, существует ли пользователь
+
         user = await self.db.users.get_one_or_none(id=data.get("user_id"))
         if not user:
             raise ObjectNotFoundException("User not found")
 
-        # Проверяем, существует ли менеджер
         manager = await self.db.users.get_one_or_none(id=mentor_id)
         if not manager:
             raise ObjectNotFoundException("Manager not found")
 
-        # Получаем тест по test_id
-        test = await self.db.tests.get_one(data.get("test_id"))  # Исправленный вызов
+        test = await self.db.tests.get_one(data.get("test_id"))
         if not test:
             raise ObjectNotFoundException("Test not found")
 
-        # Создаем запись задачи
         task_data = {
-            "id": uuid.uuid4(),  # Используем uuid.uuid4() для генерации UUID
+            "id": uuid.uuid4(),
             "text": data.get("text"),
-            "test_title": test.title,  # Используем title из полученного теста
+            "test_title": test.title,
             "test_id": data.get("test_id"),
             "mentor_id": mentor_id,
             "client_id": data.get("user_id"),
@@ -80,46 +67,38 @@ class ManagerService(BaseService):
         }
         task = await self.db.tasks.create(**task_data)
 
-        # Создаем запись клиента
         client_data = {
-            "id": uuid.uuid4(),  # Генерация UUID
+            "id": uuid.uuid4(),
             "client_id": data.get("user_id"),
             "mentor_id": mentor_id,
             "text": data.get("text"),
-            "status": False
+            "status": True
         }
         await self.db.clients.create(**client_data)
-
-        # Сохраняем изменения в базе данных
         await self.db.commit()
 
         return {"status": "OK", "message": "Task created successfully", "task_id": task.id}
 
     async def task_for_clients(self, mentor_id: str, data: GiveTaskListClientRequest):
-        # Проверяем, существует ли менеджер
+
         manager = await self.db.users.get_one_or_none(id=mentor_id)
         if not manager:
             raise ObjectNotFoundException("Manager not found")
-
-        # Получаем тест по test_id
         test = await self.db.tests.get_one(data.test_id)
         if not test:
             raise ObjectNotFoundException("Test not found")
 
-        # Создаем задачи для каждого клиента
         task_ids = []
         for client_id in data.list_client:
-            # Проверяем, существует ли клиент
             client = await self.db.users.get_one_or_none(id=client_id)
             if not client:
                 logger.warning(f"Клиент с id={client_id} не найден. Пропускаем.")
                 continue
 
-            # Создаем запись задачи
             task_data = {
-                "id": uuid.uuid4(),  # Генерация UUID
+                "id": uuid.uuid4(),
                 "text": data.text,
-                "test_title": test.title,  # Используем title из полученного теста
+                "test_title": test.title,
                 "test_id": data.test_id,
                 "mentor_id": mentor_id,
                 "client_id": client_id,
@@ -127,67 +106,58 @@ class ManagerService(BaseService):
             }
             task = await self.db.tasks.create(**task_data)
 
-            # Создаем запись клиента
             client_data = {
-                "id": uuid.uuid4(),  # Генерация UUID
+                "id": uuid.uuid4(),
                 "client_id": client_id,
                 "mentor_id": mentor_id,
                 "text": data.text,
-                "status": False
+                "status": True
             }
             await self.db.clients.create(**client_data)
 
             task_ids.append(task.id)
-
-        # Сохраняем изменения в базе данных
         await self.db.commit()
 
         return {"status": "OK", "message": "Tasks created successfully", "task_ids": task_ids}
 
     async def task_for_all_clients(self, mentor_id: str, data: GiveTaskAllClientRequest):
-        # Проверяем, существует ли менеджер
         manager = await self.db.users.get_one_or_none(id=mentor_id)
         if not manager:
             raise ObjectNotFoundException("Manager not found")
 
-        # Получаем тест по test_id
         test = await self.db.tests.get_one(data.test_id)
         if not test:
             raise ObjectNotFoundException("Test not found")
 
-        # Получаем всех клиентов из таблицы clients
-        clients = await self.db.clients.get_all()
+        clients = await self.db.clients.get_all_by_filter(status=True)
+        logger.info(f"Найдено клиентов: {len(clients)}")
         if not clients:
-            raise ObjectNotFoundException("No clients found")
+            logger.warning("Клиенты с status=True не найдены")
 
-        # Создаем задачи для каждого клиента
         task_ids = []
         for client in clients:
-            # Создаем запись задачи
             task_data = {
-                "id": uuid.uuid4(),  # Генерация UUID
+                "id": uuid.uuid4(),
                 "text": data.text,
-                "test_title": test.title,  # Используем title из полученного теста
+                "test_title": test.title,
                 "test_id": data.test_id,
                 "mentor_id": mentor_id,
-                "client_id": client.client_id,  # Используем client_id из таблицы clients
+                "client_id": client.client_id,
                 "is_complete": False
             }
             task = await self.db.tasks.create(**task_data)
 
-            # Создаем запись клиента (если нужно)
             client_data = {
-                "id": uuid.uuid4(),  # Генерация UUID
+                "id": uuid.uuid4(),
                 "client_id": client.client_id,
                 "mentor_id": mentor_id,
                 "text": data.text,
-                "status": False
+                "status": True
             }
             await self.db.clients.create(**client_data)
 
             task_ids.append(task.id)
 
-        # Сохраняем изменения в базе данных
         await self.db.commit()
 
         return {"status": "OK", "message": "Tasks created successfully for all clients", "task_ids": task_ids}
