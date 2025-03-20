@@ -1,4 +1,4 @@
-from sqlalchemy import select, insert, delete, update
+from sqlalchemy import select, insert, delete, update, func
 from sqlalchemy.exc import NoResultFound, IntegrityError
 from pydantic import BaseModel
 from asyncpg.exceptions import UniqueViolationError
@@ -11,7 +11,7 @@ from src.exceptions import (
     SeveralObjectsFoundException,
 )
 from src.repositories.mappers.base import DataMapper
-
+from datetime import date, datetime
 
 class BaseRepository:
     model = None
