@@ -1,4 +1,3 @@
-from datetime import date
 from fastapi import HTTPException
 
 
@@ -86,3 +85,134 @@ class IncorrectPasswordHTTPException(MyAppHTTPException):
 class NoAccessTokenHTTPException(MyAppHTTPException):
     status_code = 401
     detail = "Вы не предоставили токен доступа"
+
+
+class DiaryValidationError(MyAppException):
+    detail = "Ошибка валидации данных дневника"
+
+
+class DiaryTextEmptyError(DiaryValidationError):
+    detail = "Текст записи не может быть пустым"
+
+
+class DiaryTextTooLongError(DiaryValidationError):
+    detail = "Текст записи слишком длинный"
+
+
+class DiaryDateError(MyAppException):
+    detail = "Ошибка даты записи"
+
+
+class DiaryFutureDateError(DiaryDateError):
+    detail = "Нельзя добавить запись на будущую дату"
+
+
+class DiaryInvalidDateFormatError(DiaryDateError):
+    detail = "Неверный формат даты"
+
+
+class DiaryInvalidTimestampError(DiaryDateError):
+    detail = "Неверное значение timestamp"
+
+
+class DiaryValidationHTTPException(MyAppHTTPException):
+    status_code = 422
+    detail = "Ошибка валидации данных дневника"
+
+
+class DiaryEntryNotFoundHTTPException(MyAppHTTPException):
+    status_code = 404
+    detail = "Запись дневника не найдена"
+
+
+class DiaryDateHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Ошибка в параметрах даты"
+
+
+class DiaryInternalErrorHTTPException(MyAppHTTPException):
+    status_code = 500
+    detail = "Внутренняя ошибка сервера при работе с дневником"
+
+
+class DiaryTextEmptyHTTPException(MyAppHTTPException):
+    status_code = 422
+    detail = "Текст записи не может быть пустым"
+
+
+class DiaryTextTooLongHTTPException(MyAppHTTPException):
+    status_code = 422
+    detail = "Текст записи слишком длинный"
+
+
+class DiaryFutureDateHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Нельзя добавить запись на будущую дату"
+
+
+class DiaryInvalidDateFormatHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Неверный формат даты"
+
+
+class DiaryInvalidTimestampHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Неверное значение timestamp"
+
+
+class MoodTrackerValidationError(MyAppException):
+    detail = "Ошибка валидации данных трекера настроения"
+
+
+class MoodScoreOutOfRangeError(MoodTrackerValidationError):
+    detail = "Оценка настроения должна быть от 0 до 100"
+
+
+class MoodTrackerDateFormatError(MoodTrackerValidationError):
+    detail = "Неверный формат даты"
+
+
+class MoodTrackerNotFoundError(MyAppException):
+    detail = "Запись трекера настроения не найдена"
+
+
+class MoodTrackerNotOwnedError(MyAppException):
+    detail = "Запись не принадлежит текущему пользователю"
+
+
+class MoodScoreOutOfRangeHTTPException(MyAppHTTPException):
+    status_code = 422
+    detail = "Оценка настроения должна быть от 0 до 100"
+
+
+class MoodTrackerDateFormatHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Неверный формат даты"
+
+
+class MoodTrackerNotFoundHTTPException(MyAppHTTPException):
+    status_code = 404
+    detail = "Запись трекера настроения не найдена"
+
+
+class MoodTrackerNotOwnedHTTPException(MyAppHTTPException):
+    status_code = 403
+    detail = "Запись не принадлежит текущему пользователю"
+
+
+class MoodTrackerInternalErrorHTTPException(MyAppHTTPException):
+    status_code = 500
+    detail = "Внутренняя ошибка сервера при работе с трекером настроения"
+
+
+class MoodTrackerDateError(MyAppException):
+    detail = "Ошибка даты трекера настроения"
+
+
+class MoodTrackerFutureDateError(MoodTrackerDateError):
+    detail = "Нельзя добавить запись на будущую дату"
+
+
+class MoodTrackerFutureDateHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Нельзя добавить запись на будущую дату"
