@@ -216,3 +216,48 @@ class MoodTrackerFutureDateError(MoodTrackerDateError):
 class MoodTrackerFutureDateHTTPException(MyAppHTTPException):
     status_code = 400
     detail = "Нельзя добавить запись на будущую дату"
+
+
+class InsufficientPermissionsException(MyAppException):
+    detail = "У вас недостаточно прав для выполнения данной операции"
+
+
+class ManagerNotFoundException(MyAppException):
+    detail = "Менеджер не найден"
+
+
+class ApplicationNotFoundException(MyAppException):
+    detail = "Заявка не найдена"
+
+
+class ApplicationForUserNotFound(MyAppException):
+    detail = "Заявка для указанного пользователя не найдена"
+
+
+class UserNotFoundException(MyAppException):
+    detail = "Такого пользователя не существует"
+
+
+class UserNotFoundHTTPException(MyAppHTTPException):
+    status_code = 404
+    detail = "Такого пользователя не существует"
+
+
+class InsufficientPermissionsHTTPException(MyAppHTTPException):
+    status_code = 403
+    detail = "У вас недостаточно прав для выполнения данной операции"
+
+
+class ManagerNotFoundHTTPException(MyAppHTTPException):
+    status_code = 404
+    detail = "Менеджер не найден"
+
+
+class ApplicationNotFoundHTTPException(MyAppHTTPException):
+    status_code = 404
+    detail = "Заявка не найдена"
+
+
+class ApplicationForUserNotFoundHTTPException(MyAppHTTPException):
+    status_code = 404
+    detail = "Заявка для указанного пользователя не найдена"
