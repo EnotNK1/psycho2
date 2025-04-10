@@ -5,11 +5,11 @@ from typing import Optional
 from sqlalchemy import func
 
 from src.exceptions import (
+    ScoreOutOfRangeError,
+    InvalidDateFormatError,
     ObjectNotFoundException,
-    MoodScoreOutOfRangeError,
-    MoodTrackerDateFormatError,
-    MoodTrackerNotFoundError,
-    MoodTrackerNotOwnedError, MoodTrackerFutureDateError
+    NotOwnedError,
+    FutureDateError
 )
 from src.schemas.mood_tracker import MoodTracker, MoodTrackerDateRequestAdd
 from src.services.base import BaseService
@@ -19,26 +19,22 @@ class MoodTrackerService(BaseService):
     MIN_SCORE = 0
     MAX_SCORE = 100
 
-    def __init__(self, db=None):
-        super().__init__(db)
-        self.model = None
-
 
     def _validate_score(self, score: int):
         if not (self.MIN_SCORE <= score <= self.MAX_SCORE):
-            raise MoodScoreOutOfRangeError()
+            raise ScoreOutOfRangeError()
 
 
     def _validate_date(self, date_str: str):
         try:
             datetime.strptime(date_str, '%Y-%m-%d')
         except ValueError:
-            raise MoodTrackerDateFormatError()
+            raise InvalidDateFormatError()
 
 
     def _validate_date_not_future(self, date_obj: datetime):
         if date_obj > datetime.now():
-            raise MoodTrackerFutureDateError()
+            raise FutureDateError()
 
     async def save_mood_tracker(self, data: MoodTrackerDateRequestAdd, user_id: uuid.UUID):
         try:
@@ -56,14 +52,14 @@ class MoodTrackerService(BaseService):
             )
             await self.db.mood_tracker.add(mood_tracker)
             await self.db.commit()
-        except (MoodScoreOutOfRangeError,
-                MoodTrackerDateFormatError,
-                MoodTrackerFutureDateError):
+        except (ScoreOutOfRangeError,
+                InvalidDateFormatError,
+                FutureDateError):
             raise
         except Exception as e:
             raise Exception(f"Ошибка при сохранении: {str(e)}")
 
-    async def get_mood_diary(self, day: Optional[str], user_id: uuid.UUID):
+    async def get_mood_tracker(self, day: Optional[str], user_id: uuid.UUID):
         try:
             if day:
                 self._validate_date(day)
@@ -75,9 +71,9 @@ class MoodTrackerService(BaseService):
                     user_id=user_id
                 )
             return await self.db.mood_tracker.get_filtered(user_id=user_id)
-        except MoodTrackerDateFormatError:
+        except InvalidDateFormatError:
             raise
-        except MoodTrackerFutureDateError:
+        except FutureDateError:
             raise
         except Exception as e:
             raise Exception(f"Ошибка при получении записей: {str(e)}")
@@ -88,10 +84,10 @@ class MoodTrackerService(BaseService):
             record = await self.db.mood_tracker.get_one(id=mood_tracker_id)
 
             if str(record.user_id) != str(user_id):
-                raise MoodTrackerNotOwnedError()
+                raise NotOwnedError()
 
             return record
         except ObjectNotFoundException:
-            raise MoodTrackerNotFoundError()
+            raise ObjectNotFoundException()
         except Exception as e:
             raise Exception(f"Ошибка при получении записи: {str(e)}")

@@ -6,14 +6,14 @@ from venv import logger
 from sqlalchemy import func
 
 from src.exceptions import (
-    DiaryTextEmptyError,
-    DiaryTextTooLongError,
-    DiaryFutureDateError,
-    DiaryInternalErrorHTTPException,
-    DiaryInvalidDateFormatError,
-    DiaryInvalidTimestampError
+    TextEmptyError,
+    TextTooLongError,
+    FutureDateError,
+    InternalErrorHTTPException,
+    InvalidDateFormatError,
+    InvalidTimestampError
 )
-from src.schemas.diary import Diary, DiaryRequestAdd, DiaryDateRequestAdd
+from src.schemas.diary import Diary, DiaryDateRequestAdd
 from src.services.base import BaseService
 
 
@@ -23,9 +23,9 @@ class DiaryService(BaseService):
 
     def _validate_text(self, text: str):
         if not text.strip():
-            raise DiaryTextEmptyError()
+            raise TextEmptyError()
         if len(text) > self.MAX_TEXT_LENGTH:
-            raise DiaryTextTooLongError(
+            raise TextTooLongError(
                 f"Максимальная длина текста - {self.MAX_TEXT_LENGTH} символов"
             )
 
@@ -33,81 +33,63 @@ class DiaryService(BaseService):
     def _validate_date(self, date_obj: datetime):
         """Валидация даты записи"""
         if date_obj > datetime.now():
-            raise DiaryFutureDateError()
+            raise FutureDateError()
 
-
-    async def add_diary(self, data: DiaryRequestAdd, user_id: uuid.UUID):
+    async def add_diary(self, data: DiaryDateRequestAdd, user_id: uuid.UUID):
         try:
             self._validate_text(data.text)
+
+            # Если дата передана, парсим и валидируем её
+            if data.day:
+                try:
+                    created_at = datetime.strptime(data.day, '%Y-%m-%d')
+                    self._validate_date(created_at)
+                except ValueError:
+                    raise InvalidDateFormatError()
+            else:
+                # Если дата не передана, используем текущее время
+                created_at = datetime.now()
 
             diary = Diary(
                 id=uuid.uuid4(),
                 text=data.text,
-                created_at=datetime.now(),
+                created_at=created_at,
                 user_id=user_id
             )
+
             await self.db.diary.add(diary)
             await self.db.commit()
-        except DiaryTextEmptyError:
+
+        except TextEmptyError:
             raise
-        except DiaryTextTooLongError:
+        except TextTooLongError:
+            raise
+        except InvalidDateFormatError:
+            raise
+        except FutureDateError:
             raise
         except Exception as e:
             logger.error(f"Ошибка добавления записи: {str(e)}")
-            raise DiaryInternalErrorHTTPException()
+            raise InternalErrorHTTPException()
 
 
-    async def get_diary(self, user_id: uuid.UUID):
-        return await self.db.diary.get_filtered(self.db.diary.model.user_id == user_id)
+    async def get_diary(self, user_id: uuid.UUID, day: str | None = None):
+        filters = [self.db.diary.model.user_id == user_id]
 
-
-    async def add_diary_with_date(self, data: DiaryDateRequestAdd, user_id: uuid.UUID):
-        try:
-            self._validate_text(data.text)
+        if day:
             try:
-                newday = datetime.strptime(data.day, '%Y-%m-%d')
+                target_date = datetime.strptime(day, '%Y-%m-%d').date()
+                filters.append(func.date(self.db.diary.model.created_at) == target_date)
             except ValueError:
-                raise DiaryInvalidDateFormatError()
+                raise InvalidDateFormatError()
 
-            self._validate_date(newday)
-
-            diary = Diary(
-                id=uuid.uuid4(),
-                text=data.text,
-                created_at=newday,
-                user_id=user_id
-            )
-            await self.db.diary.add(diary)
-            await self.db.commit()
-        except DiaryTextEmptyError:
-            raise
-        except DiaryTextTooLongError:
-            raise
-        except DiaryInvalidDateFormatError:
-            raise
-        except DiaryFutureDateError:
-            raise
-        except Exception as e:
-            logger.error(f"Ошибка добавления записи с датой: {str(e)}")
-            raise DiaryInternalErrorHTTPException()
-
-
-    async def get_diary_by_day(self, day: str, user_id: uuid.UUID):
-        try:
-            target_date = datetime.strptime(day, '%Y-%m-%d').date()
-        except ValueError:
-            raise DiaryInvalidDateFormatError()
-
-        return await self.db.diary.get_filtered(
-            func.date(self.db.diary.model.created_at) == target_date,
-            user_id=user_id
-        )
+        return await self.db.diary.get_filtered(*filters)
 
 
     async def get_diary_for_month(self, timestamp: int, user_id: uuid.UUID):
         try:
             if timestamp <= 0:
-                raise DiaryInvalidTimestampError()
+                raise InvalidTimestampError()
 
             target_date = datetime.utcfromtimestamp(timestamp)
             year, month = target_date.year, target_date.month
@@ -130,8 +112,8 @@ class DiaryService(BaseService):
                 }
                 for day in range(1, monthrange(year, month)[1] + 1)
             ]
-        except DiaryInvalidTimestampError:
+        except InvalidTimestampError:
             raise
         except Exception as e:
             logger.error(f"Ошибка получения данных за месяц: {str(e)}")
-            raise DiaryInternalErrorHTTPException()
+            raise InternalErrorHTTPException()

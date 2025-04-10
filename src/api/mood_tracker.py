@@ -6,35 +6,35 @@ from src.api.dependencies.db import DBDep
 from src.services.mood_tracker import MoodTrackerService
 
 from src.exceptions import (
-    MoodScoreOutOfRangeHTTPException,
-    MoodTrackerDateFormatHTTPException,
-    MoodTrackerNotFoundHTTPException,
-    MoodTrackerNotOwnedHTTPException,
-    MoodTrackerInternalErrorHTTPException,
-    MoodTrackerDateFormatError,
-    MoodTrackerNotFoundError,
-    MoodTrackerNotOwnedError,
-    MoodScoreOutOfRangeError,
-    MoodTrackerFutureDateError,
-    MoodTrackerFutureDateHTTPException
+    ScoreOutOfRangeHTTPException,
+    InvalidDateFormatHTTPException,
+    ObjectNotFoundHTTPException,
+    NotOwnedHTTPException,
+    InternalErrorHTTPException,
+    InvalidDateFormatError,
+    ObjectNotFoundException,
+    NotOwnedError,
+    ScoreOutOfRangeError,
+    FutureDateError,
+    FutureDateHTTPException
 )
 
 router = APIRouter(prefix="/mood_tracker", tags=["Трекер настроения"])
 
 
 @router.post("")
-async def save_mood_tracker(db: DBDep, user_id: UserIdDep, data: MoodTrackerDateRequestAdd):
+async def add_mood_tracker(db: DBDep, user_id: UserIdDep, data: MoodTrackerDateRequestAdd):
     try:
         await MoodTrackerService(db).save_mood_tracker(data, user_id)
         return {"status": "OK"}
-    except MoodScoreOutOfRangeError:
-        raise MoodScoreOutOfRangeHTTPException
-    except MoodTrackerDateFormatError:
-        raise MoodTrackerDateFormatHTTPException
-    except MoodTrackerFutureDateError:
-        raise MoodTrackerFutureDateHTTPException
+    except ScoreOutOfRangeError:
+        raise ScoreOutOfRangeHTTPException
+    except InvalidDateFormatError:
+        raise InvalidDateFormatHTTPException
+    except FutureDateError:
+        raise FutureDateHTTPException
     except Exception:
-        raise MoodTrackerInternalErrorHTTPException
+        raise InternalErrorHTTPException
 
 
 @router.get("")
@@ -44,11 +44,11 @@ async def get_mood_tracker(
     day: str = Query(None, title="Date", description="Дата в формате YYYY-MM-DD")
 ):
     try:
-        return await MoodTrackerService(db).get_mood_diary(day, user_id)
-    except MoodTrackerDateFormatError:
-        raise MoodTrackerDateFormatHTTPException
+        return await MoodTrackerService(db).get_mood_tracker(day, user_id)
+    except InvalidDateFormatError:
+        raise InvalidDateFormatHTTPException
     except Exception:
-        raise MoodTrackerInternalErrorHTTPException
+        raise InternalErrorHTTPException
 
 
 @router.get("/{mood_tracker_id}")
@@ -59,9 +59,9 @@ async def get_mood_tracker_by_id(
 ):
     try:
         return await MoodTrackerService(db).get_mood_tracker_by_id(mood_tracker_id, user_id)
-    except MoodTrackerNotFoundError:
-        raise MoodTrackerNotFoundHTTPException
-    except MoodTrackerNotOwnedError:
-        raise MoodTrackerNotOwnedHTTPException
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+    except NotOwnedError:
+        raise NotOwnedHTTPException
     except Exception:
-        raise MoodTrackerInternalErrorHTTPException
+        raise InternalErrorHTTPException

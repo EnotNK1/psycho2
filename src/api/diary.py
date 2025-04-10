@@ -2,19 +2,19 @@ from fastapi import Query
 from fastapi import APIRouter
 
 from src.exceptions import (
-    DiaryInternalErrorHTTPException,
-    DiaryFutureDateError,
-    DiaryInvalidDateFormatError,
-    DiaryTextTooLongError,
-    DiaryTextEmptyError,
-    DiaryInvalidDateFormatHTTPException,
-    DiaryFutureDateHTTPException,
-    DiaryTextTooLongHTTPException,
-    DiaryTextEmptyHTTPException,
-    DiaryInvalidTimestampError,
-    DiaryInvalidTimestampHTTPException
+    InternalErrorHTTPException,
+    FutureDateError,
+    InvalidDateFormatError,
+    TextTooLongError,
+    TextEmptyError,
+    InvalidDateFormatHTTPException,
+    FutureDateHTTPException,
+    TextTooLongHTTPException,
+    TextEmptyHTTPException,
+    InvalidTimestampError,
+    InvalidTimestampHTTPException
 )
-from src.schemas.diary import DiaryRequestAdd, DiaryDateRequestAdd
+from src.schemas.diary import DiaryDateRequestAdd
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 from src.services.diary import DiaryService
@@ -26,71 +26,45 @@ router = APIRouter(prefix="/diary", tags=["Вольный дневник(Зам�
 async def get_diary(
     db: DBDep,
     user_id: UserIdDep,
+    day: str | None = None,
 ):
-    return await DiaryService(db).get_diary(user_id)
+    try:
+        return await DiaryService(db).get_diary(user_id, day)
+    except InvalidDateFormatError:
+        raise InvalidDateFormatHTTPException
+    except Exception as e:
+        raise InternalErrorHTTPException
 
 
 @router.post("")
 async def create_diary(
     db: DBDep,
     user_id: UserIdDep,
-    data: DiaryRequestAdd
+    data: DiaryDateRequestAdd  # Теперь используем один тип запроса с опциональной датой
 ):
     try:
         await DiaryService(db).add_diary(data, user_id)
         return {"status": "OK"}
-    except DiaryTextEmptyError:
-        raise DiaryTextEmptyHTTPException
-    except DiaryTextTooLongError:
-        raise DiaryTextTooLongHTTPException
+    except TextEmptyError:
+        raise TextEmptyHTTPException
+    except TextTooLongError:
+        raise TextTooLongHTTPException
+    except InvalidDateFormatError:
+        raise InvalidDateFormatHTTPException
+    except FutureDateError:
+        raise FutureDateHTTPException
     except Exception as e:
-        raise DiaryInternalErrorHTTPException
-
-
-@router.get("/with_date")
-async def get_diary_by_day(
-    db: DBDep,
-    day: str,
-    user_id: UserIdDep
-):
-    try:
-        return await DiaryService(db).get_diary_by_day(day, user_id)
-    except DiaryInvalidDateFormatError:
-        raise DiaryInvalidDateFormatHTTPException
-    except Exception as e:
-        raise DiaryInternalErrorHTTPException
-
-
-@router.post("/with_date")
-async def create_diary_with_date(
-    db: DBDep,
-    user_id: UserIdDep,
-    data: DiaryDateRequestAdd
-):
-    try:
-        await DiaryService(db).add_diary_with_date(data, user_id)
-        return {"status": "OK"}
-    except DiaryTextEmptyError:
-        raise DiaryTextEmptyHTTPException
-    except DiaryTextTooLongError:
-        raise DiaryTextTooLongHTTPException
-    except DiaryInvalidDateFormatError:
-        raise DiaryInvalidDateFormatHTTPException
-    except DiaryFutureDateError:
-        raise DiaryFutureDateHTTPException
-    except Exception as e:
-        raise DiaryInternalErrorHTTPException
-
+        raise InternalErrorHTTPException
 
 @router.get("/by_month")
-async def check_diary_for_month(
+async def get_diary_for_month(
     db: DBDep,
     user_id: UserIdDep,
     timestamp: int = Query(default=..., gt=0, description="Unix timestamp")
 ):
     try:
         return await DiaryService(db).get_diary_for_month(timestamp, user_id)
-    except DiaryInvalidTimestampError:
-        raise DiaryInvalidTimestampHTTPException
+    except InvalidTimestampError:
+        raise InvalidTimestampHTTPException
     except Exception as e:
-        raise DiaryInternalErrorHTTPException
+        raise InternalErrorHTTPException

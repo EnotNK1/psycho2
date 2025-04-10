@@ -4,7 +4,7 @@ from sqlalchemy import select, insert, update
 from src.models.application import ApplicationOrm
 from src.models.users import UsersOrm
 from src.repositories.base import BaseRepository
-from src.exceptions import ObjectNotFoundException, ApplicationForUserNotFound, UserNotFoundException
+from src.exceptions import ObjectNotFoundException, ForUserNotFoundException, UserNotFoundException
 
 
 class ApplicationRepository(BaseRepository):
@@ -22,7 +22,7 @@ class ApplicationRepository(BaseRepository):
         return result.scalars().one_or_none()
 
 
-    async def create_application(self, client_id: UUID, manager_id: UUID, text: str):
+    async def add_application(self, client_id: UUID, manager_id: UUID, text: str):
         data = {
             "client_id": client_id,
             "manager_id": manager_id,
@@ -51,16 +51,16 @@ class ApplicationRepository(BaseRepository):
             result = await self.session.execute(stmt)
 
             if result.rowcount == 0:
-                raise ApplicationForUserNotFound("Заявка для пользователя не найдена")
+                raise ForUserNotFoundException("Заявка для пользователя не найдена")
 
             await self.session.commit()
             return True
-        except (UserNotFoundException, ApplicationForUserNotFound):
+        except (UserNotFoundException, ForUserNotFoundException):
             await self.session.rollback()
             raise
         except Exception as e:
             await self.session.rollback()
-            raise ApplicationForUserNotFound(f"Ошибка при обновлении статуса: {str(e)}")
+            raise ForUserNotFoundException(f"Ошибка при обновлении статуса: {str(e)}")
 
 
     async def is_user_manager(self, user_id: UUID) -> bool:

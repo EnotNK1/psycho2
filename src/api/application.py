@@ -10,14 +10,14 @@ from src.services.application import ApplicationService
 from src.exceptions import (
     InsufficientPermissionsHTTPException,
     ManagerNotFoundHTTPException,
-    ApplicationNotFoundHTTPException,
     InsufficientPermissionsException,
-    ApplicationNotFoundException,
+    ObjectNotFoundException,
     ManagerNotFoundException,
-    ApplicationForUserNotFound,
-    ApplicationForUserNotFoundHTTPException,
+    ForUserNotFoundException,
+    ForUserNotFoundHTTPException,
     UserNotFoundException,
-    UserNotFoundHTTPException
+    UserNotFoundHTTPException,
+    ObjectNotFoundHTTPException
 )
 
 router = APIRouter(prefix="/applications", tags=["Заявки"])
@@ -44,18 +44,18 @@ async def get_application(
         return await ApplicationService(db).get_application(app_id, user_id)
     except InsufficientPermissionsException:
         raise InsufficientPermissionsHTTPException
-    except ApplicationNotFoundException:
-        raise ApplicationNotFoundHTTPException
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 
 @router.post("")
-async def create_application(
+async def add_application(
     data: ApplicationCreate,
     db: DBDep,
     user_id: UserIdDep
 ):
     try:
-        return await ApplicationService(db).create_application(data, user_id)
+        return await ApplicationService(db).add_application(data, user_id)
     except ManagerNotFoundException:
         raise ManagerNotFoundHTTPException
 
@@ -72,7 +72,7 @@ async def update_application_status(
         raise InsufficientPermissionsHTTPException
     except UserNotFoundException:
         raise UserNotFoundHTTPException
-    except ApplicationForUserNotFound:
-        raise ApplicationForUserNotFoundHTTPException
-    except ApplicationNotFoundException:
-        raise ApplicationNotFoundHTTPException
+    except ForUserNotFoundException:
+        raise ForUserNotFoundHTTPException
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException

@@ -2,7 +2,9 @@ from uuid import UUID
 from src.exceptions import (
     InsufficientPermissionsException,
     ManagerNotFoundException,
-    ApplicationNotFoundException, ObjectNotFoundException, ApplicationForUserNotFound, UserNotFoundException
+    ObjectNotFoundException,
+    ForUserNotFoundException,
+    UserNotFoundException
 )
 from src.services.base import BaseService
 from src.schemas.application import (
@@ -40,11 +42,11 @@ class ApplicationService(BaseService):
 
         application = await self.db.application.get_raw_application_details(app_id)
         if not application:
-            raise ApplicationNotFoundException
+            raise ObjectNotFoundException
 
         user = await self.db.users.get_one_or_none(id=application.client_id)
         if not user:
-            raise ApplicationNotFoundException("User not found")
+            raise ObjectNotFoundException("User not found")
 
         return ApplicationFullResponse(
             app_id=application.id,
@@ -57,11 +59,11 @@ class ApplicationService(BaseService):
         )
 
 
-    async def create_application(self, data: ApplicationCreate, client_id: UUID):
+    async def add_application(self, data: ApplicationCreate, client_id: UUID):
         if not await self._is_manager(data.user_id):
             raise ManagerNotFoundException
 
-        app_id = await self.db.application.create_application(
+        app_id = await self.db.application.add_application(
             client_id=client_id,
             manager_id=data.user_id,
             text=data.text
@@ -80,15 +82,15 @@ class ApplicationService(BaseService):
             )
 
             if not updated:
-                raise ApplicationForUserNotFound("Заявка не найдена или не принадлежит пользователю")
+                raise ForUserNotFoundException("Заявка не найдена или не принадлежит пользователю")
 
             return {"status": "OK", "message": "Статус обновлен"}
         except UserNotFoundException as e:
             raise UserNotFoundException(str(e))
-        except ApplicationForUserNotFound as e:
-            raise ApplicationForUserNotFound(str(e))
+        except ForUserNotFoundException as e:
+            raise ForUserNotFoundException(str(e))
         except Exception as e:
-            raise ApplicationNotFoundException(f"Системная ошибка: {str(e)}")
+            raise ObjectNotFoundException(f"Системная ошибка: {str(e)}")
 
 
     async def _is_manager(self, user_id: UUID) -> bool:
