@@ -13,5 +13,4 @@ class TestResultRepository(BaseRepository):
     mapper = TestResultDataMapper
 
 
-    async def get_all_by_user_id(self, user_id: uuid.UUID) -> list[TestResultOrm]:
-        return await self.get_all_by_filter(user_id=user_id)
+

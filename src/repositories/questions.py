@@ -11,5 +11,3 @@ class QuestionRepository(BaseRepository):
     model = QuestionOrm
     mapper = QuestionDataMapper
 
-    async def all_by_test_id(self, test_id: uuid.UUID) -> list[QuestionOrm]:
-        return await self.get_all_by_filter(test_id=test_id)

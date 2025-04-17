@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
+from src.exceptions import ObjectNotFoundHTTPException, ObjectNotFoundException
 from src.schemas.tests import TestResultRequest
 from src.services.tests import TestService
 
@@ -35,10 +36,10 @@ async def test_by_id(
         test_id: uuid.UUID,
         db: DBDep
 ):
-    test = await TestService(db).test_by_id(test_id)
-    if not test:
-        raise HTTPException(status_code=404, detail="Тест не найден")
-    return test
+    try:
+        return await TestService(db).test_by_id(test_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 
 @router.get("/{test_id}/questions", summary="Получение вопросов по test_id")
@@ -46,8 +47,11 @@ async def questions(
         test_id: uuid.UUID,
         db: DBDep
 ):
-    test_service = TestService(db)
-    return await test_service.test_questions(test_id)
+    try:
+        test_service = TestService(db)
+        return await test_service.test_questions(test_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 
 @router.get("/{test_id}/questions/{question_id}/answers/", summary="Получение ответов по test_id и question_id")
@@ -56,17 +60,22 @@ async def answers_by_question_id(
         question_id: uuid.UUID,
         db: DBDep
 ):
-    test_service = TestService(db)
-    return await test_service.answers_by_question_id(test_id, question_id)
-
+    try:
+        test_service = TestService(db)
+        return await test_service.answers_by_question_id(test_id, question_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 @router.get("/{test_id}/details", summary="Получение теста со всеми связанными данными")
 async def details(
         test_id: uuid.UUID,  # FastAPI автоматически парсит строку в UUID
         db: DBDep
 ):
-    test_service = TestService(db)
-    return await test_service.details(test_id)
+    try:
+        test_service = TestService(db)
+        return await test_service.details(test_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 
 @router.post("/result", summary="Сохранение результата теста")
@@ -85,27 +94,33 @@ async def result_by_user_and_test(
         user_id: uuid.UUID,
         db: DBDep,
 ):
-    test_service = TestService(db)
-    return await test_service.get_test_result_by_user_and_test(test_id, user_id)
-
+    try:
+        test_service = TestService(db)
+        return await test_service.get_test_result_by_user_and_test(test_id, user_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 @router.get("/test_result/{result_id}", summary="Получение результата теста по его ID")
 async def get_test_result_by_id(
         result_id: uuid.UUID,  # test_result_id передается как часть пути
         db: DBDep
 ):
-    test_service = TestService(db)
-    return await test_service.get_test_result_by_id(result_id)
-
+    try:
+        test_service = TestService(db)
+        return await test_service.get_test_result_by_id(result_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 @router.get("/passed/user/{user_id}", summary="Получение всех пройденных тестов для пользователя")
 async def get_passed_tests_by_user(
         user_id: uuid.UUID,  # user_id передается как часть пути
         db: DBDep
 ):
-    test_service = TestService(db)
-    return await test_service.get_passed_tests_by_user(user_id)
-
+    try:
+        test_service = TestService(db)
+        return await test_service.get_passed_tests_by_user(user_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 @router.get("/passed", summary="Получение всех пройденных тестов для текущего пользователя")
 async def get_passed_tests(

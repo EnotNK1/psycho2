@@ -90,7 +90,7 @@ async def update_user(
 ):
     try:
         await AuthService(db).update_user(user_id, data)
-        return {"status": "OK", "message": "User data updated successfully"}
+        return {"status": "OK"}
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException()
     except SeveralObjectsFoundException:

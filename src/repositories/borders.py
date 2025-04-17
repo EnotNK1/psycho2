@@ -10,5 +10,3 @@ class BordersRepository(BaseRepository):
     model = BordersOrm
     mapper = BordersDataMapper
 
-    async def all_by_scale_id(self, scale_id: uuid.UUID) -> list[BordersOrm]:
-        return await self.get_all_by_filter(scale_id=scale_id)

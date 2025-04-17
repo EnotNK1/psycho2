@@ -125,3 +125,4 @@ class TestDetailsResponse(BaseModel):
     link: str
     scales: list[ScaleDetail]
     questions: list[QuestionDetail]
+

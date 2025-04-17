@@ -11,5 +11,3 @@ class ScaleResultRepository(BaseRepository):
     mapper = ScaleResultDataMapper
 
 
-    async def get_all_by_test_result_id(self, test_result_id: uuid.UUID) -> list[ScaleResultOrm]:
-        return await self.get_all_by_filter(test_result_id=test_result_id)

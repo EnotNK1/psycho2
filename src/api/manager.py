@@ -33,28 +33,28 @@ async def all_manager(
     return await ManagerService(db).get_all_manager()
 
 
-@router.post("/task", summary="Дать задачу юзеру по user_id")
-async def task(
-        data: TaskRequest,
-        mentor_id: ManagerIdDep,  # ID менеджера из токена
-        db: DBDep
-):
-    return await ManagerService(db).task(mentor_id, data.model_dump())
+# @router.post("/task", summary="Дать задачу юзеру по user_id")
+# async def task(
+#         data: TaskRequest,
+#         mentor_id: ManagerIdDep,  # ID менеджера из токена
+#         db: DBDep
+# ):
+#     return await ManagerService(db).task(mentor_id, data)
 
 
-@router.post("/tasks", summary="Дать задачу списку клиентов")
+# @router.post("/tasks", summary="Дать задачу списку клиентов")
+# async def task_for_clients(
+#         data: GiveTaskListClientRequest,
+#         mentor_id: ManagerIdDep,  # ID менеджера из токена
+#         db: DBDep
+# ):
+#     return await ManagerService(db).task_for_clients(mentor_id, data)
+
+
+@router.post("/task-for-clients", summary="Дать задачу одному, всем или списку клиентов")
 async def task_for_clients(
         data: GiveTaskListClientRequest,
         mentor_id: ManagerIdDep,  # ID менеджера из токена
         db: DBDep
 ):
     return await ManagerService(db).task_for_clients(mentor_id, data)
-
-
-@router.post("/task-for-all-clients", summary="Дать задачу всем клиентам")
-async def task_for_all_clients(
-        data: GiveTaskAllClientRequest,
-        mentor_id: ManagerIdDep,  # ID менеджера из токена
-        db: DBDep
-):
-    return await ManagerService(db).task_for_all_clients(mentor_id, data)
