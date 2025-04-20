@@ -17,6 +17,7 @@ class MyAppHTTPException(HTTPException):
         super().__init__(status_code=self.status_code, detail=self.detail)
 
 
+
 class ObjectNotFoundException(MyAppException):
     detail = "Объект не найден"
 
@@ -91,8 +92,3 @@ class NoAccessTokenHTTPException(MyAppHTTPException):
 class AccessDeniedHTTPException(MyAppHTTPException):
     status_code = 403  # 403 Forbidden
     detail = "Доступ запрещён: недостаточно прав"
-
-
-
-
-

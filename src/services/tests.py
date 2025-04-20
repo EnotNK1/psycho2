@@ -9,7 +9,6 @@ from sqlalchemy.orm import joinedload, selectinload
 from src.models import TestOrm, ScaleOrm, BordersOrm, QuestionOrm, AnswerChoiceOrm, TestResultOrm, ScaleResultOrm
 from src.repositories.answer_choices import AnswerChoiceRepository
 from src.repositories.borders import BordersRepository
-from src.repositories.inquiry import InquiryRepository
 from src.repositories.questions import QuestionRepository
 from src.repositories.scale import ScalesRepository
 from src.repositories.scale_result import ScaleResultRepository
@@ -22,7 +21,6 @@ from src.exceptions import (
     ObjectNotFoundException,
     MyAppException,
 )
-from src.services.inquiry import InquiryService
 
 logger = logging.getLogger(__name__)
 
@@ -153,10 +151,6 @@ class TestService(BaseService):
             with open("services/info/questions_info.json", encoding="utf-8") as file:
                 questions_data = json.load(file)
             await self.add_questions(questions_data)
-
-            with open("services/info/inquiry.json", encoding="utf-8") as file:
-                inquiry_data = json.load(file)
-            await InquiryService(self.db).check_and_create_inquiries(inquiry_data)
 
             await self.db.commit()
             return {"status": "OK", "message": "Тесты, шкалы, границы, ответы и вопросы успешно созданы или пропущены"}

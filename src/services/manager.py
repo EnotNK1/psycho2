@@ -124,68 +124,68 @@ class ManagerService(BaseService):
     #
     #     return {"status": "OK", "message": "Tasks created successfully", "task_ids": task_ids}
 
-    # async def task_for_clients(self, mentor_id: str, data: GiveTaskListClientRequest):
-    #
-    #     test_id = data.test_id
-    #     text = data.text
-    #
-    #     manager = await self.db.users.get_one_or_none(id=mentor_id)
-    #     if not manager:
-    #         raise ObjectNotFoundException("Manager not found")
-    #
-    #     test = await self.db.tests.get_one(data.test_id)
-    #     if not test:
-    #         raise ObjectNotFoundException("Test not found")
-    #
-    #     clients = await self.db.clients.get_filtered(status=True)
-    #     logger.info(f"Найдено клиентов: {len(clients)}")
-    #     if not clients:
-    #         logger.warning("Клиенты с status=True не найдены")
-    #
-    #     task_ids = []
-    #     if data.list_client == []:
-    #         for client in clients:
-    #             print("HUI1")
-    #             task_data = Task(
-    #                 id=uuid.uuid4(),
-    #                 text=text,
-    #                 test_title=test.title,
-    #                 test_id=test_id,
-    #                 mentor_id=mentor_id,
-    #                 client_id=client.client_id,
-    #                 is_complete=False
-    #             )
-    #             await self.db.tasks.add(task_data)
-    #             await self.db.commit()
-    #
-    #             task_ids.append(task_data.id)
-    #         else:
-    #             for client in data.list_client:
-    #                 print("HUI2")
-    #                 task_data = Task(
-    #                     id=uuid.uuid4(),
-    #                     text=text,
-    #                     test_title=test.title,
-    #                     test_id=test_id,
-    #                     mentor_id=mentor_id,
-    #                     client_id=client.client_id,
-    #                     is_complete=False
-    #                 )
-    #                 await self.db.tasks.add(task_data)
-    #
-    #             НУЖНО РЕАЛИЩОВАТЬ ЗАПРОС НА СТАНОВЛЕНИЕ КЛИЕНТОМ А НЕ ДЕЛАТЬ ВСЮ ЭТУ ХУЙН.
-    #                 client_data = ClientSchema(
-    #                     id=uuid.uuid4(),
-    #                     client_id=client.client_id,
-    #                     mentor_id=mentor_id,
-    #                     text=text,
-    #                     status=True
-    #                 )
-    #                 await self.db.clients.add(client_data)
-    #                 await self.db.commit()
-    #
-    #                 task_ids.append(task_data.id)
-    #
-    #     await self.db.commit()
-    #
-    #     return {"status": "OK", "message": "Tasks created successfully for all clients", "task_ids": task_ids}
+    async def task_for_clients(self, mentor_id: str, data: GiveTaskListClientRequest):
+
+        test_id = data.test_id
+        text = data.text
+
+        manager = await self.db.users.get_one_or_none(id=mentor_id)
+        if not manager:
+            raise ObjectNotFoundException("Manager not found")
+
+        test = await self.db.tests.get_one(data.test_id)
+        if not test:
+            raise ObjectNotFoundException("Test not found")
+
+        clients = await self.db.clients.get_filtered(status=True)
+        logger.info(f"Найдено клиентов: {len(clients)}")
+        if not clients:
+            logger.warning("Клиенты с status=True не найдены")
+
+        task_ids = []
+        if data.list_client == []:
+            for client in clients:
+                print("HUI1")
+                task_data = Task(
+                    id=uuid.uuid4(),
+                    text=text,
+                    test_title=test.title,
+                    test_id=test_id,
+                    mentor_id=mentor_id,
+                    client_id=client.client_id,
+                    is_complete=False
+                )
+                await self.db.tasks.add(task_data)
+                await self.db.commit()
+
+                task_ids.append(task_data.id)
+            else:
+                for client in data.list_client:
+                    print("HUI2")
+                    task_data = Task(
+                        id=uuid.uuid4(),
+                        text=text,
+                        test_title=test.title,
+                        test_id=test_id,
+                        mentor_id=mentor_id,
+                        client_id=client.client_id,
+                        is_complete=False
+                    )
+                    await self.db.tasks.add(task_data)
+
+                НУЖНО РЕАЛИЩОВАТЬ ЗАПРОС НА СТАНОВЛЕНИЕ КЛИЕНТОМ А НЕ ДЕЛАТЬ ВСЮ ЭТУ ХУЙН.
+                    client_data = ClientSchema(
+                        id=uuid.uuid4(),
+                        client_id=client.client_id,
+                        mentor_id=mentor_id,
+                        text=text,
+                        status=True
+                    )
+                    await self.db.clients.add(client_data)
+                    await self.db.commit()
+
+                    task_ids.append(task_data.id)
+
+        await self.db.commit()
+
+        return {"status": "OK", "message": "Tasks created successfully for all clients", "task_ids": task_ids}

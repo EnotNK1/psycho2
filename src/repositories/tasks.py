@@ -5,4 +5,4 @@ from src.repositories.mappers.mappers import TasksDataMapper
 
 class TasksRepository(BaseRepository):
     model = TasksOrm
-    mapper_class  = TasksDataMapper
+    mapper = TasksDataMapper
