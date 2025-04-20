@@ -1,8 +1,10 @@
 import uuid
 
 from src.repositories.answer_choices import AnswerChoiceRepository
+from src.repositories.application import ApplicationRepository
 from src.repositories.borders import BordersRepository
 from src.repositories.clients import ClientsRepository
+from src.repositories.inquiry import InquiryRepository
 from src.repositories.questions import QuestionRepository
 from src.repositories.scale import ScalesRepository
 from src.repositories.tasks import TasksRepository
@@ -25,7 +27,8 @@ class DBManager:
         self.question = QuestionRepository(self.session)
         self.tasks = TasksRepository(self.session)
         self.clients = ClientsRepository(self.session)
-
+        self.application = ApplicationRepository(self.session)
+        self.inquiry = InquiryRepository(self.session)
         return self
 
     async def __aexit__(self, *args):

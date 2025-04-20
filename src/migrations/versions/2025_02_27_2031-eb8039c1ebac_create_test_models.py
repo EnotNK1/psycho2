@@ -50,7 +50,7 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
-        "test_result.py",
+        "test_result",
         sa.Column("id", sa.Uuid(), nullable=False),
         sa.Column("user_id", sa.Uuid(), nullable=False),
         sa.Column("test_id", sa.Uuid(), nullable=False),
@@ -88,7 +88,7 @@ def upgrade() -> None:
         sa.Column("test_result_id", sa.Uuid(), nullable=False),
         sa.ForeignKeyConstraint(["scale_id"], ["scale.id"], ondelete="CASCADE"),
         sa.ForeignKeyConstraint(
-            ["test_result_id"], ["test_result.py.id"], ondelete="CASCADE"
+            ["test_result_id"], ["test_result.id"], ondelete="CASCADE"
         ),
         sa.PrimaryKeyConstraint("id"),
     )
@@ -100,7 +100,7 @@ def downgrade() -> None:
     op.drop_table("scale_result")
     op.drop_table("borders")
     op.drop_table("answer_choice")
-    op.drop_table("test_result.py")
+    op.drop_table("test_result")
     op.drop_table("scale")
     op.drop_table("question")
     op.drop_table("test")

@@ -10,7 +10,7 @@ from src.repositories.mappers.mappers import TestResultDataMapper
 
 class TestResultRepository(BaseRepository):
     model = TestResultOrm
-    mapper = TestResultDataMapper
+    mapper_class  = TestResultDataMapper
 
 
 

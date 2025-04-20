@@ -7,7 +7,7 @@ from src.repositories.mappers.mappers import TasksDataMapper, ClientsDataMapper
 
 class ClientsRepository(BaseRepository):
     model = ClientsOrm
-    mapper = ClientsDataMapper
+    mapper_class  = ClientsDataMapper
 
     # async def get_all(self):
     #     query = select(self.model)

@@ -4,6 +4,8 @@ import logging
 import sys
 from pathlib import Path
 
+from src.database import engine, Base
+
 sys.path.append(str(Path(__file__).parent.parent))
 from contextlib import asynccontextmanager
 from fastapi.openapi.docs import get_swagger_ui_html
@@ -15,6 +17,7 @@ from fastapi_cache.backends.redis import RedisBackend
 from src.api.auth import router as router_auth
 from src.api.tests import router as router_tests, images_router
 from src.api.manager import router as router_manager
+from src.api.application import router as application_router
 
 from src.init import redis_manager
 
@@ -36,7 +39,7 @@ app.include_router(router_auth)
 app.include_router(router_tests)
 app.include_router(images_router)
 app.include_router(router_manager)
-
+app.include_router(application_router)
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html():

@@ -8,5 +8,5 @@ from src.repositories.tests import logger
 
 class AnswerChoiceRepository(BaseRepository):
     model = AnswerChoiceOrm
-    mapper = AnswerChoiceDataMapper
+    mapper_class = AnswerChoiceDataMapper
 

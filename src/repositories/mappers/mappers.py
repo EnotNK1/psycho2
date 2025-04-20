@@ -3,10 +3,13 @@ from symtable import Class
 
 from celery.worker.consumer import Tasks
 
-from src.models import ScaleOrm
+from src.models import ScaleOrm, InquiryOrm
+from src.models.application import ApplicationOrm
 from src.models.clients import TasksOrm, ClientsOrm
 from src.models.tests import TestOrm, QuestionOrm, AnswerChoiceOrm, ScaleResultOrm, BordersOrm, TestResultOrm
 from src.repositories.mappers.base import DataMapper
+from src.schemas.application import ApplicationResponse
+from src.schemas.inquiry import Inquiry
 from src.schemas.tests import Test, Scale, TestResult, Question, AnswerChoice, ScaleResult, Borders
 from src.schemas.users import User, TaskRequest, ClientSchema, GetAllManagerRequest
 from src.models.users import UsersOrm
@@ -140,3 +143,13 @@ class ClientsDataMapper(DataMapper):
             text=model.text,
             status=model.status
         )
+
+
+class ApplicationDataMapper(DataMapper):
+    db_model = ApplicationOrm
+    schema = ApplicationResponse
+
+class InquiryDataMapper(DataMapper):
+    db_model = InquiryOrm
+    schema = Inquiry
+

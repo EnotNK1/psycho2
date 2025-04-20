@@ -9,5 +9,5 @@ from src.repositories.mappers.mappers import QuestionDataMapper
 
 class QuestionRepository(BaseRepository):
     model = QuestionOrm
-    mapper = QuestionDataMapper
+    mapper_class  = QuestionDataMapper
 

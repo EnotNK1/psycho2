@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 class TestsRepository(BaseRepository):
     model = TestOrm
-    mapper = TestDataMapper
+    mapper_class  = TestDataMapper
 
     async def get_one(self, id: uuid.UUID) -> Optional[TestOrm]:
         try:

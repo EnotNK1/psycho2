@@ -13,11 +13,11 @@ from src.repositories.mappers.base import DataMapper
 
 class BaseRepository:
     model = None
-    mapper: DataMapper = None
+    mapper_class = None
 
     def __init__(self, session):
         self.session = session
-        self.mapper = self.mapper()
+        self.mapper = self.mapper_class() if self.mapper_class else None
 
     async def get_filtered(self, *filter, **filtered_by):
         query = select(self.model).filter(*filter).filter_by(**filtered_by)
@@ -92,17 +92,4 @@ class BaseRepository:
         delete_stmt = delete(self.model).filter_by(**filter_by)
         await self.session.execute(delete_stmt)
 
-    async def get_by_ids(self, ids: list[uuid.UUID]) -> list[BaseModel]:
-        query = select(self.model).where(self.model.id.in_(ids))
-        result = await self.session.execute(query)
-        return [
-            self.mapper.map_to_domain_entity(model) for model in result.scalars().all()
-        ]
-
-    async def create(self, **data):
-        instance = self.model(**data)
-        self.session.add(instance)
-        await self.session.commit()
-        await self.session.refresh(instance)
-        return instance
 
