@@ -1,4 +1,3 @@
-from datetime import date
 from fastapi import HTTPException
 
 
@@ -93,6 +92,113 @@ class AccessDeniedHTTPException(MyAppHTTPException):
     detail = "Доступ запрещён: недостаточно прав"
 
 
+class ValidationError(MyAppException):
+    detail = "Ошибка валидации данных"
 
 
+class TextEmptyError(ValidationError):
+    detail = "Текст записи не может быть пустым"
 
+
+class TextTooLongError(ValidationError):
+    detail = "Текст записи слишком длинный"
+
+
+class DateError(MyAppException):
+    detail = "Ошибка даты записи"
+
+
+class FutureDateError(DateError):
+    detail = "Нельзя добавить запись на будущую дату"
+
+
+class InvalidDateFormatError(DateError):
+    detail = "Неверный формат даты"
+
+
+class InvalidTimestampError(DateError):
+    detail = "Неверное значение timestamp"
+
+
+class InternalErrorHTTPException(MyAppHTTPException):
+    status_code = 500
+    detail = "Внутренняя ошибка сервера"
+
+
+class TextEmptyHTTPException(MyAppHTTPException):
+    status_code = 422
+    detail = "Текст записи не может быть пустым"
+
+
+class TextTooLongHTTPException(MyAppHTTPException):
+    status_code = 422
+    detail = "Текст записи слишком длинный"
+
+
+class FutureDateHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Нельзя добавить запись на будущую дату"
+
+
+class InvalidDateFormatHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Неверный формат даты"
+
+
+class InvalidTimestampHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Неверное значение timestamp"
+
+
+class ScoreOutOfRangeError(ValidationError):
+    detail = "Оценка настроения должна быть от 0 до 100"
+
+
+class NotOwnedError(MyAppException):
+    detail = "Запись не принадлежит текущему пользователю"
+
+
+class ScoreOutOfRangeHTTPException(MyAppHTTPException):
+    status_code = 422
+    detail = "Оценка настроения должна быть от 0 до 100"
+
+
+class NotOwnedHTTPException(MyAppHTTPException):
+    status_code = 403
+    detail = "Запись не принадлежит текущему пользователю"
+
+
+class InsufficientPermissionsException(MyAppException):
+    detail = "У вас недостаточно прав для выполнения данной операции"
+
+
+class ManagerNotFoundException(MyAppException):
+    detail = "Менеджер не найден"
+
+
+class ForUserNotFoundException(MyAppException):
+    detail = "Заявка для указанного пользователя не найдена"
+
+
+class UserNotFoundException(MyAppException):
+    detail = "Такого пользователя не существует"
+
+
+class UserNotFoundHTTPException(MyAppHTTPException):
+    status_code = 404
+    detail = "Такого пользователя не существует"
+
+
+class InsufficientPermissionsHTTPException(MyAppHTTPException):
+    status_code = 403
+    detail = "У вас недостаточно прав для выполнения данной операции"
+
+
+class ManagerNotFoundHTTPException(MyAppHTTPException):
+    status_code = 404
+    detail = "Менеджер не найден"
+
+
+class ForUserNotFoundHTTPException(MyAppHTTPException):
+    status_code = 404
+    detail = "Заявка для указанного пользователя не найдена"

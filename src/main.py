@@ -18,6 +18,9 @@ from src.api.auth import router as router_auth
 from src.api.tests import router as router_tests, images_router
 from src.api.manager import router as router_manager
 from src.api.application import router as application_router
+from src.api.review import router as router_review
+from src.api.diary import router as router_diary
+from src.api.mood_tracker import router as router_mood_tracker
 
 from src.init import redis_manager
 
@@ -40,6 +43,10 @@ app.include_router(router_tests)
 app.include_router(images_router)
 app.include_router(router_manager)
 app.include_router(application_router)
+app.include_router(router_review)
+app.include_router(router_diary)
+app.include_router(router_mood_tracker)
+
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html():

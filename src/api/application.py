@@ -1,7 +1,5 @@
 from fastapi import APIRouter, Depends
 from uuid import UUID
-
-
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 from src.schemas.application import (
@@ -10,8 +8,16 @@ from src.schemas.application import (
 )
 from src.services.application import ApplicationService
 from src.exceptions import (
+    InsufficientPermissionsHTTPException,
+    ManagerNotFoundHTTPException,
+    InsufficientPermissionsException,
     ObjectNotFoundException,
-    ObjectNotFoundHTTPException, AccessDeniedHTTPException
+    ManagerNotFoundException,
+    ForUserNotFoundException,
+    ForUserNotFoundHTTPException,
+    UserNotFoundException,
+    UserNotFoundHTTPException,
+    ObjectNotFoundHTTPException
 )
 
 router = APIRouter(prefix="/applications", tags=["Заявки"])
@@ -35,7 +41,6 @@ async def get_application(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-
 @router.post("", summary="Создание заявки")
 async def add_application(
         data: ApplicationCreate,
@@ -58,4 +63,3 @@ async def update_application_status(
         return await ApplicationService(db).update_application_status(data, user_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
-

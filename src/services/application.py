@@ -34,7 +34,7 @@ class ApplicationService(BaseService):
             )
             for app in applications
         ]
-
+              
     async def get_application(self, app_id: UUID) -> ApplicationResponse:
 
 

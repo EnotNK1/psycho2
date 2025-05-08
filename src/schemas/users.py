@@ -148,3 +148,8 @@ class Task(BaseModel):
     mentor_id: uuid.UUID
     client_id: uuid.UUID
     is_complete: bool
+
+class UserBase(BaseModel):
+    email: EmailStr
+    username: str
+    role_id: int

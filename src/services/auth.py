@@ -18,10 +18,16 @@ from src.exceptions import (
     UserAlreadyExistsException,
     PasswordDoNotMatchException, ObjectNotFoundException,
 )
-from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordChangeRequest, HashedPassword, \
-    UpdateUserRequest
+from src.schemas.users import (
+    UserRequestAdd,
+    UserAdd,
+    UserRequestLogIn,
+    PasswordChangeRequest,
+    HashedPassword,
+    UpdateUserRequest,
+)
 
-serializer = URLSafeTimedSerializer('secret_key')
+serializer = URLSafeTimedSerializer("secret_key")
 
 
 class AuthService(BaseService):
@@ -91,7 +97,7 @@ class AuthService(BaseService):
         _hashed_password = HashedPassword(hashed_password=hashed_password)
         await self.db.users.edit(_hashed_password, exclude_unset=True, email=email)
         await self.db.commit()
-
+        
     async def update_user(self, user_id: uuid.UUID, data: UpdateUserRequest):
         user = await self.db.users.get_one_or_none(id=user_id)
         if not user:
