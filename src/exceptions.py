@@ -87,6 +87,11 @@ class NoAccessTokenHTTPException(MyAppHTTPException):
     detail = "Вы не предоставили токен доступа"
 
 
+class AccessDeniedHTTPException(MyAppHTTPException):
+    status_code = 403  # 403 Forbidden
+    detail = "Доступ запрещён: недостаточно прав"
+
+
 class ValidationError(MyAppException):
     detail = "Ошибка валидации данных"
 

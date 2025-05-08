@@ -10,19 +10,12 @@ from src.exceptions import (
     UserAlreadyExistsException,
     UserEmailAlreadyExistsHTTPException,
     PasswordDoNotMatchException,
-    PasswordDoNotMatchHTTPException,
-    ObjectNotFoundException,
-    ObjectNotFoundHTTPException,
-    IncorrectTokenException,
-    IncorrectTokenHTTPException,
+    PasswordDoNotMatchHTTPException, ObjectNotFoundException, ObjectNotFoundHTTPException, IncorrectTokenException,
+    IncorrectTokenHTTPException, MyAppException, SeveralObjectsFoundException, SeveralObjectsFoundHTTPException,
+    MyAppHTTPException,
 )
-from src.schemas.users import (
-    UserRequestAdd,
-    UserAdd,
-    UserRequestLogIn,
-    PasswordResetRequest,
-    PasswordChangeRequest,
-)
+from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordResetRequest, PasswordChangeRequest, \
+    UpdateUserRequest
 from src.services.auth import AuthService
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
@@ -33,8 +26,8 @@ router = APIRouter(prefix="/auth", tags=["Авторизация и аутент
 
 @router.get("/me")
 async def get_me(
-    db: DBDep,
-    user_id: UserIdDep,
+        db: DBDep,
+        user_id: UserIdDep,
 ):
     return await AuthService(db).get_one_or_none_user(id=user_id)
 
@@ -87,3 +80,25 @@ async def password_change(db: DBDep, password_data: PasswordChangeRequest):
     except PasswordDoNotMatchException:
         raise PasswordDoNotMatchHTTPException
     return {"status": "OK"}
+
+
+@router.patch("/update")
+async def update_user(
+        db: DBDep,
+        user_id: UserIdDep,
+        data: UpdateUserRequest
+):
+    try:
+        await AuthService(db).update_user(user_id, data)
+        return {"status": "OK"}
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException()
+    except SeveralObjectsFoundException:
+        raise SeveralObjectsFoundHTTPException()
+    except IncorrectTokenException:
+        raise IncorrectTokenHTTPException()
+    except MyAppException as e:
+        raise e
+    except Exception as e:
+        raise MyAppHTTPException(detail="An unexpected error occurred: " + str(e))
+

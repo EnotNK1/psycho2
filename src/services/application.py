@@ -1,102 +1,153 @@
+import logging
+import uuid
+from datetime import datetime
 from uuid import UUID
+
+from fastapi import HTTPException
+
 from src.exceptions import (
-    InsufficientPermissionsException,
-    ManagerNotFoundException,
-    ObjectNotFoundException,
-    ForUserNotFoundException,
-    UserNotFoundException
+    ObjectNotFoundException,ObjectAlreadyExistsException, AccessDeniedHTTPException
 )
+from src.schemas.users import ClientSchema
 from src.services.base import BaseService
 from src.schemas.application import (
     ApplicationCreate,
-    ApplicationShortResponse,
-    ApplicationFullResponse,
-    ApplicationStatusUpdate
+    ApplicationResponse,
+    ApplicationStatusUpdate, Application
 )
+logger = logging.getLogger(__name__)
 
 
 class ApplicationService(BaseService):
-    async def get_applications(self, manager_id: UUID):
-        if not await self._is_manager(manager_id):
-            raise InsufficientPermissionsException
-
-        applications = await self.db.application.get_raw_applications_for_manager(manager_id)
+    async def get_applications(self, manager_id: UUID) -> list[ApplicationResponse]:
+        applications = await self.db.application.get_filtered(manager_id=manager_id)
 
         return [
-            ApplicationShortResponse(
-                app_id=app.id,
+            ApplicationResponse(
+                id=app.id,
                 client_id=app.client_id,
-                username=await self._get_username(app.client_id),
+                manager_id=app.manager_id,
+                status=app.status,
                 text=app.text,
-                online=app.online,
-                problem_id=app.problem_id,
-                problem=app.problem
+                inquiry=app.inquiry,
+                created_at=app.created_at
             )
             for app in applications
         ]
+              
+    async def get_application(self, app_id: UUID) -> ApplicationResponse:
 
 
-    async def get_application(self, app_id: UUID, manager_id: UUID):
-        if not await self._is_manager(manager_id):
-            raise InsufficientPermissionsException
+        applications = await self.db.application.get_filtered(id=app_id)
 
-        application = await self.db.application.get_raw_application_details(app_id)
-        if not application:
-            raise ObjectNotFoundException
+        if not applications:
+            raise ObjectNotFoundException()
 
-        user = await self.db.users.get_one_or_none(id=application.client_id)
-        if not user:
-            raise ObjectNotFoundException("User not found")
+        # Берем первую (и единственную) заявку из списка
+        application = applications[0]
 
-        return ApplicationFullResponse(
-            app_id=application.id,
+        return ApplicationResponse(
+            id=application.id,
             client_id=application.client_id,
-            is_active=application.is_active,
-            username=user.username,
-            birth_date=user.birth_date,
-            gender=user.gender or "unknown",
-            text=application.text
+            manager_id=application.manager_id,
+            status=application.status,
+            text=application.text,
+            inquiry=application.inquiry,
+            created_at=application.created_at
         )
 
+    async def add_application(self, data: ApplicationCreate, user_id: int):
+        if not await self.db.application.is_user_manager(data.manager_id):
+            raise AccessDeniedHTTPException
 
-    async def add_application(self, data: ApplicationCreate, client_id: UUID):
-        if not await self._is_manager(data.user_id):
-            raise ManagerNotFoundException
-
-        app_id = await self.db.application.add_application(
-            client_id=client_id,
-            manager_id=data.user_id,
-            text=data.text
+        new_app_data = Application(
+            id=uuid.uuid4(),
+            manager_id=data.manager_id,
+            client_id=user_id,
+            text=data.text,
+            inquiry=data.inquiry or [],
+            status=False,
+            created_at = datetime.now()
         )
+
+        app_id = await self.db.application.add(new_app_data)
+        await self.db.commit()
         return {"app_id": app_id}
 
-
     async def update_application_status(self, data: ApplicationStatusUpdate, manager_id: UUID):
-        try:
-            if not await self._is_manager(manager_id):
-                raise InsufficientPermissionsException("У вас недостаточно прав")
+        # Проверка прав менеджера
+        if not await self.db.application.is_user_manager(manager_id):
+            raise AccessDeniedHTTPException()
 
-            updated = await self.db.application.update_application_status(
-                client_id=data.user_id,
-                status=data.status
+        # Получаем заявку
+        applications = await self.db.application.get_filtered(id=data.app_id)
+        if not applications:
+            raise ObjectNotFoundException()
+        application = applications[0]
+
+        # Обновляем статус заявки
+        application.status = data.status
+        await self.db.application.edit(application, **{"id": data.app_id})
+        await self.db.commit()
+
+        # Логика для связи клиент-менеджер
+        client_id = application.client_id
+        logger.debug(f"Обработка связи для client_id={client_id}, mentor_id={manager_id}, status={data.status}")
+
+        if data.status is True:
+            # Создаем или активируем связь
+            existing_relation = await self.db.clients.get_one_or_none(
+                client_id=client_id,
+                mentor_id=manager_id
             )
 
-            if not updated:
-                raise ForUserNotFoundException("Заявка не найдена или не принадлежит пользователю")
+            if not existing_relation:
+                logger.debug("Создание новой связи")
+                new_client = ClientSchema(
+                    id=uuid.uuid4(),
+                    client_id=client_id,
+                    mentor_id=manager_id,
+                    text=application.text,
+                    status=True
+                )
+                try:
+                    await self.db.clients.add(new_client)
+                    await self.db.commit()
+                except ObjectAlreadyExistsException:
+                    logger.debug("Связь уже существует, активируем")
+                    await self.db.clients.edit(
+                        data=ClientSchema(status=True),
+                        client_id=client_id,
+                        mentor_id=manager_id
+                    )
+                    await self.db.commit()
+                except Exception as e:
+                    logger.error(f"Ошибка при создании связи: {e}")
+                    await self.db.rollback()
+                    raise ObjectNotFoundException("Ошибка при создании связи")
 
-            return {"status": "OK", "message": "Статус обновлен"}
-        except UserNotFoundException as e:
-            raise UserNotFoundException(str(e))
-        except ForUserNotFoundException as e:
-            raise ForUserNotFoundException(str(e))
-        except Exception as e:
-            raise ObjectNotFoundException(f"Системная ошибка: {str(e)}")
+        elif data.status is False:
+            # Деактивируем или удаляем связь
+            logger.debug("Попытка удаления связи")
+            try:
+                # В зависимости от вашей логики - либо delete, либо edit(status=False)
+                await self.db.clients.delete(
+                    client_id=client_id,
+                    mentor_id=manager_id
+                )
+                # Или если нужно сохранить историю:
+                # await self.db.clients.edit(
+                #     data=ClientSchema(status=False),
+                #     client_id=client_id,
+                #     mentor_id=manager_id
+                # )
+                await self.db.commit()
+            except Exception as e:
+                logger.error(f"Ошибка при удалении связи: {e}")
+                await self.db.rollback()
+                raise ObjectNotFoundException("Ошибка при удалении связи")
 
-
-    async def _is_manager(self, user_id: UUID) -> bool:
-        return await self.db.application.is_user_manager(user_id)
-
-
-    async def _get_username(self, user_id: UUID) -> str:
-        user = await self.db.users.get_one_or_none(id=user_id)
-        return user.username if user else "Unknown"
+        return {
+            "status": "OK",
+            "message": "Статус заявки обновлен",
+        }

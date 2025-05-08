@@ -1,33 +1,36 @@
 import uuid
 from datetime import date
+import datetime
+from typing import List
 from pydantic import BaseModel
 
 
 class ApplicationCreate(BaseModel):
-    user_id: uuid.UUID
+    manager_id: uuid.UUID
     text: str
+    inquiry: List[int]
 
 
-class ApplicationShortResponse(BaseModel):
-    app_id: uuid.UUID
+class Application(BaseModel):
+    id: uuid.UUID
     client_id: uuid.UUID
-    username: str
+    manager_id: uuid.UUID
+    status: bool
     text: str
-    online: bool
-    problem_id: uuid.UUID | None
-    problem: str | None
+    inquiry: List[int]
+    created_at: datetime.datetime
 
 
-class ApplicationFullResponse(BaseModel):
-    app_id: uuid.UUID
+class ApplicationResponse(BaseModel):
+    id: uuid.UUID
     client_id: uuid.UUID
-    is_active: bool
-    username: str
-    birth_date: date | None
-    gender: str | None
+    manager_id: uuid.UUID
+    status: bool
     text: str
+    inquiry: List[int]
+    created_at: datetime.datetime
 
 
 class ApplicationStatusUpdate(BaseModel):
-    user_id: uuid.UUID
+    app_id: uuid.UUID
     status: bool

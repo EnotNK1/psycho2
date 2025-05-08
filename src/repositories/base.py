@@ -1,4 +1,6 @@
-from sqlalchemy import select, insert, delete, update, func
+import uuid
+
+from sqlalchemy import select, insert, delete, update
 from sqlalchemy.exc import NoResultFound, IntegrityError
 from pydantic import BaseModel
 from asyncpg.exceptions import UniqueViolationError
@@ -15,10 +17,11 @@ from datetime import date, datetime
 
 class BaseRepository:
     model = None
-    mapper: DataMapper = None
+    mapper_class = None
 
     def __init__(self, session):
         self.session = session
+        self.mapper = self.mapper_class() if self.mapper_class else None
 
     async def get_filtered(self, *filter, **filtered_by):
         query = select(self.model).filter(*filter).filter_by(**filtered_by)
@@ -92,3 +95,5 @@ class BaseRepository:
     async def delete(self, **filter_by):
         delete_stmt = delete(self.model).filter_by(**filter_by)
         await self.session.execute(delete_stmt)
+
+

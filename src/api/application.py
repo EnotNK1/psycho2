@@ -23,56 +23,43 @@ from src.exceptions import (
 router = APIRouter(prefix="/applications", tags=["Заявки"])
 
 
-@router.get("")
+@router.get("", summary="Получить список заявок")
 async def get_applications(
-    db: DBDep,
-    user_id: UserIdDep
+        db: DBDep,
+        user_id: UserIdDep
 ):
-    try:
-        return await ApplicationService(db).get_applications(user_id)
-    except InsufficientPermissionsException:
-        raise InsufficientPermissionsHTTPException
+    return await ApplicationService(db).get_applications(user_id)
 
 
-@router.get("/{app_id}")
+@router.get("/{app_id}", summary="Получить заявку по app_id")
 async def get_application(
-    app_id: UUID,
-    db: DBDep,
-    user_id: UserIdDep
+        app_id: UUID,
+        db: DBDep
 ):
     try:
-        return await ApplicationService(db).get_application(app_id, user_id)
-    except InsufficientPermissionsException:
-        raise InsufficientPermissionsHTTPException
+        return await ApplicationService(db).get_application(app_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+
+@router.post("", summary="Создание заявки")
+async def add_application(
+        data: ApplicationCreate,
+        db: DBDep,
+        user_id: UserIdDep
+):
+    try:
+        return await ApplicationService(db).add_application(data, user_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
 
-@router.post("")
-async def add_application(
-    data: ApplicationCreate,
-    db: DBDep,
-    user_id: UserIdDep
-):
-    try:
-        return await ApplicationService(db).add_application(data, user_id)
-    except ManagerNotFoundException:
-        raise ManagerNotFoundHTTPException
-
-
-@router.post("/status")
+@router.patch("/{app_id}/confirm", summary="Изменение статуса заявки")
 async def update_application_status(
-    data: ApplicationStatusUpdate,
-    db: DBDep,
-    user_id: UserIdDep
+        data: ApplicationStatusUpdate,
+        db: DBDep,
+        user_id: UserIdDep
 ):
     try:
         return await ApplicationService(db).update_application_status(data, user_id)
-    except InsufficientPermissionsException:
-        raise InsufficientPermissionsHTTPException
-    except UserNotFoundException:
-        raise UserNotFoundHTTPException
-    except ForUserNotFoundException:
-        raise ForUserNotFoundHTTPException
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
