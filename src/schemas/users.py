@@ -58,3 +58,9 @@ class PasswordChangeRequest(BaseModel):
     token: str
     password: str
     confirm_new_password: str
+
+
+class UserBase(BaseModel):
+    email: EmailStr
+    username: str
+    role_id: int
