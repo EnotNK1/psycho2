@@ -2,6 +2,7 @@ from src.repositories.review import ReviewRepository
 from src.repositories.users import UsersRepository
 from src.repositories.diary import DiaryRepository
 from src.repositories.mood_tracker import MoodTrackerRepository
+from src.repositories.exercise import ExerciseRepository
 
 
 class DBManager:
@@ -12,6 +13,7 @@ class DBManager:
         self.session = self.session_factory()
 
         self.users = UsersRepository(self.session)
+        self.exercise = ExerciseRepository(self.session)
         self.review = ReviewRepository(self.session)
         self.diary = DiaryRepository(self.session)
         self.mood_tracker = MoodTrackerRepository(self.session)

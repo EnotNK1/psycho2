@@ -3,7 +3,7 @@ import logging
 import sys
 from pathlib import Path
 
-from src.database import engine, Base
+from database import engine, Base
 
 sys.path.append(str(Path(__file__).parent.parent))
 from contextlib import asynccontextmanager
@@ -17,6 +17,7 @@ from src.api.auth import router as router_auth
 from src.api.review import router as router_review
 from src.api.diary import router as router_diary
 from src.api.mood_tracker import router as router_mood_tracker
+from src.api.exercise import router as router_exercise
 
 from src.init import redis_manager
 
@@ -40,6 +41,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(router_auth)
+app.include_router(router_exercise)
 app.include_router(router_review)
 app.include_router(router_diary)
 app.include_router(router_mood_tracker)
