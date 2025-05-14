@@ -2,6 +2,8 @@ import logging
 import uuid
 from typing import Optional, Dict, Any
 
+from fastapi import HTTPException
+
 from src.exceptions import ObjectNotFoundException, MyAppException
 from src.schemas.client import ClientGet
 from src.services.base import BaseService
@@ -66,7 +68,59 @@ class ClientService(BaseService):
             logger.error(f"Ошибка при получении клиента: {ex}")
             raise MyAppException()
 
+    async def get_my_psychologist(self, client_id: uuid.UUID) -> dict:
+        try:
+            # 1. Находим активную связь клиент-ментор
+            relation = await self.db.clients.get_one_or_none(
+                client_id=client_id,
+                status=True
+            )
 
+            if not relation:
+                raise HTTPException(
+                    status_code=404,
+                    detail="У вас нет назначенного ментора"
+                )
+
+            # 2. Получаем данные ментора
+            mentor = await self.db.users.get_one(id=relation.mentor_id)
+            if not mentor:
+                raise HTTPException(
+                    status_code=404,
+                    detail="Ментор не найден в системе"
+                )
+
+            # 3. Получаем заявки клиента к этому ментору
+            applications = await self.db.application.get_filtered(
+                client_id=client_id,
+                manager_id=mentor.id
+            )
+
+            # 4. Собираем все inquiry из заявок
+            inquiry_list = []
+            for app in applications:
+                if app.inquiry:  # Проверяем, что inquiry не пустой
+                    inquiry_list.extend(app.inquiry)
+
+            # Удаляем дубликаты, если нужно
+            unique_inquiry = list(set(inquiry_list)) if inquiry_list else []
+
+            # 5. Формируем ответ
+            return {
+                "id": mentor.id,
+                "username": mentor.username,
+                "is_active": mentor.is_active,
+                "inquiry": unique_inquiry  # Возвращаем уникальные inquiry
+            }
+
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Ошибка при получении ментора: {str(e)}")
+            raise HTTPException(
+                status_code=500,
+                detail="Произошла ошибка при получении информации о менторе"
+            )
 
 #     def getListClient(self, psyh_id):
 #         with session_factory() as session:

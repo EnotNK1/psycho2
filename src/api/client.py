@@ -20,7 +20,12 @@ async def get_client(
 ):
     return await ClientService(db).get_client(mentor_id, client_id)
 
-
+@router.get("/my-psychologist", summary="Получить информацию о своем менторе")
+async def get_my_psychologist(
+    db: DBDep,
+    client_id: UserIdDep
+):
+    return await ClientService(db).get_my_psychologist(client_id)
 
 # @router.get(
 #     "/psychologist/get_list_client",
