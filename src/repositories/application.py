@@ -8,7 +8,7 @@ from src.repositories.mappers.mappers import ApplicationDataMapper
 
 class ApplicationRepository(BaseRepository):
     model = ApplicationOrm
-    mapper_class = ApplicationDataMapper
+    mapper = ApplicationDataMapper
 
     async def is_user_manager(self, user_id: UUID) -> bool:
         query = select(UsersOrm.role_id).where(UsersOrm.id == user_id)

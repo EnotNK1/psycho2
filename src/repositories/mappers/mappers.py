@@ -51,14 +51,15 @@ class TestDataMapper(DataMapper):
     db_model = TestOrm
     schema = Test
 
-    def map_to_domain_entity(self, db_model) -> schema:
+    @staticmethod
+    def map_to_domain_entity(model) -> schema:
         # Преобразуем только простые поля, игнорируя асинхронные отношения
         return Test(
-            id=db_model.id,
-            title=db_model.title,
-            description=db_model.description,
-            short_desc=db_model.short_desc,
-            link=db_model.link,
+            id=model.id,
+            title=model.title,
+            description=model.description,
+            short_desc=model.short_desc,
+            link=model.link,
             # Игнорируем асинхронные отношения
             test_result=[],
             question=[],
@@ -70,13 +71,14 @@ class ScaleDataMapper(DataMapper):
     db_model = ScaleOrm
     schema = Scale
 
-    def map_to_domain_entity(self, db_model) -> schema:
+    @staticmethod
+    def map_to_domain_entity(model) -> schema:
         return Scale(
-            id=db_model.id,
-            title=db_model.title,
-            min=db_model.min,
-            max=db_model.max,
-            test_id=db_model.test_id,
+            id=model.id,
+            title=model.title,
+            min=model.min,
+            max=model.max,
+            test_id=model.test_id,
             scale_result=[],  # По умолчанию пустой список
             borders=[],  # По умолчанию пустой список
         )
@@ -86,15 +88,16 @@ class BordersDataMapper(DataMapper):
     db_model = BordersOrm
     schema = Borders
 
-    def map_to_domain_entity(self, db_model) -> schema:
+    @staticmethod
+    def map_to_domain_entity(model) -> schema:
         return Borders(
-            id=db_model.id,
-            left_border=db_model.left_border,
-            right_border=db_model.right_border,
-            color=db_model.color,
-            title=db_model.title,
-            user_recommendation=db_model.user_recommendation,
-            scale_id=db_model.scale_id,
+            id=model.id,
+            left_border=model.left_border,
+            right_border=model.right_border,
+            color=model.color,
+            title=model.title,
+            user_recommendation=model.user_recommendation,
+            scale_id=model.scale_id,
         )
 
 
@@ -102,25 +105,26 @@ class AnswerChoiceDataMapper(DataMapper):
     db_model = AnswerChoiceOrm
     schema = AnswerChoice
 
-    def map_to_domain_entity(self, db_model: AnswerChoiceOrm) -> AnswerChoice:
+    @staticmethod
+    def map_to_domain_entity(model: AnswerChoiceOrm) -> AnswerChoice:
         return AnswerChoice(
-            id=db_model.id,
-            text=db_model.text,
-            score=db_model.score
+            id=model.id,
+            text=model.text,
+            score=model.score
         )
 
 
 class QuestionDataMapper(DataMapper):
     db_model = QuestionOrm
     schema = Question
-
-    def map_to_domain_entity(self, db_model: QuestionOrm) -> Question:
+    @staticmethod
+    def map_to_domain_entity(model: QuestionOrm) -> Question:
         return Question(
-            id=db_model.id,
-            text=db_model.text,
-            number=db_model.number,
-            test_id=db_model.test_id,
-            answer_choice=db_model.answer_choice  # Список ID ответов
+            id=model.id,
+            text=model.text,
+            number=model.number,
+            test_id=model.test_id,
+            answer_choice=model.answer_choice  # Список ID ответов
         )
 
 
@@ -143,8 +147,8 @@ class ClientsDataMapper(DataMapper):
     db_model = ClientsOrm
     schema = User
 
-    @classmethod
-    def map_to_domain_entity(cls, model):
+    @staticmethod
+    def map_to_domain_entity(model) -> ClientSchema:
         return ClientSchema(
             id=model.id,
             client_id=model.client_id,

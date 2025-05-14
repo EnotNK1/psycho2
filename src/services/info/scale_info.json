@@ -1,50 +1,232 @@
 [
   {
     "id": "ebe230f9-ea6c-4534-9e0d-32a6ea14027f",
-    "title": "Определение уровня выгорания на работе",
+    "title": "Эмоциональное истощение",
     "min": 0,
-    "max": 54
+    "max": 54,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b"
   },
+  {
+    "id": "ebe230f9-ea6c-4534-9e0d-32a6ea14028f",
+    "title": "Деперсонализация",
+    "min": 0,
+    "max": 30,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b"
+  },
+  {
+    "id": "ebe230f9-ea6c-4534-9e0d-32a6ea14029f",
+    "title": "Редукция проф. достижений",
+    "min": 0,
+    "max": 48,
+    "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b"
+  },
+
   {
     "id": "ae02a66a-affd-4226-9c5f-f8bbde5c5b8f",
-    "title": "Общая оценка стресса, тревоги и депрессии",
+    "title": "Стресс",
     "min": 0,
-    "max": 28
+    "max": 28,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21"
   },
+  {
+    "id": "ae02a66a-affd-4226-9c5f-f8bbde5c5b9f",
+    "title": "Тревога",
+    "min": 0,
+    "max": 28,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21"
+  },
+  {
+    "id": "ae02a66a-affd-4226-9c5f-f8bbde5c5b0f",
+    "title": "Депрессия",
+    "min": 0,
+    "max": 28,
+    "test_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21"
+  },
+
+
   {
     "id": "b0b01675-4831-4857-bb72-0d1e2b270760",
-    "title": "Проверьте уровень тревожности",
+    "title": "Шкала ситуативной тревожности",
     "min": 20,
-    "max": 80
+    "max": 80,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25"
   },
+  {
+    "id": "b0b01675-4831-4857-bb72-0d1e2b270761",
+    "title": "Шкала личностной тревожности",
+    "min": 20,
+    "max": 80,
+    "test_id": "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25"
+  },
+
+
   {
     "id": "2c1c7c90-ed0b-490d-a5fa-37e114ec98d5",
-    "title": "Узнайте, как вы справляетесь со стрессом",
+    "title": "Разрешение проблем",
     "min": 0,
-    "max": 99
+    "max": 99,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba"
   },
+  {
+    "id": "2c1c7c90-ed0b-490d-a5fa-37e114ec98d6",
+    "title": "Поиск социальной поддержки",
+    "min": 0,
+    "max": 99,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba"
+  },
+  {
+    "id": "2c1c7c90-ed0b-490d-a5fa-37e114ec98d7",
+    "title": "Избегание проблем",
+    "min": 0,
+    "max": 99,
+    "test_id": "f45c4528-ce69-4683-822a-91ffc52d55ba"
+  },
+
+
+
+
   {
     "id": "cc0f0a08-8984-42cf-b31a-5c2fdf8aaa36",
-    "title": "Найди свои ошибки мышления",
-    "min": 1,
-    "max": 180
+    "title": "Шкала когнитивных ошибок",
+    "min": 45,
+    "max": 180,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a"
   },
+  {
+    "id": "cc0f0a08-8984-42cf-b31a-5c2fdf8aaa37",
+    "title": "Персонализация",
+    "min": 1,
+    "max": 4,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a"
+  },
+  {
+    "id": "cc0f0a08-8984-42cf-b31a-5c2fdf8aaa38",
+    "title": "Чтение мыслей",
+    "min": 1,
+    "max": 4,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a"
+  },
+  {
+    "id": "cc0f0a08-8984-42cf-b31a-5c2fdf8aaa39",
+    "title": "Упрямство",
+    "min": 1,
+    "max": 4,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a"
+  },
+  {
+    "id": "cc0f0a08-8984-42cf-b31a-5c2fdf8aaa30",
+    "title": "Морализация",
+    "min": 1,
+    "max": 4,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a"
+  },
+  {
+    "id": "cc0f0a08-8984-42cf-b31a-5c2fdf8aaa31",
+    "title": "Катастрофизация",
+    "min": 1,
+    "max": 4,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a"
+  },
+  {
+    "id": "cc0f0a08-8984-42cf-b31a-5c2fdf8aaa32",
+    "title": "Выученная беспомощность",
+    "min": 1,
+    "max": 4,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a"
+  },
+  {
+    "id": "cc0f0a08-8984-42cf-b31a-5c2fdf8aaa33",
+    "title": "Максимализм",
+    "min": 1,
+    "max": 4,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a"
+  },
+  {
+    "id": "cc0f0a08-8984-42cf-b31a-5c2fdf8aaa34",
+    "title": "Преувеличение опасности",
+    "min": 1,
+    "max": 4,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a"
+  },
+  {
+    "id": "cc0f0a08-8984-42cf-b31a-5c2fdf8aaa35",
+    "title": "Гипернормативность",
+    "min": 1,
+    "max": 4,
+    "test_id": "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a"
+  },
+
+
+
+
+
   {
     "id": "5cd5e9b7-279d-4d19-993e-9debb99b91b1",
-    "title": "Проверьте уровень депрессии",
+    "title": "Шкала депрессии",
     "min": 0,
-    "max": 63
+    "max": 63,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d"
   },
+  {
+    "id": "5cd5e9b7-279d-4d19-993e-9debb99b91b2",
+    "title": "Когнитивно-аффективная субшкала",
+    "min": 0,
+    "max": 39,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d"
+  },
+  {
+    "id": "5cd5e9b7-279d-4d19-993e-9debb99b91b3",
+    "title": "Субшкала соматических проявлений депрессии",
+    "min": 0,
+    "max": 24,
+    "test_id": "33d10952-aed7-4a4e-9e5a-dbd01b2f294d"
+  },
+
+
+
   {
     "id": "b3e5bf7f-76e7-4781-9c95-d6e69a82b7ca",
-    "title": "Оцени свой уровень апатии на работе",
-    "min": 5,
-    "max": 50
+    "title": "Шкала профессиональной апатии",
+    "min": 10,
+    "max": 50,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af"
   },
   {
+    "id": "b3e5bf7f-76e7-4781-9c95-d6e69a82b2ca",
+    "title": "Апатичные мысли",
+    "min": 5,
+    "max": 25,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af"
+  },
+  {
+    "id": "b3e5bf7f-76e7-4781-9c95-d6e69a82b3ca",
+    "title": "Апатичные действия",
+    "min": 5,
+    "max": 25,
+    "test_id": "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af"
+  },
+
+
+
+  {
     "id": "27346179-2bf2-42a7-a83e-26dfe3e971ed",
-    "title": "Насколько вы стрессоустойчивы?",
+    "title": "Шкала воспринимаемого стресса",
     "min": 0,
-    "max": 40
+    "max": 40,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a"
+  },
+  {
+    "id": "27346179-2bf2-42a7-a83e-26dfe3e972ed",
+    "title": "Фактор дистресса",
+    "min": 0,
+    "max": 24,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a"
+  },
+  {
+    "id": "27346179-2bf2-42a7-a83e-26dfe3e973ed",
+    "title": "Фактор совладания",
+    "min": 0,
+    "max": 16,
+    "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a"
   }
 ]

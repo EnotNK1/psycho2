@@ -8,6 +8,6 @@ from src.repositories.mappers.mappers import ScaleResultDataMapper
 
 class ScaleResultRepository(BaseRepository):
     model = ScaleResultOrm
-    mapper_class  = ScaleResultDataMapper
+    mapper  = ScaleResultDataMapper
 
 

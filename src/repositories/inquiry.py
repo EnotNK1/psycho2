@@ -10,7 +10,7 @@ from src.schemas.inquiry import Inquiry
 
 class InquiryRepository(BaseRepository):
     model = InquiryOrm
-    mapper_class = InquiryDataMapper
+    mapper = InquiryDataMapper
 
     async def load_inquiries_to_db(self):
         # Загружаем данные из JSON

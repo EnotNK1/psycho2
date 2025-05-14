@@ -61,8 +61,7 @@ async def answers_by_question_id(
         db: DBDep
 ):
     try:
-        test_service = TestService(db)
-        return await test_service.answers_by_question_id(test_id, question_id)
+        return await TestService(db).answers_by_question_id(test_id, question_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
@@ -106,8 +105,7 @@ async def get_test_result_by_id(
         db: DBDep
 ):
     try:
-        test_service = TestService(db)
-        return await test_service.get_test_result_by_id(result_id)
+        return await TestService(db).get_test_result_by_id(result_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
@@ -117,18 +115,16 @@ async def get_passed_tests_by_user(
         db: DBDep
 ):
     try:
-        test_service = TestService(db)
-        return await test_service.get_passed_tests_by_user(user_id)
+        return await TestService(db).get_passed_tests_by_user(user_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-@router.get("/passed", summary="Получение всех пройденных тестов для текущего пользователя")
+@router.get("/passed/user", summary="Получение всех пройденных тестов для текущего пользователя")
 async def get_passed_tests(
         user_id: UserIdDep,  # Извлекаем user_id из токена
         db: DBDep
 ):
-    test_service = TestService(db)
-    return await test_service.get_passed_tests_by_user(user_id)
+    return await TestService(db).get_passed_tests_by_user(user_id)
 
 
 @images_router.get("/{file_path:path}", summary="Получение изображения по пути, пример images/img_1.png")

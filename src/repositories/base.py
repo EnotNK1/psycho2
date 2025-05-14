@@ -17,11 +17,11 @@ from datetime import date, datetime
 
 class BaseRepository:
     model = None
-    mapper_class = None
+    mapper = None
 
     def __init__(self, session):
         self.session = session
-        self.mapper = self.mapper_class() if self.mapper_class else None
+
 
     async def get_filtered(self, *filter, **filtered_by):
         query = select(self.model).filter(*filter).filter_by(**filtered_by)

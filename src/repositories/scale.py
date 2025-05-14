@@ -12,5 +12,5 @@ from src.schemas.tests import Scale, ScaleAdd
 
 class ScalesRepository(BaseRepository):
     model = ScaleOrm
-    mapper_class  = ScaleDataMapper
+    mapper = ScaleDataMapper
 

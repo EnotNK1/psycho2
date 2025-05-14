@@ -7,7 +7,9 @@ from src.repositories.clients import ClientsRepository
 from src.repositories.inquiry import InquiryRepository
 from src.repositories.questions import QuestionRepository
 from src.repositories.scale import ScalesRepository
+from src.repositories.scale_result import ScaleResultRepository
 from src.repositories.tasks import TasksRepository
+from src.repositories.test_result import TestResultRepository
 from src.repositories.tests import TestsRepository
 from src.repositories.review import ReviewRepository
 from src.repositories.users import UsersRepository
@@ -36,7 +38,8 @@ class DBManager:
         self.review = ReviewRepository(self.session)
         self.diary = DiaryRepository(self.session)
         self.mood_tracker = MoodTrackerRepository(self.session)
-
+        self.test_result = TestResultRepository(self.session)
+        self.scale_result = ScaleResultRepository(self.session)
         return self
 
     async def __aexit__(self, *args):

@@ -8,5 +8,5 @@ from src.repositories.mappers.mappers import BordersDataMapper
 
 class BordersRepository(BaseRepository):
     model = BordersOrm
-    mapper_class  = BordersDataMapper
+    mapper  = BordersDataMapper
 

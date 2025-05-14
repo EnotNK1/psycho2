@@ -39,7 +39,7 @@ class ManagerService(BaseService):
 
     async def get_all_manager(self):
         # Используем get_all с фильтром по role_id=2
-        managers = await self.db.users.get_all_by_filter(role_id=2)
+        managers = await self.db.users.get_filtered(role_id=2)
         return managers
 
     # async def task(self, mentor_id: str, data: TaskRequest):
