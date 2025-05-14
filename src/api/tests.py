@@ -6,10 +6,11 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
-from src.exceptions import ObjectNotFoundHTTPException, ObjectNotFoundException
+from src.exceptions import ObjectNotFoundHTTPException, ObjectNotFoundException, MyAppException, MyAppHTTPException, \
+    InternalErrorHTTPException
 from src.schemas.tests import TestResultRequest
 from src.services.tests import TestService
-
+logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/tests", tags=["Тесты"])
 images_router = APIRouter(prefix="/images", tags=["Изображения"])
 
@@ -83,8 +84,17 @@ async def save_result(
         db: DBDep,
         user_id: UserIdDep,
 ):
-    test_service = TestService(db)
-    return await test_service.save_result(test_result_data, user_id)
+        try:
+            return await TestService(db).save_result(test_result_data, user_id)
+        except MyAppHTTPException as e:
+        # Для наших кастомных HTTP исключений
+            raise e
+        except HTTPException as e:
+        # Для стандартных FastAPI HTTP исключений
+            raise e
+        except Exception as e:
+            logger.error(f"Необработанная ошибка: {str(e)}", exc_info=True)
+            raise InternalErrorHTTPException()
 
 
 @router.get("/{test_id}/results/{user_id}", summary="Получение результата теста по test_id и user_id")

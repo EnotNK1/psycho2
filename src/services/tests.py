@@ -5,7 +5,8 @@ import logging
 
 from typing import Dict, Any, Optional
 
-
+from fastapi import HTTPException
+from fastapi import status
 from src.models import AnswerChoiceOrm, ScaleResultOrm, TestResultOrm, ScaleOrm
 
 from src.schemas.tests import TestAdd, ScaleAdd, BordersAdd, AnswerChoice, Question, TestResultRequest, \
@@ -14,7 +15,7 @@ from src.services.base import BaseService
 from src.exceptions import (
     ObjectAlreadyExistsException,
     ObjectNotFoundException,
-    MyAppException,
+    MyAppException, ValidationError,
 )
 from src.services.calculator import calculator_service
 from src.services.inquiry import InquiryService
@@ -335,29 +336,40 @@ class TestService(BaseService):
             # 1. Проверка существования теста
             test = await self.db.tests.get_one(id=test_result_data.test_id)
             if not test:
-                logger.error(f"Тест с ID {test_result_data.test_id} не найден")
-                raise ObjectNotFoundException("Тест не найден")
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Тест не найден"
+                )
 
             # 2. Проверка наличия вопросов для теста
             questions = await self.db.question.get_filtered(test_id=test_result_data.test_id)
             if not questions:
-                logger.error(f"Для теста {test_result_data.test_id} не найдены вопросы")
-                raise ObjectNotFoundException("Для теста не найдены вопросы")
-
-            # 3. Проверка соответствия количества ответов количеству вопросов
-            if len(test_result_data.results) != len(questions):
-                error_msg = (
-                    f"Неверное количество ответов. Ожидается {len(questions)}, "
-                    f"получено {len(test_result_data.results)}"
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Для теста не найдены вопросы"
                 )
-                logger.error(error_msg)
-                raise MyAppException(error_msg)
+
+            # 3. Проверка соответствия количества ответов
+            expected_count = len(questions)
+            received_count = len(test_result_data.results)
+            if received_count != expected_count:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail={
+                        "error": "Неверное количество ответов",
+                        "message": f"Ожидается {expected_count} ответов, получено {received_count}",
+                        "expected": expected_count,
+                        "received": received_count
+                    }
+                )
 
             # 4. Проверка наличия шкал для теста
             scales = await self.db.scales.get_filtered(test_id=test_result_data.test_id)
             if not scales:
-                logger.error(f"Для теста {test_result_data.test_id} не найдены шкалы")
-                raise ObjectNotFoundException("Для теста не найдены шкалы")
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Для теста не найдены шкалы"
+                )
 
             # 5. Получение метода расчета на основе названия теста
             calculation_methods = {
@@ -373,30 +385,30 @@ class TestService(BaseService):
 
             calculate_method = calculation_methods.get(test.title)
             if not calculate_method:
-                error_msg = f"Не найден метод расчета для теста '{test.title}'"
-                logger.error(error_msg)
-                raise MyAppException(error_msg)
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Не найден метод расчета для теста"
+                )
 
-            # 6. Расчет результатов
             try:
                 scale_sum_list = calculate_method(test_result_data.results)
                 logger.info(f"Рассчитанные результаты: {scale_sum_list}")
             except Exception as e:
-                logger.error(f"Ошибка расчета результатов: {str(e)}", exc_info=True)
-                raise MyAppException("Ошибка расчета результатов теста")
-
-            # 7. Проверка соответствия результатов количеству шкал
-            if len(scale_sum_list) != len(scales):
-                error_msg = (
-                    f"Количество результатов ({len(scale_sum_list)}) "
-                    f"не соответствует количеству шкал ({len(scales)})"
+                logger.error(f"Ошибка расчета: {str(e)}", exc_info=True)
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Ошибка расчета результатов"
                 )
-                logger.error(error_msg)
-                raise MyAppException(error_msg)
 
-            # 8. Сохранение результатов (без создания новой транзакции)
+            # 6. Проверка соответствия результатов количеству шкал
+            if len(scale_sum_list) != len(scales):
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Количество результатов не соответствует количеству шкал"
+                )
+
+            # 7. Сохранение результатов
             try:
-                # Создаем запись о результате теста
                 test_res_id = uuid.uuid4()
                 test_res = TestResultOrm(
                     id=test_res_id,
@@ -409,19 +421,26 @@ class TestService(BaseService):
 
                 result = []
                 for scale, score in zip(scales, scale_sum_list):
-                    # Проверяем границы значений шкалы
+                    # Проверка границ значений
                     if score < scale.min or score > scale.max:
-                        raise MyAppException(
-                            f"Результат {score} выходит за границы шкалы '{scale.title}' "
-                            f"({scale.min}-{scale.max})"
+                        raise HTTPException(
+                            status_code=status.HTTP_400_BAD_REQUEST,
+                            detail={
+                                "error": "Результат вне границ шкалы",
+                                "message": f"Результат {score} выходит за границы шкалы '{scale.title}' ({scale.min}-{scale.max})",
+                                "score": score,
+                                "min": scale.min,
+                                "max": scale.max
+                            }
                         )
 
-                    # Получаем границы интерпретации
                     borders = await self.db.borders.get_filtered(scale_id=scale.id)
                     if not borders:
-                        raise MyAppException(f"Для шкалы '{scale.title}' не найдены границы интерпретации")
+                        raise HTTPException(
+                            status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Для шкалы '{scale.title}' не найдены границы интерпретации"
+                        )
 
-                    # Создаем запись результата по шкале
                     scale_result = ScaleResultOrm(
                         id=uuid.uuid4(),
                         score=score,
@@ -430,11 +449,10 @@ class TestService(BaseService):
                     )
                     self.db.session.add(scale_result)
 
-                    # Находим соответствующую интерпретацию
                     for border in borders:
                         if border.left_border <= score <= border.right_border:
                             result.append({
-                                "scale_id": scale.id,
+                                "scale_id": str(scale.id),
                                 "scale_title": scale.title,
                                 "score": score,
                                 "conclusion": border.title,
@@ -443,29 +461,36 @@ class TestService(BaseService):
                             })
                             break
                     else:
-                        raise MyAppException(f"Не найден интервал для значения {score} в шкале '{scale.title}'")
+                        raise HTTPException(
+                            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail=f"Не найден интервал для значения {score} в шкале '{scale.title}'"
+                        )
 
                 await self.db.session.commit()
-
                 return {
-                    "test_result_id": test_res_id,
+                    "test_result_id": str(test_res_id),
                     "result": result
                 }
 
-            except Exception as ex:
+            except HTTPException:
                 await self.db.session.rollback()
-                logger.error(f"Ошибка сохранения в БД: {str(ex)}", exc_info=True)
-                raise MyAppException(f"Ошибка сохранения результатов: {str(ex)}")
+                raise
+            except Exception as e:
+                await self.db.session.rollback()
+                logger.error(f"Ошибка сохранения: {str(e)}", exc_info=True)
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Ошибка сохранения результатов"
+                )
 
-        except ObjectNotFoundException as ex:
-            logger.error(f"ObjectNotFoundException: {str(ex)}")
+        except HTTPException:
             raise
-        except MyAppException as ex:
-            logger.error(f"MyAppException: {str(ex)}")
-            raise
-        except Exception as ex:
-            logger.error(f"Неожиданная ошибка при сохранении результатов теста: {str(ex)}", exc_info=True)
-            raise MyAppException("Произошла ошибка при сохранении результатов теста")
+        except Exception as e:
+            logger.error(f"Неожиданная ошибка: {str(e)}", exc_info=True)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Произошла непредвиденная ошибка"
+            )
         
         
     async def get_test_result_by_user_and_test(
