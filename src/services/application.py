@@ -12,8 +12,7 @@ from src.schemas.users import ClientSchema
 from src.services.base import BaseService
 from src.schemas.application import (
     ApplicationCreate,
-    ApplicationResponse,
-    ApplicationStatusUpdate, Application
+    ApplicationResponse, Application
 )
 logger = logging.getLogger(__name__)
 
@@ -74,27 +73,27 @@ class ApplicationService(BaseService):
         await self.db.commit()
         return {"app_id": app_id}
 
-    async def update_application_status(self, data: ApplicationStatusUpdate, manager_id: UUID):
+    async def update_application_status(self, app_id: UUID, manager_id: UUID):
         # Проверка прав менеджера
         if not await self.db.application.is_user_manager(manager_id):
             raise AccessDeniedHTTPException()
 
         # Получаем заявку
-        applications = await self.db.application.get_filtered(id=data.app_id)
+        applications = await self.db.application.get_filtered(id=app_id)
         if not applications:
             raise ObjectNotFoundException()
         application = applications[0]
 
         # Обновляем статус заявки
-        application.status = data.status
-        await self.db.application.edit(application, **{"id": data.app_id})
+        application.status = not application.status
+        await self.db.application.edit(application, **{"id": app_id})
         await self.db.commit()
 
         # Логика для связи клиент-менеджер
         client_id = application.client_id
-        logger.debug(f"Обработка связи для client_id={client_id}, mentor_id={manager_id}, status={data.status}")
+        logger.debug(f"Обработка связи для client_id={client_id}, mentor_id={manager_id}, status={application.status}")
 
-        if data.status is True:
+        if application.status is True:
             # Создаем или активируем связь
             existing_relation = await self.db.clients.get_one_or_none(
                 client_id=client_id,
@@ -126,7 +125,7 @@ class ApplicationService(BaseService):
                     await self.db.rollback()
                     raise ObjectNotFoundException("Ошибка при создании связи")
 
-        elif data.status is False:
+        elif application.status is False:
             # Деактивируем или удаляем связь
             logger.debug("Попытка удаления связи")
             try:

@@ -30,7 +30,3 @@ class ApplicationResponse(BaseModel):
     inquiry: List[int]
     created_at: datetime.datetime
 
-
-class ApplicationStatusUpdate(BaseModel):
-    app_id: uuid.UUID
-    status: bool

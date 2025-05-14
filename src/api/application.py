@@ -3,8 +3,7 @@ from uuid import UUID
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 from src.schemas.application import (
-    ApplicationCreate,
-    ApplicationStatusUpdate
+    ApplicationCreate
 )
 from src.services.application import ApplicationService
 from src.exceptions import (
@@ -55,11 +54,11 @@ async def add_application(
 
 @router.patch("/{app_id}/confirm", summary="Изменение статуса заявки")
 async def update_application_status(
-        data: ApplicationStatusUpdate,
+        app_id: UUID,
         db: DBDep,
         user_id: UserIdDep
 ):
     try:
-        return await ApplicationService(db).update_application_status(data, user_id)
+        return await ApplicationService(db).update_application_status(app_id, user_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
