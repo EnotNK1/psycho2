@@ -21,3 +21,14 @@ class Task(BaseModel):
     mentor_id: uuid.UUID
     client_id: uuid.UUID
     is_complete: bool
+
+class GetMyTask(BaseModel):
+    id: uuid.UUID
+    text: str
+    test_title: str
+    test_id: uuid.UUID
+    mentor_id: uuid.UUID
+    is_complete: bool
+
+class TaskUpdate(BaseModel):
+    is_complete: bool

@@ -45,3 +45,11 @@ async def create_task_for_clients(
         mentor_id=mentor_id,
         client_ids=task_data.client_ids
     )
+
+@router.get("/my-assigned-tasks",
+           summary="Получить все созданные задачи")
+async def get_my_assigned_tasks(
+    db: DBDep,
+    mentor_id: UserIdDep
+):
+    return await ManagerService(db).get_mentor_tasks(mentor_id)

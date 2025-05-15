@@ -9,7 +9,7 @@ from src.repositories.tests import logger
 from src.schemas.task import Task
 from src.services.base import BaseService
 from src.exceptions import ObjectNotFoundException
-from src.schemas.users import UpdateUserRequest, UpdateManagerRequest, GetAllManagerRequest
+from src.schemas.users import UpdateUserRequest, UpdateManagerRequest
 
 
 class ManagerService(BaseService):
@@ -127,4 +127,30 @@ class ManagerService(BaseService):
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Произошла ошибка при создании задач"
+            )
+
+    async def get_mentor_tasks(self, mentor_id: uuid.UUID) -> list[Task]:
+        try:
+            # Получаем задачи из базы данных
+            tasks = await self.db.tasks.get_filtered(mentor_id=mentor_id)
+
+            # Преобразуем ORM-модели в Pydantic-схемы
+            return [
+                Task(
+                    id=task.id,
+                    text=task.text,
+                    test_title=task.test_title,
+                    test_id=task.test_id,
+                    mentor_id=task.mentor_id,
+                    client_id=task.client_id,
+                    is_complete=task.is_complete
+                )
+                for task in tasks
+            ]
+
+        except Exception as e:
+            logger.error(f"Ошибка при получении задач ментора: {str(e)}")
+            raise HTTPException(
+                status_code=500,
+                detail="Произошла ошибка при получении задач"
             )

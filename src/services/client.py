@@ -1,13 +1,13 @@
 import logging
 import uuid
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 
 from fastapi import HTTPException
 from fastapi import status
 from src.exceptions import ObjectNotFoundException, MyAppException
 from src.models.clients import TasksOrm
 from src.schemas.client import ClientGet
-from src.schemas.task import Task
+from src.schemas.task import Task, GetMyTask, TaskUpdate
 from src.services.base import BaseService
 
 logger = logging.getLogger(__name__)
@@ -125,20 +125,19 @@ class ClientService(BaseService):
             )
 
 
-    async def get_client_tasks(self, client_id: uuid.UUID) -> list[Task]:
+    async def get_client_tasks(self, client_id: uuid.UUID) -> list[GetMyTask]:
         try:
             # Получаем задачи из базы данных
             tasks = await self.db.tasks.get_filtered(client_id=client_id)
 
             # Преобразуем ORM-модели в Pydantic-схемы
             return [
-                Task(
+                GetMyTask(
                     id=task.id,
                     text=task.text,
                     test_title=task.test_title,
                     test_id=task.test_id,
                     mentor_id=task.mentor_id,
-                    client_id=task.client_id,
                     is_complete=task.is_complete
                 )
                 for task in tasks
@@ -149,4 +148,44 @@ class ClientService(BaseService):
             raise HTTPException(
                 status_code=500,
                 detail="Произошла ошибка при получении задач"
+            )
+
+    async def complete_task(self, task_id: uuid.UUID, client_id: uuid.UUID) -> dict:
+        try:
+            # 1. Получаем задачу
+            task = await self.db.tasks.get_one(id=task_id)
+            if not task:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Задача не найдена"
+                )
+
+            # 2. Проверяем, что задача принадлежит клиенту
+            if str(task.client_id) != str(client_id):
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Эта задача вам не принадлежит"
+                )
+
+            # 3. Обновляем статус задачи
+            await self.db.tasks.edit(
+                data=TaskUpdate(is_complete=True),
+                id=task_id
+            )
+            await self.db.commit()
+
+            return {
+                "status": "success",
+                "message": "Задача отмечена как выполненная",
+                "task_id": str(task_id)
+            }
+
+        except HTTPException:
+            raise
+        except Exception as e:
+            await self.db.session.rollback()
+            logger.error(f"Ошибка при обновлении задачи: {str(e)}")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Произошла ошибка при обновлении задачи"
             )
