@@ -113,25 +113,7 @@ class GetAllManagerRequest(BaseModel):
     face_to_face: Optional[bool] = None
 
 
-class TaskRequest(BaseModel):
-    text: str
-    client_id: uuid.UUID
-    test_id: uuid.UUID
 
-
-class TaskId(BaseModel):
-    task_id: uuid.UUID
-
-
-class GiveTaskAllClientRequest(BaseModel):
-    text: str
-    test_id: uuid.UUID
-
-
-class GiveTaskListClientRequest(BaseModel):
-    text: str
-    test_id: uuid.UUID
-    list_client: list[uuid.UUID]
 
 class ClientSchema(BaseModel):
     id: uuid.UUID
@@ -140,14 +122,6 @@ class ClientSchema(BaseModel):
     text: str
     status: bool
 
-class Task(BaseModel):
-    id: uuid.UUID
-    text: str
-    test_title: str
-    test_id: uuid.UUID
-    mentor_id: uuid.UUID
-    client_id: uuid.UUID
-    is_complete: bool
 
 class UserBase(BaseModel):
     email: EmailStr

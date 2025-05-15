@@ -10,8 +10,9 @@ from src.models.tests import TestOrm, QuestionOrm, AnswerChoiceOrm, ScaleResultO
 from src.repositories.mappers.base import DataMapper
 from src.schemas.application import ApplicationResponse
 from src.schemas.inquiry import Inquiry
+from src.schemas.task import TaskRequest, Task
 from src.schemas.tests import Test, Scale, TestResult, Question, AnswerChoice, ScaleResult, Borders
-from src.schemas.users import User, TaskRequest, ClientSchema, GetAllManagerRequest
+from src.schemas.users import User, ClientSchema, GetAllManagerRequest
 from src.models.application import ApplicationOrm
 from src.repositories.mappers.base import DataMapper
 from src.schemas.users import User
@@ -140,7 +141,7 @@ class ScaleResultDataMapper(DataMapper):
 
 class TasksDataMapper(DataMapper):
     db_model = TasksOrm
-    schema = TaskRequest
+    schema = Task
 
 
 class ClientsDataMapper(DataMapper):

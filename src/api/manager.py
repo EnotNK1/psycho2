@@ -6,8 +6,8 @@ from pydantic import BaseModel
 from src.api.dependencies.manager_id import ManagerIdDep
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
-from src.schemas.users import BecomeManagerRequest, GetAllManagerRequest, TaskRequest, GiveTaskListClientRequest, \
-    GiveTaskAllClientRequest
+from src.schemas.task import TaskRequest
+from src.schemas.users import BecomeManagerRequest
 from src.services.manager import ManagerService
 
 router = APIRouter(prefix="/managers", tags=["Менеджер"])
@@ -33,28 +33,15 @@ async def all_manager(
     return await ManagerService(db).get_all_manager()
 
 
-# @router.post("/task", summary="Дать задачу юзеру по user_id")
-# async def task(
-#         data: TaskRequest,
-#         mentor_id: ManagerIdDep,  # ID менеджера из токена
-#         db: DBDep
-# ):
-#     return await ManagerService(db).task(mentor_id, data)
-
-
-# @router.post("/tasks", summary="Дать задачу списку клиентов")
-# async def task_for_clients(
-#         data: GiveTaskListClientRequest,
-#         mentor_id: ManagerIdDep,  # ID менеджера из токена
-#         db: DBDep
-# ):
-#     return await ManagerService(db).task_for_clients(mentor_id, data)
-
-
-@router.post("/task-for-clients", summary="Дать задачу одному, всем или списку клиентов")
-async def task_for_clients(
-        data: GiveTaskListClientRequest,
-        mentor_id: ManagerIdDep,  # ID менеджера из токена
-        db: DBDep
+@router.post("/task-for-clients", summary="Создать задачу для клиентов")
+async def create_task_for_clients(
+    task_data: TaskRequest,
+    db: DBDep,
+    mentor_id: UserIdDep
 ):
-    return await ManagerService(db).task_for_clients(mentor_id, data)
+    return await ManagerService(db).create_task_for_clients(
+        text=task_data.text,
+        test_id=task_data.test_id,
+        mentor_id=mentor_id,
+        client_ids=task_data.client_ids
+    )
