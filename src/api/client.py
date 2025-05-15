@@ -35,7 +35,7 @@ async def get_my_tasks(
 ):
     return await ClientService(db).get_client_tasks(client_id)
 
-@router.patch("/complete-task", summary="Отметить задачу как выполненную")
+@router.patch("/complete-task", summary="Изменить статус задачи")
 async def complete_task(
     task_id: uuid.UUID,
     db: DBDep,

@@ -166,17 +166,16 @@ class ClientService(BaseService):
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail="Эта задача вам не принадлежит"
                 )
-
             # 3. Обновляем статус задачи
             await self.db.tasks.edit(
-                data=TaskUpdate(is_complete=True),
+                data=TaskUpdate(is_complete=not task.is_complete),
                 id=task_id
             )
             await self.db.commit()
 
             return {
                 "status": "success",
-                "message": "Задача отмечена как выполненная",
+                "message": "Статус задачи изменён",
                 "task_id": str(task_id)
             }
 
