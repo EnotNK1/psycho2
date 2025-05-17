@@ -1,6 +1,76 @@
 services:
+  odeyalo_back_service:
+    container_name: 'odeyalo-backend-app'
+    build:
+      context: .
+#    ports:
+#      - "8000:8000"
+    expose:
+      - "8000"
+    networks:
+      - odeyalo-network
+    env_file:
+      - .env
+
+  db:
+    container_name: odeyalo-backend-db
+    image: public.ecr.aws/docker/library/postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: psycho2
+    networks:
+      - odeyalo-network
+    volumes:
+      - ./db-data:/data
+    mac_address: 02:42:ac:18:00:02
+
+  odeyalo_celery_worker_service:
+    container_name: 'odeyalo_celery_worker'
+    build:
+      context: .
+    networks:
+      - odeyalo-network
+    env_file:
+      - .env
+    command: "celery --app=src.tasks.celery_app:celery_instance worker -l INFO"
+
+  odeyalo_celery_beat_service:
+    container_name: 'odeyalo_celery_beat'
+    build:
+      context: .
+    networks:
+      - odeyalo-network
+    env_file:
+      - .env
+    command: "celery --app=src.tasks.celery_app:celery_instance beat -l INFO"
+
+  nginx:
+    container_name: odeyalo-backend-nginx
+    image: public.ecr.aws/nginx/nginx:latest
+    # ports:
+    # - "80:80"
+    expose:
+      - "80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    networks:
+      - odeyalo-network
+    depends_on:
+      - odeyalo_back_service
+
   redis:
-    ports:
-    - "6379:6379"
+    container_name: odeyalo-backend-redis
     image: public.ecr.aws/docker/library/redis:latest
+    volumes:
+      - ./redis-data:/data
+    networks:
+      - odeyalo-network
+    depends_on:
+      - nginx
+
+networks:
+  odeyalo-network:
+    name: odeyalo-network
+    driver: bridge
 

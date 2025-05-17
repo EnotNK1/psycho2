@@ -4,8 +4,6 @@ import logging
 import sys
 from pathlib import Path
 
-from src.database import engine, Base
-
 sys.path.append(str(Path(__file__).parent.parent))
 from contextlib import asynccontextmanager
 from fastapi.openapi.docs import get_swagger_ui_html
