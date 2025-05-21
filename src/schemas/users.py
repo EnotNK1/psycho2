@@ -48,6 +48,7 @@ class UserWithHashedPassword(User):
     hashed_password: str
     role_id: int
 
+
 class PasswordResetRequest(BaseModel):
     email: EmailStr
 
@@ -61,6 +62,7 @@ class PasswordChangeRequest(BaseModel):
     password: str
     confirm_new_password: str
 
+
 class BecomeManagerRequest(BaseModel):
     username: str
     description: str
@@ -73,6 +75,7 @@ class BecomeManagerRequest(BaseModel):
     department: str
     face_to_face: bool
 
+
 class UpdateUserRequest(BaseModel):
     username: Optional[str] = None
     description: Optional[str] = None
@@ -82,6 +85,7 @@ class UpdateUserRequest(BaseModel):
     gender: Optional[str] = None
     birth_date: Optional[datetime.date] = None
     phone_number: Optional[str] = None
+
 
 class UpdateManagerRequest(BaseModel):
     username: Optional[str] = None
@@ -97,6 +101,7 @@ class UpdateManagerRequest(BaseModel):
     department: Optional[str] = None
     face_to_face: Optional[bool] = None
 
+
 class GetAllManagerRequest(BaseModel):
     id: uuid.UUID
     username: str
@@ -111,8 +116,7 @@ class GetAllManagerRequest(BaseModel):
     is_active: Optional[bool] = None
     department: Optional[str] = None
     face_to_face: Optional[bool] = None
-
-
+    role_id: int
 
 
 class ClientSchema(BaseModel):
@@ -127,3 +131,12 @@ class UserBase(BaseModel):
     email: EmailStr
     username: str
     role_id: int
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    refresh_token: str
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str

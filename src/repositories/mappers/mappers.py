@@ -44,7 +44,8 @@ class UserDataMapper(DataMapper):
             description=model.description,
             is_active=model.is_active,
             department=model.department,
-            face_to_face=model.face_to_face
+            face_to_face=model.face_to_face,
+            role_id=model.role_id
         )
 
 

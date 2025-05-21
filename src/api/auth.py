@@ -15,7 +15,7 @@ from src.exceptions import (
     MyAppHTTPException,
 )
 from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordResetRequest, PasswordChangeRequest, \
-    UpdateUserRequest
+    UpdateUserRequest, TokenResponse, RefreshTokenRequest
 from src.services.auth import AuthService
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
@@ -32,33 +32,67 @@ async def get_me(
     return await AuthService(db).get_one_or_none_user(id=user_id)
 
 
-@router.post("/register")
+@router.post("/register", response_model=TokenResponse)
 async def register_user(db: DBDep, data: UserRequestAdd):
     try:
-        await AuthService(db).register_user(data)
+        access_token, refresh_token = await AuthService(db).register_user(data)
     except UserAlreadyExistsException:
         raise UserEmailAlreadyExistsHTTPException
     except PasswordDoNotMatchException:
         raise PasswordDoNotMatchHTTPException
-    return {"status": "OK"}
+    return {"access_token": access_token, "refresh_token": refresh_token}
 
 
-@router.post("/login")
+@router.post("/login", response_model=TokenResponse)
 async def login_user(db: DBDep, data: UserRequestLogIn, response: Response):
     try:
-        access_token = await AuthService(db).login_user(data)
+        access_token, refresh_token = await AuthService(db).login_user(data)
     except EmailNotRegisteredException:
         raise EmailNotRegisteredHTTPException
     except IncorrectPasswordException:
         raise IncorrectPasswordHTTPException
 
     response.set_cookie("access_token", access_token)
-    return {"access_token": access_token}
+    response.set_cookie("refresh_token", refresh_token, httponly=True)
+    return {"access_token": access_token, "refresh_token": refresh_token}
+
+
+@router.post("/token-auth", response_model=TokenResponse)
+async def auth_with_token(db: DBDep, token: str, response: Response):
+    try:
+        payload = AuthService(db).decode_token(token)
+        user_id = payload.get("user_id")
+        user = await AuthService(db).get_one_or_none_user(id=user_id)
+        if not user:
+            raise IncorrectTokenHTTPException
+
+        access_token, refresh_token = AuthService(db).create_tokens({
+            "user_id": str(user.id),
+            "role_id": user.role_id
+        })
+
+        response.set_cookie("access_token", access_token)
+        response.set_cookie("refresh_token", refresh_token, httponly=True)
+        return {"access_token": access_token, "refresh_token": refresh_token}
+    except IncorrectTokenException:
+        raise IncorrectTokenHTTPException
+
+
+@router.post("/refresh-token", response_model=TokenResponse)
+async def refresh_token(db: DBDep, data: RefreshTokenRequest, response: Response):
+    try:
+        access_token, refresh_token = await AuthService(db).refresh_tokens(data.refresh_token)
+        response.set_cookie("access_token", access_token)
+        response.set_cookie("refresh_token", refresh_token, httponly=True)
+        return {"access_token": access_token, "refresh_token": refresh_token}
+    except IncorrectTokenException:
+        raise IncorrectTokenHTTPException
 
 
 @router.post("/logout")
 async def logout(response: Response):
     response.delete_cookie("access_token")
+    response.delete_cookie("refresh_token")
     return {"status": "OK"}
 
 
@@ -100,5 +134,5 @@ async def update_user(
     except MyAppException as e:
         raise e
     except Exception as e:
-        raise MyAppHTTPException(detail="An unexpected error occurred: " + str(e))
-
+        raise MyAppHTTPException(
+            detail="An unexpected error occurred: " + str(e))
