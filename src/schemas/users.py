@@ -73,6 +73,7 @@ class BecomeManagerRequest(BaseModel):
     birth_date: str
     is_active: bool
     department: str
+    #job_title: str
     face_to_face: bool
 
 
@@ -99,6 +100,7 @@ class UpdateManagerRequest(BaseModel):
     role_id: Optional[int] = None
     is_active: Optional[bool] = None
     department: Optional[str] = None
+    job_title: Optional[str] = None
     face_to_face: Optional[bool] = None
 
 
@@ -115,6 +117,7 @@ class GetAllManagerRequest(BaseModel):
     description: Optional[str] = None
     is_active: Optional[bool] = None
     department: Optional[str] = None
+    job_title: Optional[str] = None
     face_to_face: Optional[bool] = None
     role_id: int
 
@@ -140,3 +143,18 @@ class TokenResponse(BaseModel):
 
 class RefreshTokenRequest(BaseModel):
     refresh_token: str
+
+
+class AdminUserResponse(BaseModel):
+    id: uuid.UUID
+    email: EmailStr
+    username: str
+    birth_date: datetime.date
+    gender: str
+    city: Optional[str] = None
+    phone_number: Optional[str] = None
+    company: Optional[str] = None
+    department: Optional[str] = None
+    job_title: Optional[str] = None
+    role_id: int
+

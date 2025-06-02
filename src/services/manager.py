@@ -29,6 +29,7 @@ class ManagerService(BaseService):
             "birth_date": data.get("birth_date"),
             "is_active": data.get("is_active"),
             "department": data.get("department"),
+            "job_title": data.get("job_title"),
             "face_to_face": data.get("face_to_face"),
             "role_id": 2  # Предположим, что роль менеджера имеет id = 2
         }

@@ -24,4 +24,5 @@ class UsersOrm(Base):
     role_id: Mapped[int]
     is_active: Mapped[Optional[bool]]  # Поле может быть NULL
     department: Mapped[Optional[str]]  # Поле может быть NULL
+    job_title: Mapped[Optional[str]]  # Поле может быть NULL
     face_to_face: Mapped[Optional[bool]]  # Поле может быть NULL

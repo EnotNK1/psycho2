@@ -146,3 +146,6 @@ class AuthService(BaseService):
         # Обновляем данные пользователя
         await self.db.users.edit(data, exclude_unset=True, id=user_id)
         await self.db.commit()
+
+    async def get_all_users_admin(self):
+        return await self.db.users.get_all_users_admin()

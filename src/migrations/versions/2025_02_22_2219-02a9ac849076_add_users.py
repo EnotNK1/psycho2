@@ -37,6 +37,7 @@ def upgrade() -> None:
         sa.Column("role_id", sa.Integer(), nullable=False),
         sa.Column("is_active", sa.Boolean(), nullable=True),
         sa.Column("department", sa.String(), nullable=True),
+        sa.Column("job_title", sa.String(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("email"),
     )
