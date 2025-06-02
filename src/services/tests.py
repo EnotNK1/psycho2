@@ -26,7 +26,6 @@ logger = logging.getLogger(__name__)
 
 class TestService(BaseService):
 
-
     def load_borders_for_scale(self, scale_id: uuid.UUID) -> list[dict]:
         with open("services/info/borders_info.json", encoding="utf-8") as file:
             borders_data = json.load(file)
@@ -414,10 +413,8 @@ class TestService(BaseService):
             if not calculate_method:
                 raise ObjectNotFoundException()
 
-
             scale_sum_list = calculate_method(test_result_data.results)
             logger.info(f"Рассчитанные результаты: {scale_sum_list}")
-
 
             if len(scale_sum_list) != len(scales):
                 raise ResultsScaleMismatchError()
@@ -490,8 +487,7 @@ class TestService(BaseService):
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Произошла непредвиденная ошибка"
             )
-        
-        
+
     async def get_test_result_by_user_and_test(
             self, test_id: uuid.UUID, user_id: uuid.UUID
     ) -> Optional[Dict[str, Any]]:
@@ -561,7 +557,6 @@ class TestService(BaseService):
         try:
             # Получаем результат теста по его ID
             test_result = await self.db.test_result.get_one(id=result_id)
-
 
             # Получаем результаты шкал для данного результата теста
             scale_results = await self.db.scale_result.get_filtered(test_result_id=test_result.id)

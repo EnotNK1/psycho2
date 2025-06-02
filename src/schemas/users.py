@@ -73,7 +73,6 @@ class BecomeManagerRequest(BaseModel):
     birth_date: datetime.date
     is_active: bool
     department: str
-    #job_title: str
     face_to_face: bool
 
 
@@ -100,7 +99,6 @@ class UpdateManagerRequest(BaseModel):
     role_id: Optional[int] = None
     is_active: Optional[bool] = None
     department: Optional[str] = None
-    job_title: Optional[str] = None
     face_to_face: Optional[bool] = None
 
 
@@ -117,7 +115,6 @@ class GetAllManagerRequest(BaseModel):
     description: Optional[str] = None
     is_active: Optional[bool] = None
     department: Optional[str] = None
-    job_title: Optional[str] = None
     face_to_face: Optional[bool] = None
     role_id: int
 
@@ -157,4 +154,3 @@ class AdminUserResponse(BaseModel):
     department: Optional[str] = None
     job_title: Optional[str] = None
     role_id: int
-
