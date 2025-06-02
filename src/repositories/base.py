@@ -15,13 +15,13 @@ from src.exceptions import (
 from src.repositories.mappers.base import DataMapper
 from datetime import date, datetime
 
+
 class BaseRepository:
     model = None
     mapper = None
 
     def __init__(self, session):
         self.session = session
-
 
     async def get_filtered(self, *filter, **filtered_by):
         query = select(self.model).filter(*filter).filter_by(**filtered_by)
@@ -96,4 +96,10 @@ class BaseRepository:
         delete_stmt = delete(self.model).filter_by(**filter_by)
         await self.session.execute(delete_stmt)
 
-
+    async def get_by_ids(self, ids: list[uuid.UUID]) -> list[BaseModel]:
+        query = select(self.model).where(self.model.id.in_(ids))
+        result = await self.session.execute(query)
+        return [
+            self.mapper.map_to_domain_entity(model)
+            for model in result.scalars().all()
+        ]

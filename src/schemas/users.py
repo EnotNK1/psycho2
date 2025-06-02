@@ -70,7 +70,7 @@ class BecomeManagerRequest(BaseModel):
     company: str
     online: bool
     gender: str
-    birth_date: str
+    birth_date: datetime.date
     is_active: bool
     department: str
     face_to_face: bool
