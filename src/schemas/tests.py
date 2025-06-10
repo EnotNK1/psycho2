@@ -25,6 +25,11 @@ class TestResult(BaseModel):
     date: datetime.datetime
     scale_result: list[ScaleResult]
 
+class TestSaveResult(BaseModel):
+    id: uuid.UUID
+    user_id: uuid.UUID
+    test_id: uuid.UUID
+    date: datetime.datetime
 
 class BordersAdd(BaseModel):
     id: uuid.UUID

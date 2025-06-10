@@ -18,13 +18,11 @@ class ClientService(BaseService):
     async def get_client(self, mentor_id: uuid.UUID, client_id: uuid.UUID | None = None):
         try:
             if client_id is None:
-                # Получаем всех клиентов, связанных с этим ментором
                 relations = await self.db.clients.get_filtered(mentor_id=mentor_id, status=True)
 
                 if not relations:
                     return []
 
-                # Получаем информацию о клиентах
                 clients = []
                 for relation in relations:
                     client = await self.db.users.get_one_or_none(id=relation.client_id)
@@ -40,7 +38,7 @@ class ClientService(BaseService):
 
                 return clients
             else:
-                # Проверяем, что клиент привязан к этому ментору
+
                 relation = await self.db.clients.get_one_or_none(
                     client_id=client_id,
                     mentor_id=mentor_id,
@@ -50,7 +48,6 @@ class ClientService(BaseService):
                 if not relation:
                     raise ObjectNotFoundException("Клиент не найден или не привязан к вам")
 
-                # Получаем информацию о клиенте
                 client = await self.db.users.get_one_or_none(id=client_id)
                 if not client:
                     raise ObjectNotFoundException("Клиент не найден")
@@ -72,7 +69,7 @@ class ClientService(BaseService):
 
     async def get_my_mentor(self, client_id: uuid.UUID) -> dict:
         try:
-            # 1. Находим активную связь клиент-ментор
+
             relation = await self.db.clients.get_one_or_none(
                 client_id=client_id,
                 status=True
@@ -84,7 +81,6 @@ class ClientService(BaseService):
                     detail="У вас нет назначенного ментора"
                 )
 
-            # 2. Получаем данные ментора
             mentor = await self.db.users.get_one(id=relation.mentor_id)
             if not mentor:
                 raise HTTPException(
@@ -92,27 +88,23 @@ class ClientService(BaseService):
                     detail="Ментор не найден в системе"
                 )
 
-            # 3. Получаем заявки клиента к этому ментору
             applications = await self.db.application.get_filtered(
                 client_id=client_id,
                 manager_id=mentor.id
             )
 
-            # 4. Собираем все inquiry из заявок
             inquiry_list = []
             for app in applications:
-                if app.inquiry:  # Проверяем, что inquiry не пустой
+                if app.inquiry:
                     inquiry_list.extend(app.inquiry)
 
-            # Удаляем дубликаты, если нужно
             unique_inquiry = list(set(inquiry_list)) if inquiry_list else []
 
-            # 5. Формируем ответ
             return {
                 "id": mentor.id,
                 "username": mentor.username,
                 "is_active": mentor.is_active,
-                "inquiry": unique_inquiry  # Возвращаем уникальные inquiry
+                "inquiry": unique_inquiry
             }
 
         except HTTPException:
@@ -127,10 +119,9 @@ class ClientService(BaseService):
 
     async def get_client_tasks(self, client_id: uuid.UUID) -> list[GetMyTask]:
         try:
-            # Получаем задачи из базы данных
+
             tasks = await self.db.tasks.get_filtered(client_id=client_id)
 
-            # Преобразуем ORM-модели в Pydantic-схемы
             return [
                 GetMyTask(
                     id=task.id,
@@ -152,7 +143,7 @@ class ClientService(BaseService):
 
     async def complete_task(self, task_id: uuid.UUID, client_id: uuid.UUID) -> dict:
         try:
-            # 1. Получаем задачу
+
             task = await self.db.tasks.get_one(id=task_id)
             if not task:
                 raise HTTPException(
@@ -160,13 +151,12 @@ class ClientService(BaseService):
                     detail="Задача не найдена"
                 )
 
-            # 2. Проверяем, что задача принадлежит клиенту
             if str(task.client_id) != str(client_id):
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail="Эта задача вам не принадлежит"
                 )
-            # 3. Обновляем статус задачи
+
             await self.db.tasks.edit(
                 data=TaskUpdate(is_complete=not task.is_complete),
                 id=task_id

@@ -12,7 +12,7 @@ from src.schemas.application import ApplicationResponse
 from src.schemas.inquiry import Inquiry
 from src.schemas.task import TaskRequest, Task
 from src.schemas.tests import Test, Scale, TestResult, Question, AnswerChoice, ScaleResult, Borders
-from src.schemas.users import User, ClientSchema, GetAllManagerRequest
+from src.schemas.users import User, ClientSchema, GetAllManagerRequest, AdminUserResponse
 from src.models.application import ApplicationOrm
 from src.repositories.mappers.base import DataMapper
 from src.schemas.users import User
@@ -44,6 +44,7 @@ class UserDataMapper(DataMapper):
             description=model.description,
             is_active=model.is_active,
             department=model.department,
+            job_title=model.job_title,
             face_to_face=model.face_to_face,
             role_id=model.role_id
         )
@@ -181,3 +182,30 @@ class DiaryDataMapper(DataMapper):
 class MoodTrackerDataMapper(DataMapper):
     db_model = MoodTrackerOrm
     schema = MoodTracker
+
+
+class AdminUserDataMapper(DataMapper):
+    db_model = UsersOrm
+    schema = AdminUserResponse
+
+    @staticmethod
+    def map_to_domain_entity(model):
+        return AdminUserResponse(
+            id=model.id,
+            username=model.username,
+            email=model.email,
+            city=model.city,
+            company=model.company,
+            online=model.online,
+            gender=model.gender,
+            birth_date=model.birth_date,
+            phone_number=model.phone_number,
+            description=model.description,
+            is_active=model.is_active,
+            department=model.department,
+            job_title=model.job_title,
+            face_to_face=model.face_to_face,
+            role_id=model.role_id,
+            created_at=model.created_at,
+            updated_at=model.updated_at
+        )

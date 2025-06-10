@@ -70,7 +70,7 @@ class BecomeManagerRequest(BaseModel):
     company: str
     online: bool
     gender: str
-    birth_date: str
+    birth_date: datetime.date
     is_active: bool
     department: str
     face_to_face: bool
@@ -140,3 +140,17 @@ class TokenResponse(BaseModel):
 
 class RefreshTokenRequest(BaseModel):
     refresh_token: str
+
+
+class AdminUserResponse(BaseModel):
+    id: uuid.UUID
+    email: EmailStr
+    username: str
+    birth_date: datetime.date
+    gender: str
+    city: Optional[str] = None
+    phone_number: Optional[str] = None
+    company: Optional[str] = None
+    department: Optional[str] = None
+    job_title: Optional[str] = None
+    role_id: int

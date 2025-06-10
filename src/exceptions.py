@@ -202,3 +202,27 @@ class ManagerNotFoundHTTPException(MyAppHTTPException):
 class ForUserNotFoundHTTPException(MyAppHTTPException):
     status_code = 404
     detail = "Заявка для указанного пользователя не найдена"
+
+class InvalidAnswersCountError(MyAppHTTPException):
+    status_code = 400
+    detail = "Неверное количество ответов"
+
+class ResultsScaleMismatchError(MyAppHTTPException):
+    status_code = 500
+    detail = "Количество результатов не соответствует количеству шкал"
+
+class ScoreOutOfBoundsError(MyAppHTTPException):
+    status_code = 400
+    detail = "Результат вне границ шкалы"
+
+class InvalidAnswersCountHTTPError(MyAppHTTPException):
+    status_code = 400
+    detail = "Неверное количество ответов"
+
+class ResultsScaleMismatchHTTPError(MyAppHTTPException):
+    status_code = 500
+    detail = "Количество результатов не соответствует количеству шкал"
+
+class ScoreOutOfBoundsHTTPError(MyAppHTTPException):
+    status_code = 400
+    detail = "Результат вне границ шкалы"

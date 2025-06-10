@@ -18,7 +18,6 @@ class ManagerService(BaseService):
         if not user:
             raise ObjectNotFoundException("User not found")
 
-        # Обновляем данные пользователя и назначаем роль менеджера
         update_data = {
             "username": data.get("username"),
             "description": data.get("description"),
@@ -30,15 +29,13 @@ class ManagerService(BaseService):
             "is_active": data.get("is_active"),
             "department": data.get("department"),
             "face_to_face": data.get("face_to_face"),
-            "role_id": 2  # Предположим, что роль менеджера имеет id = 2
+            "role_id": 2
         }
 
-        # Используем новую схему для обновления данных
         await self.db.users.edit(UpdateManagerRequest(**update_data), exclude_unset=True, id=user_id)
         await self.db.commit()
 
     async def get_all_manager(self):
-        # Используем get_all с фильтром по role_id=2
         managers = await self.db.users.get_filtered(role_id=2)
         return managers
 
@@ -50,7 +47,6 @@ class ManagerService(BaseService):
             client_ids: Optional[list[uuid.UUID]] = None
     ):
         try:
-            # Если список клиентов не передан, получаем всех привязанных клиентов
             if client_ids is None:
                 relations = await self.db.clients.get_filtered(
                     mentor_id=mentor_id,
@@ -64,7 +60,6 @@ class ManagerService(BaseService):
                         detail="У вас нет привязанных клиентов"
                     )
 
-            # Проверяем, что все клиенты привязаны к этому ментору
             invalid_clients = []
             for client_id in client_ids:
                 relation = await self.db.clients.get_one_or_none(
@@ -81,13 +76,11 @@ class ManagerService(BaseService):
                     detail=f"Клиенты не привязаны к вам: {', '.join(invalid_clients)}"
                 )
 
-            # Получаем название теста (если нужно)
             test_title = None
             if test_id:
                 test = await self.db.tests.get_one(id=test_id)
                 test_title = test.title if test else None
 
-            # Создаем задачи для каждого клиента
             created_tasks = []
             for client_id in client_ids:
                 task_id = uuid.uuid4()
@@ -131,10 +124,9 @@ class ManagerService(BaseService):
 
     async def get_mentor_tasks(self, mentor_id: uuid.UUID) -> list[Task]:
         try:
-            # Получаем задачи из базы данных
+
             tasks = await self.db.tasks.get_filtered(mentor_id=mentor_id)
 
-            # Преобразуем ORM-модели в Pydantic-схемы
             return [
                 Task(
                     id=task.id,

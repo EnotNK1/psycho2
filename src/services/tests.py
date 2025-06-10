@@ -7,15 +7,16 @@ from typing import Dict, Any, Optional
 
 from fastapi import HTTPException
 from fastapi import status
-from src.models import AnswerChoiceOrm, ScaleResultOrm, TestResultOrm, ScaleOrm
+from src.models import AnswerChoiceOrm
 
 from src.schemas.tests import TestAdd, ScaleAdd, BordersAdd, AnswerChoice, Question, TestResultRequest, \
-    TestDetailsResponse, AnswerChoiceDetail, QuestionDetail, BorderDetail, ScaleDetail
+    TestDetailsResponse, AnswerChoiceDetail, QuestionDetail, BorderDetail, ScaleDetail, ScaleResult, \
+    TestSaveResult
 from src.services.base import BaseService
 from src.exceptions import (
     ObjectAlreadyExistsException,
     ObjectNotFoundException,
-    MyAppException, ValidationError,
+    MyAppException, InvalidAnswersCountError, ResultsScaleMismatchError, ScoreOutOfBoundsError,
 )
 from src.services.calculator import calculator_service
 from src.services.inquiry import InquiryService
@@ -24,7 +25,6 @@ logger = logging.getLogger(__name__)
 
 
 class TestService(BaseService):
-
 
     def load_borders_for_scale(self, scale_id: uuid.UUID) -> list[dict]:
         with open("services/info/borders_info.json", encoding="utf-8") as file:
@@ -237,6 +237,54 @@ class TestService(BaseService):
             logger.error(f"Ошибка при получении вопросов: {ex}")
             raise MyAppException()
 
+    async def test_questions_with_answers(self, test_id: uuid.UUID) -> list[dict[str, Any]]:
+
+        try:
+            # Получаем вопросы по test_id
+            questions = await self.db.question.get_filtered(test_id=test_id)
+            if not questions:
+                raise ObjectNotFoundException()
+
+            # Собираем все ID ответов для всех вопросов
+            all_answer_ids = []
+            for question in questions:
+                all_answer_ids.extend(question.answer_choice)
+
+            # Получаем все ответы одним запросом
+            answers = await self.db.answer_choice.get_by_ids(all_answer_ids)
+            answer_dict = {answer.id: answer for answer in answers}
+
+            # Формируем ответ
+            result = []
+            for question in questions:
+                # Получаем ответы для текущего вопроса
+                question_answers = []
+                for answer_id in question.answer_choice:
+                    answer = answer_dict.get(answer_id)
+                    if answer:
+                        question_answers.append({
+                            "id": answer.id,
+                            "text": answer.text,
+                            "score": answer.score
+                        })
+
+                question_data = {
+                    "id": question.id,
+                    "text": question.text,
+                    "number": question.number,
+                    "test_id": question.test_id,
+                    "answer_choices": question_answers
+                }
+                result.append(question_data)
+
+            return result
+
+        except ObjectNotFoundException as ex:
+            raise ex
+        except Exception as ex:
+            logger.error(f"Ошибка при получении вопросов: {ex}")
+            raise MyAppException()
+
     async def answers_by_question_id(self, test_id: uuid.UUID, question_id: uuid.UUID) -> list[AnswerChoiceOrm]:
         """
         Получает все ответы, связанные с вопросом по его ID, и проверяет, что вопрос принадлежит указанному тесту.
@@ -333,45 +381,23 @@ class TestService(BaseService):
 
     async def save_result(self, test_result_data: TestResultRequest, user_id: uuid.UUID):
         try:
-            # 1. Проверка существования теста
             test = await self.db.tests.get_one(id=test_result_data.test_id)
             if not test:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Тест не найден"
-                )
+                raise ObjectNotFoundException()
 
-            # 2. Проверка наличия вопросов для теста
             questions = await self.db.question.get_filtered(test_id=test_result_data.test_id)
             if not questions:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Для теста не найдены вопросы"
-                )
+                raise ObjectNotFoundException()
 
-            # 3. Проверка соответствия количества ответов
             expected_count = len(questions)
             received_count = len(test_result_data.results)
             if received_count != expected_count:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail={
-                        "error": "Неверное количество ответов",
-                        "message": f"Ожидается {expected_count} ответов, получено {received_count}",
-                        "expected": expected_count,
-                        "received": received_count
-                    }
-                )
+                raise InvalidAnswersCountError
 
-            # 4. Проверка наличия шкал для теста
             scales = await self.db.scales.get_filtered(test_id=test_result_data.test_id)
             if not scales:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Для теста не найдены шкалы"
-                )
+                raise ObjectNotFoundException()
 
-            # 5. Получение метода расчета на основе названия теста
             calculation_methods = {
                 "Определение уровня выгорания на работе": calculator_service.test_maslach_calculate_results,
                 "Общая оценка стресса, тревоги и депрессии": calculator_service.test_dass21_calculate_results,
@@ -385,69 +411,42 @@ class TestService(BaseService):
 
             calculate_method = calculation_methods.get(test.title)
             if not calculate_method:
-                raise HTTPException(
-                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail="Не найден метод расчета для теста"
-                )
+                raise ObjectNotFoundException()
 
-            try:
-                scale_sum_list = calculate_method(test_result_data.results)
-                logger.info(f"Рассчитанные результаты: {scale_sum_list}")
-            except Exception as e:
-                logger.error(f"Ошибка расчета: {str(e)}", exc_info=True)
-                raise HTTPException(
-                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail="Ошибка расчета результатов"
-                )
+            scale_sum_list = calculate_method(test_result_data.results)
+            logger.info(f"Рассчитанные результаты: {scale_sum_list}")
 
-            # 6. Проверка соответствия результатов количеству шкал
             if len(scale_sum_list) != len(scales):
-                raise HTTPException(
-                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail="Количество результатов не соответствует количеству шкал"
-                )
+                raise ResultsScaleMismatchError()
 
-            # 7. Сохранение результатов
             try:
                 test_res_id = uuid.uuid4()
-                test_res = TestResultOrm(
+                test_res = TestSaveResult(
                     id=test_res_id,
                     user_id=user_id,
                     test_id=test.id,
                     date=datetime.datetime.now()
                 )
-                self.db.session.add(test_res)
+                await self.db.test_result.add(test_res)
                 await self.db.session.flush()
 
                 result = []
                 for scale, score in zip(scales, scale_sum_list):
                     # Проверка границ значений
                     if score < scale.min or score > scale.max:
-                        raise HTTPException(
-                            status_code=status.HTTP_400_BAD_REQUEST,
-                            detail={
-                                "error": "Результат вне границ шкалы",
-                                "message": f"Результат {score} выходит за границы шкалы '{scale.title}' ({scale.min}-{scale.max})",
-                                "score": score,
-                                "min": scale.min,
-                                "max": scale.max
-                            }
-                        )
+                        raise ScoreOutOfBoundsError()
 
                     borders = await self.db.borders.get_filtered(scale_id=scale.id)
                     if not borders:
-                        raise HTTPException(
-                            status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Для шкалы '{scale.title}' не найдены границы интерпретации"
-                        )
+                        raise ObjectNotFoundException()
 
-                    scale_result = ScaleResultOrm(
+                    scale_result = ScaleResult(
                         id=uuid.uuid4(),
                         score=score,
                         scale_id=scale.id,
                         test_result_id=test_res_id
                     )
-                    self.db.session.add(scale_result)
+                    await self.db.scale_result.add(scale_result)
 
                     for border in borders:
                         if border.left_border <= score <= border.right_border:
@@ -461,10 +460,7 @@ class TestService(BaseService):
                             })
                             break
                     else:
-                        raise HTTPException(
-                            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            detail=f"Не найден интервал для значения {score} в шкале '{scale.title}'"
-                        )
+                        raise ObjectNotFoundException()
 
                 await self.db.session.commit()
                 return {
@@ -491,8 +487,7 @@ class TestService(BaseService):
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Произошла непредвиденная ошибка"
             )
-        
-        
+
     async def get_test_result_by_user_and_test(
             self, test_id: uuid.UUID, user_id: uuid.UUID
     ) -> Optional[Dict[str, Any]]:
@@ -502,8 +497,6 @@ class TestService(BaseService):
             test_result = await self.db.test_result.get_one_or_none(
                 test_id=test_id, user_id=user_id
             )
-            if not test_result:
-                raise ObjectNotFoundException()
 
             # Получаем результаты шкал для данного результата теста
             scale_results = await self.db.scale_result.get_filtered(test_result_id=test_result.id)
@@ -521,7 +514,7 @@ class TestService(BaseService):
                 # Получаем информацию о шкале
                 scale = await self.db.scales.get_one(id=sr.scale_id)
                 if not scale:
-                    continue  # Пропускаем, если шкала не найдена
+                    continue
 
                 # Получаем границы для шкалы
                 borders = await self.db.borders.get_filtered(scale_id=scale.id)
@@ -564,8 +557,6 @@ class TestService(BaseService):
         try:
             # Получаем результат теста по его ID
             test_result = await self.db.test_result.get_one(id=result_id)
-            if not test_result:
-                raise ObjectNotFoundException()
 
             # Получаем результаты шкал для данного результата теста
             scale_results = await self.db.scale_result.get_filtered(test_result_id=test_result.id)
@@ -619,31 +610,30 @@ class TestService(BaseService):
             raise MyAppException()
 
     async def get_passed_tests_by_user(self, user_id: uuid.UUID) -> list[Dict[str, Any]]:
-        """
-        Получает все пройденные тесты для указанного пользователя.
-        Возвращает список тестов с их названиями, описаниями, ID и ссылками.
-        """
         try:
             # Получаем все результаты тестов для указанного пользователя
             test_results = await self.db.test_result.get_filtered(user_id=user_id)
             if not test_results:
                 raise ObjectNotFoundException()
 
-            # Формируем список пройденных тестов
+            test_ids = [str(tr.test_id) for tr in test_results]
+
+            tests = await self.db.tests.get_by_ids(test_ids)
+            if not tests:
+                raise ObjectNotFoundException()
+
+            test_dict = {str(test.id): test for test in tests}
+
             passed_tests = []
             for test_result in test_results:
-                # Получаем информацию о тесте
-                test = await self.db.tests.get_one(id=test_result.test_id)  # Используем test_id
-                if not test:
-                    continue  # Пропускаем, если тест не найден
-
-                # Добавляем тест в список пройденных
-                passed_tests.append({
-                    "title": test.title,
-                    "description": test.description,
-                    "test_id": str(test.id),
-                    "link": test.link,
-                })
+                test = test_dict.get(str(test_result.test_id))
+                if test:
+                    passed_tests.append({
+                        "title": test.title,
+                        "description": test.description,
+                        "test_id": str(test.id),
+                        "link": test.link,
+                    })
 
             return passed_tests
 
