@@ -1,7 +1,7 @@
 import datetime
 from typing import Optional
 
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String
 from src.database import Base
 import uuid
@@ -26,3 +26,5 @@ class UsersOrm(Base):
     department: Mapped[Optional[str]]  # Поле может быть NULL
     job_title: Mapped[Optional[str]]  # Поле может быть NULL
     face_to_face: Mapped[Optional[bool]]  # Поле может быть NULL
+
+    education_progress = relationship("EducationProgressOrm", back_populates="user", cascade="all, delete-orphan")

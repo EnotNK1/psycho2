@@ -27,6 +27,10 @@ class SeveralObjectsFoundException(MyAppException):
 class ObjectAlreadyExistsException(MyAppException):
     detail = "Похожий объект уже существует"
 
+class ObjectAlreadyExistsHTTPException(MyAppHTTPException):
+    status_code = 409
+    detail = "Похожий объект уже существует"
+
 
 class IncorrectTokenException(MyAppException):
     detail = "Некорректный токен"

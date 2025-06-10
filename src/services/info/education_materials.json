@@ -1,0 +1,290 @@
+[
+  {
+    "id": "cd9962af-94e6-4787-9842-9e263745804f",
+    "type": 0,
+    "number": 1,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_2.png",
+    "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a97",
+    "subtitle": "Что такое?"
+  },
+  {
+    "id": "b8e2166e-8968-42cf-ba83-5d45a3a29536",
+    "type": 0,
+    "number": 2,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_2.png",
+    "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a97",
+    "subtitle": "Почему стоит использовать этот метод?"
+  },
+  {
+    "id": "a3bdcb23-a985-44f1-82e2-3ce87c6c475d",
+    "type": 0,
+    "number": 3,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_2.png",
+    "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a97",
+    "subtitle": "Негативные мысли."
+  },
+  {
+    "id": "bfcca63c-53c2-4b6f-8b8e-0f56b635d8f4",
+    "type": 0,
+    "number": 4,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_2.png",
+    "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a97",
+    "subtitle": "Выводы"
+  },
+  {
+    "id": "2f11b3ef-e416-428d-9cee-1facac28ff53",
+    "type": 0,
+    "number": 1,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_3.png",
+    "education_theme_id": "557d4285-9271-4bd1-bb47-745e8fe79d9d",
+    "subtitle": "Что это такое?"
+  },
+  {
+    "id": "08802c27-7134-4798-a1cb-b7f9a4f8f6bf",
+    "type": 0,
+    "number": 2,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_3.png",
+    "education_theme_id": "557d4285-9271-4bd1-bb47-745e8fe79d9d",
+    "subtitle": "Основные признаки профессионального выгорания"
+  },
+  {
+    "id": "70e8c8d5-1051-44eb-87d1-a20f6a01d855",
+    "type": 0,
+    "number": 3,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_3.png",
+    "education_theme_id": "557d4285-9271-4bd1-bb47-745e8fe79d9d",
+    "subtitle": "Способы преодоления профессионального выгорания"
+  },
+  {
+    "id": "64f4e26f-054f-4fd0-90cd-b7c2fe7149bd",
+    "type": 0,
+    "number": 4,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_3.png",
+    "education_theme_id": "557d4285-9271-4bd1-bb47-745e8fe79d9d",
+    "subtitle": "Рекомендации для предотвращения выгорания"
+  },
+  {
+    "id": "f605a934-4f8e-4528-81ef-ba211ea55fa0",
+    "type": 0,
+    "number": 5,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_3.png",
+    "education_theme_id": "557d4285-9271-4bd1-bb47-745e8fe79d9d",
+    "subtitle": "Не забывайте и о физическом состоянии!"
+  },
+  {
+    "id": "65d81d28-fea9-4174-8ebc-7e2af2ee5f2d",
+    "type": 0,
+    "number": 6,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_3.png",
+    "education_theme_id": "557d4285-9271-4bd1-bb47-745e8fe79d9d",
+    "subtitle": "Выводы"
+  },
+  {
+    "id": "7f4d634c-cfab-43db-a281-5a0e93038164",
+    "type": 0,
+    "number": 1,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_4.png",
+    "education_theme_id": "686dd773-7f39-405f-807a-7a6024f982b8",
+    "subtitle": "Зачем мне это?"
+  },
+  {
+    "id": "a1430db1-98ff-4dcd-a204-2297272d08ab",
+    "type": 0,
+    "number": 2,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_4.png",
+    "education_theme_id": "686dd773-7f39-405f-807a-7a6024f982b8",
+    "subtitle": "Дыхание 4—7—8"
+  },
+  {
+    "id": "0c155c87-50a2-49e3-b39b-b5428c0e916f",
+    "type": 0,
+    "number": 3,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_4.png",
+    "education_theme_id": "686dd773-7f39-405f-807a-7a6024f982b8",
+    "subtitle": "Коробочное дыхание 4—4—4—4"
+  },
+  {
+    "id": "a6eaacb2-afc2-4643-9799-b60f97dacdd7",
+    "type": 0,
+    "number": 4,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_4.png",
+    "education_theme_id": "686dd773-7f39-405f-807a-7a6024f982b8",
+    "subtitle": "Диафрагмальное дыхание"
+  },
+  {
+    "id": "18281710-01d1-450c-aaae-e5404b902c7a",
+    "type": 0,
+    "number": 5,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_4.png",
+    "education_theme_id": "686dd773-7f39-405f-807a-7a6024f982b8",
+    "subtitle": "Выводы"
+  },
+  {
+    "id": "67a01012-fa96-4c8a-9b7a-585cd3fdeeb1",
+    "type": 0,
+    "number": 1,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_5.png",
+    "education_theme_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "subtitle": "Что это такое?"
+  },
+  {
+    "id": "fb7badb7-10d4-487a-9ed0-6fcf570a3792",
+    "type": 0,
+    "number": 2,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_5.png",
+    "education_theme_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "subtitle": "Принципы метода"
+  },
+  {
+    "id": "6235e903-241d-47d9-aca8-6948518f53b9",
+    "type": 0,
+    "number": 3,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_5.png",
+    "education_theme_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "subtitle": "Выполнение упражнений"
+  },
+  {
+    "id": "0fbeb394-c4fc-4092-a625-d8c635d54ad4",
+    "type": 0,
+    "number": 4,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_5.png",
+    "education_theme_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "subtitle": "Упражнения для шеи, зоны затылка и лицевых мышц"
+  },
+  {
+    "id": "e0c0cd69-d0d8-43f9-8bbf-788cbdc38f73",
+    "type": 0,
+    "number": 5,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_5.png",
+    "education_theme_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "subtitle": "Упражнения для расслабления рук и плечевого пояса"
+  },
+  {
+    "id": "900964bb-9855-4d00-bcb0-362e37a94f20",
+    "type": 0,
+    "number": 6,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_5.png",
+    "education_theme_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "subtitle": "Упражнения для спины и живота"
+  },
+  {
+    "id": "f6650ed0-87ad-4d13-963e-cb1bfb1e9e01",
+    "type": 0,
+    "number": 7,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_5.png",
+    "education_theme_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "subtitle": "Упражнения для ног"
+  },
+  {
+    "id": "054b7ed8-e3f7-48ff-8cea-2d15cfe32110",
+    "type": 0,
+    "number": 8,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_5.png",
+    "education_theme_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "subtitle": "Выводы"
+  },
+  {
+    "id": "32637cb6-184c-417e-9f8c-340a85c8801b",
+    "type": 0,
+    "number": 1,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_6.png",
+    "education_theme_id": "ae2e831a-7a1a-431d-a7b6-17eded8e4c26",
+    "subtitle": "Что это такое?"
+  },
+  {
+    "id": "eb4eab35-c638-4815-bd36-aa4f7275ccef",
+    "type": 0,
+    "number": 2,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_6.png",
+    "education_theme_id": "ae2e831a-7a1a-431d-a7b6-17eded8e4c26",
+    "subtitle": "Вот некоторые примеры копинг-стратегий"
+  },
+  {
+    "id": "8c6e00ef-0f29-4f13-b4e0-cf9c0608656c",
+    "type": 0,
+    "number": 3,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_6.png",
+    "education_theme_id": "ae2e831a-7a1a-431d-a7b6-17eded8e4c26",
+    "subtitle": "Выводы"
+  },
+  {
+    "id": "0701d108-31a6-4c34-8dd1-81f6402f0b9a",
+    "type": 0,
+    "number": 1,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_7.png",
+    "education_theme_id": "76184343-ef76-408e-92d7-ea1317bcb676",
+    "subtitle": "Что это такое?"
+  },
+  {
+    "id": "0701d108-31a6-4c34-8dd1-81f6402f0b9a",
+    "type": 0,
+    "number": 2,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_7.png",
+    "education_theme_id": "76184343-ef76-408e-92d7-ea1317bcb676",
+    "subtitle": "Зачем мне эта информация?"
+  },
+  {
+    "id": "0701d108-31a6-4c34-8dd1-81f6402f0b9a",
+    "type": 0,
+    "number": 3,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_7.png",
+    "education_theme_id": "76184343-ef76-408e-92d7-ea1317bcb676",
+    "subtitle": "Глубинные убеждения"
+  },
+  {
+    "id": "0701d108-31a6-4c34-8dd1-81f6402f0b9a",
+    "type": 0,
+    "number": 4,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_7.png",
+    "education_theme_id": "76184343-ef76-408e-92d7-ea1317bcb676",
+    "subtitle": "Выводы"
+  },
+  {
+    "id": "ed7ca0b2-9f83-461d-a0a5-dec30b1165c9",
+    "type": 0,
+    "number": 1,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_8.png",
+    "education_theme_id": "56124443-ed76-418c-22a7-ea1317aaa772",
+    "subtitle": "Что это такое?"
+  },
+  {
+    "id": "ed7ca0b2-9f83-461d-a0a5-dec30b1165c9",
+    "type": 0,
+    "number": 2,
+    "title": "",
+    "link_to_picture": "/images/images_education_material/img_8.png",
+    "education_theme_id": "56124443-ed76-418c-22a7-ea1317aaa772",
+    "subtitle": "Разберём структуру дневника мыслей:"
+  }
+]

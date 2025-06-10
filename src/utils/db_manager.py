@@ -4,6 +4,10 @@ from src.repositories.answer_choices import AnswerChoiceRepository
 from src.repositories.application import ApplicationRepository
 from src.repositories.borders import BordersRepository
 from src.repositories.clients import ClientsRepository
+from src.repositories.education_material import EducationRepository
+from src.repositories.education_card import EducationCardRepository
+from src.repositories.education_progress import EducationProgressRepository
+from src.repositories.education_theme import EducationThemeRepository
 from src.repositories.inquiry import InquiryRepository
 from src.repositories.questions import QuestionRepository
 from src.repositories.scale import ScalesRepository
@@ -40,6 +44,12 @@ class DBManager:
         self.mood_tracker = MoodTrackerRepository(self.session)
         self.test_result = TestResultRepository(self.session)
         self.scale_result = ScaleResultRepository(self.session)
+
+        # Education repositories
+        self.education_material = EducationRepository(self.session)
+        self.education_card = EducationCardRepository(self.session)
+        self.education_progress = EducationProgressRepository(self.session)
+        self.education_theme = EducationThemeRepository(self.session)
         return self
 
     async def __aexit__(self, *args):

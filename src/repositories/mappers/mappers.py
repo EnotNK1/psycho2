@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime
 from symtable import Class
 
@@ -6,9 +7,12 @@ from celery.worker.consumer import Tasks
 from src.models import ScaleOrm, InquiryOrm
 from src.models.application import ApplicationOrm
 from src.models.clients import TasksOrm, ClientsOrm
+from src.models.education import EducationProgressOrm, educationThemeOrm, educationMaterialOrm, CardOrm
 from src.models.tests import TestOrm, QuestionOrm, AnswerChoiceOrm, ScaleResultOrm, BordersOrm, TestResultOrm
 from src.repositories.mappers.base import DataMapper
 from src.schemas.application import ApplicationResponse
+from src.schemas.education_material import EducationThemeResponse, EducationMaterialResponse, CardResponse, \
+    EducationProgressResponse
 from src.schemas.inquiry import Inquiry
 from src.schemas.task import TaskRequest, Task
 from src.schemas.tests import Test, Scale, TestResult, Question, AnswerChoice, ScaleResult, Borders
@@ -120,6 +124,7 @@ class AnswerChoiceDataMapper(DataMapper):
 class QuestionDataMapper(DataMapper):
     db_model = QuestionOrm
     schema = Question
+
     @staticmethod
     def map_to_domain_entity(model: QuestionOrm) -> Question:
         return Question(
@@ -165,9 +170,11 @@ class ApplicationDataMapper(DataMapper):
     db_model = ApplicationOrm
     schema = ApplicationResponse
 
+
 class InquiryDataMapper(DataMapper):
     db_model = InquiryOrm
     schema = Inquiry
+
 
 class ReviewDataMapper(DataMapper):
     db_model = ReviewOrm
@@ -189,7 +196,7 @@ class AdminUserDataMapper(DataMapper):
     schema = AdminUserResponse
 
     @staticmethod
-    def map_to_domain_entity(model):
+    def map_to_domain_entity(model) -> schema:
         return AdminUserResponse(
             id=model.id,
             username=model.username,
@@ -208,4 +215,73 @@ class AdminUserDataMapper(DataMapper):
             role_id=model.role_id,
             created_at=model.created_at,
             updated_at=model.updated_at
+        )
+
+
+class CardDataMapper(DataMapper):
+    db_model = CardOrm
+    schema = CardResponse
+
+    @staticmethod
+    async def map_to_domain_entity(model: CardOrm) -> CardResponse:
+        return CardResponse(
+            id=model.id,
+            text=model.text,
+            number=model.number,
+            link_to_picture=model.link_to_picture
+        )
+
+
+
+class EducationMaterialDataMapper(DataMapper):
+    db_model = educationMaterialOrm
+    schema = EducationMaterialResponse
+
+    @staticmethod
+    async def map_to_domain_entity(model: educationMaterialOrm) -> EducationMaterialResponse:
+        cards = await asyncio.gather(
+            *[CardDataMapper.map_to_domain_entity(card) for card in model.cards]
+        )
+
+        return EducationMaterialResponse(
+            id=model.id,
+            type=model.type,
+            number=model.number,
+            title=model.title,
+            link_to_picture=model.link_to_picture,
+            subtitle=model.subtitle,
+            cards=cards
+        )
+
+
+
+class EducationThemeDataMapper(DataMapper):
+    db_model = educationThemeOrm
+    schema = EducationThemeResponse
+
+    @staticmethod
+    async def map_to_domain_entity(model: educationThemeOrm) -> EducationThemeResponse:
+        education_materials = await asyncio.gather(
+            *[EducationMaterialDataMapper.map_to_domain_entity(material) for material in model.education_materials]
+        )
+
+        return EducationThemeResponse(
+            id=model.id,
+            theme=model.theme,
+            link=model.link,
+            related_topics=model.related_topics,
+            education_materials=education_materials
+        )
+
+
+class EducationProgressDataMapper(DataMapper):
+    db_model = EducationProgressOrm
+    schema = EducationProgressResponse
+
+    @staticmethod
+    def map_to_domain_entity(model: EducationProgressOrm) -> EducationProgressResponse:
+        return EducationProgressResponse(
+            id=model.id,
+            user_id=model.user_id,
+            education_material_id=model.education_material_id
         )

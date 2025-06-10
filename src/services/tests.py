@@ -193,9 +193,6 @@ class TestService(BaseService):
             raise MyAppException()
 
     async def test_by_id(self, test_id: uuid.UUID) -> Optional[Dict[str, Any]]:
-        """
-        Получаем тест по его id
-        """
         try:
             test = await self.db.tests.get_one(test_id)
             if not test:

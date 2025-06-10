@@ -21,6 +21,7 @@ from src.api.diary import router as router_diary
 from src.api.mood_tracker import router as router_mood_tracker
 from src.api.client import router as router_client
 from src.api.admin import router as router_admin
+from src.api.education import router as router_education
 
 from src.init import redis_manager
 
@@ -33,7 +34,7 @@ async def lifespan(app: FastAPI):
     FastAPICache.init(RedisBackend(redis_manager.redis), prefix="fastapi-cache")
     logging.info("FastAPI cache initialized")
     yield
-    await redis_manager.close()
+    await redis_manager.    close()
 
 
 app = FastAPI(lifespan=lifespan)
@@ -48,6 +49,7 @@ app.include_router(router_diary)
 app.include_router(router_mood_tracker)
 app.include_router(router_client)
 app.include_router(router_admin)
+app.include_router(router_education)
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html():

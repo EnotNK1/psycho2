@@ -28,8 +28,6 @@ def upgrade() -> None:
     op.drop_index("ix_tasks_client_id", table_name="tasks")
     op.drop_index("ix_tasks_mentor_id", table_name="tasks")
     op.drop_table("tasks")
-    op.add_column("users", sa.Column("job_title", sa.String(), nullable=True))
-    # ### end Alembic commands ###
 
 
 def downgrade() -> None:
