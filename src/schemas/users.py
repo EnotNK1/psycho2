@@ -154,3 +154,16 @@ class AdminUserResponse(BaseModel):
     department: Optional[str] = None
     job_title: Optional[str] = None
     role_id: int
+
+class PsychologistResponse(BaseModel):
+    username: str
+    title: str
+    document: str
+    description: str
+    city: str
+    online: bool
+    face_to_face: bool
+    gender: str
+    birth_date: datetime.date
+    request: list[int]
+    department: str
