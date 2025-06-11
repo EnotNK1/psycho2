@@ -396,14 +396,14 @@ class TestService(BaseService):
                 raise ObjectNotFoundException()
 
             calculation_methods = {
-                "Определение уровня выгорания на работе": calculator_service.test_maslach_calculate_results,
-                "Общая оценка стресса, тревоги и депрессии": calculator_service.test_dass21_calculate_results,
-                "Проверьте уровень тревожности": calculator_service.test_stai_calculate_results,
-                "Узнайте, как вы справляетесь со стрессом": calculator_service.test_coling_calculate_results,
-                "Найди свои ошибки мышления": calculator_service.test_cmq_calculate_results,
-                "Проверьте уровень депрессии": calculator_service.test_back_calculate_results,
-                "Оцени свой уровень апатии на работе": calculator_service.test_jas_calculate_results,
-                "Насколько вы стрессоустойчивы?": calculator_service.test_stress_calculate_results,
+                "Определяем выгорание на работе": calculator_service.test_maslach_calculate_results,
+                "Почему я себя так чувствую?": calculator_service.test_dass21_calculate_results,
+                "Насколько мне тревожно?": calculator_service.test_stai_calculate_results,
+                "Как я веду себя в стрессовых ситуациях?": calculator_service.test_coling_calculate_results,
+                "Мешаю ли я себе?": calculator_service.test_cmq_calculate_results,
+                "Есть ли у меня депрессия?": calculator_service.test_back_calculate_results,
+                "Потеряли интерес к работе?": calculator_service.test_jas_calculate_results,
+                "Стрессоустойчивость, это про меня?": calculator_service.test_stress_calculate_results,
             }
 
             calculate_method = calculation_methods.get(test.title)

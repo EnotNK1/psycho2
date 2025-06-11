@@ -67,54 +67,53 @@ class ClientService(BaseService):
             logger.error(f"Ошибка при получении клиента: {ex}")
             raise MyAppException()
 
-    async def get_my_mentor(self, client_id: uuid.UUID) -> dict:
+    async def get_my_mentors(self, client_id: uuid.UUID) -> list[dict]:
         try:
-
-            relation = await self.db.clients.get_one_or_none(
+            # Получаем все активные связи клиент-менеджер
+            relations = await self.db.clients.get_filtered(
                 client_id=client_id,
                 status=True
             )
 
-            if not relation:
-                raise HTTPException(
-                    status_code=404,
-                    detail="У вас нет назначенного ментора"
+            if not relations:
+                raise ObjectNotFoundException("No active mentor relations found")
+
+            mentors_data = []
+
+            for relation in relations:
+                mentor = await self.db.users.get_one(id=relation.mentor_id)
+                if not mentor:
+                    continue
+
+                applications = await self.db.application.get_filtered(
+                    client_id=client_id,
+                    manager_id=mentor.id
                 )
 
-            mentor = await self.db.users.get_one(id=relation.mentor_id)
-            if not mentor:
-                raise HTTPException(
-                    status_code=404,
-                    detail="Ментор не найден в системе"
-                )
+                inquiry_list = []
+                for app in applications:
+                    if app.inquiry:
+                        inquiry_list.extend(app.inquiry)
 
-            applications = await self.db.application.get_filtered(
-                client_id=client_id,
-                manager_id=mentor.id
-            )
+                unique_inquiry = list(set(inquiry_list)) if inquiry_list else []
 
-            inquiry_list = []
-            for app in applications:
-                if app.inquiry:
-                    inquiry_list.extend(app.inquiry)
+                mentors_data.append({
+                    "id": mentor.id,
+                    "username": mentor.username,
+                    "is_active": mentor.is_active,
+                    "inquiry": unique_inquiry
+                })
 
-            unique_inquiry = list(set(inquiry_list)) if inquiry_list else []
+            if not mentors_data:
+                raise ObjectNotFoundException("No valid mentors found")
 
-            return {
-                "id": mentor.id,
-                "username": mentor.username,
-                "is_active": mentor.is_active,
-                "inquiry": unique_inquiry
-            }
+            return mentors_data
 
-        except HTTPException:
+        except ObjectNotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Ошибка при получении ментора: {str(e)}")
-            raise HTTPException(
-                status_code=500,
-                detail="Произошла ошибка при получении информации о менторе"
-            )
+            logger.error(f"Ошибка при получении менторов: {str(e)}")
+            raise MyAppException()
 
 
     async def get_client_tasks(self, client_id: uuid.UUID) -> list[GetMyTask]:

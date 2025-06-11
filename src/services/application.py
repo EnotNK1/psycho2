@@ -56,8 +56,6 @@ class ApplicationService(BaseService):
         )
 
     async def add_application(self, data: ApplicationCreate, user_id: int):
-        if not await self.db.application.is_user_manager(data.manager_id):
-            raise AccessDeniedHTTPException
 
         new_app_data = Application(
             id=uuid.uuid4(),

@@ -26,7 +26,7 @@ async def get_my_mentor(
     db: DBDep,
     client_id: UserIdDep
 ):
-    return await ClientService(db).get_my_mentor(client_id)
+    return await ClientService(db).get_my_mentors(client_id)
 
 @router.get("/my-tasks", summary="Получить все свои задачи")
 async def get_my_tasks(

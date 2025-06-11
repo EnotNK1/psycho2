@@ -14,4 +14,4 @@ class ApplicationRepository(BaseRepository):
         query = select(UsersOrm.role_id).where(UsersOrm.id == user_id)
         result = await self.session.execute(query)
         role_id = result.scalar_one_or_none()
-        return role_id == 2
+        return role_id in {2, 3}
