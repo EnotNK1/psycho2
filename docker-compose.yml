@@ -3,8 +3,8 @@ services:
     container_name: 'odeyalo-backend-app'
     build:
       context: .
-#    ports:
-#      - "8000:8000"
+    ports:
+     - "8000:8000"
     expose:
       - "8000"
     networks:
@@ -24,6 +24,9 @@ services:
     volumes:
       - ./db-data:/data
     mac_address: 02:42:ac:18:00:02
+    command: -p 4321
+    expose:
+      - "4321"
 
   odeyalo_celery_worker_service:
     container_name: 'odeyalo_celery_worker'
@@ -48,8 +51,8 @@ services:
   nginx:
     container_name: odeyalo-backend-nginx
     image: public.ecr.aws/nginx/nginx:latest
-    # ports:
-    # - "80:80"
+    ports:
+      - "80:80"
     expose:
       - "80"
     volumes:
@@ -68,6 +71,9 @@ services:
       - odeyalo-network
     depends_on:
       - nginx
+    command: --port 6789
+    expose:
+      - "6789"
 
 networks:
   odeyalo-network:
