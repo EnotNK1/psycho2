@@ -1,6 +1,7 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
+from venv import create
 
 from sqlalchemy import func
 
@@ -25,29 +26,17 @@ class MoodTrackerService(BaseService):
             raise ScoreOutOfRangeError()
 
 
-    def _validate_date(self, date_str: str):
-        try:
-            datetime.strptime(date_str, '%Y-%m-%d')
-        except ValueError:
-            raise InvalidDateFormatError()
-
-
-    def _validate_date_not_future(self, date_obj: datetime):
-        if date_obj > datetime.now():
-            raise FutureDateError()
-
     async def save_mood_tracker(self, data: MoodTrackerDateRequestAdd, user_id: uuid.UUID):
         try:
             self._validate_score(data.score)
-            self._validate_date(data.day)
-
-            newday = datetime.strptime(data.day, '%Y-%m-%d')
-            self._validate_date_not_future(newday)  # Добавляем проверку
-
+            if data.day:
+                created_at = data.day
+            else:
+                created_at = date.today()
             mood_tracker = MoodTracker(
                 id=uuid.uuid4(),
                 score=data.score,
-                created_at=newday,
+                created_at=created_at,
                 user_id=user_id
             )
             await self.db.mood_tracker.add(mood_tracker)
@@ -59,12 +48,11 @@ class MoodTrackerService(BaseService):
         except Exception as e:
             raise Exception(f"Ошибка при сохранении: {str(e)}")
 
-    async def get_mood_tracker(self, day: Optional[str], user_id: uuid.UUID):
+    async def get_mood_tracker(self, day: datetime.date, user_id: uuid.UUID):
         try:
             if day:
-                self._validate_date(day)
                 target_date = datetime.strptime(day, '%Y-%m-%d').date()
-                self._validate_date_not_future(datetime.combine(target_date, datetime.min.time()))
+
 
                 return await self.db.mood_tracker.get_filtered(
                     func.date(self.db.mood_tracker.model.created_at) == target_date,

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 import datetime
 import uuid
@@ -5,7 +7,7 @@ import uuid
 
 class MoodTrackerDateRequestAdd(BaseModel):
     score: int
-    day: str
+    day: Optional[datetime.date] = None
 
 
 class MoodTracker(BaseModel):
