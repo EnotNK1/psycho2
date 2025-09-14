@@ -1,7 +1,7 @@
 """create_education_table
 
 Revision ID: 01b758f30467
-Revises: 65c22c0f93f0
+Revises: de22b839f764
 Create Date: 2025-06-05 18:27:38.739476
 
 """
