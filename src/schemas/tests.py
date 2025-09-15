@@ -131,3 +131,38 @@ class TestDetailsResponse(BaseModel):
     scales: list[ScaleDetail]
     questions: list[QuestionDetail]
 
+
+class TestResponse(BaseModel):
+    id: uuid.UUID
+    description: str
+    link: str
+    title: str
+    short_desc: str
+    scales: list[ScaleDetail]
+
+
+class ScaleDetailResponse(BaseModel):
+    title: str
+    min: int
+    id: uuid.UUID
+    test_id: uuid.UUID
+    max: int
+    borders: list[BorderDetail]
+
+
+class BorderDetailResponse(BaseModel):
+    id: uuid.UUID
+    right_border: float
+    title: str
+    scale_id: uuid.UUID
+    color: str
+    left_border: float
+    user_recommendation: str
+
+
+class AnswerResponse(BaseModel):
+    id: uuid.UUID
+    text: str
+    number: int
+    test_id: uuid.UUID
+    answer_choice: list[AnswerChoiceDetail]

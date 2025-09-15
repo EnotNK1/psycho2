@@ -6,11 +6,14 @@ from uuid import UUID
 from typing import Optional, List
 from datetime import datetime, date
 
+from numpy import select
 from sqlalchemy import func
 
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.admin import AdminIdDep, verify_admin
 from src.models import UsersOrm
+from src.schemas.diary import Diary
+from src.schemas.mood_tracker import MoodTracker
 from src.schemas.users import AdminUserResponse
 from src.services.auth import AuthService
 from src.services.diary import DiaryService
@@ -23,7 +26,9 @@ from src.exceptions import (
 router = APIRouter(prefix="/admin", tags=["Админка"])
 
 
-@router.get("/users", response_model=List[AdminUserResponse])
+@router.get("/users",
+    description="""Возвращает всех пользователей.""",
+    response_model=List[AdminUserResponse])
 async def get_all_users(
     db: DBDep,
     admin_id: UUID = Depends(verify_admin),
@@ -31,7 +36,9 @@ async def get_all_users(
     return await db.users.get_all()
 
 
-@router.get("/users/filter", response_model=List[AdminUserResponse])
+@router.get("/users/filter",
+    description="""Возвращает всех пользователей по 6 фильтрам (все фильтры являются опциональными). Все поля являются обычными строками.""",
+    response_model=List[AdminUserResponse])
 async def get_users_with_filters(
     db: DBDep,
     admin_id: UUID = Depends(verify_admin),
@@ -64,7 +71,9 @@ async def get_users_with_filters(
     return await db.users.get_filtered(*filters)
 
 
-@router.get("/diary")
+@router.get("/diary",
+    description="""Возвращает записи ежедневных заметок по 2 фильтрам (все фильтры являются опциональными).""",
+    response_model=Diary)
 async def get_diary_admin(
         db: DBDep,
         admin_id: UUID = Depends(verify_admin),  # Проверка прав админа
@@ -93,7 +102,9 @@ async def get_diary_admin(
     return diaries
 
 
-@router.get("/mood_tracker")
+@router.get("/mood_tracker",
+    description="""Возвращает записи трекера настроения по 2 фильтрам (все фильтры являются опциональными).""",
+    response_model=MoodTracker)
 async def get_mood_tracker_admin(
         db: DBDep,
         admin_id: UUID = Depends(verify_admin),  # Проверка прав админа

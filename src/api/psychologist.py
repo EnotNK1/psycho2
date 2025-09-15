@@ -6,6 +6,7 @@ from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
 from src.schemas.psychologist import BecomePsychologistRequest
 from src.schemas.task import TaskRequest
+from src.schemas.users import GetAllManagerRequest
 from src.services.psychologist import PsychologistService
 
 logger = logging.getLogger(__name__)
@@ -21,7 +22,7 @@ async def become_psychologist(
     return await PsychologistService(db).become_psychologist(user_id, data)
 
 
-@router.get("/{psychologist_id}", summary="Получить психолога по id")
+@router.get("/{psychologist_id}", summary="Получить психолога по id", response_model=GetAllManagerRequest)
 async def get_psychologist(
         psychologist_id: uuid.UUID,
         db: DBDep
@@ -29,7 +30,7 @@ async def get_psychologist(
     return await PsychologistService(db).get_psychologist(psychologist_id)
 
 
-@router.get("/", summary="Получить всех психологов")
+@router.get("/", summary="Получить всех психологов", response_model=GetAllManagerRequest)
 async def get_all_psychologists(
         db: DBDep
 ):

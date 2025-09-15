@@ -7,12 +7,13 @@ from typing import List, Optional
 
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
+from src.schemas.client import ClientGet, ClientResponse
 from src.schemas.task import Task, TaskRequest
 from src.services.client import ClientService
 
 router = APIRouter(prefix="/client", tags=["Клиент"])
 
-@router.get("", summary="Получение всех клиентов или клиента по client_id"
+@router.get("", summary="Получение всех клиентов или клиента по client_id", response_model=ClientGet
 )
 async def get_client(
     db: DBDep,
@@ -21,7 +22,7 @@ async def get_client(
 ):
     return await ClientService(db).get_client(mentor_id, client_id)
 
-@router.get("/my-psychologist", summary="Получить информацию о своем менторе")
+@router.get("/my-psychologist", summary="Получить информацию о своем менторе", response_model=ClientResponse)
 async def get_my_mentor(
     db: DBDep,
     client_id: UserIdDep

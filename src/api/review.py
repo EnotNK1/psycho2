@@ -2,7 +2,7 @@ import uuid
 
 from fastapi import APIRouter
 
-from src.schemas.review import ReviewRequestAdd
+from src.schemas.review import ReviewRequestAdd, Review
 from src.services.auth import AuthService
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
@@ -11,7 +11,7 @@ from src.services.review import ReviewService
 router = APIRouter(prefix="/review", tags=["Отзывы пользователей"])
 
 
-@router.get("")
+@router.get("", response_model=Review)
 async def get_reviews(
     db: DBDep,
     user_id: UserIdDep,
