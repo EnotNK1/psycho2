@@ -6,7 +6,6 @@ from uuid import UUID
 from typing import Optional, List
 from datetime import datetime, date
 
-from numpy import select
 from sqlalchemy import func
 
 from src.api.dependencies.db import DBDep
