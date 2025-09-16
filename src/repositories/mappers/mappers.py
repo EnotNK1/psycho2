@@ -7,10 +7,12 @@ from celery.worker.consumer import Tasks
 from src.models import ScaleOrm, InquiryOrm
 from src.models.application import ApplicationOrm
 from src.models.clients import TasksOrm, ClientsOrm
+from src.models.daily_tasks import DailyTaskOrm
 from src.models.education import EducationProgressOrm, educationThemeOrm, educationMaterialOrm, CardOrm
 from src.models.tests import TestOrm, QuestionOrm, AnswerChoiceOrm, ScaleResultOrm, BordersOrm, TestResultOrm
 from src.repositories.mappers.base import DataMapper
 from src.schemas.application import ApplicationResponse
+from src.schemas.daily_tasks import DailyTaskResponse
 from src.schemas.education_material import EducationThemeResponse, EducationMaterialResponse, CardResponse, \
     EducationProgressResponse
 from src.schemas.inquiry import Inquiry
@@ -285,3 +287,21 @@ class EducationProgressDataMapper(DataMapper):
             user_id=model.user_id,
             education_material_id=model.education_material_id
         )
+
+class DailyTaskDataMapper(DataMapper):
+    db_model = DailyTaskOrm
+    schema = DailyTaskResponse
+
+    class DailyTaskMapper(DataMapper):
+        def map_to_domain_entity(self, model: DailyTaskOrm) -> DailyTaskResponse:
+            return DailyTaskResponse(
+                id=model.id,
+                title=model.title,
+                short_desc=model.short_desc,
+                destination_id=model.destination_id,
+                number=model.number,
+                is_complete=model.is_complete,
+                is_current=model.is_current,
+                type=model.type,
+                user_id=model.user_id
+            )

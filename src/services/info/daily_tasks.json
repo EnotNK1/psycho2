@@ -1,0 +1,178 @@
+[
+  {
+    "title": "Дыхательные техники",
+    "type": "THEORY",
+    "short_description": "Изучите основы дыхательных техник для снятия стресса и улучшения самочувствия",
+    "destination_id": "686dd773-7f39-405f-807a-7a6024f982b8",
+    "number": 1,
+    "day": 1
+  },
+  {
+    "title": "Трекер настроения",
+    "type": "MOOD_TRACKER_AND_FREE_DIARY",
+    "short_description": "Запишите свои эмоции сегодня, чтобы отслеживать изменения в настроении",
+    "destination_id": "b3f24ecc-d39e-46a3-b67b-4503f9f34506",
+    "number": 2,
+    "day": 1
+  },
+  {
+    "title": "Основы КПТ",
+    "type": "THEORY",
+    "short_description": "Ознакомьтесь с ключевыми принципами когнитивно-поведенческой терапии для изменения мышления",
+    "destination_id": "22cbb105-8857-48de-806d-7242ced60a97",
+    "number": 3,
+    "day": 1
+  },
+  {
+    "title": "Трекер настроения",
+    "type": "MOOD_TRACKER_AND_FREE_DIARY",
+    "short_description": "Запишите свои эмоции сегодня, чтобы отслеживать изменения в настроении",
+    "destination_id": "b3f24ecc-d39e-46a3-b67b-4503f9f34506",
+    "number": 4,
+    "day": 2
+  },
+  {
+    "title": "Почему я себя так чувствую?",
+    "type": "TEST",
+    "short_description": "Шкалы депрессии, тревоги и стресса",
+    "destination_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "number": 5,
+    "day": 2
+  },
+  {
+    "title": "Техники релаксации",
+    "type": "THEORY",
+    "short_description": "Узнайте о различных методах релаксации для восстановления внутреннего баланса",
+    "destination_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "number": 6,
+    "day": 2
+  },
+  {
+    "title": "Трекер настроения",
+    "type": "MOOD_TRACKER_AND_FREE_DIARY",
+    "short_description": "Запишите свои эмоции сегодня, чтобы отслеживать изменения в настроении",
+    "destination_id": "b3f24ecc-d39e-46a3-b67b-4503f9f34506",
+    "number": 7,
+    "day": 3
+  },
+  {
+    "title": "Техники релаксации",
+    "type": "THEORY",
+    "short_description": "Узнайте о различных методах релаксации для восстановления внутреннего баланса",
+    "destination_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "number": 8,
+    "day": 3
+  },
+  {
+    "title": "Трекер настроения",
+    "type": "MOOD_TRACKER_AND_FREE_DIARY",
+    "short_description": "Запишите свои эмоции сегодня, чтобы отслеживать изменения в настроении",
+    "destination_id": "b3f24ecc-d39e-46a3-b67b-4503f9f34506",
+    "number": 9,
+    "day": 4
+  },
+  {
+    "title": "Как я веду себя в стрессовых ситуациях?",
+    "type": "TEST",
+    "short_description": "Опросник Индикатор копинг-стратегий",
+    "destination_id": "f45c4528-ce69-4683-822a-91ffc52d55ba",
+    "number": 10,
+    "day": 4
+  },
+  {
+    "title": "Стратегии преодоления стресса",
+    "type": "THEORY",
+    "short_description": "Изучите стратегии преодоления стресса, чтобы уверенно справляться с трудными ситуациями",
+    "destination_id": "ae2e831a-7a1a-431d-a7b6-17eded8e4c26",
+    "number": 11,
+    "day": 4
+  },
+  {
+    "title": "Техники релаксации",
+    "type": "THEORY",
+    "short_description": "Узнайте о различных методах релаксации для восстановления внутреннего баланса",
+    "destination_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "number": 12,
+    "day": 4
+  },
+  {
+    "title": "Трекер настроения",
+    "type": "MOOD_TRACKER_AND_FREE_DIARY",
+    "short_description": "Запишите свои эмоции сегодня, чтобы отслеживать изменения в настроении",
+    "destination_id": "b3f24ecc-d39e-46a3-b67b-4503f9f34506",
+    "number": 13,
+    "day": 5
+  },
+  {
+    "title": "Определяем выгорание на работе",
+    "type": "TEST",
+    "short_description": "Опросник профессионального выгорания Маслач MBI/ПВ",
+    "destination_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+    "number": 14,
+    "day": 5
+  },
+  {
+    "title": "Профессиональное выгорание",
+    "type": "THEORY",
+    "short_description": "Понимание причин и признаков выгорания поможет предотвратить его и сохранить баланс в жизни",
+    "destination_id": "557d4285-9271-4bd1-bb47-745e8fe79d9d",
+    "number": 15,
+    "day": 5
+  },
+  {
+    "title": "Трекер настроения",
+    "type": "MOOD_TRACKER_AND_FREE_DIARY",
+    "short_description": "Запишите свои эмоции сегодня, чтобы отслеживать изменения в настроении",
+    "destination_id": "b3f24ecc-d39e-46a3-b67b-4503f9f34506",
+    "number": 16,
+    "day": 6
+  },
+  {
+    "title": "Техники релаксации",
+    "type": "THEORY",
+    "short_description": "Узнайте о различных методах релаксации для восстановления внутреннего баланса",
+    "destination_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "number": 17,
+    "day": 6
+  },
+  {
+    "title": "Трекер настроения",
+    "type": "MOOD_TRACKER_AND_FREE_DIARY",
+    "short_description": "Запишите свои эмоции сегодня, чтобы отслеживать изменения в настроении",
+    "destination_id": "b3f24ecc-d39e-46a3-b67b-4503f9f34506",
+    "number": 18,
+    "day": 7
+  },
+  {
+    "title": "Почему я себя так чувствую?",
+    "type": "TEST",
+    "short_description": "Шкалы депрессии, тревоги и стресса",
+    "destination_id": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+    "number": 19,
+    "day": 7
+  },
+  {
+    "title": "Техники релаксации",
+    "type": "THEORY",
+    "short_description": "Узнайте о различных методах релаксации для восстановления внутреннего баланса",
+    "destination_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "number": 20,
+    "day": 7
+  },
+  {
+    "title": "Трекер настроения",
+    "type": "MOOD_TRACKER_AND_FREE_DIARY",
+    "short_description": "Запишите свои эмоции сегодня, чтобы отслеживать изменения в настроении",
+    "destination_id": "b3f24ecc-d39e-46a3-b67b-4503f9f34506",
+    "number": 21,
+    "day": 8
+  },
+  {
+    "title": "Техники релаксации",
+    "type": "THEORY",
+    "short_description": "Узнайте о различных методах релаксации для восстановления внутреннего баланса",
+    "destination_id": "8cd36279-61f0-4959-99de-0a642959e08b",
+    "number": 22,
+    "day": 8
+  }
+]

@@ -1,3 +1,4 @@
+from src.models.daily_tasks import DailyTaskOrm
 from src.models.inquiry import InquiryOrm
 from src.models.users import UsersOrm
 from src.models.tests import TestOrm, TestResultOrm, QuestionOrm, ScaleResultOrm, AnswerChoiceOrm, BordersOrm, ScaleOrm
@@ -17,5 +18,6 @@ __all__ = [
     "ScaleOrm",
     "InquiryOrm",
     "MoodTrackerOrm",
-    "DiaryOrm"
+    "DiaryOrm",
+    "DailyTaskOrm"
 ]

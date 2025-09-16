@@ -27,6 +27,7 @@ from src.schemas.users import (
     HashedPassword,
     UpdateUserRequest,
 )
+from src.services.daily_tasks import DailyTaskService
 
 serializer = URLSafeTimedSerializer("secret_key")
 
@@ -92,9 +93,11 @@ class AuthService(BaseService):
             role_id=1,
             id=uuid.uuid4()
         )
+
         try:
             await self.db.users.add(new_user_data)
             await self.db.commit()
+            await DailyTaskService(self.db).add_daily_tasks_for_new_user(new_user_data.id)
         except ObjectAlreadyExistsException as ex:
             raise UserAlreadyExistsException from ex
 

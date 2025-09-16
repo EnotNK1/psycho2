@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Response
 from pydantic import EmailStr
 
+from src.enums import DailyTaskType
 from src.exceptions import (
     ObjectAlreadyExistsException,
     EmailNotRegisteredException,
@@ -19,6 +20,7 @@ from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, Passwor
 from src.services.auth import AuthService
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
+from src.services.daily_tasks import DailyTaskService
 from src.tasks.tasks import send_email_to_recover_password
 
 router = APIRouter(prefix="/auth", tags=["Авторизация и аутентификация"])
@@ -39,6 +41,7 @@ async def get_me(
     response_model=TokenResponse)
 async def register_user(db: DBDep, data: UserRequestAdd):
     try:
+
         access_token, refresh_token = await AuthService(db).register_user(data)
     except UserAlreadyExistsException:
         raise UserEmailAlreadyExistsHTTPException

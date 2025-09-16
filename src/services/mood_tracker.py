@@ -32,7 +32,7 @@ class MoodTrackerService(BaseService):
             if data.day:
                 created_at = data.day
             else:
-                created_at = date.today()
+                created_at = datetime.now()
             mood_tracker = MoodTracker(
                 id=uuid.uuid4(),
                 score=data.score,

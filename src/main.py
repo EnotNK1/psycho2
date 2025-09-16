@@ -23,6 +23,7 @@ from src.api.client import router as router_client
 from src.api.admin import router as router_admin
 from src.api.education import router as router_education
 from src.api.psychologist import router as router_psychologist
+from src.api.daily_tasks import router as router_daily_tasks
 
 from src.init import redis_manager
 
@@ -52,6 +53,7 @@ app.include_router(router_client)
 app.include_router(router_admin)
 app.include_router(router_education)
 app.include_router(router_psychologist)
+app.include_router(router_daily_tasks)
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html():
