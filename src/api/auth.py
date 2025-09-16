@@ -16,7 +16,7 @@ from src.exceptions import (
     MyAppHTTPException,
 )
 from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordResetRequest, PasswordChangeRequest, \
-    UpdateUserRequest, TokenResponse, RefreshTokenRequest, GetAllManagerRequest
+    UpdateUserRequest, TokenResponse, RefreshTokenRequest
 from src.services.auth import AuthService
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
@@ -26,9 +26,7 @@ from src.tasks.tasks import send_email_to_recover_password
 router = APIRouter(prefix="/auth", tags=["Авторизация и аутентификация"])
 
 
-@router.get("/me",
-    description="""Возвращает все данные пользователя.""",
-    response_model=GetAllManagerRequest)
+@router.get("/me")
 async def get_me(
         db: DBDep,
         user_id: UserIdDep,
@@ -36,9 +34,7 @@ async def get_me(
     return await AuthService(db).get_one_or_none_user(id=user_id)
 
 
-@router.post("/register",
-    description="""Регистрация нового пользователя.""",
-    response_model=TokenResponse)
+@router.post("/register", response_model=TokenResponse)
 async def register_user(db: DBDep, data: UserRequestAdd):
     try:
 
@@ -50,9 +46,7 @@ async def register_user(db: DBDep, data: UserRequestAdd):
     return {"access_token": access_token, "refresh_token": refresh_token}
 
 
-@router.post("/login",
-    description="""Вход в аккаунт по почте и паролю.""",
-    response_model=TokenResponse)
+@router.post("/login", response_model=TokenResponse)
 async def login_user(db: DBDep, data: UserRequestLogIn, response: Response):
     try:
         access_token, refresh_token = await AuthService(db).login_user(data)
@@ -66,9 +60,7 @@ async def login_user(db: DBDep, data: UserRequestLogIn, response: Response):
     return {"access_token": access_token, "refresh_token": refresh_token}
 
 
-@router.post("/token-auth",
-    description="""Вход по access_token.""",
-    response_model=TokenResponse)
+@router.post("/token-auth", response_model=TokenResponse)
 async def auth_with_token(db: DBDep, token: str, response: Response):
     try:
         payload = AuthService(db).decode_token(token)
@@ -89,9 +81,7 @@ async def auth_with_token(db: DBDep, token: str, response: Response):
         raise IncorrectTokenHTTPException
 
 
-@router.post("/refresh-token",
-    description="""Вход по refresh_token.""",
-    response_model=TokenResponse)
+@router.post("/refresh-token", response_model=TokenResponse)
 async def refresh_token(db: DBDep, data: RefreshTokenRequest, response: Response):
     try:
         access_token, refresh_token = await AuthService(db).refresh_tokens(data.refresh_token)
@@ -102,9 +92,7 @@ async def refresh_token(db: DBDep, data: RefreshTokenRequest, response: Response
         raise IncorrectTokenHTTPException
 
 
-@router.post("/logout",
-    description="""Выход из аккаунта.""",
-    )
+@router.post("/logout")
 async def logout(response: Response):
     response.delete_cookie("access_token")
     response.delete_cookie("refresh_token")

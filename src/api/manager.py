@@ -7,7 +7,7 @@ from src.api.dependencies.manager_id import ManagerIdDep
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 from src.schemas.task import TaskRequest
-from src.schemas.users import BecomeManagerRequest, GetAllManagerRequest
+from src.schemas.users import BecomeManagerRequest
 from src.services.manager import ManagerService
 
 router = APIRouter(prefix="/managers", tags=["Менеджер"])
@@ -26,7 +26,7 @@ async def become_manager(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("", summary="Получение всех менеджеров", response_model=GetAllManagerRequest)
+@router.get("", summary="Получение всех менеджеров")
 async def all_manager(
         db: DBDep
 ):

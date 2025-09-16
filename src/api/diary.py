@@ -14,7 +14,7 @@ from src.exceptions import (
     InvalidTimestampError,
     InvalidTimestampHTTPException
 )
-from src.schemas.diary import DiaryDateRequestAdd, Diary
+from src.schemas.diary import DiaryDateRequestAdd
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 from src.services.diary import DiaryService
@@ -22,15 +22,11 @@ from src.services.diary import DiaryService
 router = APIRouter(prefix="/diary", tags=["Вольный дневник(Заметки)"])
 
 
-@router.get(
-    "",
-    description="""Возвращает записи дневника пользователя. Опциональная дата в формате YYYY-MM-DD. Если не указана, возвращаются все записи пользователя за все время.""",
-    response_model = Diary
-)
+@router.get("")
 async def get_diary(
     db: DBDep,
     user_id: UserIdDep,
-    day: str = Query(None, title="Date", description="Дата в формате YYYY-MM-DD"),
+    day: str | None = None,
 ):
     try:
         return await DiaryService(db).get_diary(user_id, day)
@@ -60,9 +56,7 @@ async def create_diary(
     except Exception as e:
         raise InternalErrorHTTPException
 
-@router.get("/by_month",
-    description="""Получение данных о заполнении ежедневных заметок за один месяц. Ввод любого дня нужного месяца в формате Unix timestamp, обратно приходит список: 1) День в формате Unix timestamp; 2) поле diary: true/false (от первого до последнего календарного дня).""",
-    response_model=DiaryDateRequestAdd)
+@router.get("/by_month")
 async def get_diary_for_month(
     db: DBDep,
     user_id: UserIdDep,

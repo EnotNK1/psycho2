@@ -34,18 +34,10 @@ class ClientSchema(BaseModel):
     text: str
     status: bool
 
-
 class ClientGet(BaseModel):
     id: uuid.UUID
     username: str
     birth_date: datetime.date
     text: str
     gender: str
-    inquiry: List[int]
-
-
-class ClientResponse(BaseModel):
-    id: uuid.UUID
-    username: str
-    is_active: bool
     inquiry: List[int]

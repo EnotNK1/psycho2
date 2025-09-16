@@ -1,6 +1,6 @@
 import uuid
 from fastapi import APIRouter, Query
-from src.schemas.mood_tracker import MoodTrackerDateRequestAdd, MoodTracker
+from src.schemas.mood_tracker import MoodTrackerDateRequestAdd
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 from src.services.mood_tracker import MoodTrackerService
@@ -37,9 +37,7 @@ async def add_mood_tracker(db: DBDep, user_id: UserIdDep, data: MoodTrackerDateR
         raise InternalErrorHTTPException
 
 
-@router.get("",
-    description="""Возвращает трекер настроения пользователя. Опциональная дата в формате YYYY-MM-DD. Если не указана, возвращается за все время.""",
-    response_model=MoodTracker)
+@router.get("")
 async def get_mood_tracker(
     db: DBDep,
     user_id: UserIdDep,
@@ -53,9 +51,7 @@ async def get_mood_tracker(
         raise InternalErrorHTTPException
 
 
-@router.get("/{mood_tracker_id}",
-    description="""Возвращает трекер настроения пользователя по mood_tracker_id.""",
-    response_model=MoodTracker)
+@router.get("/{mood_tracker_id}")
 async def get_mood_tracker_by_id(
     mood_tracker_id: uuid.UUID,
     db: DBDep,

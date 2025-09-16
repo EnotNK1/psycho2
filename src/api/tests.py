@@ -9,8 +9,7 @@ from src.api.dependencies.user_id import UserIdDep
 from src.exceptions import ObjectNotFoundHTTPException, ObjectNotFoundException, MyAppException, MyAppHTTPException, \
     InternalErrorHTTPException, InvalidAnswersCountError, InvalidAnswersCountHTTPError, ResultsScaleMismatchError, \
     ResultsScaleMismatchHTTPError, ScoreOutOfBoundsError, ScoreOutOfBoundsHTTPError
-from src.schemas.tests import TestResultRequest, TestAdd, TestResponse, Question, AnswerResponse, AnswerChoiceDetail, \
-    TestDetailsResponse
+from src.schemas.tests import TestResultRequest
 from src.services.tests import TestService
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/tests", tags=["Тесты"])
@@ -26,7 +25,7 @@ async def auto_create(
     return {"status": "OK"}
 
 
-@router.get("", summary="Получение всех тестов", response_model=TestAdd)
+@router.get("", summary="Получение всех тестов")
 async def all_tests(
         db: DBDep
 ):
@@ -34,7 +33,7 @@ async def all_tests(
     return tests
 
 
-@router.get("/{test_id}", summary="Получение теста по id", response_model=TestResponse)
+@router.get("/{test_id}", summary="Получение теста по id")
 async def test_by_id(
         test_id: uuid.UUID,
         db: DBDep
@@ -45,7 +44,7 @@ async def test_by_id(
         raise ObjectNotFoundHTTPException
 
 
-@router.get("/{test_id}/questions", summary="Получение вопросов по test_id", response_model=Question)
+@router.get("/{test_id}/questions", summary="Получение вопросов по test_id")
 async def questions(
         test_id: uuid.UUID,
         db: DBDep
@@ -56,7 +55,7 @@ async def questions(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-@router.get("/{test_id}/questions/answers", summary="Получение вопросов по test_id c ответами", response_model=AnswerResponse)
+@router.get("/{test_id}/questions/answers", summary="Получение вопросов по test_id c ответами")
 async def questions_with_answers(
         test_id: uuid.UUID,
         db: DBDep
@@ -67,7 +66,7 @@ async def questions_with_answers(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-@router.get("/{test_id}/questions/{question_id}/answers/", summary="Получение ответов по test_id и question_id", response_model=AnswerChoiceDetail)
+@router.get("/{test_id}/questions/{question_id}/answers/", summary="Получение ответов по test_id и question_id")
 async def answers_by_question_id(
         test_id: uuid.UUID,
         question_id: uuid.UUID,
@@ -78,7 +77,7 @@ async def answers_by_question_id(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-@router.get("/{test_id}/details", summary="Получение теста со всеми связанными данными", response_model=TestDetailsResponse)
+@router.get("/{test_id}/details", summary="Получение теста со всеми связанными данными")
 async def details(
         test_id: uuid.UUID,  # FastAPI автоматически парсит строку в UUID
         db: DBDep

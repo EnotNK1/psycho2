@@ -3,7 +3,7 @@ from uuid import UUID
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 from src.schemas.application import (
-    ApplicationCreate, ApplicationResponse
+    ApplicationCreate
 )
 from src.services.application import ApplicationService
 from src.exceptions import (
@@ -22,7 +22,7 @@ from src.exceptions import (
 router = APIRouter(prefix="/applications", tags=["Заявки"])
 
 
-@router.get("", summary="Получить список заявок", response_model=ApplicationResponse)
+@router.get("", summary="Получить список заявок")
 async def get_applications(
         db: DBDep,
         user_id: UserIdDep
@@ -30,7 +30,7 @@ async def get_applications(
     return await ApplicationService(db).get_applications(user_id)
 
 
-@router.get("/{app_id}", summary="Получить заявку по app_id", response_model=ApplicationResponse)
+@router.get("/{app_id}", summary="Получить заявку по app_id")
 async def get_application(
         app_id: UUID,
         db: DBDep
