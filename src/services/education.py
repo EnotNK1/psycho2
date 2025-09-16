@@ -20,15 +20,15 @@ logger = logging.getLogger(__name__)
 class EducationService(BaseService):
     async def auto_create_education(self):
         try:
-            with open("src/services/info/education_themes.json", encoding="utf-8") as file:
+            with open("services/info/education_themes.json", encoding="utf-8") as file:
                 themes_data = json.load(file)
             await self._add_themes(themes_data)
 
-            with open("src/services/info/education_materials.json", encoding="utf-8") as file:
+            with open("services/info/education_materials.json", encoding="utf-8") as file:
                 materials_data = json.load(file)
             await self._add_materials(materials_data)
 
-            with open("src/services/info/education_cards.json", encoding="utf-8") as file:
+            with open("services/info/education_cards.json", encoding="utf-8") as file:
                 cards_data = json.load(file)
             await self._add_cards(cards_data)
 

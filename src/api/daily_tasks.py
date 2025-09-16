@@ -6,7 +6,7 @@ from src.api.dependencies.user_id import UserIdDep
 from src.schemas.daily_tasks import DailyTaskId
 from src.services.daily_tasks import DailyTaskService
 
-router = APIRouter(prefix="/daily_tasks", tags=["Daily_task"])
+router = APIRouter(prefix="/daily_tasks", tags=["Ежедневные задания"])
 
 @router.get("", summary="Получение всех ежедневных заданий пользователя")
 async def get_daily_tasks(

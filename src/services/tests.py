@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 class TestService(BaseService):
 
     def load_borders_for_scale(self, scale_id: uuid.UUID) -> list[dict]:
-        with open("src/services/info/borders_info.json", encoding="utf-8") as file:
+        with open("services/info/borders_info.json", encoding="utf-8") as file:
             borders_data = json.load(file)
 
         filtered_borders = [border for border in borders_data if border["scale_id"] == str(scale_id)]
@@ -142,23 +142,23 @@ class TestService(BaseService):
 
     async def auto_create(self):
         try:
-            with open("src/services/info/test_info.json", encoding="utf-8") as file:
+            with open("services/info/test_info.json", encoding="utf-8") as file:
                 tests_data = json.load(file)
             await self.add_tests(tests_data)
 
-            with open("src/services/info/scale_info.json", encoding="utf-8") as file:
+            with open("services/info/scale_info.json", encoding="utf-8") as file:
                 scales_data = json.load(file)
             await self.add_scales_and_borders(scales_data)
 
-            with open("src/services/info/answer_choices_info.json", encoding="utf-8") as file:
+            with open("services/info/answer_choices_info.json", encoding="utf-8") as file:
                 answer_choices_data = json.load(file)
             await self.add_answer_choices(answer_choices_data)
 
-            with open("src/services/info/questions_info.json", encoding="utf-8") as file:
+            with open("services/info/questions_info.json", encoding="utf-8") as file:
                 questions_data = json.load(file)
             await self.add_questions(questions_data)
 
-            with open("src/services/info/inquiry.json", encoding="utf-8") as file:
+            with open("services/info/inquiry.json", encoding="utf-8") as file:
                 inquiry_data = json.load(file)
             await InquiryService(self.db).check_and_create_inquiries(inquiry_data)
 
