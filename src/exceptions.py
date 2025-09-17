@@ -53,6 +53,7 @@ class UserAlreadyExistsException(MyAppException):
 
 
 class IncorrectTokenHTTPException(MyAppHTTPException):
+    status_code = 401
     detail = "Некорректный токен"
 
 
@@ -230,3 +231,10 @@ class ResultsScaleMismatchHTTPError(MyAppHTTPException):
 class ScoreOutOfBoundsHTTPError(MyAppHTTPException):
     status_code = 400
     detail = "Результат вне границ шкалы"
+
+class InvalidEmojiIdException(MyAppException):
+    detail = "ID emoji вне допустимых значений: (0-10)"
+
+class InvalidEmojiIdHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "ID emoji вне допустимых значений: (0-10)"

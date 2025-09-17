@@ -19,6 +19,7 @@ from src.exceptions import (
     MyAppException, InvalidAnswersCountError, ResultsScaleMismatchError, ScoreOutOfBoundsError,
 )
 from src.services.calculator import calculator_service
+from src.services.emoji import EmojiService
 from src.services.inquiry import InquiryService
 
 logger = logging.getLogger(__name__)
@@ -36,109 +37,124 @@ class TestService(BaseService):
 
     async def add_tests(self, tests_data):
         tests = [TestAdd.model_validate(test) for test in tests_data]
+        created, skipped = 0, 0
+
         for test in tests:
             try:
                 existing_test = await self.db.tests.get_one_or_none(id=test.id)
                 if existing_test:
-                    logger.info(f"Тест с id={test.id} уже существует. Пропускаем.")
+                    skipped += 1
                 else:
                     await self.db.tests.add(test)
-                    logger.info(f"Тест с id={test.id} добавлен.")
-            except ObjectAlreadyExistsException as ex:
-                logger.info(f"Тест с id={test.id} уже существует. Пропускаем.")
+                    created += 1
+            except ObjectAlreadyExistsException:
+                skipped += 1
             except Exception as ex:
                 logger.error(f"Ошибка при добавлении теста: {ex}")
                 await self.db.rollback()
                 raise MyAppException()
 
+        if created > 0:
+            logger.info(f"{created} тест(ов) успешно добавлено.")
+        elif skipped > 0:
+            logger.info("Все тесты уже существуют в базе.")
+        else:
+            logger.info("Файл тестов пустой, ничего не добавлено.")
+
     async def add_scales_and_borders(self, scales_data):
         scales = [ScaleAdd.model_validate(scale) for scale in scales_data]
+        created_scales, skipped_scales = 0, 0
+        created_borders, updated_borders, skipped_borders = 0, 0, 0
 
         for scale in scales:
             try:
-                # 1. Проверяем, что test_id указан
                 if not scale.test_id:
-                    logger.warning(f"Для шкалы '{scale.title}' не указан test_id. Пропускаем.")
                     continue
 
-                # 2. Проверяем существование теста
                 test = await self.db.tests.get_one_or_none(id=scale.test_id)
                 if not test:
-                    logger.warning(f"Тест с ID={scale.test_id} не найден. Пропускаем шкалу '{scale.title}'.")
                     continue
 
-                # 3. Обработка шкалы (без изменений)
                 existing_scale = await self.db.scales.get_one_or_none(id=scale.id)
                 if existing_scale:
-                    logger.info(f"Шкала с id={scale.id} уже существует. Пропускаем.")
+                    skipped_scales += 1
                 else:
                     await self.db.scales.add(scale)
-                    logger.info(f"Шкала с id={scale.id} добавлена и связана с тестом {test.id}.")
+                    created_scales += 1
 
-                # 4. Обработка границ (измененная логика)
                 borders_data = self.load_borders_for_scale(scale.id)
                 borders = [BordersAdd.model_validate(border) for border in borders_data]
 
                 for border in borders:
                     try:
-                        # Сначала пытаемся удалить существующую границу (если есть)
                         await self.db.borders.delete(id=border.id)
-                        logger.info(f"Старая граница {border.id} удалена.")
-
-                        # Затем добавляем новую
+                        updated_borders += 1
                         await self.db.borders.add(border)
-                        logger.info(f"Граница {border.id} для шкалы {scale.id} добавлена.")
-
+                        created_borders += 1
                     except ObjectNotFoundException:
-                        # Если границы не было - просто добавляем
                         await self.db.borders.add(border)
-                        logger.info(f"Граница {border.id} для шкалы {scale.id} добавлена (не существовала ранее).")
-
+                        created_borders += 1
                     except Exception as ex:
-                        logger.error(f"Ошибка при обработке границы {border.id}: {ex}")
                         await self.db.rollback()
                         raise MyAppException()
-
-            except ObjectAlreadyExistsException as ex:
-                logger.info(f"Шкала с id={scale.id} уже существует. Пропускаем.")
             except Exception as ex:
-                logger.error(f"Ошибка при добавлении шкалы: {ex}")
                 await self.db.rollback()
                 raise MyAppException()
 
+        logger.info(
+            f"Шкалы: {created_scales} добавлено, {skipped_scales} уже существовали. "
+            f"\nГраницы: {created_borders} добавлено, {updated_borders} обновлено, {skipped_borders} пропущено."
+        )
+
     async def add_answer_choices(self, answer_choices_data):
         answer_choices = [AnswerChoice.model_validate(answer) for answer in answer_choices_data]
+        created, skipped = 0, 0
+
         for answer in answer_choices:
             try:
                 existing_answer = await self.db.answer_choice.get_one_or_none(id=answer.id)
                 if existing_answer:
-                    logger.info(f"Ответ с id={answer.id} уже существует. Пропускаем.")
+                    skipped += 1
                 else:
                     await self.db.answer_choice.add(answer)
-                    logger.info(f"Ответ с id={answer.id} добавлен.")
-            except ObjectAlreadyExistsException as ex:
-                logger.info(f"Ответ с id={answer.id} уже существует. Пропускаем.")
+                    created += 1
+            except ObjectAlreadyExistsException:
+                skipped += 1
             except Exception as ex:
-                logger.error(f"Ошибка при добавлении ответа: {ex}")
                 await self.db.rollback()
                 raise MyAppException()
 
+        if created > 0:
+            logger.info(f"{created} ответ(ов) успешно добавлено.")
+        elif skipped > 0:
+            logger.info("Все ответы уже существуют в базе.")
+        else:
+            logger.info("Файл ответов пустой, ничего не добавлено.")
+
     async def add_questions(self, questions_data):
         questions = [Question.model_validate(question) for question in questions_data]
+        created, skipped = 0, 0
+
         for question in questions:
             try:
                 existing_question = await self.db.question.get_one_or_none(id=question.id)
                 if existing_question:
-                    logger.info(f"Вопрос с id={question.id} уже существует. Пропускаем.")
+                    skipped += 1
                 else:
                     await self.db.question.add(question)
-                    logger.info(f"Вопрос с id={question.id} добавлен.")
-            except ObjectAlreadyExistsException as ex:
-                logger.info(f"Вопрос с id={question.id} уже существует. Пропускаем.")
+                    created += 1
+            except ObjectAlreadyExistsException:
+                skipped += 1
             except Exception as ex:
-                logger.error(f"Ошибка при добавлении вопроса: {ex}")
                 await self.db.rollback()
                 raise MyAppException()
+
+        if created > 0:
+            logger.info(f"{created} вопрос(ов) успешно добавлено.")
+        elif skipped > 0:
+            logger.info("Все вопросы уже существуют в базе.")
+        else:
+            logger.info("Файл вопросов пустой, ничего не добавлено.")
 
     async def auto_create(self):
         try:
@@ -161,6 +177,10 @@ class TestService(BaseService):
             with open("services/info/inquiry.json", encoding="utf-8") as file:
                 inquiry_data = json.load(file)
             await InquiryService(self.db).check_and_create_inquiries(inquiry_data)
+
+            with open("services/info/emoji.json", encoding="utf-8") as file:
+                emojis_data = json.load(file)
+            await EmojiService(self.db).check_and_create_emojis(emojis_data)
 
             await self.db.commit()
             return {"status": "OK", "message": "Тесты, шкалы, границы, ответы и вопросы успешно созданы или пропущены"}

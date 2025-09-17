@@ -4,7 +4,7 @@ from symtable import Class
 
 from celery.worker.consumer import Tasks
 
-from src.models import ScaleOrm, InquiryOrm
+from src.models import ScaleOrm, InquiryOrm, EmojiOrm
 from src.models.application import ApplicationOrm
 from src.models.clients import TasksOrm, ClientsOrm
 from src.models.daily_tasks import DailyTaskOrm
@@ -15,6 +15,7 @@ from src.schemas.application import ApplicationResponse
 from src.schemas.daily_tasks import DailyTaskResponse
 from src.schemas.education_material import EducationThemeResponse, EducationMaterialResponse, CardResponse, \
     EducationProgressResponse
+from src.schemas.emoji import Emoji
 from src.schemas.inquiry import Inquiry
 from src.schemas.task import TaskRequest, Task
 from src.schemas.tests import Test, Scale, TestResult, Question, AnswerChoice, ScaleResult, Borders
@@ -177,6 +178,27 @@ class InquiryDataMapper(DataMapper):
     db_model = InquiryOrm
     schema = Inquiry
 
+    @classmethod
+    def map_to_domain_entity(cls, model: InquiryOrm) -> Inquiry:
+        return cls.schema.model_validate(model, from_attributes=True)
+
+    @classmethod
+    def map_to_db_model(cls, schema: Inquiry) -> InquiryOrm:
+        return cls.db_model(**schema.model_dump())
+
+
+class EmojiDataMapper:
+    db_model = EmojiOrm
+    schema = Emoji
+
+    @classmethod
+    def map_to_domain_entity(cls, model: EmojiOrm) -> Emoji:
+        return cls.schema.model_validate(model, from_attributes=True)
+
+    @classmethod
+    def map_to_db_model(cls, schema: Emoji) -> EmojiOrm:
+        return cls.db_model(**schema.model_dump())
+
 
 class ReviewDataMapper(DataMapper):
     db_model = ReviewOrm
@@ -234,7 +256,6 @@ class CardDataMapper(DataMapper):
         )
 
 
-
 class EducationMaterialDataMapper(DataMapper):
     db_model = educationMaterialOrm
     schema = EducationMaterialResponse
@@ -254,7 +275,6 @@ class EducationMaterialDataMapper(DataMapper):
             subtitle=model.subtitle,
             cards=cards
         )
-
 
 
 class EducationThemeDataMapper(DataMapper):
@@ -287,6 +307,7 @@ class EducationProgressDataMapper(DataMapper):
             user_id=model.user_id,
             education_material_id=model.education_material_id
         )
+
 
 class DailyTaskDataMapper(DataMapper):
     db_model = DailyTaskOrm
