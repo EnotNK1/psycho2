@@ -79,7 +79,7 @@ class DailyTaskService(BaseService):
 
     def load_daily_tasks_from_json(self) -> List[dict]:
         try:
-            json_path = Path("services/info/daily_tasks.json")
+            json_path = Path("src/services/info/daily_tasks.json")
 
             if not json_path.exists():
                 logger.error(f"Файл не найден: {json_path.absolute()}")

@@ -20,15 +20,15 @@ logger = logging.getLogger(__name__)
 class EducationService(BaseService):
     async def auto_create_education(self):
         try:
-            with open("services/info/education_themes.json", encoding="utf-8") as file:
+            with open("src/services/info/education_themes.json", encoding="utf-8") as file:
                 themes_data = json.load(file)
             await self._add_themes(themes_data)
 
-            with open("services/info/education_materials.json", encoding="utf-8") as file:
+            with open("src/services/info/education_materials.json", encoding="utf-8") as file:
                 materials_data = json.load(file)
             await self._add_materials(materials_data)
 
-            with open("services/info/education_cards.json", encoding="utf-8") as file:
+            with open("src/services/info/education_cards.json", encoding="utf-8") as file:
                 cards_data = json.load(file)
             await self._add_cards(cards_data)
 
@@ -41,58 +41,43 @@ class EducationService(BaseService):
             raise MyAppException()
 
     async def _add_themes(self, themes_data):
-        try:
-            themes = [EducationThemeAdd.model_validate(theme) for theme in themes_data]
-            new_count = 0
-            for theme in themes:
-                existing = await self.db.education_theme.get_one_or_none(id=theme.id)
-                if not existing:
-                    await self.db.education_theme.add(theme)
-                    new_count += 1
-            if new_count:
-                logger.info(f"{new_count} новых тем добавлено в базу.")
-            else:
-                logger.info("Все темы уже существуют в базе.")
-        except Exception as ex:
-            await self.db.rollback()
-            logger.error(f"Ошибка при добавлении тем: {ex}")
-            raise MyAppException()
+        themes = [EducationThemeAdd.model_validate(theme) for theme in themes_data]
+        new_count = 0
+        for theme in themes:
+            existing = await self.db.education_theme.get_one_or_none(id=theme.id)
+            if not existing:
+                await self.db.education_theme.add(theme)
+                new_count += 1
+        if new_count:
+            logger.info(f"{new_count} новых тем добавлено в базу.")
+        else:
+            logger.info("Все темы уже существуют в базе.")
 
     async def _add_materials(self, materials_data):
-        try:
-            materials = [EducationMaterialAdd.model_validate(m) for m in materials_data]
-            new_count = 0
-            for material in materials:
-                existing = await self.db.education_material.get_one_or_none(id=material.id)
-                if not existing:
-                    await self.db.education_material.add(material)
-                    new_count += 1
-            if new_count:
-                logger.info(f"{new_count} новых материалов добавлено в базу.")
-            else:
-                logger.info("Все материалы уже существуют в базе.")
-        except Exception as ex:
-            await self.db.rollback()
-            logger.error(f"Ошибка при добавлении материалов: {ex}")
-            raise MyAppException()
+        materials = [EducationMaterialAdd.model_validate(m) for m in materials_data]
+        new_count = 0
+        for material in materials:
+            existing = await self.db.education_material.get_one_or_none(id=material.id)
+            if not existing:
+                await self.db.education_material.add(material)
+                new_count += 1
+        if new_count:
+            logger.info(f"{new_count} новых материалов добавлено в базу.")
+        else:
+            logger.info("Все материалы уже существуют в базе.")
 
     async def _add_cards(self, cards_data):
-        try:
-            cards = [CardAdd.model_validate(card) for card in cards_data]
-            new_count = 0
-            for card in cards:
-                existing = await self.db.education_card.get_one_or_none(id=card.id)
-                if not existing:
-                    await self.db.education_card.add(card)
-                    new_count += 1
-            if new_count:
-                logger.info(f"{new_count} новых карточек добавлено в базу.")
-            else:
-                logger.info("Все карточки уже существуют в базе.")
-        except Exception as ex:
-            await self.db.rollback()
-            logger.error(f"Ошибка при добавлении карточек: {ex}")
-            raise MyAppException()
+        cards = [CardAdd.model_validate(card) for card in cards_data]
+        new_count = 0
+        for card in cards:
+            existing = await self.db.education_card.get_one_or_none(id=card.id)
+            if not existing:
+                await self.db.education_card.add(card)
+                new_count += 1
+        if new_count:
+            logger.info(f"{new_count} новых карточек добавлено в базу.")
+        else:
+            logger.info("Все карточки уже существуют в базе.")
 
     async def get_all_education_themes(self) -> List[educationThemeOrm]:
         try:
