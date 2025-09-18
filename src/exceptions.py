@@ -233,8 +233,8 @@ class ScoreOutOfBoundsHTTPError(MyAppHTTPException):
     detail = "Результат вне границ шкалы"
 
 class InvalidEmojiIdException(MyAppException):
-    detail = "ID emoji вне допустимых значений: (0-10)"
+    detail = "ID emoji вне допустимых значений: (1-10)"
 
 class InvalidEmojiIdHTTPException(MyAppHTTPException):
     status_code = 400
-    detail = "ID emoji вне допустимых значений: (0-10)"
+    detail = "ID emoji вне допустимых значений: (1-10)"
