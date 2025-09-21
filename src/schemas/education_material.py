@@ -33,7 +33,7 @@ class EducationThemeResponse(BaseModel):
     id: uuid.UUID
     theme: str
     link: str
-    related_topics: Optional[List[str]] = None
+    tags: Optional[List[str]] = None
     education_materials: List[EducationMaterialResponse] = Field(
         default_factory=list)
 
