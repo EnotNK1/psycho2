@@ -26,6 +26,7 @@ class ThemeRecommendationResponse(BaseModel):
     id: uuid.UUID
     theme: str
     link: str
+    tags: Optional[List[str]] = None
 
 
 class EducationThemeResponse(BaseModel):
@@ -51,6 +52,7 @@ class EducationThemeAdd(BaseModel):
     id: uuid.UUID
     theme: str
     link: str
+    tags: Optional[List[str]] = None
     related_topics: Optional[List[str]] = None
 
 

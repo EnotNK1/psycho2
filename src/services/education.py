@@ -20,6 +20,10 @@ logger = logging.getLogger(__name__)
 class EducationService(BaseService):
     async def auto_create_education(self):
         try:
+            # Сначала удаляем все существующие данные
+            await self._delete_all_education_data()
+
+            # Затем добавляем новые данные
             with open("src/services/info/education_themes.json", encoding="utf-8") as file:
                 themes_data = json.load(file)
             await self._add_themes(themes_data)
@@ -33,13 +37,29 @@ class EducationService(BaseService):
             await self._add_cards(cards_data)
 
             await self.db.commit()
-            return {"status": "OK", "message": "Образовательные материалы успешно созданы"}
+            return {"status": "OK", "message": "Образовательные материалы успешно перезаписаны"}
 
         except Exception as ex:
             logger.error(
-                f"Ошибка при создании образовательных материалов: {ex}")
+                f"Ошибка при перезаписи образовательных материалов: {ex}")
             await self.db.rollback()
             raise MyAppException()
+
+    async def _delete_all_education_data(self):
+        """Удаляет все образовательные данные"""
+        from sqlalchemy import text
+
+        try:
+            # Удаляем карточки
+            await self.db.execute(text("DELETE FROM education_card"))
+            # Удаляем материалы
+            await self.db.execute(text("DELETE FROM education_material"))
+            # Удаляем темы
+            await self.db.execute(text("DELETE FROM education_theme"))
+            logger.info("Все старые образовательные данные удалены")
+        except Exception as e:
+            logger.error(f"Ошибка при удалении данных: {e}")
+            raise
 
     async def _add_themes(self, themes_data):
         themes = [EducationThemeAdd.model_validate(
@@ -111,7 +131,8 @@ class EducationService(BaseService):
                                 ThemeRecommendationResponse(
                                     id=topic.id,
                                     theme=topic.theme,
-                                    link=topic.link or ""
+                                    link=topic.link or "",
+                                    tags=topic.tags
                                 )
                             )
                     except Exception:

@@ -18,7 +18,9 @@ class educationThemeOrm(Base):
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     theme: Mapped[str]
     link: Mapped[str]
-    related_topics: Mapped[Optional[List[str]]] = mapped_column(JSON, nullable=True)
+    tags: Mapped[Optional[List[str]]] = mapped_column(JSON, nullable=True)
+    related_topics: Mapped[Optional[List[str]]
+                           ] = mapped_column(JSON, nullable=True)
 
     education_materials: Mapped[List["educationMaterialOrm"]] = relationship(
         back_populates="education_theme",
@@ -81,7 +83,7 @@ class EducationProgressOrm(Base):
     __tablename__ = "education_progress"
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True,
-        default=uuid.uuid4)
+                                          default=uuid.uuid4)
     user_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("users.id", ondelete="CASCADE")
     )
@@ -89,7 +91,8 @@ class EducationProgressOrm(Base):
         ForeignKey("education_material.id", ondelete="CASCADE")
     )
 
-    user: Mapped["UsersOrm"] = relationship(back_populates="education_progress")
+    user: Mapped["UsersOrm"] = relationship(
+        back_populates="education_progress")
     education_material: Mapped["educationMaterialOrm"] = relationship(
         back_populates="education_progresses"
     )
