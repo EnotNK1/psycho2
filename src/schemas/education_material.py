@@ -22,12 +22,29 @@ class EducationMaterialResponse(BaseModel):
     cards: List[CardResponse] = Field(default_factory=list)
 
 
+class ThemeRecommendationResponse(BaseModel):
+    id: uuid.UUID
+    theme: str
+    link: str
+
+
 class EducationThemeResponse(BaseModel):
     id: uuid.UUID
     theme: str
     link: str
     related_topics: Optional[List[str]] = None
-    education_materials: List[EducationMaterialResponse] = Field(default_factory=list)
+    education_materials: List[EducationMaterialResponse] = Field(
+        default_factory=list)
+
+
+class EducationThemeWithMaterialsResponse(BaseModel):
+    id: uuid.UUID
+    theme: str
+    link: str
+    recommendations: List[ThemeRecommendationResponse] = Field(
+        default_factory=list)
+    education_materials: List[EducationMaterialResponse] = Field(
+        default_factory=list)
 
 
 class EducationThemeAdd(BaseModel):

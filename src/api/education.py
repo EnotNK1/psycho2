@@ -15,7 +15,7 @@ from src.schemas.education_material import (
     EducationThemeResponse,
     EducationMaterialResponse,
     EducationProgressResponse,
-    CompleteEducation, GetUserEducationProgressResponse
+    CompleteEducation, GetUserEducationProgressResponse, EducationThemeWithMaterialsResponse
 )
 
 logger = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ async def get_all_education_themes(db: DBDep) -> List[EducationThemeResponse]:
 async def get_education_theme_materials(
     theme_id: uuid.UUID,
     db: DBDep
-) -> List[EducationMaterialResponse]:
+) -> EducationThemeWithMaterialsResponse:  # Изменили тип возвращаемого значения
     try:
         return await EducationService(db).get_education_theme_materials(theme_id)
     except ObjectNotFoundException:
@@ -80,4 +80,3 @@ async def get_user_progress(
     except Exception as e:
         logger.error(f"Error in get_user_progress: {str(e)}")
         raise MyAppHTTPException
-

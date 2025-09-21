@@ -40,3 +40,9 @@ class EducationThemeRepository(BaseRepository):
         )
         result = await self.session.execute(query)
         return result.scalars().all()
+
+    async def get_orm_one_or_none(self, id: uuid.UUID):
+        """Возвращает ORM объект без маппинга в доменную сущность"""
+        query = select(self.model).where(self.model.id == id)
+        result = await self.session.execute(query)
+        return result.scalar_one_or_none()

@@ -10,7 +10,7 @@ from src.schemas.education_material import (
     EducationMaterialResponse,
     CardResponse,
     EducationProgressResponse, CompleteEducation, EducationThemeAdd, EducationMaterialAdd, CardAdd,
-    GetUserEducationProgressResponse
+    GetUserEducationProgressResponse, EducationThemeWithMaterialsResponse, ThemeRecommendationResponse
 )
 from src.services.base import BaseService
 
@@ -36,12 +36,14 @@ class EducationService(BaseService):
             return {"status": "OK", "message": "Образовательные материалы успешно созданы"}
 
         except Exception as ex:
-            logger.error(f"Ошибка при создании образовательных материалов: {ex}")
+            logger.error(
+                f"Ошибка при создании образовательных материалов: {ex}")
             await self.db.rollback()
             raise MyAppException()
 
     async def _add_themes(self, themes_data):
-        themes = [EducationThemeAdd.model_validate(theme) for theme in themes_data]
+        themes = [EducationThemeAdd.model_validate(
+            theme) for theme in themes_data]
         new_count = 0
         for theme in themes:
             existing = await self.db.education_theme.get_one_or_none(id=theme.id)
@@ -54,7 +56,8 @@ class EducationService(BaseService):
             logger.info("Все темы уже существуют в базе.")
 
     async def _add_materials(self, materials_data):
-        materials = [EducationMaterialAdd.model_validate(m) for m in materials_data]
+        materials = [EducationMaterialAdd.model_validate(
+            m) for m in materials_data]
         new_count = 0
         for material in materials:
             existing = await self.db.education_material.get_one_or_none(id=material.id)
@@ -89,12 +92,30 @@ class EducationService(BaseService):
             logger.error(f"Error in get_all_education_themes: {ex}")
             raise MyAppException()
 
-    async def get_education_theme_materials(self, theme_id: uuid.UUID) -> List[EducationMaterialResponse]:
+    async def get_education_theme_materials(self, theme_id: uuid.UUID) -> EducationThemeWithMaterialsResponse:
         try:
-            # Получаем тему с материалами и карточками одним запросом
             theme = await self.db.education_theme.get_with_materials(theme_id)
             if not theme:
-                raise ObjectNotFoundException(f"Theme with id {theme_id} not found")
+                raise ObjectNotFoundException(
+                    f"Theme with id {theme_id} not found")
+
+            recommendations = []
+            if theme.related_topics:
+                for topic_id in theme.related_topics:
+                    try:
+                        # Используем новый метод без маппера
+                        topic = await self.db.education_theme.get_orm_one_or_none(topic_id)
+
+                        if topic:
+                            recommendations.append(
+                                ThemeRecommendationResponse(
+                                    id=topic.id,
+                                    theme=topic.theme,
+                                    link=topic.link or ""
+                                )
+                            )
+                    except Exception:
+                        continue
 
             # Преобразуем материалы и вложенные карточки в схемы
             materials_response = []
@@ -120,7 +141,15 @@ class EducationService(BaseService):
                         cards=cards_response
                     )
                 )
-            return materials_response
+
+            # Возвращаем полную информацию о теме с материалами
+            return EducationThemeWithMaterialsResponse(
+                id=theme.id,
+                theme=theme.theme,
+                link=theme.link or "",
+                recommendations=recommendations,
+                education_materials=materials_response
+            )
 
         except ObjectNotFoundException:
             raise
@@ -151,7 +180,8 @@ class EducationService(BaseService):
             await self.db.education_progress.add(progress_entity)
             await self.db.commit()
 
-            logger.info(f"Пользователь {user_id} успешно завершил материал {payload.education_material_id}.")
+            logger.info(
+                f"Пользователь {user_id} успешно завершил материал {payload.education_material_id}.")
         except ObjectNotFoundException:
             raise
         except ObjectAlreadyExistsException:
@@ -172,5 +202,6 @@ class EducationService(BaseService):
                 for entry in progress_entries
             ]
         except Exception as ex:
-            logger.error(f"Ошибка при получении прогресса пользователя {user_id}: {ex}")
+            logger.error(
+                f"Ошибка при получении прогресса пользователя {user_id}: {ex}")
             raise MyAppException()
