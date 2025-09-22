@@ -25,7 +25,12 @@ async def auto_create(
     return {"status": "OK"}
 
 
-@router.get("", summary="Получение всех тестов")
+@router.get("",
+    description="""
+    Возвращает список всех доступных тестов в системе.
+    Каждый тест содержит базовую информацию: ID, title, description, short_desc и link(ссылка на картинку).
+    """,
+    summary="Получение всех тестов")
 async def all_tests(
         db: DBDep
 ):
@@ -33,7 +38,40 @@ async def all_tests(
     return tests
 
 
-@router.get("/{test_id}", summary="Получение теста по id")
+@router.get("/{test_id}",
+    description="""
+    Возвращает детальную информацию о конкретном тесте по его идентификатору.\n
+    Входные параметры: test_id.
+    Cодержит cледующее: 
+    {
+        title: "string", 
+        description: "string", 
+        link(ссылка на картинку), 
+        id(id теста), 
+        short_desc: "string", 
+        scale": [
+            {
+                "id": "ebe230f9-ea6c-4534-9e0d-32a6ea14027f",
+                "max": (значение правой границы),
+                "title": "Эмоциональное истощение",
+                "min": 0,
+                "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+                "borders": [
+                    {
+                        "id": "edb2b820-38b8-4b01-8d0b-4d9504e8242f",
+                        "right_border": 15,
+                        "title": "Норма",
+                        "scale_id": "ebe230f9-ea6c-4534-9e0d-32a6ea14027f",
+                        "color": "#015641",
+                        "left_border": 0,
+                        "user_recommendation": "string".
+                    }
+                ]
+            }
+        ]
+    }
+    """,
+    summary="Получение теста по id")
 async def test_by_id(
         test_id: uuid.UUID,
         db: DBDep
@@ -44,7 +82,30 @@ async def test_by_id(
         raise ObjectNotFoundHTTPException
 
 
-@router.get("/{test_id}/questions", summary="Получение вопросов по test_id")
+@router.get("/{test_id}/questions",
+    description="""
+    Возвращает список всех вопросов для указанного теста.\n
+    Входные параметры: test_id.
+    Содержит следующее:
+    [
+        {
+            "id": "52d2bcc0-507b-45ab-a2b0-18288e762670",
+            "text": "Я чувствую себя эмоционально опустошенным.",
+            "number": 1,
+            "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+            "answer_choice": [
+                "c492b2d1-b971-4316-8003-bb0d414bb76d",
+                "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+                "5ea97c90-47b0-498d-85f0-b05f5fae9c15",
+                "6b002714-596c-40bb-97df-fc934c7f99ba",
+                "d575bd4a-d197-4447-b615-ce9119e5c54e",
+                "ec3ee878-2213-4a70-b095-85f9da50eae7",
+                "35c0f8c7-a9c5-48c5-8356-35c679bbbc7c"
+            ]
+        }
+    ]
+    """,
+    summary="Получение вопросов по test_id")
 async def questions(
         test_id: uuid.UUID,
         db: DBDep
@@ -55,7 +116,33 @@ async def questions(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-@router.get("/{test_id}/questions/answers", summary="Получение вопросов по test_id c ответами")
+@router.get("/{test_id}/questions/answers",
+    description="""
+    Возвращает список всех вопросов с ответами для указанного теста.\n
+    Входные параметры: test_id.
+    Содержит следующее:.
+    [
+        {
+            "id": "52d2bcc0-507b-45ab-a2b0-18288e762670",
+            "text": "Я чувствую себя эмоционально опустошенным.",
+            "number": 1,
+            "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+            "answer_choice": [
+                {
+                    "id": "c492b2d1-b971-4316-8003-bb0d414bb76d",
+                    "text": "Никогда",
+                    "score": 0
+                },
+                {
+                    "id": "6b002714-596c-40bb-97df-fc934c7f99ba",
+                    "text": "Иногда",
+                    "score": 3
+                }
+            ]
+        }
+    ]
+    """,
+    summary="Получение вопросов по test_id c ответами")
 async def questions_with_answers(
         test_id: uuid.UUID,
         db: DBDep
@@ -66,7 +153,29 @@ async def questions_with_answers(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-@router.get("/{test_id}/questions/{question_id}/answers/", summary="Получение ответов по test_id и question_id")
+@router.get("/{test_id}/questions/{question_id}/answers/",
+    description="""
+    Возвращает все ответы для определенного вопроса.\n
+    Входные параметры: test_id; question_id.
+    Содержит следующее:.
+    [
+        [
+            {
+                "id": "c492b2d1-b971-4316-8003-bb0d414bb76d",
+                "text": "Никогда",
+                "score": 0
+            }
+        ],
+        [
+            {
+                "id": "b1fc6b9c-cee2-488b-9bd4-0c73a5cce1fa",
+                "text": "Очень редко",
+                "score": 1
+            }
+        ]
+    ]
+    """,
+    summary="Получение ответов по test_id и question_id")
 async def answers_by_question_id(
         test_id: uuid.UUID,
         question_id: uuid.UUID,
@@ -77,7 +186,12 @@ async def answers_by_question_id(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-@router.get("/{test_id}/details", summary="Получение теста со всеми связанными данными")
+@router.get("/{test_id}/details",
+    description="""
+    Возвращает все данные для определенного теста.\n
+    Входные параметры: test_id.
+    """,
+    summary="Получение теста со всеми связанными данными")
 async def details(
         test_id: uuid.UUID,  # FastAPI автоматически парсит строку в UUID
         db: DBDep
@@ -89,7 +203,26 @@ async def details(
         raise ObjectNotFoundHTTPException
 
 
-@router.post("/result", summary="Сохранение результата теста")
+@router.post("/result",
+             description="""
+             Сохранение результата теста.\n
+             Входящие данные:
+             {
+                "test_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "date": "2025-09-22T06:59:59.305Z",
+                "results": [
+                    1, 2, 1, 3, 4 (Пример сохранения теста с 5 вопросами)
+                ]
+             }
+             
+             В results записываются цифры (Значения score из запроса /tests/{test_id}/questions/answers) через запятую.
+             1) Количество элементов в массиве должно точно соответствовать количеству вопросов в тесте
+             2) Порядок элементов должен соответствовать порядку вопросов в тесте (от первого к последнему)
+             3) Значения scores должны быть валидными баллами из вариантов ответов для каждого вопроса
+            
+    
+             """,
+             summary="Сохранение результата теста")
 async def save_result(
         test_result_data: TestResultRequest,
         db: DBDep,
@@ -109,7 +242,12 @@ async def save_result(
             raise MyAppHTTPException
 
 
-@router.get("/{test_id}/results/{user_id}", summary="Получение результата теста по test_id и user_id")
+@router.get("/{test_id}/results/{user_id}",
+    description="""
+    Возвращает результат по test_id и user_id.\n
+    Входные параметры: test_id; user_id.
+    """,
+    summary="Получение результата теста по test_id и user_id")
 async def result_by_user_and_test(
         test_id: uuid.UUID,
         user_id: uuid.UUID,
@@ -121,7 +259,12 @@ async def result_by_user_and_test(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-@router.get("/test_result/{result_id}", summary="Получение результата теста по его ID")
+@router.get("/test_result/{result_id}",
+    description="""
+    Возвращает результат по result_id.\n
+    Входные параметры: result_id.
+    """,
+    summary="Получение результата теста по его ID")
 async def get_test_result_by_id(
         result_id: uuid.UUID,  # test_result_id передается как часть пути
         db: DBDep
@@ -131,7 +274,21 @@ async def get_test_result_by_id(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-@router.get("/passed/user/{user_id}", summary="Получение всех пройденных тестов для пользователя")
+@router.get("/passed/user/{user_id}",
+    description="""
+    Возвращает все пройденные тесты по user_id.\n
+    Входные параметры: user_id.
+    Содержит следующее:
+    [
+        {
+            "title": "Определяем выгорание на работе",
+            "description": "Вы сможете разобраться в причинах профессионального выгорания: есть ли хроническая усталость и оторванность от мира.",
+            "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+            "link": "/images/images_test/Оценка_выгорания_на_работе.png"
+        }
+    ]
+    """,
+    summary="Получение всех пройденных тестов для пользователя")
 async def get_passed_tests_by_user(
         user_id: uuid.UUID,  # user_id передается как часть пути
         db: DBDep
@@ -141,7 +298,20 @@ async def get_passed_tests_by_user(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
-@router.get("/passed/user", summary="Получение всех пройденных тестов для текущего пользователя")
+@router.get("/passed/user",
+    description="""
+    Возвращает все пройденные тесты для текущего пользователя.\n
+    Содержит следующее:
+    [
+        {
+            "title": "Определяем выгорание на работе",
+            "description": "Вы сможете разобраться в причинах профессионального выгорания: есть ли хроническая усталость и оторванность от мира.",
+            "test_id": "c9386cd7-4f63-4cbb-af35-54829ef9c14b",
+            "link": "/images/images_test/Оценка_выгорания_на_работе.png"
+        }
+    ]
+    """,
+    summary="Получение всех пройденных тестов для текущего пользователя")
 async def get_passed_tests(
         user_id: UserIdDep,  # Извлекаем user_id из токена
         db: DBDep
