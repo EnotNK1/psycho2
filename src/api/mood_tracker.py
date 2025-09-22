@@ -19,7 +19,13 @@ from src.exceptions import (
 
 router = APIRouter(prefix="/mood_tracker", tags=["Трекер настроения"])
 
-@router.post("")
+@router.post("",
+    description="""
+    Сохранение нового трекера настроения.\n 
+    Значение score от 0 до 100. 
+    Опциональная дата в формате YYYY-MM-DD. 
+    Emoji_ids: всего есть 10 эмодзи (id каждого от 0 до 10).
+    """)
 async def add_mood_tracker(
     db: DBDep,
     user_id: UserIdDep,
@@ -35,7 +41,12 @@ async def add_mood_tracker(
     except Exception:
         raise InternalErrorHTTPException
 
-@router.get("/emoji")
+@router.get("/emoji",
+    description="""
+    Возвращает эмодзи по его id.\n
+    Опциональное поле emoji_id (всего есть 10 эмодзи, id каждого от 0 до 10). 
+    Если emoji_id не указан, то возвращаются все эмодзи.
+    """)
 async def get_emoji(
     db: DBDep,
     emoji_id: Optional[int] = Query(None, description="ID эмодзи (опционально)")
@@ -51,7 +62,11 @@ async def get_emoji(
     except Exception:
         raise InternalErrorHTTPException
 
-@router.get("")
+@router.get("",
+    description="""
+    Возвращает трекер настроения пользователя.\n 
+    Опциональная дата в формате YYYY-MM-DD. Если не указана, возвращается за все время.
+    """)
 async def get_mood_tracker(
     db: DBDep,
     user_id: UserIdDep,
@@ -62,7 +77,10 @@ async def get_mood_tracker(
     except Exception:
         raise InternalErrorHTTPException
 
-@router.get("/{mood_tracker_id}")
+@router.get("/{mood_tracker_id}",
+    description="""
+    Возвращает трекер настроения по его id.
+    """)
 async def get_mood_tracker_by_id(
     mood_tracker_id: uuid.UUID,
     db: DBDep,

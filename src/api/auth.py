@@ -26,7 +26,12 @@ from src.tasks.tasks import send_email_to_recover_password
 router = APIRouter(prefix="/auth", tags=["Авторизация и аутентификация"])
 
 
-@router.get("/me")
+@router.get("/me",
+            description="""
+            Получение данных пользователя.\n
+            В теле ответа возвращаются данные пользователя (id, username, email, city, company, 
+            online, gender, birth_date, phone_number, description, is_active, department, face_to_face, role_id
+            """)
 async def get_me(
         db: DBDep,
         user_id: UserIdDep,
@@ -34,7 +39,13 @@ async def get_me(
     return await AuthService(db).get_one_or_none_user(id=user_id)
 
 
-@router.post("/register", response_model=TokenResponse)
+@router.post("/register",
+             description="""
+             Регистрация нового пользователя.\n
+             Входящие данные: email: user@example.com; username: string, birth_date: 2025-09-22; gender: male/female; 
+             city: string; phone_number: string; password: string; confirm_password: string
+             """,
+             response_model=TokenResponse)
 async def register_user(db: DBDep, data: UserRequestAdd):
     try:
 
@@ -46,7 +57,11 @@ async def register_user(db: DBDep, data: UserRequestAdd):
     return {"access_token": access_token, "refresh_token": refresh_token}
 
 
-@router.post("/login", response_model=TokenResponse)
+@router.post("/login",
+             description="""Вход в аккаунт.\n 
+             Входящие данные: email: user@example.com; password: string
+             """,
+             response_model=TokenResponse)
 async def login_user(db: DBDep, data: UserRequestLogIn, response: Response):
     try:
         access_token, refresh_token = await AuthService(db).login_user(data)
@@ -60,7 +75,9 @@ async def login_user(db: DBDep, data: UserRequestLogIn, response: Response):
     return {"access_token": access_token, "refresh_token": refresh_token}
 
 
-@router.post("/token-auth", response_model=TokenResponse)
+@router.post("/token-auth",
+             description="Вход по токену.",
+             response_model=TokenResponse)
 async def auth_with_token(db: DBDep, token: str, response: Response):
     try:
         payload = AuthService(db).decode_token(token)
@@ -119,7 +136,12 @@ async def password_change(db: DBDep, password_data: PasswordChangeRequest):
     return {"status": "OK"}
 
 
-@router.patch("/update")
+@router.patch("/update",
+             description="""
+             Редактирование данных пользователя.\n
+             Входящие данные: username: string; description: string; city: string; company: string; online: 
+             true/false;  gender: male/female; birth_date: 2025-09-22; phone_number: string
+             """)
 async def update_user(
         db: DBDep,
         user_id: UserIdDep,
