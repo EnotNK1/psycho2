@@ -200,9 +200,10 @@ class EducationService(BaseService):
                 education_material_id=payload.education_material_id
             )
             await self.db.education_progress.add(progress_entity)
+
             gamification_service = GamificationService(self.db)
             await gamification_service.add_points_for_activity(user_id, "theory_read")
-            
+
             await self.db.commit()
 
             logger.info(
