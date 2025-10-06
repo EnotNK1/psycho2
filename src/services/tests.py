@@ -21,6 +21,7 @@ from src.exceptions import (
 from src.services.calculator import calculator_service
 from src.services.emoji import EmojiService
 from src.services.inquiry import InquiryService
+from src.services.gamification import GamificationService
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +32,8 @@ class TestService(BaseService):
         with open("src/services/info/borders_info.json", encoding="utf-8") as file:
             borders_data = json.load(file)
 
-        filtered_borders = [border for border in borders_data if border["scale_id"] == str(scale_id)]
+        filtered_borders = [
+            border for border in borders_data if border["scale_id"] == str(scale_id)]
 
         return filtered_borders
 
@@ -83,7 +85,8 @@ class TestService(BaseService):
                     created_scales += 1
 
                 borders_data = self.load_borders_for_scale(scale.id)
-                borders = [BordersAdd.model_validate(border) for border in borders_data]
+                borders = [BordersAdd.model_validate(
+                    border) for border in borders_data]
 
                 for border in borders:
                     try:
@@ -107,7 +110,8 @@ class TestService(BaseService):
         )
 
     async def add_answer_choices(self, answer_choices_data):
-        answer_choices = [AnswerChoice.model_validate(answer) for answer in answer_choices_data]
+        answer_choices = [AnswerChoice.model_validate(
+            answer) for answer in answer_choices_data]
         created, skipped = 0, 0
 
         for answer in answer_choices:
@@ -132,7 +136,8 @@ class TestService(BaseService):
             logger.info("Файл ответов пустой, ничего не добавлено.")
 
     async def add_questions(self, questions_data):
-        questions = [Question.model_validate(question) for question in questions_data]
+        questions = [Question.model_validate(
+            question) for question in questions_data]
         created, skipped = 0, 0
 
         for question in questions:
@@ -479,7 +484,19 @@ class TestService(BaseService):
                     else:
                         raise ObjectNotFoundException()
 
+                # ДОБАВЛЯЕМ БАЛЛЫ ЗА ПРОХОЖДЕНИЕ ТЕСТА
+                try:
+                    gamification_service = GamificationService(self.db)
+                    new_score = await gamification_service.add_points_for_activity(user_id, "test_completed")
+                    logger.info(
+                        f"Добавлены баллы за прохождение теста для пользователя {user_id}. Новый счет: {new_score}")
+                except Exception as gamification_error:
+                    # Логируем ошибку, но не прерываем выполнение
+                    logger.error(
+                        f"Ошибка при добавлении баллов за тест: {gamification_error}")
+
                 await self.db.session.commit()
+
                 return {
                     "test_result_id": str(test_res_id),
                     "result": result
@@ -522,7 +539,8 @@ class TestService(BaseService):
             result = {
                 "test_id": str(test_result.test_id),
                 "test_result_id": str(test_result.id),
-                "datetime": test_result.date.isoformat(),  # Преобразуем дату в строку в формате ISO
+                # Преобразуем дату в строку в формате ISO
+                "datetime": test_result.date.isoformat(),
                 "scale_results": [],
             }
 
@@ -582,7 +600,8 @@ class TestService(BaseService):
             result = {
                 "test_id": str(test_result.test_id),
                 "test_result_id": str(test_result.id),
-                "datetime": test_result.date.isoformat(),  # Преобразуем дату в строку в формате ISO
+                # Преобразуем дату в строку в формате ISO
+                "datetime": test_result.date.isoformat(),
                 "scale_results": [],
             }
 

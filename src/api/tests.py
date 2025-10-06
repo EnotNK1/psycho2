@@ -26,11 +26,11 @@ async def auto_create(
 
 
 @router.get("",
-    description="""
+            description="""
     Возвращает список всех доступных тестов в системе.
     Каждый тест содержит базовую информацию: ID, title, description, short_desc и link(ссылка на картинку).
     """,
-    summary="Получение всех тестов")
+            summary="Получение всех тестов")
 async def all_tests(
         db: DBDep
 ):
@@ -39,7 +39,7 @@ async def all_tests(
 
 
 @router.get("/{test_id}",
-    description="""
+            description="""
     Возвращает детальную информацию о конкретном тесте по его идентификатору.\n
     Входные параметры: test_id.
     Cодержит cледующее: 
@@ -71,7 +71,7 @@ async def all_tests(
         ]
     }
     """,
-    summary="Получение теста по id")
+            summary="Получение теста по id")
 async def test_by_id(
         test_id: uuid.UUID,
         db: DBDep
@@ -83,7 +83,7 @@ async def test_by_id(
 
 
 @router.get("/{test_id}/questions",
-    description="""
+            description="""
     Возвращает список всех вопросов для указанного теста.\n
     Входные параметры: test_id.
     Содержит следующее:
@@ -105,7 +105,7 @@ async def test_by_id(
         }
     ]
     """,
-    summary="Получение вопросов по test_id")
+            summary="Получение вопросов по test_id")
 async def questions(
         test_id: uuid.UUID,
         db: DBDep
@@ -116,8 +116,9 @@ async def questions(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
+
 @router.get("/{test_id}/questions/answers",
-    description="""
+            description="""
     Возвращает список всех вопросов с ответами для указанного теста.\n
     Входные параметры: test_id.
     Содержит следующее:.
@@ -142,7 +143,7 @@ async def questions(
         }
     ]
     """,
-    summary="Получение вопросов по test_id c ответами")
+            summary="Получение вопросов по test_id c ответами")
 async def questions_with_answers(
         test_id: uuid.UUID,
         db: DBDep
@@ -153,8 +154,9 @@ async def questions_with_answers(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
+
 @router.get("/{test_id}/questions/{question_id}/answers/",
-    description="""
+            description="""
     Возвращает все ответы для определенного вопроса.\n
     Входные параметры: test_id; question_id.
     Содержит следующее:.
@@ -175,7 +177,7 @@ async def questions_with_answers(
         ]
     ]
     """,
-    summary="Получение ответов по test_id и question_id")
+            summary="Получение ответов по test_id и question_id")
 async def answers_by_question_id(
         test_id: uuid.UUID,
         question_id: uuid.UUID,
@@ -186,12 +188,13 @@ async def answers_by_question_id(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
+
 @router.get("/{test_id}/details",
-    description="""
+            description="""
     Возвращает все данные для определенного теста.\n
     Входные параметры: test_id.
     """,
-    summary="Получение теста со всеми связанными данными")
+            summary="Получение теста со всеми связанными данными")
 async def details(
         test_id: uuid.UUID,  # FastAPI автоматически парсит строку в UUID
         db: DBDep
@@ -228,26 +231,26 @@ async def save_result(
         db: DBDep,
         user_id: UserIdDep,
 ):
-        try:
-            return await TestService(db).save_result(test_result_data, user_id)
-        except ObjectNotFoundException:
-            raise ObjectNotFoundHTTPException
-        except InvalidAnswersCountError:
-            raise InvalidAnswersCountHTTPError
-        except ResultsScaleMismatchError:
-            raise ResultsScaleMismatchHTTPError
-        except ScoreOutOfBoundsError:
-            raise ScoreOutOfBoundsHTTPError
-        except MyAppException:
-            raise MyAppHTTPException
+    try:
+        return await TestService(db).save_result(test_result_data, user_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+    except InvalidAnswersCountError:
+        raise InvalidAnswersCountHTTPError
+    except ResultsScaleMismatchError:
+        raise ResultsScaleMismatchHTTPError
+    except ScoreOutOfBoundsError:
+        raise ScoreOutOfBoundsHTTPError
+    except MyAppException:
+        raise MyAppHTTPException
 
 
 @router.get("/{test_id}/results/{user_id}",
-    description="""
+            description="""
     Возвращает результат по test_id и user_id.\n
     Входные параметры: test_id; user_id.
     """,
-    summary="Получение результата теста по test_id и user_id")
+            summary="Получение результата теста по test_id и user_id")
 async def result_by_user_and_test(
         test_id: uuid.UUID,
         user_id: uuid.UUID,
@@ -259,12 +262,13 @@ async def result_by_user_and_test(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
+
 @router.get("/test_result/{result_id}",
-    description="""
+            description="""
     Возвращает результат по result_id.\n
     Входные параметры: result_id.
     """,
-    summary="Получение результата теста по его ID")
+            summary="Получение результата теста по его ID")
 async def get_test_result_by_id(
         result_id: uuid.UUID,  # test_result_id передается как часть пути
         db: DBDep
@@ -274,8 +278,9 @@ async def get_test_result_by_id(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
+
 @router.get("/passed/user/{user_id}",
-    description="""
+            description="""
     Возвращает все пройденные тесты по user_id.\n
     Входные параметры: user_id.
     Содержит следующее:
@@ -288,7 +293,7 @@ async def get_test_result_by_id(
         }
     ]
     """,
-    summary="Получение всех пройденных тестов для пользователя")
+            summary="Получение всех пройденных тестов для пользователя")
 async def get_passed_tests_by_user(
         user_id: uuid.UUID,  # user_id передается как часть пути
         db: DBDep
@@ -298,8 +303,9 @@ async def get_passed_tests_by_user(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
+
 @router.get("/passed/user",
-    description="""
+            description="""
     Возвращает все пройденные тесты для текущего пользователя.\n
     Содержит следующее:
     [
@@ -311,7 +317,7 @@ async def get_passed_tests_by_user(
         }
     ]
     """,
-    summary="Получение всех пройденных тестов для текущего пользователя")
+            summary="Получение всех пройденных тестов для текущего пользователя")
 async def get_passed_tests(
         user_id: UserIdDep,  # Извлекаем user_id из токена
         db: DBDep
