@@ -286,5 +286,59 @@
     "link_to_picture": "/images/images_education_material/img_8.png",
     "education_theme_id": "56124443-ed76-418c-22a7-ea1317aaa772",
     "subtitle": "Разберём структуру дневника мыслей:"
+  },
+  {
+    "id": "ed7ca0b2-9f43-461d-a0a5-dec30b1166c3",
+    "type": 0,
+    "number": 1,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
+    "subtitle": "Что такое эмоции?"
+  },
+  {
+    "id": "ed7ca0b1-9f46-461d-a0a5-dec40b1166c1",
+    "type": 0,
+    "number": 2,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
+    "subtitle": "Эмоция vs настроение"
+  },
+  {
+    "id": "ed1ca0b8-9f36-411d-a0a2-dec20b7676c1",
+    "type": 0,
+    "number": 3,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
+    "subtitle": "Зачем нужны эмоции?"
+  },
+  {
+    "id": "ed1ca0b4-9f96-462d-a0a2-dec40b1396c5",
+    "type": 0,
+    "number": 4,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
+    "subtitle": "Почему так сложно?"
+  },
+  {
+    "id": "ed5ca0b4-9f26-411d-a0a2-dec60b2666c1",
+    "type": 0,
+    "number": 5,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
+    "subtitle": "Какие бывают эмоции?"
+  },
+  {
+    "id": "ed1ca0b5-8f76-431d-a0a1-dec60b3766c1",
+    "type": 0,
+    "number": 6,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
+    "subtitle": "Выводы"
   }
 ]
