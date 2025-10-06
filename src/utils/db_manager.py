@@ -21,6 +21,7 @@ from src.repositories.mood_tracker import MoodTrackerRepository
 from src.repositories.application import ApplicationRepository
 from src.repositories.daily_tasks import DailyTasksRepository
 from src.repositories.emoji import EmojiRepository
+from src.repositories.gamification import UserScoreRepository
 
 
 class DBManager:
@@ -47,6 +48,7 @@ class DBManager:
         self.scale_result = ScaleResultRepository(self.session)
         self.daily_tasks = DailyTasksRepository(self.session)
         self.emoji = EmojiRepository(self.session)
+        self.user_score = UserScoreRepository(self.session)
 
         # Education repositories
         self.education_material = EducationRepository(self.session)
