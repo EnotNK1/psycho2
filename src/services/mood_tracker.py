@@ -8,8 +8,10 @@ from src.exceptions import (
     ObjectNotFoundException,
     NotOwnedError, InvalidEmojiIdException
 )
+from src.schemas.daily_tasks import DailyTaskId
 from src.schemas.mood_tracker import MoodTracker, MoodTrackerDateRequestAdd, MoodTrackerCreate
 from src.services.base import BaseService
+from src.services.daily_tasks import DailyTaskService
 from src.services.emoji import EmojiService
 from src.models import MoodTrackerOrm
 
@@ -44,6 +46,12 @@ class MoodTrackerService(BaseService):
             user_id=user_id,
             emoji_ids=data.emoji_ids
         )
+
+        daily_tasks = await DailyTaskService(self.db).get_daily_tasks(user_id)
+        for task in daily_tasks:
+            if task["type"] == 2:
+                daily_task_id_data = DailyTaskId(daily_task_id=task["id"])
+                await DailyTaskService(self.db).complete_daily_task(daily_task_id_data, user_id)
 
         await self.db.mood_tracker.add(mood_tracker)
         await self.db.commit()
