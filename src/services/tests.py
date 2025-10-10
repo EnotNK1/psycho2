@@ -524,64 +524,67 @@ class TestService(BaseService):
 
     async def get_test_result_by_user_and_test(
             self, test_id: uuid.UUID, user_id: uuid.UUID
-    ) -> Optional[Dict[str, Any]]:
+    ):
 
         try:
-            # Получаем результат теста для указанного пользователя и теста
-            test_result = await self.db.test_result.get_one_or_none(
+            # Получаем ВСЕ результаты теста для указанного пользователя и теста
+            test_results = await self.db.test_result.get_filtered(
                 test_id=test_id, user_id=user_id
             )
 
-            # Получаем результаты шкал для данного результата теста
-            scale_results = await self.db.scale_result.get_filtered(test_result_id=test_result.id)
+            results = []
+            for test_result in test_results:
+                # Получаем результаты шкал для данного результата теста
+                scale_results = await self.db.scale_result.get_filtered(test_result_id=test_result.id)
 
-            # Формируем ответ
-            result = {
-                "test_id": str(test_result.test_id),
-                "test_result_id": str(test_result.id),
-                # Преобразуем дату в строку в формате ISO
-                "datetime": test_result.date.isoformat(),
-                "scale_results": [],
-            }
+                # Формируем ответ для каждого результата теста
+                result = {
+                    "test_id": str(test_result.test_id),
+                    "test_result_id": str(test_result.id),
+                    "datetime": test_result.date.isoformat(),
+                    "scale_results": [],
+                }
 
-            # Для каждого результата шкалы получаем дополнительные данные
-            for sr in scale_results:
-                # Получаем информацию о шкале
-                scale = await self.db.scales.get_one(id=sr.scale_id)
-                if not scale:
-                    continue
+                # Для каждого результата шкалы получаем дополнительные данные
+                for sr in scale_results:
+                    # Получаем информацию о шкале
+                    scale = await self.db.scales.get_one(id=sr.scale_id)
+                    if not scale:
+                        continue
 
-                # Получаем границы для шкалы
-                borders = await self.db.borders.get_filtered(scale_id=scale.id)
+                    # Получаем границы для шкалы
+                    borders = await self.db.borders.get_filtered(scale_id=scale.id)
 
-                # Определяем вывод и рекомендации на основе score
-                conclusion = ""
-                color = ""
-                user_recommendation = ""
-                for border in borders:
-                    if border.left_border <= sr.score <= border.right_border:
-                        conclusion = border.title
-                        color = border.color
-                        user_recommendation = border.user_recommendation
-                        break
+                    # Определяем вывод и рекомендации на основе score
+                    conclusion = ""
+                    color = ""
+                    user_recommendation = ""
+                    for border in borders:
+                        if border.left_border <= sr.score <= border.right_border:
+                            conclusion = border.title
+                            color = border.color
+                            user_recommendation = border.user_recommendation
+                            break
 
-                # Добавляем результат шкалы в ответ
-                result["scale_results"].append({
-                    "scale_id": str(scale.id),
-                    "scale_title": scale.title,
-                    "score": sr.score,
-                    "max_score": scale.max,  # Максимальное значение шкалы
-                    "conclusion": conclusion,
-                    "color": color,
-                    "user_recommendation": user_recommendation,
-                })
+                    # Добавляем результат шкалы в ответ
+                    result["scale_results"].append({
+                        "scale_id": str(scale.id),
+                        "scale_title": scale.title,
+                        "score": sr.score,
+                        "max_score": scale.max,
+                        "conclusion": conclusion,
+                        "color": color,
+                        "user_recommendation": user_recommendation,
+                    })
 
-            return result
+                results.append(result)
+
+            return results
 
         except ObjectNotFoundException as ex:
             raise ex
         except Exception as ex:
-            logger.error(f"Ошибка при получении результата теста: {ex}")
+            logger.error(f"Ошибка при получении результатов теста: {ex}")
             raise MyAppException()
 
     async def get_test_result_by_id(self, result_id: uuid.UUID) -> Dict[str, Any]:
