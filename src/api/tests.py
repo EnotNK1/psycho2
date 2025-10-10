@@ -4,6 +4,8 @@ from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
+from typing import Optional
+
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
 from src.exceptions import ObjectNotFoundHTTPException, ObjectNotFoundException, MyAppException, MyAppHTTPException, \
@@ -245,20 +247,22 @@ async def save_result(
         raise MyAppHTTPException
 
 
-@router.get("/{test_id}/results/{user_id}",
+@router.get("/{test_id}/results/",
             description="""
     Возвращает результат по test_id и user_id.\n
     Входные параметры: test_id; user_id.
     """,
             summary="Получение результата теста по test_id и user_id")
 async def result_by_user_and_test(
-        test_id: uuid.UUID,
-        user_id: uuid.UUID,
         db: DBDep,
+        current_user_id: UserIdDep,
+        test_id: uuid.UUID,
+        user_id: Optional[uuid.UUID] = None,
 ):
     try:
         test_service = TestService(db)
-        return await test_service.get_test_result_by_user_and_test(test_id, user_id)
+        target_user_id = user_id if user_id else current_user_id
+        return await test_service.get_test_result_by_user_and_test(test_id, target_user_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
