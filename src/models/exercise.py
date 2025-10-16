@@ -1,12 +1,12 @@
 import datetime
 
 import uuid
-from typing import List
-from sqlalchemy import ForeignKey, Enum, String
+from typing import List, Any
+from sqlalchemy import ForeignKey, Enum, String, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 
-from src.schemas.exercise import FieldType
+from src.utils.enums import FieldType, ViewType
 from src.database import Base
 
 
@@ -17,8 +17,9 @@ class ExerciseStructureOrm(Base):
     title: Mapped[str]
     description: Mapped[str]
     picture_link: Mapped[str]
+    time_to_read: Mapped[int]
+    questions_count: Mapped[int]
     linked_exercise_id: Mapped[uuid.UUID] = mapped_column(nullable=True)
-    field_count: Mapped[int]
     completed_exercise: Mapped[List["CompletedExerciseOrm"]] = relationship(
         cascade="all, delete-orphan")
     field: Mapped[List["FieldOrm"]] = relationship(
@@ -43,14 +44,18 @@ class FieldOrm(Base):
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     title: Mapped[str]
-    hint: Mapped[str]
-    description: Mapped[str]
-    type: Mapped[FieldType] = mapped_column(Enum(
-        FieldType, name="fieldtype", create_constraint=True, values_callable=lambda x: [e.value for e in FieldType]))
-    major: Mapped[bool]
+    major: Mapped[bool]  # Главное поле
+    # стиль секции "default" | "primary"
+    view: Mapped[ViewType] = mapped_column(String(20))
+    type: Mapped[FieldType] = mapped_column(String(20))  # тип поля ввода
+    placeholder: Mapped[str] = mapped_column(
+        nullable=True)  # текст-подсказка в поле ввода
+    prompt: Mapped[str] = mapped_column(
+        nullable=True)  # пример для пользователя
+    description: Mapped[str]  # описание
+    order: Mapped[int]  # страница
     exercise_structure_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("exercise_structure.id",
                                                                         ondelete="CASCADE"))
-    order: Mapped[int]
     variants: Mapped[List["VariantOrm"]] = relationship(
         cascade="all, delete-orphan", back_populates="field"
     )
@@ -74,9 +79,24 @@ class FilledFieldOrm(Base):
     __tablename__ = 'filled_field'
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
-    text: Mapped[str]
+    title: Mapped[str] = mapped_column(nullable=True)
+    view: Mapped[ViewType] = mapped_column(String(20))
+    type: Mapped[FieldType] = mapped_column(String(20))
+    text: Mapped[Any] = mapped_column(JSON)
     field_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("field.id", ondelete="CASCADE"))
     completed_exercise_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("completed_exercise.id",
                                                                         ondelete="CASCADE"))
     exercises: Mapped[List[str]] = mapped_column(ARRAY(String), nullable=True)
+
+
+class ExerciseViewOrm(Base):
+    __tablename__ = 'exercise_view'
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    exercise_structure_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("exercise_structure.id",
+                                                                        ondelete="CASCADE"))
+    view: Mapped[str] = mapped_column(nullable=True)
+    score: Mapped[int] = mapped_column(nullable=True)
+    picture_link: Mapped[str] = mapped_column(nullable=True)
+    message: Mapped[str] = mapped_column(nullable=True)
