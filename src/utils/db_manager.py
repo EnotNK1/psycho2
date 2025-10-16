@@ -22,6 +22,7 @@ from src.repositories.application import ApplicationRepository
 from src.repositories.daily_tasks import DailyTasksRepository
 from src.repositories.emoji import EmojiRepository
 from src.repositories.gamification import UserScoreRepository
+from src.repositories.exercise import ExerciseRepository
 
 
 class DBManager:
@@ -49,6 +50,7 @@ class DBManager:
         self.daily_tasks = DailyTasksRepository(self.session)
         self.emoji = EmojiRepository(self.session)
         self.user_score = UserScoreRepository(self.session)
+        self.exercise = ExerciseRepository(self.session)
 
         # Education repositories
         self.education_material = EducationRepository(self.session)
