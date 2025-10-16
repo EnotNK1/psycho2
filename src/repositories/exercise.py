@@ -443,7 +443,8 @@ class ExerciseRepository(BaseRepository):
                 ))
             )
             if prev_completed is None:
-                raise ValueError("Cannot complete this exercise. Previous exercise must be completed first.")
+                raise ValueError(
+                    "Cannot complete this exercise. Previous exercise must be completed first.")
 
         # Создаем запись о выполненном упражнении
         completed = CompletedExerciseOrm(
@@ -459,7 +460,8 @@ class ExerciseRepository(BaseRepository):
         for field_data in completed_data.filled_fields:
             field = await self.session.get(FieldOrm, field_data.field_id)
             if not field:
-                raise ValueError(f"Field with id {field_data.field_id} not found")
+                raise ValueError(
+                    f"Field with id {field_data.field_id} not found")
 
             filled_field = FilledFieldOrm(
                 id=uuid.uuid4(),

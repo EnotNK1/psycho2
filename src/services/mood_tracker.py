@@ -13,6 +13,7 @@ from src.schemas.mood_tracker import MoodTracker, MoodTrackerDateRequestAdd, Moo
 from src.services.base import BaseService
 from src.services.daily_tasks import DailyTaskService
 from src.services.emoji import EmojiService
+from src.services.gamification import GamificationService
 from src.models import MoodTrackerOrm
 
 class MoodTrackerService(BaseService):
@@ -54,6 +55,10 @@ class MoodTrackerService(BaseService):
                 await DailyTaskService(self.db).complete_daily_task(daily_task_id_data, user_id)
 
         await self.db.mood_tracker.add(mood_tracker)
+
+        gamification_service = GamificationService(self.db)
+        await gamification_service.add_points_for_activity(user_id, "mood_tracker_used")
+
         await self.db.commit()
 
     async def get_mood_tracker(self, day: Optional[str], user_id: uuid.UUID) -> List[MoodTracker]:
