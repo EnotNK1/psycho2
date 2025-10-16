@@ -1,8 +1,8 @@
-"""add_exercise
+"""create exercises tables
 
-Revision ID: a6ff7408cbe0
+Revision ID: 6dae8306f00f
 Revises: 2b7f6bfd7b94
-Create Date: 2025-05-08 11:53:27.900317
+Create Date: 2025-10-17 04:50:59.079595
 
 """
 
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = "a6ff7408cbe0"
+revision: str = "6dae8306f00f"
 down_revision: Union[str, None] = "2b7f6bfd7b94"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -27,8 +27,9 @@ def upgrade() -> None:
         sa.Column("title", sa.String(), nullable=False),
         sa.Column("description", sa.String(), nullable=False),
         sa.Column("picture_link", sa.String(), nullable=False),
+        sa.Column("time_to_read", sa.Integer(), nullable=False),
+        sa.Column("questions_count", sa.Integer(), nullable=False),
         sa.Column("linked_exercise_id", sa.Uuid(), nullable=True),
-        sa.Column("field_count", sa.Integer(), nullable=False),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
@@ -44,26 +45,30 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
+        "exercise_view",
+        sa.Column("id", sa.Uuid(), nullable=False),
+        sa.Column("exercise_structure_id", sa.Uuid(), nullable=False),
+        sa.Column("view", sa.String(), nullable=True),
+        sa.Column("score", sa.Integer(), nullable=True),
+        sa.Column("picture_link", sa.String(), nullable=True),
+        sa.Column("message", sa.String(), nullable=True),
+        sa.ForeignKeyConstraint(
+            ["exercise_structure_id"], ["exercise_structure.id"], ondelete="CASCADE"
+        ),
+        sa.PrimaryKeyConstraint("id"),
+    )
+    op.create_table(
         "field",
         sa.Column("id", sa.Uuid(), nullable=False),
         sa.Column("title", sa.String(), nullable=False),
-        sa.Column("hint", sa.String(), nullable=False),
-        sa.Column("description", sa.String(), nullable=False),
-        sa.Column(
-            "type",
-            sa.Enum(
-                "TEXT",
-                "SLIDER",
-                "CHOICE",
-                "SELECTION",
-                name="fieldtype",
-                create_constraint=True,
-            ),
-            nullable=False,
-        ),
         sa.Column("major", sa.Boolean(), nullable=False),
-        sa.Column("exercise_structure_id", sa.Uuid(), nullable=False),
+        sa.Column("view", sa.String(length=20), nullable=False),
+        sa.Column("type", sa.String(length=20), nullable=False),
+        sa.Column("placeholder", sa.String(), nullable=True),
+        sa.Column("prompt", sa.String(), nullable=True),
+        sa.Column("description", sa.String(), nullable=False),
         sa.Column("order", sa.Integer(), nullable=False),
+        sa.Column("exercise_structure_id", sa.Uuid(), nullable=False),
         sa.Column("exercises", postgresql.ARRAY(sa.String()), nullable=True),
         sa.ForeignKeyConstraint(
             ["exercise_structure_id"], ["exercise_structure.id"], ondelete="CASCADE"
@@ -73,7 +78,10 @@ def upgrade() -> None:
     op.create_table(
         "filled_field",
         sa.Column("id", sa.Uuid(), nullable=False),
-        sa.Column("text", sa.String(), nullable=False),
+        sa.Column("title", sa.String(), nullable=True),
+        sa.Column("view", sa.String(length=20), nullable=False),
+        sa.Column("type", sa.String(length=20), nullable=False),
+        sa.Column("text", sa.JSON(), nullable=False),
         sa.Column("field_id", sa.Uuid(), nullable=False),
         sa.Column("completed_exercise_id", sa.Uuid(), nullable=False),
         sa.Column("exercises", postgresql.ARRAY(sa.String()), nullable=True),
@@ -99,8 +107,7 @@ def downgrade() -> None:
     op.drop_table("variants")
     op.drop_table("filled_field")
     op.drop_table("field")
+    op.drop_table("exercise_view")
     op.drop_table("completed_exercise")
     op.drop_table("exercise_structure")
-
-    op.execute("DROP TYPE IF EXISTS fieldtype")
     # ### end Alembic commands ###
