@@ -28,6 +28,26 @@ services:
     expose:
       - "4321"
 
+  backup:
+    image: prodrigestivill/postgres-backup-local
+    restart: always
+    volumes:
+      - ./backups:/backups
+    environment:
+      - POSTGRES_HOST=odeyalo-backend-db
+      - POSTGRES_DB=psycho2
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PORT=4321
+      - BACKUP_DIR=/backups
+      - BACKUP_KEEP_DAYS=2
+      - BACKUP_SUFFIX=.sql.gz
+      - SCHEDULE=@daily
+    networks:
+      - odeyalo-network
+    depends_on:
+      - db
+
   odeyalo_celery_worker_service:
     container_name: 'odeyalo_celery_worker'
     build:
