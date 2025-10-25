@@ -341,6 +341,7 @@ class ExerciseRepository(BaseRepository):
         )
         completed_exercises = completed_exercises.scalars().unique().all()
 
+
         results = []
         for completed in completed_exercises:
             # Находим главное поле (preview) - первое поле или поле с major=True
@@ -413,8 +414,20 @@ class ExerciseRepository(BaseRepository):
             )
             sections.append(section)
 
+        exercise = await self.session.execute(
+            select(ExerciseStructureOrm)
+            .where(ExerciseStructureOrm.id == exercise_id)
+        )
+        exercise = exercise.scalars().unique().first()
+
+        if not exercise:
+            return None
+
         return ResultDetailResponse(
             id=completed_exercise.id,
+            title=exercise.title,
+            picture_link=exercise.picture_link,
+            description=exercise.description,
             exercise_id=completed_exercise.exercise_structure_id,
             date=completed_exercise.date.date(),
             sections=sections

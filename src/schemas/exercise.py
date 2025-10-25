@@ -198,7 +198,7 @@ class ResultResponse(BaseModel):
     id: uuid.UUID
     exercise_id: uuid.UUID
     date: date
-    preview: str
+    preview: Union[str, int, float, List[str], List[int], None]
 
     class Config:
         from_attributes = True
@@ -213,6 +213,9 @@ class ResultSectionResponse(BaseModel):
 
 class ResultDetailResponse(BaseModel):
     id: uuid.UUID
+    title: str
+    picture_link: str
+    description: str
     exercise_id: uuid.UUID
     date: date
     sections: List[ResultSectionResponse]
