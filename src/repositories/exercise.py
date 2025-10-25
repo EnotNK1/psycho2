@@ -341,7 +341,6 @@ class ExerciseRepository(BaseRepository):
         )
         completed_exercises = completed_exercises.scalars().unique().all()
 
-
         results = []
         for completed in completed_exercises:
             # Находим главное поле (preview) - первое поле или поле с major=True

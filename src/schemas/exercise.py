@@ -124,7 +124,7 @@ class VariantResponse(BaseModel):
 
 class FilledFieldCreate(BaseModel):
     field_id: uuid.UUID
-    text: Union[str, int, float, List[str], List[int], None]
+    text: Union[str, int, float, List[str], List[int]]
 
 
 class CompletedExerciseCreate(BaseModel):

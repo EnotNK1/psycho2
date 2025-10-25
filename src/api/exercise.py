@@ -127,7 +127,7 @@ async def get_exercise_result_detail(
     return await ExerciseService(db).get_exercise_result_detail(exercise_id, result_id, user_id)
 
 
-@router.post("/complete/", response_model=CompletedExerciseResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/complete", response_model=CompletedExerciseResponse, status_code=status.HTTP_201_CREATED)
 async def complete_exercise(
     completed_data: CompletedExerciseCreate,
     db: DBDep,
