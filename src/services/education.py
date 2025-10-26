@@ -5,14 +5,17 @@ from typing import List, Type
 
 from src.exceptions import ObjectNotFoundException, MyAppException, ObjectAlreadyExistsException
 from src.models.education import EducationProgressOrm, educationThemeOrm
+from src.schemas.daily_tasks import DailyTaskId
 from src.schemas.education_material import (
     EducationThemeResponse,
     EducationMaterialResponse,
     CardResponse,
     EducationProgressResponse, CompleteEducation, EducationThemeAdd, EducationMaterialAdd, CardAdd,
-    GetUserEducationProgressResponse, EducationThemeWithMaterialsResponse, ThemeRecommendationResponse
+    GetUserEducationProgressResponse, EducationThemeWithMaterialsResponse, ThemeRecommendationResponse,
+    CompleteEducationTheme
 )
 from src.services.base import BaseService
+from src.services.daily_tasks import DailyTaskService
 from src.services.gamification import GamificationService
 
 logger = logging.getLogger(__name__)
@@ -178,6 +181,23 @@ class EducationService(BaseService):
         except Exception as ex:
             logger.error(f"Error in get_education_theme_materials: {ex}")
             raise MyAppException()
+
+    async def complete_education_theme(self, payload: CompleteEducationTheme, user_id: uuid.UUID):
+        try:
+            daily_tasks = await DailyTaskService(self.db).get_daily_tasks(user_id)
+            for task in daily_tasks:
+                if task["destination_id"] == payload.education_theme_id:
+                    daily_task_id_data = DailyTaskId(daily_task_id=task["id"])
+                    await DailyTaskService(self.db).complete_daily_task(daily_task_id_data, user_id)
+
+        except ObjectNotFoundException:
+            raise
+        except ObjectAlreadyExistsException:
+            raise
+        except Exception as ex:
+            await self.db.rollback()
+            raise MyAppException()
+
 
     async def complete_education_material(self, payload: CompleteEducation, user_id: uuid.UUID):
         try:

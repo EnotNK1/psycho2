@@ -15,7 +15,7 @@ from src.schemas.education_material import (
     EducationThemeResponse,
     EducationMaterialResponse,
     EducationProgressResponse,
-    CompleteEducation, GetUserEducationProgressResponse, EducationThemeWithMaterialsResponse
+    CompleteEducation, GetUserEducationProgressResponse, EducationThemeWithMaterialsResponse, CompleteEducationTheme
 )
 
 logger = logging.getLogger(__name__)
@@ -60,6 +60,23 @@ async def complete_education_material(
 ):
     try:
         await EducationService(db).complete_education_material(payload, user_id)
+        return {"status": "ok"}
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+    except ObjectAlreadyExistsException:
+        raise ObjectAlreadyExistsHTTPException
+    except Exception as e:
+        logger.error(f"Error in complete_education_material: {str(e)}")
+        raise MyAppHTTPException
+
+@router.post("/themes/complete", summary="Завершение темы")
+async def complete_education_theme(
+    payload: CompleteEducationTheme,
+    db: DBDep,
+    user_id: UserIdDep
+):
+    try:
+        await EducationService(db).complete_education_theme(payload, user_id)
         return {"status": "ok"}
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
