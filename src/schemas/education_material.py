@@ -71,6 +71,10 @@ class CompleteEducation(BaseModel):
     education_material_id: uuid.UUID
 
 
+class CompleteEducationTheme(BaseModel):
+    education_theme_id: uuid.UUID
+
+
 class CardAdd(BaseModel):
     id: uuid.UUID
     text: str

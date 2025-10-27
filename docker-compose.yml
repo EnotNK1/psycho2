@@ -4,8 +4,8 @@ services:
     restart: on-failure
     build:
       context: .
-    # ports:
-    #  - "8000:8000"
+#    ports:
+#      - "8000:8000"
     expose:
       - "8000"
     networks:
