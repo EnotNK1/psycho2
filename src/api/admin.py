@@ -4,9 +4,11 @@ from operator import and_
 from fastapi import APIRouter, Depends, Query
 from uuid import UUID
 from typing import Optional, List
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
+from sqlalchemy import func, select
 from sqlalchemy import func
+from starlette import status
 
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.admin import AdminIdDep, verify_admin
@@ -14,11 +16,13 @@ from src.models import UsersOrm
 from src.schemas.users import AdminUserResponse
 from src.services.auth import AuthService
 from src.services.diary import DiaryService
+from src.services.exercise import ExerciseService
 from src.services.mood_tracker import MoodTrackerService
 from src.exceptions import (
     ObjectNotFoundHTTPException,
-    InvalidDateFormatHTTPException
+    InvalidDateFormatHTTPException, ObjectNotFoundException, InvalidPeriodHTTPException
 )
+from src.services.statistics import StatisticsService
 
 router = APIRouter(prefix="/admin", tags=["Админка"])
 
@@ -116,6 +120,59 @@ async def get_mood_tracker_admin(
     mood_tracker = await mood_tracker_service.db.mood_tracker.get_filtered(*filters)
 
     if not mood_tracker:
-        raise ObjectNotFoundHTTPException(detail="Дневники не найдены")
+        raise ObjectNotFoundHTTPException(detail="Записи трекера настроения не найдены")
 
     return mood_tracker
+
+
+@router.get("/exercises")
+async def get_exercises_admin(
+        db: DBDep,
+        admin_id: UUID = Depends(verify_admin),  # Проверка прав админа
+        user_id: Optional[UUID] = Query(None, description="Фильтр по ID пользователя"),
+        day: Optional[str] = Query(None, description="Фильтр по дате (YYYY-MM-DD)"),
+        exercise_type: Optional[str] = Query(None, description="Фильтр по типу упражнения")
+):
+    exercise_service = ExerciseService(db)  # Предполагается, что у вас есть ExerciseService
+    filters = []
+
+    if user_id:
+        filters.append(exercise_service.db.exercise.model.user_id == user_id)
+
+    if day:
+        try:
+            target_date = datetime.strptime(day, '%Y-%m-%d').date()
+            filters.append(func.date(exercise_service.db.exercise.model.created_at) == target_date)
+        except ValueError:
+            raise InvalidDateFormatHTTPException()
+
+    if exercise_type:
+        filters.append(exercise_service.db.exercise.model.exercise_type == exercise_type)
+
+    exercises = await exercise_service.db.exercise.get_filtered(*filters)
+
+    if not exercises:
+        raise ObjectNotFoundHTTPException(detail="Записи упражнений не найдены")
+
+    return exercises
+
+
+@router.get("/user-statistics/{user_id}")
+async def get_user_statistics(
+        user_id: UUID,
+        db: DBDep,
+        admin_id: UUID = Depends(verify_admin)
+):
+
+    statistics_service = StatisticsService(db)
+
+    try:
+        statistics = await statistics_service.get_user_activity_statistics(user_id)
+
+        if not statistics:
+            raise ObjectNotFoundHTTPException(detail="Статистика не найдена")
+
+        return statistics
+
+    except ObjectNotFoundException as ex:
+        raise ObjectNotFoundHTTPException(detail="Пользователь или данные не найдены")
