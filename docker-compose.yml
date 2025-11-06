@@ -1,11 +1,11 @@
 services:
-  odeyalo_back_service:
-    container_name: 'odeyalo-backend-app'
+  app:
+    container_name: odeyalo-backend-app
     restart: on-failure
     build:
       context: .
-#    ports:
-#      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
     expose:
       - "8000"
     networks:
@@ -31,6 +31,7 @@ services:
       - "4321"
 
   backup:
+    container_name: odeyalo-backend-backup
     image: prodrigestivill/postgres-backup-local
     restart: always
     volumes:
@@ -50,8 +51,8 @@ services:
     depends_on:
       - db
 
-  odeyalo_celery_worker_service:
-    container_name: 'odeyalo_celery_worker'
+  celery_worker:
+    container_name: odeyalo-backend-celery-worker
     restart: on-failure
     build:
       context: .
@@ -61,8 +62,8 @@ services:
       - .env
     command: "celery --app=src.tasks.celery_app:celery_instance worker -l INFO"
 
-  odeyalo_celery_beat_service:
-    container_name: 'odeyalo_celery_beat'
+  celery_beat:
+    container_name: odeyalo-backend-celery-beat
     build:
       context: .
     restart: on-failure
@@ -85,7 +86,7 @@ services:
     networks:
       - odeyalo-network
     depends_on:
-      - odeyalo_back_service
+      - app
 
   redis:
     container_name: odeyalo-backend-redis
@@ -105,4 +106,3 @@ networks:
   odeyalo-network:
     name: odeyalo-network
     driver: bridge
-
