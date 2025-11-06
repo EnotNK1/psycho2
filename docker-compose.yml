@@ -77,8 +77,8 @@ services:
     container_name: odeyalo-backend-nginx
     image: public.ecr.aws/nginx/nginx:latest
     restart: on-failure
-    # ports:
-    #   - "80:80"
+    ports:
+      - "80:80"
     expose:
       - "80"
     volumes:
