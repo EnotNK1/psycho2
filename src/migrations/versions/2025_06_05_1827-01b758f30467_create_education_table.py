@@ -27,6 +27,8 @@ def upgrade() -> None:
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column("theme", sa.String(), nullable=False),
         sa.Column("link", sa.String(), nullable=False),
+        sa.Column("link_to_picture", sa.String(), nullable=True),  # ← Убедитесь что эта строка есть
+        sa.Column("tags", postgresql.JSONB(), nullable=True),      # ← И эта строка есть
         sa.Column("related_topics", postgresql.JSONB(), nullable=True),
         sa.PrimaryKeyConstraint("id")
     )

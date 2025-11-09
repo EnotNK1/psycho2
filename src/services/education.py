@@ -54,13 +54,17 @@ class EducationService(BaseService):
         from sqlalchemy import text
 
         try:
-            # Удаляем карточки
-            await self.db.execute(text("DELETE FROM education_card"))
-            # Удаляем материалы
-            await self.db.execute(text("DELETE FROM education_material"))
-            # Удаляем темы
-            await self.db.execute(text("DELETE FROM education_theme"))
-            logger.info("Все старые образовательные данные удалены")
+            # Проверяем существование таблиц перед удалением
+            tables = ['education_card', 'education_material', 'education_theme']
+
+            for table in tables:
+                try:
+                    await self.db.execute(text(f"DELETE FROM {table}"))
+                    logger.info(f"Данные из таблицы {table} удалены")
+                except Exception as e:
+                    logger.warning(f"Таблица {table} не существует или ошибка при удалении: {e}")
+                    continue
+
         except Exception as e:
             logger.error(f"Ошибка при удалении данных: {e}")
             raise
@@ -120,29 +124,25 @@ class EducationService(BaseService):
         try:
             theme = await self.db.education_theme.get_with_materials(theme_id)
             if not theme:
-                raise ObjectNotFoundException(
-                    f"Theme with id {theme_id} not found")
+                raise ObjectNotFoundException(f"Theme with id {theme_id} not found")
 
+            # Рекомендации
             recommendations = []
             if theme.related_topics:
                 for topic_id in theme.related_topics:
-                    try:
-                        # Используем новый метод без маппера
-                        topic = await self.db.education_theme.get_orm_one_or_none(topic_id)
-
-                        if topic:
-                            recommendations.append(
-                                ThemeRecommendationResponse(
-                                    id=topic.id,
-                                    theme=topic.theme,
-                                    link=topic.link or "",
-                                    tags=topic.tags
-                                )
+                    topic = await self.db.education_theme.get_orm_one_or_none(topic_id)
+                    if topic:
+                        recommendations.append(
+                            ThemeRecommendationResponse(
+                                id=topic.id,
+                                theme=topic.theme,
+                                link=topic.link or "",
+                                link_to_picture=topic.link_to_picture,
+                                tags=topic.tags
                             )
-                    except Exception:
-                        continue
+                        )
 
-            # Преобразуем материалы и вложенные карточки в схемы
+            # Материалы с карточками
             materials_response = []
             for material in theme.education_materials:
                 cards_response = [
@@ -152,7 +152,7 @@ class EducationService(BaseService):
                         number=card.number,
                         link_to_picture=card.link_to_picture
                     )
-                    for card in getattr(material, "cards", [])
+                    for card in material.cards  # ✅ уже подгружены
                 ]
 
                 materials_response.append(
@@ -167,11 +167,11 @@ class EducationService(BaseService):
                     )
                 )
 
-            # Возвращаем полную информацию о теме с материалами
             return EducationThemeWithMaterialsResponse(
                 id=theme.id,
                 theme=theme.theme,
                 link=theme.link or "",
+                link_to_picture=theme.link_to_picture,
                 recommendations=recommendations,
                 education_materials=materials_response
             )

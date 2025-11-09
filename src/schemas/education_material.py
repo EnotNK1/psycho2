@@ -26,6 +26,7 @@ class ThemeRecommendationResponse(BaseModel):
     id: uuid.UUID
     theme: str
     link: str
+    link_to_picture: Optional[str] = None
     tags: Optional[List[str]] = None
 
 
@@ -33,6 +34,7 @@ class EducationThemeResponse(BaseModel):
     id: uuid.UUID
     theme: str
     link: str
+    link_to_picture: Optional[str] = None
     tags: Optional[List[str]] = None
     education_materials: List[EducationMaterialResponse] = Field(
         default_factory=list)
@@ -41,6 +43,7 @@ class EducationThemeResponse(BaseModel):
 class EducationThemeWithMaterialsResponse(BaseModel):
     id: uuid.UUID
     theme: str
+    link_to_picture: Optional[str] = None
     link: str
     recommendations: List[ThemeRecommendationResponse] = Field(
         default_factory=list)
@@ -52,6 +55,7 @@ class EducationThemeAdd(BaseModel):
     id: uuid.UUID
     theme: str
     link: str
+    link_to_picture: Optional[str] = None
     tags: Optional[List[str]] = None
     related_topics: Optional[List[str]] = None
 

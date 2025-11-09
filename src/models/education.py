@@ -1,5 +1,5 @@
 import uuid
-from typing import List, Optional, Any
+from typing import List, Optional
 
 from sqlalchemy import ForeignKey, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -9,30 +9,27 @@ from src.models.users import UsersOrm
 
 
 class educationThemeOrm(Base):
-    def __init__(self, **kw: Any):
-        super().__init__(kw)
-        self.awaitable_attrs = None
-
     __tablename__ = "education_theme"
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     theme: Mapped[str]
     link: Mapped[str]
+    link_to_picture: Mapped[Optional[str]] = mapped_column(nullable=True)
     tags: Mapped[Optional[List[str]]] = mapped_column(JSON, nullable=True)
-    related_topics: Mapped[Optional[List[str]]
-                           ] = mapped_column(JSON, nullable=True)
+    related_topics: Mapped[Optional[List[str]]] = mapped_column(JSON, nullable=True)
 
     education_materials: Mapped[List["educationMaterialOrm"]] = relationship(
         back_populates="education_theme",
         cascade="all, delete-orphan"
     )
 
+    # УДАЛИТЕ конструктор __init__ - он вызывает проблемы
+    # def __init__(self, **kw: Any):
+    #     super().__init__(kw)
+    #     self.awaitable_attrs = None
+
 
 class educationMaterialOrm(Base):
-    def __init__(self, **kw: Any):
-        super().__init__(kw)
-        self.awaitable_attrs = None
-
     __tablename__ = "education_material"
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
@@ -57,6 +54,11 @@ class educationMaterialOrm(Base):
         cascade="all, delete-orphan"
     )
 
+    # УДАЛИТЕ конструктор __init__
+    # def __init__(self, **kw: Any):
+    #     super().__init__(kw)
+    #     self.awaitable_attrs = None
+
 
 class CardOrm(Base):
     __tablename__ = "education_card"
@@ -76,14 +78,9 @@ class CardOrm(Base):
 
 
 class EducationProgressOrm(Base):
-    def __init__(self, **kw: Any):
-        super().__init__(**kw)
-        self.awaitable_attrs = None
-
     __tablename__ = "education_progress"
 
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True,
-                                          default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     user_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("users.id", ondelete="CASCADE")
     )
@@ -91,8 +88,12 @@ class EducationProgressOrm(Base):
         ForeignKey("education_material.id", ondelete="CASCADE")
     )
 
-    user: Mapped["UsersOrm"] = relationship(
-        back_populates="education_progress")
+    user: Mapped["UsersOrm"] = relationship(back_populates="education_progress")
     education_material: Mapped["educationMaterialOrm"] = relationship(
         back_populates="education_progresses"
     )
+
+    # УДАЛИТЕ конструктор __init__
+    # def __init__(self, **kw: Any):
+    #     super().__init__(**kw)
+    #     self.awaitable_attrs = None

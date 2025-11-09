@@ -42,7 +42,7 @@ async def get_all_education_themes(db: DBDep) -> List[EducationThemeResponse]:
 async def get_education_theme_materials(
     theme_id: uuid.UUID,
     db: DBDep
-) -> EducationThemeWithMaterialsResponse:  # Изменили тип возвращаемого значения
+) -> EducationThemeWithMaterialsResponse:
     try:
         return await EducationService(db).get_education_theme_materials(theme_id)
     except ObjectNotFoundException:
