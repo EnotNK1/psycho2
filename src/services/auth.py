@@ -152,3 +152,25 @@ class AuthService(BaseService):
 
     async def get_all_users_admin(self):
         return await self.db.users.get_all_users_admin()
+
+    async def register_admin(self, email: str, password: str, username: str = "admin"):
+        try:
+            existing_user = await self.db.users.get_one_or_none(email=email)
+            if existing_user:
+                raise Exception("Пользователь с таким email уже существует")
+
+            admin_data = {
+                "email": email,
+                "password": password,
+                "username": username,
+                "role_id": 0
+            }
+
+            user = await self.register_user(**admin_data)
+
+            await self.db.commit()
+            return user
+
+        except Exception as e:
+            await self.db.rollback()
+            raise e
