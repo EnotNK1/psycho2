@@ -14,7 +14,7 @@ from src.api.dependencies.db import DBDep
 router = APIRouter(prefix="/exercises", tags=["Упражнения"])
 
 
-@router.post("/", response_model=ExerciseResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=ExerciseResponse, status_code=status.HTTP_201_CREATED)
 async def create_exercise(
     exercise_data: ExerciseCreate,
     db: DBDep
@@ -81,7 +81,7 @@ async def delete_exercise_view(
     await ExerciseService(db).delete_exercise_view(view_id)
 
 
-@router.get("/", response_model=ExercisesListResponse)
+@router.get("", response_model=ExercisesListResponse)
 async def get_all_exercises(
     db: DBDep,
     user_id: UserIdDep = None
