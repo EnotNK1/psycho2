@@ -39,6 +39,17 @@ async def get_me(
     return await AuthService(db).get_one_or_none_user(id=user_id)
 
 
+@router.delete("/delete",
+            description="""
+            Удаление пользователя."""
+            )
+async def delete_me(
+        db: DBDep,
+        user_id: UserIdDep,
+):
+    return await AuthService(db).delete_user(id=user_id)
+
+
 @router.post("/register",
              description="""
              Регистрация нового пользователя.\n
@@ -137,7 +148,7 @@ async def password_change(db: DBDep, password_data: PasswordChangeRequest):
 
 
 @router.patch("/update",
-             description="""
+              description="""
              Редактирование данных пользователя.\n
              Входящие данные: username: string; description: string; city: string; company: string; online: 
              true/false;  gender: male/female; birth_date: 2025-09-22; phone_number: string

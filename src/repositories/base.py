@@ -95,6 +95,7 @@ class BaseRepository:
     async def delete(self, **filter_by):
         delete_stmt = delete(self.model).filter_by(**filter_by)
         await self.session.execute(delete_stmt)
+        await self.session.commit()
 
     async def get_by_ids(self, ids: list[uuid.UUID]) -> list[BaseModel]:
         query = select(self.model).where(self.model.id.in_(ids))
