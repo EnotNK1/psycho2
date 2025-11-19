@@ -129,6 +129,9 @@ class AuthService(BaseService):
     async def get_one_or_none_user(self, **filter_by):
         return await self.db.users.get_one_or_none(**filter_by)
 
+    async def delete_user(self, **filter_by):
+        return await self.db.users.delete(**filter_by)
+
     async def change_password(self, password_data: PasswordChangeRequest):
         try:
             email = serializer.loads(password_data.token, max_age=3600)
