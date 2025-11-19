@@ -228,5 +228,107 @@
     "min": 0,
     "max": 16,
     "test_id": "f56b5284-323e-42db-bd74-c80e8a5dc29a"
+  },
+
+
+
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e971aa",
+    "title": "Инвалидация",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e971bb",
+    "title": "Непонятность",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e971cc",
+    "title": "Вина и стыд",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e971dd",
+    "title": "Упрощенный взгляд на эмоцию",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e971ee",
+    "title": "Обесценивание",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e971ff",
+    "title": "Потеря контроля",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e972aa",
+    "title": "Бесчувственность",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e972bb",
+    "title": "Чрезмерная рациональность",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e972cc",
+    "title": "Длительность",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e972dd",
+    "title": "Низкий консенсус",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e972ee",
+    "title": "Непринятие чувств",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e972ff",
+    "title": "Руминации",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e973aa",
+    "title": "Низкая степень выражения чувств",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "87346179-2bf2-42a7-a83e-26dfe3e973bb",
+    "title": "Обвинение",
+    "min": 1,
+    "max": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
   }
+
 ]

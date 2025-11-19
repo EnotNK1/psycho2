@@ -2501,7 +2501,405 @@
       "52387e87-ce7a-4cf6-91c5-e9b6eeced620",
       "42bb376c-d722-42ca-938b-6d3873b0ebdf"
     ]
+  },
+
+
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784a1",
+    "text": "Я часто думаю, что мои эмоциональные реакции отличаются от реакций других людей.",
+    "number": 1,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784a2",
+    "text": "Это неправильно – испытывать некоторые чувства.",
+    "number": 2,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784a3",
+    "text": "Во мне есть что-то, чего я просто не понимаю.",
+    "number": 3,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784a4",
+    "text": "Я считаю, что это важно – позволять себе плакать для того, чтобы дать чувствам выплеснуться наружу.",
+    "number": 4,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784a5",
+    "text": "Я боюсь, что могу потерять контроль, если позволю себе испытывать некоторые чувства.",
+    "number": 5,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784a6",
+    "text": "Окружающие люди понимают и принимают мои чувства.",
+    "number": 6,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784a7",
+    "text": "Я не понимаю своих чувств.",
+    "number": 7,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784a8",
+    "text": "Если бы другие люди изменились, то я бы чувствовал себя гораздо лучше.",
+    "number": 8,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784a9",
+    "text": "Иногда я опасаюсь, что если я позволю себе испытывать сильные эмоции, то они не прекратятся.",
+    "number": 9,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784aa",
+    "text": "Я стыжусь своих эмоций и чувств.",
+    "number": 10,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784ab",
+    "text": "То, что беспокоит других людей, не беспокоит меня.",
+    "number": 11,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784ac",
+    "text": "Мои чувства безразличны для окружающих.",
+    "number": 12,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784ad",
+    "text": "Для меня более важно быть разумным и прагматичным, чем чувствительным и открытым по отношению к своим эмоциям.",
+    "number": 13,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784ae",
+    "text": "Когда мне грустно, я стараюсь думать о более важных вещах в жизни, которые я ценю.",
+    "number": 14,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784af",
+    "text": "Я чувствую, что могу открыто выражать свои чувства.",
+    "number": 15,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784b0",
+    "text": "Я часто спрашиваю себя: «Что со мной не так?»",
+    "number": 16,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784b1",
+    "text": "Я беспокоюсь, что буду не в состоянии контролировать свои эмоции.",
+    "number": 17,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784b2",
+    "text": "Следует остерегаться появления некоторых чувств и эмоций.",
+    "number": 18,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784b3",
+    "text": "Сильные эмоции длятся недолго.",
+    "number": 19,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784b4",
+    "text": "Я часто чувствую себя в эмоциональном ступоре, как будто у меня нет никаких чувств.",
+    "number": 20,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784b5",
+    "text": "Другие люди заставляют меня испытывать неприятные эмоции.",
+    "number": 21,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784b6",
+    "text": "Когда у меня плохое настроение, я часто сижу в одиночестве и думаю о том, как плохо я себя чувствую.",
+    "number": 22,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784b7",
+    "text": "Я предпочитаю однозначно понимать, что я чувствую в отношении другого человека.",
+    "number": 23,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784b8",
+    "text": "Я принимаю свои чувства.",
+    "number": 24,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784b9",
+    "text": "Я думаю, что испытываю те же чувства, которые могут испытывать и другие люди.",
+    "number": 25,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784ba",
+    "text": "В жизни существуют более высокие ценности к которым нужно стремиться, несмотря на неприятные эмоции.",
+    "number": 26,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784bb",
+    "text": "Я считаю, что это важно – быть рациональным и логичным практически во всём.",
+    "number": 27,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
+  },
+  {
+    "id": "340a669d-b9f0-4953-adad-d9176e7784bc",
+    "text": "Я предпочитаю однозначно понимать, что я чувствую в отношении себя.",
+    "number": 28,
+    "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a",
+    "answer_choice": [
+      "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
+      "3f83bf73-a478-4064-8c3d-032e04cefa39",
+      "8d3a555e-82aa-438a-998c-8ce92e002571",
+      "1fea04ba-366b-487b-aded-ee99cc670edc",
+      "2200acbd-74ca-4b89-8863-5a116fdddee9",
+      "52bb376c-d722-42ca-938b-6d3873b0ebdf"
+    ]
   }
+
+
+  
+
 ]
 
 

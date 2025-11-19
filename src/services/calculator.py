@@ -1,9 +1,10 @@
 from typing import List
 from fastapi import HTTPException
 
+
 class Calculator:
     def sum_specific_elements(self, answers: List[int], indices: List[int]) -> int:
-        return sum(answers[i-1] for i in indices)
+        return sum(answers[i - 1] for i in indices)
 
     def check_number_responses(self, len_res, answers_cnt):
         if len_res != answers_cnt:
@@ -63,7 +64,8 @@ class Calculator:
         scale_8_sum = round(calculator_service.sum_specific_elements(answers, indices_8) / len(indices_8), 2)
         scale_9_sum = round(calculator_service.sum_specific_elements(answers, indices_9) / len(indices_9), 2)
         scale_10_sum = round(calculator_service.sum_specific_elements(answers, indices_10) / len(indices_10), 2)
-        return [scale_1_sum, scale_2_sum, scale_3_sum, scale_4_sum, scale_5_sum, scale_6_sum, scale_7_sum, scale_8_sum, scale_9_sum, scale_10_sum]
+        return [scale_1_sum, scale_2_sum, scale_3_sum, scale_4_sum, scale_5_sum, scale_6_sum, scale_7_sum, scale_8_sum,
+                scale_9_sum, scale_10_sum]
 
     def test_coling_calculate_results(self, answers: List[int]):
         indices_1 = [2, 3, 8, 9, 11, 15, 16, 17, 20, 29, 33]
@@ -91,5 +93,40 @@ class Calculator:
         scale_2_sum = calculator_service.sum_specific_elements(answers, indices_2)
         scale_3_sum = calculator_service.sum_specific_elements(answers, indices_3)
         return [scale_1_sum, scale_2_sum, scale_3_sum]
+
+    def test_leasy_calculate_results(self, answers: List[int]):
+        self.check_number_responses(len(answers), 28)
+
+        def calculate_scale(positive_indices, reverse_indices=[]):
+            total = 0
+            if positive_indices:
+                total += self.sum_specific_elements(answers, positive_indices)
+            if reverse_indices:
+                reverse_sum = self.sum_specific_elements(answers, reverse_indices)
+                total += (7 * len(reverse_indices) - reverse_sum)
+            total_count = len(positive_indices) + len(reverse_indices)
+            return round(total / total_count, 2) if total_count > 0 else 0
+
+        invalidation = calculate_scale([6, 12], [])
+        incomprehensibility = calculate_scale([3, 7], [])
+        guilt_shame = calculate_scale([2, 10], [])
+        simplistic_view = calculate_scale([23, 28], [])
+        devaluation = calculate_scale([], [14, 26])
+        loss_of_control = calculate_scale([5, 17], [])
+        numbness = calculate_scale([11, 20], [])
+        over_rationality = calculate_scale([13, 27], [])
+        duration = calculate_scale([9], [19])
+        low_consensus = calculate_scale([1], [25])
+        non_acceptance = calculate_scale([18], [24])
+        rumination = calculate_scale([22, 16], [])
+        low_expression = calculate_scale([], [4, 15])
+        blame = calculate_scale([8, 21], [])
+
+        return [
+            invalidation, incomprehensibility, guilt_shame, simplistic_view,
+            devaluation, loss_of_control, numbness, over_rationality,
+            duration, low_consensus, non_acceptance, rumination,
+            low_expression, blame
+        ]
 
 calculator_service = Calculator()

@@ -18,6 +18,13 @@ logger = logging.getLogger(__name__)
 
 class DailyTaskService(BaseService):
 
+    def _get_info_dir(self) -> Path:
+        current_file = Path(__file__)
+        services_dir = current_file.parent
+        src_dir = services_dir.parent
+        info_dir = src_dir / "services" / "info"
+        return info_dir
+
     async def get_daily_tasks(self, user_id: uuid.UUID) -> List:
         try:
             tasks = await self.db.daily_tasks.get_filtered(user_id=user_id, is_current=True)
@@ -37,14 +44,13 @@ class DailyTaskService(BaseService):
             logger.error(f"Ошибка при получении ежедневных заданий: {e}")
             raise HTTPException(status_code=500, detail="Ошибка получения ежедневных заданий")
 
-
     async def set_last_day_tasks(self, user_id: uuid.UUID):
         try:
             tasks = await self.db.daily_tasks.get_filtered(user_id=user_id)
             for t in tasks:
                 t.is_complete = False
                 t.is_current = False
-                if t.number in [25,26,27]:
+                if t.number in [25, 26, 27]:
                     t.is_current = True
                 self.db.session.add(t)
             await self.db.session.commit()
@@ -52,9 +58,6 @@ class DailyTaskService(BaseService):
             await self.db.session.rollback()
             logger.error(f"Ошибка при установке последнего дня: {e}")
             raise
-
-
-
 
     async def complete_daily_task(self, payload: DailyTaskId, user_id: uuid.UUID) -> dict:
         try:
@@ -79,7 +82,8 @@ class DailyTaskService(BaseService):
 
     def load_daily_tasks_from_json(self) -> List[dict]:
         try:
-            json_path = Path("src/services/info/daily_tasks.json")
+            info_dir = self._get_info_dir()
+            json_path = info_dir / "daily_tasks.json"
 
             if not json_path.exists():
                 logger.error(f"Файл не найден: {json_path.absolute()}")
@@ -168,7 +172,6 @@ class DailyTaskService(BaseService):
                 is_complete=False
             )
 
-
             if not unfinished_tasks:
                 last_day = max(d["day"] for d in daily_tasks_data)
 
@@ -201,7 +204,6 @@ class DailyTaskService(BaseService):
                 await self.db.session.commit()
                 return {"status": "success", "message": f"Назначены задания {next_day}-го дня"}
 
-
             current_day = max(t.day for t in unfinished_tasks)
 
             current_day_tasks = [t for t in unfinished_tasks if t.day == current_day]
@@ -220,7 +222,6 @@ class DailyTaskService(BaseService):
                 tasks_to_add_count = 2
             elif unfinished_count >= 3:
                 tasks_to_add_count = 0
-
 
             next_day = current_day + 1
 
@@ -257,7 +258,6 @@ class DailyTaskService(BaseService):
                     existing_task_keys.add(task_key)
 
             await self.db.session.commit()
-
 
             return {"status": "success", "message": "Ежедневные задания обновлены"}
 

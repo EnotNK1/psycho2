@@ -2,6 +2,7 @@ import datetime
 import json
 import uuid
 import logging
+from pathlib import Path
 
 from typing import Dict, Any, Optional
 
@@ -28,8 +29,18 @@ logger = logging.getLogger(__name__)
 
 class TestService(BaseService):
 
+    def _get_info_dir(self) -> Path:
+        current_file = Path(__file__)
+        services_dir = current_file.parent  # src/services/
+        src_dir = services_dir.parent  # src/
+        info_dir = src_dir / "services" / "info"
+        return info_dir
+
     def load_borders_for_scale(self, scale_id: uuid.UUID) -> list[dict]:
-        with open("src/services/info/borders_info.json", encoding="utf-8") as file:
+        info_dir = self._get_info_dir()
+        borders_file = info_dir / "borders_info.json"
+
+        with open(borders_file, encoding="utf-8") as file:
             borders_data = json.load(file)
 
         filtered_borders = [
@@ -162,28 +173,36 @@ class TestService(BaseService):
             logger.info("Файл вопросов пустой, ничего не добавлено.")
 
     async def auto_create(self):
+        info_dir = self._get_info_dir()
+
         try:
-            with open("src/services/info/test_info.json", encoding="utf-8") as file:
+            test_info_file = info_dir / "test_info.json"
+            with open(test_info_file, encoding="utf-8") as file:
                 tests_data = json.load(file)
             await self.add_tests(tests_data)
 
-            with open("src/services/info/scale_info.json", encoding="utf-8") as file:
+            scale_info_file = info_dir / "scale_info.json"
+            with open(scale_info_file, encoding="utf-8") as file:
                 scales_data = json.load(file)
             await self.add_scales_and_borders(scales_data)
 
-            with open("src/services/info/answer_choices_info.json", encoding="utf-8") as file:
+            answer_choices_file = info_dir / "answer_choices_info.json"
+            with open(answer_choices_file, encoding="utf-8") as file:
                 answer_choices_data = json.load(file)
             await self.add_answer_choices(answer_choices_data)
 
-            with open("src/services/info/questions_info.json", encoding="utf-8") as file:
+            questions_info_file = info_dir / "questions_info.json"
+            with open(questions_info_file, encoding="utf-8") as file:
                 questions_data = json.load(file)
             await self.add_questions(questions_data)
 
-            with open("src/services/info/inquiry.json", encoding="utf-8") as file:
+            inquiry_file = info_dir / "inquiry.json"
+            with open(inquiry_file, encoding="utf-8") as file:
                 inquiry_data = json.load(file)
             await InquiryService(self.db).check_and_create_inquiries(inquiry_data)
 
-            with open("src/services/info/emoji.json", encoding="utf-8") as file:
+            emoji_file = info_dir / "emoji.json"
+            with open(emoji_file, encoding="utf-8") as file:
                 emojis_data = json.load(file)
             await EmojiService(self.db).check_and_create_emojis(emojis_data)
 
@@ -429,6 +448,7 @@ class TestService(BaseService):
                 "Есть ли у меня депрессия?": calculator_service.test_back_calculate_results,
                 "Потеряли интерес к работе?": calculator_service.test_jas_calculate_results,
                 "Стрессоустойчивость, это про меня?": calculator_service.test_stress_calculate_results,
+                "Почему я ждал этого?": calculator_service.test_leasy_calculate_results,
             }
 
             calculate_method = calculation_methods.get(test.title)
@@ -454,7 +474,7 @@ class TestService(BaseService):
 
                 result = []
                 for scale, score in zip(scales, scale_sum_list):
-                    # Проверка границ значений
+
                     if score < scale.min or score > scale.max:
                         raise ScoreOutOfBoundsError()
 
@@ -484,14 +504,14 @@ class TestService(BaseService):
                     else:
                         raise ObjectNotFoundException()
 
-                # ДОБАВЛЯЕМ БАЛЛЫ ЗА ПРОХОЖДЕНИЕ ТЕСТА
+
                 try:
                     gamification_service = GamificationService(self.db)
                     new_score = await gamification_service.add_points_for_activity(user_id, "test_completed")
                     logger.info(
                         f"Добавлены баллы за прохождение теста для пользователя {user_id}. Новый счет: {new_score}")
                 except Exception as gamification_error:
-                    # Логируем ошибку, но не прерываем выполнение
+
                     logger.error(
                         f"Ошибка при добавлении баллов за тест: {gamification_error}")
 
