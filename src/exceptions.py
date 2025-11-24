@@ -77,7 +77,7 @@ class SeveralObjectsFoundHTTPException(MyAppHTTPException):
 
 class EmailNotRegisteredHTTPException(MyAppHTTPException):
     status_code = 401
-    detail = "Пользователь с таким email не зарегистрирован"
+    detail = "Неверный логин или пароль"
 
 
 class PasswordDoNotMatchHTTPException(MyAppHTTPException):
@@ -92,7 +92,7 @@ class UserEmailAlreadyExistsHTTPException(MyAppHTTPException):
 
 class IncorrectPasswordHTTPException(MyAppHTTPException):
     status_code = 401
-    detail = "Пароль неверный"
+    detail = "Неверный логин или пароль"
 
 
 class NoAccessTokenHTTPException(MyAppHTTPException):
