@@ -15,7 +15,7 @@ from src.services.auth import serializer
 @celery_instance.task(name="send_email_to_users")
 def send_email_to_recover_password(email: EmailStr):
     token = serializer.dumps(email)
-    reset_link = f"https://психолог.демо-стенд.рф/password/change/{token}"
+    reset_link = f"https://одеяло.tech/password/change/{token}"
 
     subject = "Password Reset"
     message = f"Перейдите по ссылке для восстановления пароля: {reset_link}"
@@ -23,8 +23,8 @@ def send_email_to_recover_password(email: EmailStr):
 
 
 def send_email(receiver_email: str, subject: str, message: str):
-    sender_email = "obsudim.7@mail.ru"
-    password = "GhAQewHficykLEQkejUZ"
+    sender_email = "athaethaet@mail.ru"
+    password = "I2pGEnTYbGVtRVkLW1Qi"
 
     msg = MIMEText(message)
     msg["Subject"] = subject
