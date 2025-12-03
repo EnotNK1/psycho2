@@ -2,7 +2,6 @@ import json
 import logging
 import uuid
 from typing import List, Type
-from pathlib import Path
 from src.exceptions import ObjectNotFoundException, MyAppException, ObjectAlreadyExistsException
 from src.models.education import EducationProgressOrm, educationThemeOrm
 from src.schemas.daily_tasks import DailyTaskId
@@ -22,34 +21,21 @@ logger = logging.getLogger(__name__)
 
 
 class EducationService(BaseService):
-    def _get_info_dir(self) -> Path:
-        """Получает абсолютный путь к директории с информационными файлами"""
-        current_file = Path(__file__)
-        services_dir = current_file.parent  # src/services/
-        src_dir = services_dir.parent  # src/
-        info_dir = src_dir / "services" / "info"
-        return info_dir
 
     async def auto_create_education(self):
-        info_dir = self._get_info_dir()
 
         try:
-            # Сначала удаляем все существующие данные
             await self._delete_all_education_data()
 
-            # Затем добавляем новые данные
-            themes_file = info_dir / "education_themes.json"
-            with open(themes_file, encoding="utf-8") as file:
+            with open("src/services/info/education_themes.json", encoding="utf-8") as file:
                 themes_data = json.load(file)
             await self._add_themes(themes_data)
 
-            materials_file = info_dir / "education_materials.json"
-            with open(materials_file, encoding="utf-8") as file:
+            with open("src/services/info/education_materials.json", encoding="utf-8") as file:
                 materials_data = json.load(file)
             await self._add_materials(materials_data)
 
-            cards_file = info_dir / "education_cards.json"
-            with open(cards_file, encoding="utf-8") as file:
+            with open("src/services/info/education_cards.json", encoding="utf-8") as file:
                 cards_data = json.load(file)
             await self._add_cards(cards_data)
 
@@ -67,7 +53,6 @@ class EducationService(BaseService):
         from sqlalchemy import text
 
         try:
-            # Проверяем существование таблиц перед удалением
             tables = ['education_card', 'education_material', 'education_theme']
 
             for table in tables:
@@ -165,7 +150,7 @@ class EducationService(BaseService):
                         number=card.number,
                         link_to_picture=card.link_to_picture
                     )
-                    for card in material.cards  # ✅ уже подгружены
+                    for card in material.cards
                 ]
 
                 materials_response.append(

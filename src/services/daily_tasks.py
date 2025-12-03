@@ -2,6 +2,7 @@ import uuid
 import logging
 import json
 from pathlib import Path
+
 from fastapi import HTTPException
 from typing import List
 
@@ -17,13 +18,6 @@ logger = logging.getLogger(__name__)
 
 
 class DailyTaskService(BaseService):
-
-    def _get_info_dir(self) -> Path:
-        current_file = Path(__file__)
-        services_dir = current_file.parent
-        src_dir = services_dir.parent
-        info_dir = src_dir / "services" / "info"
-        return info_dir
 
     async def get_daily_tasks(self, user_id: uuid.UUID) -> List:
         try:
@@ -82,8 +76,7 @@ class DailyTaskService(BaseService):
 
     def load_daily_tasks_from_json(self) -> List[dict]:
         try:
-            info_dir = self._get_info_dir()
-            json_path = info_dir / "daily_tasks.json"
+            json_path = Path("src/services/info/daily_tasks.json")
 
             if not json_path.exists():
                 logger.error(f"Файл не найден: {json_path.absolute()}")
