@@ -67,6 +67,7 @@ class TestDataMapper(DataMapper):
         return Test(
             id=model.id,
             title=model.title,
+            type=model.type,
             description=model.description,
             short_desc=model.short_desc,
             link=model.link,
@@ -133,6 +134,7 @@ class QuestionDataMapper(DataMapper):
         return Question(
             id=model.id,
             text=model.text,
+            opposite_text=model.opposite_text,
             number=model.number,
             test_id=model.test_id,
             answer_choice=model.answer_choice  # Список ID ответов

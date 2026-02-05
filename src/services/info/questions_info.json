@@ -2895,6 +2895,1056 @@
       "2200acbd-74ca-4b89-8863-5a116fdddee9",
       "52bb376c-d722-42ca-938b-6d3873b0ebdf"
     ]
+  },
+  {
+    "id": "2e4e1679-d837-4a39-be09-5a5592e5dfce",
+    "text": "Мне нравится заниматься физкультурой",
+    "opposite_text": "Я не люблю физические нагрузки",
+    "number": 1,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "f5373506-2232-4ec3-a3c7-5433b7d1f87b",
+    "text": "Люди считают меня отзывчивым и доброжелательным человеком",
+    "opposite_text": "Некоторые люди считают меня холодным и черствым",
+    "number": 2,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "1099cad2-f82b-42b8-a958-9c54340e2de3",
+    "text": "Я во всем ценю чистоту и порядок",
+    "opposite_text": "Иногда я позволяю себе быть неряшливым",
+    "number": 3,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "2d7401f2-c503-4d3d-8867-311271585c4a",
+    "text": "Меня часто беспокоит мысль, что что-нибудь может случиться",
+    "opposite_text": "«Мелочи жизни» меня не тревожат",
+    "number": 4,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "d80527bb-299a-474f-8480-350c99875fc6",
+    "text": "Все новое вызывает у меня интерес",
+    "opposite_text": "Часто новое вызывает у меня раздражение",
+    "number": 5,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "38118ee2-7dc8-4bab-a6e1-b3cdf6d11361",
+    "text": "Если я ничем не занят, то это меня беспокоит",
+    "opposite_text": "Я человек спокойный и не люблю суетиться",
+    "number": 6,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "cf8870d3-b44b-4b74-a8b2-b40923489b98",
+    "text": "Я стараюсь проявлять дружелюбие ко всем людям",
+    "opposite_text": "Я не всегда и не со всеми дружелюбный человек",
+    "number": 7,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "2198a6ca-c078-4bf6-b0b7-24d2ffc9b035",
+    "text": "Моя комната всегда аккуратно прибрана",
+    "opposite_text": "Я не очень стараюсь следить за чистотой и порядком",
+    "number": 8,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "edbb5389-63e3-4204-a6f1-de2dfa172952",
+    "text": "Иногда я расстраиваюсь из-за пустяков",
+    "opposite_text": "Я не обращаю внимания на мелкие проблемы",
+    "number": 9,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "dd88a0dd-af1c-43b7-8504-8a9377bd4208",
+    "text": "Мне нравятся неожиданности",
+    "opposite_text": "Я люблю предсказуемость событий",
+    "number": 10,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "7a46b2c6-7e4f-4977-ac98-20a84b9ec45c",
+    "text": "Я не могу долго оставаться в неподвижности",
+    "opposite_text": "Мне не нравится быстрый стиль жизни",
+    "number": 11,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "186aff62-d743-4f63-b652-87864be04ffd",
+    "text": "Я тактичен по отношения к другим людям",
+    "opposite_text": "Иногда в шутку я задеваю самолюбие других",
+    "number": 12,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "98a03f5b-3be5-4769-ab89-f7a6af0a6e4a",
+    "text": "Я методичен и пунктуален во всем",
+    "opposite_text": "Я не очень обязательный человек",
+    "number": 13,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "b4a3eb69-e2c9-4a70-9fdf-82bf26663be6",
+    "text": "Мои чувства легко уязвимы и ранимы",
+    "opposite_text": "Я редко тревожусь и редко чего-либо боюсь",
+    "number": 14,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "33a881ff-669b-487b-af6a-f4f244c0c42c",
+    "text": "Мне не интересно, когда ответ ясен заранее",
+    "opposite_text": "Я не интересуюсь вещами, которые мне не понятны",
+    "number": 15,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "6aa24520-302a-4955-bddd-99d20a20d3c6",
+    "text": "Я люблю, чтобы другие быстро выполняли мои распоряжения",
+    "opposite_text": "Я не спеша выполняю чужие распоряжения",
+    "number": 16,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "805cd2d7-597e-4a4b-8b69-69689da85e7f",
+    "text": "Я уступчивый и склонный к компромиссам человек",
+    "opposite_text": "Я люблю поспорить с окружающими",
+    "number": 17,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "4630f389-cd22-4e6f-937c-482273db3fc3",
+    "text": "Я проявляю настойчивость, решая трудную задачу",
+    "opposite_text": "Я не очень настойчивый человек",
+    "number": 18,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "45d27566-482b-4dc2-b3a3-3febd2eaaeb0",
+    "text": "В трудных ситуациях я весь сжимаюсь от напряжения",
+    "opposite_text": "Я могу расслабиться в любой ситуации",
+    "number": 19,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "5caf17a9-2255-472a-8679-78adfe4afd6b",
+    "text": "У меня очень живое воображение",
+    "opposite_text": "Я всегда предпочитаю реально смотреть на мир",
+    "number": 20,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "74655b2b-897f-4a05-a8e6-d74f78cfcced",
+    "text": "Мне часто приходится быть лидером, проявлять инициативу",
+    "opposite_text": "Я скорее подчиненный, чем лидер",
+    "number": 21,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "d9cb9290-7187-43be-818c-2d7ee2f1fd21",
+    "text": "Я всегда готов оказать помощь и разделить чужие трудности",
+    "opposite_text": "Каждый должен уметь позаботиться о себе",
+    "number": 22,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "a7e4b0a0-c70f-414f-9658-26829a627129",
+    "text": "Я очень старательный во всех делах человек",
+    "opposite_text": "Я не очень усердствую на работе",
+    "number": 23,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "53a9d567-8c40-4d59-87ca-fb86c3122c00",
+    "text": "У меня часто выступает холодный пот и дрожат руки",
+    "opposite_text": "Я редко испытывал напряжение, сопровождаемое дрожью в теле",
+    "number": 24,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "f618c601-acae-418b-aa9e-4291a28a7c5e",
+    "text": "Мне нравится мечтать",
+    "opposite_text": "Я редко увлекаюсь фантазиями",
+    "number": 25,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "ceb357a1-5559-4018-9d13-521c4a044d7b",
+    "text": "Часто случается, что я руковожу, отдаю распоряжения другим людям",
+    "opposite_text": "Я предпочитаю, чтобы кто-то другой брал в свои руки руководство",
+    "number": 26,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "31836388-8daa-4990-8dc5-416b6aa3bdfc",
+    "text": "Я предпочитаю сотрудничать с другими, чем соперничать",
+    "opposite_text": "Без соперничества общество не могло бы развиваться",
+    "number": 27,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "638d9303-30cf-411d-be4a-424c0da06960",
+    "text": "Я серьезно и прилежно отношусь к работе",
+    "opposite_text": "Я стараюсь не брать дополнительные обязанности на работе",
+    "number": 28,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "4984f966-5a5b-4b26-bb22-a707d437e5de",
+    "text": "В необычной обстановке я часто нервничаю",
+    "opposite_text": "Я легко привыкаю к новой обстановке",
+    "number": 29,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "6dacb8a9-7834-4b98-ae14-af69ab23833a",
+    "text": "Иногда я погружаюсь в глубокие размышления",
+    "opposite_text": "Я не люблю тратить свое время на размышления",
+    "number": 30,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "cfc6fa54-9ce5-4501-9531-bef60dad55f2",
+    "text": "Мне нравится общаться с незнакомыми людьми",
+    "opposite_text": "Я не очень общительный человек",
+    "number": 31,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "d8c62616-07b4-49ea-918e-f16f2f076f4c",
+    "text": "Большинство людей добры от природы",
+    "opposite_text": "Я думаю, что жизнь делает некоторых людей злыми",
+    "number": 32,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "d4625d98-c36e-4461-8594-ebb1585b3ea0",
+    "text": "Люди часто доверяют мне ответственные дела",
+    "opposite_text": "Некоторые считают меня безответственным",
+    "number": 33,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "a28f1c6c-57fd-4c48-9f53-021d9ce2556c",
+    "text": "Иногда я чувствую себя одиноко, тоскливо и все валится из рук",
+    "opposite_text": "Часто, что-либо делая, я так увлекаюсь, что забываю обо всем",
+    "number": 34,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "93756a9e-1c02-4a5a-ba96-e8aeec6fb7b8",
+    "text": "Я хорошо знаю, что такое красота и элегантность",
+    "opposite_text": "Мое представление о красоте такое же, как и у других",
+    "number": 35,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "80a1854b-bee7-4d72-806f-0626cf7aec59",
+    "text": "Мне нравится приобретать новых друзей и знакомых",
+    "opposite_text": "Я предпочитаю иметь только несколько надежных друзей",
+    "number": 36,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "5714b17e-72f7-4e4a-9375-2b69fbd2057e",
+    "text": "Люди, с которыми я общаюсь, обычно мне нравятся",
+    "opposite_text": "Есть такие люди, которых я не люблю",
+    "number": 37,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "c4d994f1-847b-4db7-998d-d5942be47d92",
+    "text": "Я требователен и строг в работе",
+    "opposite_text": "Иногда я пренебрегаю своими обязанностями",
+    "number": 38,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "901db4a2-86bd-4315-944a-a32dfa6c72c0",
+    "text": "Когда я сильно расстроен, у меня тяжело на душе",
+    "opposite_text": "У меня очень редко бывает мрачное настроение",
+    "number": 39,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "b7e550bb-2e7b-43fc-848b-2330b06799a8",
+    "text": "Музыка способна так захватить меня, что я теряю чувство времени",
+    "opposite_text": "Драматическое искусство и балет кажутся мне скучными",
+    "number": 40,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "90100e86-e398-4630-9e12-7bf983bc89d5",
+    "text": "Я люблю находиться в больших и веселых компаниях",
+    "opposite_text": "Я предпочитаю уединение",
+    "number": 41,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "9a7a46ea-5920-4547-a64b-084be8de4dff",
+    "text": "Большинство людей честные, и им можно доверять",
+    "opposite_text": "Иногда я отношусь подозрительно к другим людям",
+    "number": 42,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "d7d85fc5-e75d-430f-87f0-f0f554f159eb",
+    "text": "Я обычно работаю добросовестно",
+    "opposite_text": "Люди часто находят в моей работе ошибки",
+    "number": 43,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "0c7b7d53-20d2-44aa-9d13-2ec6b057b1fc",
+    "text": "Я легко впадаю в депрессию",
+    "opposite_text": "Мне невозможно испортить настроение",
+    "number": 44,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "586b5ddf-3ff5-4750-9578-c79691f575e6",
+    "text": "Настоящее произведение искусства вызывает у меня восхищение",
+    "opposite_text": "Я редко восхищаюсь совершенством настоящего произведения искусства",
+    "number": 45,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "86d7cdc9-8a56-4913-b0b9-02da5dd0fa8d",
+    "text": "«Болея» на спортивных соревнованиях, я забываю обо всем",
+    "opposite_text": "Я не понимаю, почему люди занимаются опасными видами спорта",
+    "number": 46,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "14aa7b5f-af67-42cd-9b7c-8f493ee93dd7",
+    "text": "Я стараюсь проявлять чуткость, когда имею дело с людьми",
+    "opposite_text": "Иногда мне нет дела до интересов других людей",
+    "number": 47,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "8ab6366f-1549-49e9-918b-e142bb46f6af",
+    "text": "Я редко делаю необдуманно то, что хочу сделать",
+    "opposite_text": "Я предпочитаю принимать решения быстро",
+    "number": 48,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "df1d0742-6a93-40fb-95d2-5c6a813c8453",
+    "text": "У меня много слабостей и недостатков",
+    "opposite_text": "У меня высокая самооценка",
+    "number": 49,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "c83a07a3-b06a-4adb-b94e-ee8ca8ef2475",
+    "text": "Я хорошо понимаю свое душевное состояние",
+    "opposite_text": "Мне кажется, что другие люди менее чувствительны, чем я",
+    "number": 50,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "be9942cb-8745-4d2a-b8e3-456399475f3d",
+    "text": "Я часто игнорирую сигналы, предупреждающие об опасности",
+    "opposite_text": "Я предпочитаю избегать опасных ситуаций",
+    "number": 51,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "7ce74297-f66e-4f6e-88dd-41f4349656cf",
+    "text": "Радость других я разделяю как собственную",
+    "opposite_text": "Я не всегда разделяю чувства других людей",
+    "number": 52,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "e8a7c5fe-4eb7-4a52-91cd-6358e6f6e5b9",
+    "text": "Я обычно контролирую свои чувства и желания",
+    "opposite_text": "Мне трудно сдерживать свои желания",
+    "number": 53,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "3c55c4eb-6137-4712-9f7a-e4f662c5c1c7",
+    "text": "Если я терплю неудачу, то обычно обвиняю себя",
+    "opposite_text": "Мне часто «везет», и обстоятельства редко бывают против меня",
+    "number": 54,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "56fe49ce-9d95-462b-af2b-0f59180ad51e",
+    "text": "Я верю, что чувства делают мою жизнь содержательнее",
+    "opposite_text": "Я редко обращаю внимание на чужие переживания",
+    "number": 55,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "160640ec-2902-41f6-a364-bcc413b5400e",
+    "text": "Мне нравятся карнавальные шествия и демонстрации",
+    "opposite_text": "Мне не нравится находиться в многолюдных местах",
+    "number": 56,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "5cfed4d1-9c8b-436d-a5c9-eed5f8800314",
+    "text": "Я стараюсь поставить себя на место другого человека, чтобы его понять",
+    "opposite_text": "Я не стремлюсь понять все нюансы переживаний других людей",
+    "number": 57,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "f9a2b453-1cf1-4d74-826c-2d3b456c2e18",
+    "text": "В магазине я обычно долго выбираю то, что надумал купить",
+    "opposite_text": "Иногда я покупаю вещи импульсивно",
+    "number": 58,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "8d64134f-04ef-4e9e-ad55-9dd96cb91025",
+    "text": "Иногда я чувствую себя жалким человеком",
+    "opposite_text": "Обычно я чувствую себя нужным человеком",
+    "number": 59,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "a0704a53-d7e3-45d7-9d85-ed985f6d3978",
+    "text": "Я легко «вживаюсь» в переживания вымышленного героя",
+    "opposite_text": "Приключения киногероя не могут изменить мое душевное состояние",
+    "number": 60,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "7265c4b1-ba3f-4b30-bf07-acf627a7148e",
+    "text": "Я чувствую себя счастливым, когда на меня обращают внимание",
+    "opposite_text": "Я скромный человек и стараюсь не выделяться среди людей",
+    "number": 61,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "e17a5c13-6ec9-4b58-8f55-f7031801f576",
+    "text": "В каждом человеке есть нечто, за что его можно уважать",
+    "opposite_text": "Я еще не встречал человека, которого можно было бы уважать",
+    "number": 62,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "54cf8229-e155-4cf7-9c2a-e2cbb20d5201",
+    "text": "Обычно я хорошо думаю, прежде чем действую",
+    "opposite_text": "Я не люблю продумывать заранее результаты своих поступков",
+    "number": 63,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "bec7b38d-1658-4b87-b69a-5647af00c124",
+    "text": "Часто у меня бывают взлеты и падения настроения",
+    "opposite_text": "Обычно у меня ровное настроение",
+    "number": 64,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "11b6b7a9-3375-40ac-833d-97c05a6caafb",
+    "text": "Иногда я чувствую себя фокусником, подшучивающим над людьми",
+    "opposite_text": "Люди часто называют меня скучным, но надежным человеком",
+    "number": 65,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "d9d83508-c36e-446d-9359-5cec3e8a925d",
+    "text": "Я привлекателен для лиц противоположного пола",
+    "opposite_text": "Некоторые считают меня обычным и неинтересным человеком",
+    "number": 66,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "3b686646-0836-4aeb-a0ee-0f23191645f0",
+    "text": "Я всегда стараюсь быть добрым и внимательным с каждым человеком",
+    "opposite_text": "Некоторые люди думают, что я самонадеянный и эгоистичный",
+    "number": 67,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "6fe80f50-4ae4-4d7d-83c2-f94bafaa9ba0",
+    "text": "Перед путешествием я намечаю точный план",
+    "opposite_text": "Я не могу понять, зачем люди строят такие детальные планы",
+    "number": 68,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "b49bb31b-67bd-4d77-8ea2-ec1e5731a33f",
+    "text": "Мое настроение легко меняется на противоположное",
+    "opposite_text": "Я всегда спокоен и уравновешен",
+    "number": 69,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "0f3b2894-3a59-4cb6-9f4a-f4260ef6d3b2",
+    "text": "Я думаю, что жизнь – это азартная игра",
+    "opposite_text": "Жизнь – это опыт, передаваемый последующим поколениям",
+    "number": 70,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "12a1e635-6850-48a6-b11a-24a41bb45b1a",
+    "text": "Мне нравится выглядеть вызывающе",
+    "opposite_text": "В обществе я обычно не выделяюсь поведением и модной одеждой",
+    "number": 71,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "39c71ac6-05ae-4974-91bf-674c3b587fc6",
+    "text": "Некоторые говорят, что я снисходителен к окружающим",
+    "opposite_text": "Говорят, что я часто хвастаюсь своими успехами",
+    "number": 72,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "c705718d-65b2-4030-8717-644d56f1b8b4",
+    "text": "Я точно и методично выполняю свою работу",
+    "opposite_text": "Я предпочитаю «плыть по течению», доверяя своей интуиции",
+    "number": 73,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "b3deda07-9e94-4364-b1d3-3e6defecf103",
+    "text": "Иногда я бываю настолько взволнован, что даже плачу",
+    "opposite_text": "Меня трудно вывести из себя",
+    "number": 74,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
+  },
+  {
+    "id": "8f50d58c-f0a9-44d9-ab57-fe2dac2c4155",
+    "text": "Иногда я чувствую, что могу открыть в себе нечто новое",
+    "opposite_text": "Я не хотел бы ничего в себе менять",
+    "number": 75,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794",
+    "answer_choice": [
+      "9c461e2d-648a-43f2-985f-7f9deb5949e6",
+      "ecb4c050-a9df-4118-91f8-42b0cfabde45",
+      "545eff22-bcca-434b-b8e5-fba6ad4ea644",
+      "ad3f19e7-e798-41b2-a761-eecba4038cff",
+      "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
+    ]
   }
 
 

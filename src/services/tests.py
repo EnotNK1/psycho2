@@ -147,6 +147,7 @@ class TestService(BaseService):
                 if existing_question:
                     skipped += 1
                 else:
+                    print(question)
                     await self.db.question.add(question)
                     created += 1
             except ObjectAlreadyExistsException:
@@ -247,6 +248,7 @@ class TestService(BaseService):
                 question_data = {
                     "id": question.id,
                     "text": question.text,
+                    "opposite_text": question.opposite_text,
                     "number": question.number,
                     "test_id": question.test_id,
                     "answer_choice": question.answer_choice  # Список ID ответов
@@ -295,6 +297,7 @@ class TestService(BaseService):
                 question_data = {
                     "id": question.id,
                     "text": question.text,
+                    "opposite_text": question.opposite_text,
                     "number": question.number,
                     "test_id": question.test_id,
                     "answer_choices": question_answers
@@ -432,6 +435,7 @@ class TestService(BaseService):
                 "Потеряли интерес к работе?": calculator_service.test_jas_calculate_results,
                 "Стрессоустойчивость, это про меня?": calculator_service.test_stress_calculate_results,
                 "Почему я ждал этого?": calculator_service.test_leasy_calculate_results,
+                "Что мне свойственно?": calculator_service.test_five_factors_calculate_results,
             }
 
             calculate_method = calculation_methods.get(test.title)

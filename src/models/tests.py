@@ -12,6 +12,7 @@ class TestOrm(Base):
     __tablename__ = "test"
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    type: Mapped[int] = mapped_column(nullable=True)
     title: Mapped[str]
     description: Mapped[str]
     short_desc: Mapped[str]
@@ -81,6 +82,7 @@ class QuestionOrm(Base):
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     text: Mapped[str]
     number: Mapped[int]
+    opposite_text: Mapped[str] = mapped_column(nullable=True)
     test_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("test.id", ondelete="CASCADE"))
 
     # Список ID ответов (хранится как JSON)

@@ -20,6 +20,19 @@ class Calculator:
         scale_3_sum = calculator_service.sum_specific_elements(answers, indices_3)
         return [scale_1_sum, scale_2_sum, scale_3_sum]
 
+    def test_five_factors_calculate_results(self, answers: List[int]):
+        indices_1 = [1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56, 61, 66, 71]
+        indices_2 = [2, 7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57, 62, 67, 72]
+        indices_3 = [3, 8, 13, 18, 23, 28, 33, 38, 43, 48, 53, 58, 63, 68, 73]
+        indices_4 = [4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74]
+        indices_5 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75]
+        scale_1_sum = calculator_service.sum_specific_elements(answers, indices_1)
+        scale_2_sum = calculator_service.sum_specific_elements(answers, indices_2)
+        scale_3_sum = calculator_service.sum_specific_elements(answers, indices_3)
+        scale_4_sum = calculator_service.sum_specific_elements(answers, indices_4)
+        scale_5_sum = calculator_service.sum_specific_elements(answers, indices_5)
+        return [scale_1_sum, scale_2_sum, scale_3_sum, scale_4_sum, scale_5_sum]
+
     def test_jas_calculate_results(self, answers: List[int]):
         indices_1 = [1, 2, 3, 4, 5]
         indices_2 = [6, 7, 8, 9, 10]

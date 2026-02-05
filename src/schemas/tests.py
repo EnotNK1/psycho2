@@ -60,6 +60,7 @@ class AnswerChoice(BaseModel):
 class Question(BaseModel):
     id: uuid.UUID
     text: str
+    opposite_text: Optional[str] = None
     number: int
     test_id: uuid.UUID
     answer_choice: list[uuid.UUID]
@@ -81,6 +82,7 @@ class Scale(ScaleAdd):
 class TestAdd(BaseModel):
     id: uuid.UUID
     title: str
+    type: Optional[int] = None
     description: str
     short_desc: str
     link: str
@@ -118,6 +120,7 @@ class AnswerChoiceDetail(BaseModel):
 class QuestionDetail(BaseModel):
     id: uuid.UUID
     text: str
+    opposite_text: Optional[str] = None
     number: int
     answers: list[AnswerChoiceDetail]
 

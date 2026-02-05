@@ -329,6 +329,41 @@
     "min": 1,
     "max": 6,
     "test_id": "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a"
+  },
+  {
+    "id": "91243e70-817f-41b7-b7ff-e1febe423d6a",
+    "title": "Экстраверсия",
+    "min": 15,
+    "max": 75,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794"
+  },
+  {
+    "id": "f1898bcb-e02f-4cc5-b87c-e3f9b23ff3b0",
+    "title": "Привязанность",
+    "min": 15,
+    "max": 75,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794"
+  },
+  {
+    "id": "31771a90-6658-4f86-bab7-28ce60fe3e64",
+    "title": "Самоконтроль",
+    "min": 15,
+    "max": 75,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794"
+  },
+  {
+    "id": "20ee877c-eef7-4bb9-9659-b3d04f7535ba",
+    "title": "Эмоциональная устойчивость",
+    "min": 15,
+    "max": 75,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794"
+  },
+  {
+    "id": "c713771f-7fed-4d2f-b50b-dde2f99d1104",
+    "title": "Экспрессивность",
+    "min": 15,
+    "max": 75,
+    "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794"
   }
 
 ]
