@@ -292,7 +292,7 @@
     "type": 0,
     "number": 1,
     "title": "",
-    "link_to_picture": "/education/images_education_material/img_our_emotions.png",
+    "link_to_picture": "/images/images_education_material/img_our_emotions.png",
     "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
     "subtitle": "Что такое эмоции?"
   },
@@ -301,7 +301,7 @@
     "type": 0,
     "number": 2,
     "title": "",
-    "link_to_picture": "/education/images_education_material/img_our_emotions.png",
+    "link_to_picture": "/images/images_education_material/img_our_emotions.png",
     "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
     "subtitle": "Эмоция vs настроение"
   },
@@ -310,7 +310,7 @@
     "type": 0,
     "number": 3,
     "title": "",
-    "link_to_picture": "/education/images_education_material/img_our_emotions.png",
+    "link_to_picture": "/images/images_education_material/img_our_emotions.png",
     "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
     "subtitle": "Зачем нужны эмоции?"
   },
@@ -319,7 +319,7 @@
     "type": 0,
     "number": 4,
     "title": "",
-    "link_to_picture": "/education/images_education_material/img_our_emotions.png",
+    "link_to_picture": "/images/images_education_material/img_our_emotions.png",
     "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
     "subtitle": "Почему так сложно?"
   },
@@ -328,7 +328,7 @@
     "type": 0,
     "number": 5,
     "title": "",
-    "link_to_picture": "/education/images_education_material/img_our_emotions.png",
+    "link_to_picture": "/images/images_education_material/img_our_emotions.png",
     "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
     "subtitle": "Какие бывают эмоции?"
   },
@@ -337,7 +337,7 @@
     "type": 0,
     "number": 6,
     "title": "",
-    "link_to_picture": "/education/images_education_material/img_our_emotions.png",
+    "link_to_picture": "/images/images_education_material/img_our_emotions.png",
     "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
     "subtitle": "Выводы"
   }
