@@ -57,3 +57,8 @@ wcwidth==0.2.13
 websockets==14.1
 itsdangerous==2.2.0
 enum34==1.1.10
+scikit-fuzzy==0.5.0
+numpy
+scipy
+networkx
+matplotlib

@@ -29,6 +29,8 @@ from src.schemas.users import (
 )
 from src.services.daily_tasks import DailyTaskService
 
+from src.burnout_personality import burnout_calculate
+
 serializer = URLSafeTimedSerializer("secret_key")
 
 
@@ -177,3 +179,20 @@ class AuthService(BaseService):
         except Exception as e:
             await self.db.rollback()
             raise e
+
+    async def burnout_calculate(self, test_results):
+        if test_results == []:
+            raise ValueError("Список тестов пуст")
+
+        latest_test = max(test_results, key=lambda x: datetime.fromisoformat(x["datetime"]))
+
+        scale_results = latest_test.get("scale_results")
+
+        if not scale_results:
+            raise ValueError("В тесте отсутствуют результаты шкал")
+
+        # Собираем scores в порядке их следования в scale_results
+        scores = [scale["score"] for scale in scale_results]
+        res = burnout_calculate(scores[0], scores[1], scores[2], scores[3], scores[4])
+
+        return res

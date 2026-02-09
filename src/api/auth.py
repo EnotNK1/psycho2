@@ -1,5 +1,8 @@
+from typing import Optional
+
 from fastapi import APIRouter, HTTPException, Response
 from pydantic import EmailStr
+import uuid
 
 from src.enums import DailyTaskType
 from src.exceptions import (
@@ -21,6 +24,7 @@ from src.services.auth import AuthService
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 from src.services.daily_tasks import DailyTaskService
+from src.services.tests import TestService
 from src.tasks.tasks import send_email_to_recover_password
 
 router = APIRouter(prefix="/auth", tags=["Авторизация и аутентификация"])
@@ -172,3 +176,20 @@ async def update_user(
     except Exception as e:
         raise MyAppHTTPException(
             detail="An unexpected error occurred: " + str(e))
+
+@router.get("/burnout_calculate/")
+async def burnout_calculate(
+        db: DBDep,
+        my_user_id: UserIdDep,
+        user_id: Optional[uuid.UUID] = None
+):
+    try:
+        if user_id is None:
+            target_user_id = my_user_id
+        else:
+            target_user_id = user_id
+        test_service = TestService(db)
+        test_results = await test_service.get_test_result_by_user_and_test("e89f7acb-cd31-4d27-aadd-24f6c7d52794", target_user_id)
+        return await AuthService(db).burnout_calculate(test_results)
+    except Exception as e:
+        raise ObjectNotFoundHTTPException()
