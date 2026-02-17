@@ -6,6 +6,7 @@ from src.models.tests import TestOrm, TestResultOrm, QuestionOrm, ScaleResultOrm
 from src.models.review import ReviewOrm
 from src.models.diary import DiaryOrm
 from src.models.mood_tracker import MoodTrackerOrm
+from src.models.user_task import UserTaskOrm
 
 __all__ = [
     "UsersOrm",
@@ -21,5 +22,6 @@ __all__ = [
     "MoodTrackerOrm",
     "DiaryOrm",
     "DailyTaskOrm",
-    "EmojiOrm"
+    "EmojiOrm",
+    "UserTaskOrm"
 ]

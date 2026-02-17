@@ -15,6 +15,7 @@ from src.repositories.tasks import TasksRepository
 from src.repositories.test_result import TestResultRepository
 from src.repositories.tests import TestsRepository
 from src.repositories.review import ReviewRepository
+from src.repositories.user_task import UserTaskRepository
 from src.repositories.users import UsersRepository
 from src.repositories.diary import DiaryRepository
 from src.repositories.mood_tracker import MoodTrackerRepository
@@ -51,6 +52,7 @@ class DBManager:
         self.emoji = EmojiRepository(self.session)
         self.user_score = UserScoreRepository(self.session)
         self.exercise = ExerciseRepository(self.session)
+        self.user_task = UserTaskRepository(self.session)
 
         # Education repositories
         self.education_material = EducationRepository(self.session)

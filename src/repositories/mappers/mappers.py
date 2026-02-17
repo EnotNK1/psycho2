@@ -4,7 +4,7 @@ from symtable import Class
 
 from celery.worker.consumer import Tasks
 
-from src.models import ScaleOrm, InquiryOrm, EmojiOrm
+from src.models import ScaleOrm, InquiryOrm, EmojiOrm, UserTaskOrm
 from src.models.application import ApplicationOrm
 from src.models.clients import TasksOrm, ClientsOrm
 from src.models.daily_tasks import DailyTaskOrm
@@ -19,6 +19,7 @@ from src.schemas.emoji import Emoji
 from src.schemas.inquiry import Inquiry
 from src.schemas.task import TaskRequest, Task
 from src.schemas.tests import Test, Scale, TestResult, Question, AnswerChoice, ScaleResult, Borders
+from src.schemas.user_task import UserTask
 from src.schemas.users import User, ClientSchema, GetAllManagerRequest, AdminUserResponse
 from src.models.application import ApplicationOrm
 from src.repositories.mappers.base import DataMapper
@@ -154,6 +155,10 @@ class ScaleResultDataMapper(DataMapper):
 class TasksDataMapper(DataMapper):
     db_model = TasksOrm
     schema = Task
+
+class UserTasksDataMapper(DataMapper):
+    db_model = UserTaskOrm
+    schema = UserTask
 
 
 class ClientsDataMapper(DataMapper):

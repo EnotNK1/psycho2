@@ -69,6 +69,12 @@ class ObjectNotFoundHTTPException(MyAppHTTPException):
     status_code = 404
     detail = "Объект не найден"
 
+class DateException(MyAppException):
+    detail = "Необходимо передать обе даты (start_date и end_date) или не передавать ни одной"
+
+class DateHTTPException(MyAppHTTPException):
+    status_code = 400
+    detail = "Необходимо передать обе даты (start_date и end_date) или не передавать ни одной"
 
 class SeveralObjectsFoundHTTPException(MyAppHTTPException):
     status_code = 400
