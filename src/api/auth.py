@@ -1,5 +1,6 @@
 from typing import Optional
 
+from celery.bin.result import result
 from fastapi import APIRouter, HTTPException, Response
 from pydantic import EmailStr
 import uuid
@@ -190,6 +191,8 @@ async def burnout_calculate(
             target_user_id = user_id
         test_service = TestService(db)
         test_results = await test_service.get_test_result_by_user_and_test("e89f7acb-cd31-4d27-aadd-24f6c7d52794", target_user_id)
-        return await AuthService(db).burnout_calculate(test_results)
+        result = await AuthService(db).burnout_calculate(test_results)
+
+        return {"result": result}
     except Exception as e:
         raise ObjectNotFoundHTTPException()
