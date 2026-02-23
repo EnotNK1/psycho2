@@ -13,8 +13,9 @@ class UsersOrm(Base):
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     username: Mapped[str]
     email: Mapped[str] = mapped_column(String(200), unique=True)
-    hashed_password: Mapped[str] = mapped_column(String(200))
-    city: Mapped[str]
+    hashed_password: Mapped[Optional[str]] = mapped_column(
+        String(200))  # Поле может быть NULL
+    city: Mapped[Optional[str]]  # Поле может быть NULL
     company: Mapped[Optional[str]]  # Поле может быть NULL
     online: Mapped[Optional[bool]]  # Поле может быть NULL
     gender: Mapped[str]
@@ -27,4 +28,5 @@ class UsersOrm(Base):
     job_title: Mapped[Optional[str]]  # Поле может быть NULL
     face_to_face: Mapped[Optional[bool]]  # Поле может быть NULL
 
-    education_progress = relationship("EducationProgressOrm", back_populates="user", cascade="all, delete-orphan")
+    education_progress = relationship(
+        "EducationProgressOrm", back_populates="user", cascade="all, delete-orphan")

@@ -34,6 +34,14 @@ class UserAdd(BaseModel):
     id: uuid.UUID
 
 
+class UserAddOauth(BaseModel):
+    email: EmailStr
+    username: str
+    gender: str
+    role_id: int
+    id: uuid.UUID
+
+
 class User(BaseModel):
     id: uuid.UUID
     email: EmailStr
@@ -154,6 +162,7 @@ class AdminUserResponse(BaseModel):
     department: Optional[str] = None
     job_title: Optional[str] = None
     role_id: int
+
 
 class PsychologistResponse(BaseModel):
     username: str

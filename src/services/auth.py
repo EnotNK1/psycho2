@@ -22,6 +22,7 @@ from src.exceptions import (
 from src.schemas.users import (
     UserRequestAdd,
     UserAdd,
+    UserAddOauth,
     UserRequestLogIn,
     PasswordChangeRequest,
     HashedPassword,
@@ -84,6 +85,31 @@ class AuthService(BaseService):
             raise IncorrectTokenException
         except jwt.ExpiredSignatureError:
             raise IncorrectTokenException("Token expired")
+
+    async def oauth_login(
+        self,
+        email,
+        username,
+        gender
+    ) -> tuple[str, str]:
+        """
+        Логин или регистрация пользователя через OAuth-провайдера
+        """
+        user = await self.db.users.get_one_or_none(email=email)
+        if not user:
+            user = UserAddOauth(
+                email=email,
+                username=username,
+                gender=gender,
+                role_id=1,
+                id=uuid.uuid4()
+            )
+            await self.db.users.add(user)
+            await self.db.commit()
+
+        return self.create_tokens(
+            {"user_id": str(user.id), "role_id": user.role_id}
+        )
 
     async def register_user(self, data: UserRequestAdd) -> Tuple[str, str]:
         if data.password != data.confirm_password:
@@ -184,7 +210,8 @@ class AuthService(BaseService):
         if test_results == []:
             raise ValueError("Список тестов пуст")
 
-        latest_test = max(test_results, key=lambda x: datetime.fromisoformat(x["datetime"]))
+        latest_test = max(
+            test_results, key=lambda x: datetime.fromisoformat(x["datetime"]))
 
         scale_results = latest_test.get("scale_results")
 
@@ -193,6 +220,7 @@ class AuthService(BaseService):
 
         # Собираем scores в порядке их следования в scale_results
         scores = [scale["score"] for scale in scale_results]
-        res = burnout_calculate(scores[0], scores[1], scores[2], scores[3], scores[4])
+        res = burnout_calculate(
+            scores[0], scores[1], scores[2], scores[3], scores[4])
 
         return res

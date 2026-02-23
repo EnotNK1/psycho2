@@ -27,6 +27,7 @@ from src.api.daily_tasks import router as router_daily_tasks
 from src.api.gamification import router as router_gamification
 from src.api.exercise import router as router_exercise
 from src.api.user_task import router as router_user_task
+from src.api.yandex_auth import router as router_yandex_auth
 
 from src.init import redis_manager
 
@@ -45,6 +46,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(router_auth)
+app.include_router(router_yandex_auth)
 app.include_router(router_tests)
 app.include_router(images_router)
 app.include_router(router_manager)
