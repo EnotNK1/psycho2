@@ -178,7 +178,7 @@ async def update_user(
         raise MyAppHTTPException(
             detail="An unexpected error occurred: " + str(e))
 
-@router.get("/burnout_calculate/")
+@router.get("/burnout_calculate")
 async def burnout_calculate(
         db: DBDep,
         my_user_id: UserIdDep,
