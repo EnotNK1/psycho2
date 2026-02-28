@@ -15,6 +15,7 @@ REDIRECT_URI = "https://xn--d1acsjd4h.tech"
 
 
 async def get_yandex_user(access_token: str) -> dict:
+    print(access_token)
     async with httpx.AsyncClient() as client:
         response = await client.get(
             "https://login.yandex.ru/info",
@@ -65,8 +66,28 @@ def yandex_login():
     return RedirectResponse(url)
 
 
-@router.get("/callback")
-async def yandex_callback(
+@router.get("/callback/token")
+async def yandex_callback_token(
+    token: str,
+    db: DBDep,
+    response: Response
+):
+    yandex_user = await get_yandex_user(token)
+
+    access_token, refresh_token = await AuthService(db).oauth_login(
+        email=yandex_user["default_email"],
+        username=yandex_user["login"],
+        gender=yandex_user["sex"],
+    )
+
+    response.set_cookie("access_token", access_token)
+    response.set_cookie("refresh_token", refresh_token, httponly=True)
+
+    return {"access_token": access_token, "refresh_token": refresh_token}
+
+
+@router.get("/callback/code")
+async def yandex_callback_code(
     code: str,
     db: DBDep,
     response: Response
