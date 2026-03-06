@@ -1,19 +1,106 @@
 from typing import List, Optional
 import logging
 import uuid
+import json
 from fastapi import HTTPException, status
 from src.services.base import BaseService
 from src.schemas.exercise import (
     ExerciseResponse, ExerciseDetailResponse, ExerciseDetail1Response, ExerciseResultsResponse,
     FieldResponse, VariantResponse, CompletedExerciseCreate, ExerciseViewResponse, ResultDetailResponse,
-    ExerciseCreate, FieldCreate, VariantCreate, ExerciseViewCreate, CompletedExerciseResponse
+    ExerciseCreate, FieldCreate, VariantCreate, ExerciseViewCreate, CompletedExerciseResponse, ExerciseAutoCreate, FieldAutoCreate
 )
-from src.exceptions import ObjectNotFoundHTTPException
+from src.exceptions import ObjectNotFoundHTTPException, MyAppException, ObjectAlreadyExistsException
 
 logger = logging.getLogger(__name__)
 
 
 class ExerciseService(BaseService):
+
+    async def add_exercises(self, exercises_data):
+        exercises = [ExerciseAutoCreate.model_validate(
+            exercise) for exercise in exercises_data]
+        created, skipped = 0, 0
+
+        for exercise in exercises:
+            try:
+                existing_exercise = await self.db.exercise.get_one_or_none(id=exercise.id)
+                if existing_exercise:
+                    skipped += 1
+                else:
+                    await self.db.exercise.add(exercise)
+                    created += 1
+            except ObjectAlreadyExistsException:
+                skipped += 1
+            except Exception as ex:
+                logger.error(f"Ошибка при добавлении упражнения: {ex}")
+                await self.db.rollback()
+                raise MyAppException()
+
+        if created > 0:
+            logger.info(f"{created} Упражнений успешно добавлено.")
+        elif skipped > 0:
+            logger.info("Все упражнения уже существуют в базе.")
+        else:
+            logger.info("Файл тестов пустой, ничего не добавлено.")
+
+    async def add_fields(self, fields_data):
+        fields = [FieldAutoCreate.model_validate(
+            exercise) for exercise in fields_data]
+        created, skipped = 0, 0
+
+        for field in fields:
+            try:
+                if not field.exercise_structure_id:
+                    continue
+                existing_exercise = await self.db.exercise.get_one_or_none(id=field.exercise_structure_id)
+                if not existing_exercise:
+                    continue
+
+                existing_field = await self.db.field.get_one_or_none(id=field.id)
+                if existing_field:
+                    skipped += 1
+                else:
+                    await self.db.field.add(field)
+                    created += 1
+            except ObjectAlreadyExistsException:
+                skipped += 1
+            except Exception as ex:
+                logger.error(f"Ошибка при добавлении поля: {ex}")
+                await self.db.rollback()
+                raise MyAppException()
+
+        if created > 0:
+            logger.info(f"{created} Полей успешно добавлено.")
+        elif skipped > 0:
+            logger.info("Все поля уже существуют в базе.")
+        else:
+            logger.info("Файл тестов пустой, ничего не добавлено.")
+
+    async def add_views(self, views_data):
+        pass
+
+    async def auto_create(self):
+        try:
+            with open("src/services/info/exercise_info.json", encoding="utf-8") as file:
+                exercises_data = json.load(file)
+            await self.add_exercises(exercises_data)
+
+            with open("src/services/info/fields_info.json", encoding="utf-8") as file:
+                scales_data = json.load(file)
+            await self.add_fields(scales_data)
+
+            # with open("src/services/info/views_info.json", encoding="utf-8") as file:
+            #     answer_choices_data = json.load(file)
+            # await self.add_views(answer_choices_data)
+
+            await self.db.commit()
+            return {"status": "OK", "message": "Упражнения, поля успешно созданы"}
+
+        except Exception as ex:
+            logger.error(f"Ошибка при автоматическом создании данных: {ex}")
+            await self.db.rollback()
+            raise MyAppException()
+
     async def create_exercise(self, exercise_data: ExerciseCreate) -> ExerciseResponse:
         return await self.db.exercise.create_exercise(exercise_data)
 

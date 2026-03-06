@@ -14,6 +14,15 @@ from src.api.dependencies.db import DBDep
 router = APIRouter(prefix="/exercises", tags=["Упражнения"])
 
 
+@router.post("/auto", summary="Автоматическое создание упражнений")
+async def auto_create(
+        db: DBDep,
+        user_id: UserIdDep
+):
+    await ExerciseService(db).auto_create()
+    return {"status": "OK"}
+
+
 @router.post("/", response_model=ExerciseResponse, status_code=status.HTTP_201_CREATED)
 async def create_exercise(
     exercise_data: ExerciseCreate,

@@ -10,6 +10,7 @@ from src.models.clients import TasksOrm, ClientsOrm
 from src.models.daily_tasks import DailyTaskOrm
 from src.models.education import EducationProgressOrm, educationThemeOrm, educationMaterialOrm, CardOrm
 from src.models.tests import TestOrm, QuestionOrm, AnswerChoiceOrm, ScaleResultOrm, BordersOrm, TestResultOrm
+from src.models.exercise import ExerciseStructureOrm, FieldOrm
 from src.repositories.mappers.base import DataMapper
 from src.schemas.application import ApplicationResponse
 from src.schemas.daily_tasks import DailyTaskResponse
@@ -27,6 +28,7 @@ from src.schemas.users import User
 from src.schemas.review import Review
 from src.schemas.diary import Diary
 from src.schemas.mood_tracker import MoodTracker
+from src.schemas.exercise import ExerciseBase, FieldAutoCreate
 from src.models.users import UsersOrm
 from src.models.review import ReviewOrm
 from src.models.diary import DiaryOrm
@@ -155,6 +157,7 @@ class ScaleResultDataMapper(DataMapper):
 class TasksDataMapper(DataMapper):
     db_model = TasksOrm
     schema = Task
+
 
 class UserTasksDataMapper(DataMapper):
     db_model = UserTaskOrm
@@ -333,3 +336,37 @@ class DailyTaskDataMapper(DataMapper):
                 type=model.type,
                 user_id=model.user_id
             )
+
+
+class ExerciseMapper:
+    db_model = ExerciseStructureOrm
+    schema = ExerciseBase
+
+    @staticmethod
+    def map_to_domain_entity(model: ExerciseStructureOrm) -> ExerciseBase:
+        return ExerciseBase(
+            id=model.id,
+            title=model.title,
+            picture_link=model.picture_link,
+        )
+
+
+class FieldMapper:
+    db_model = FieldOrm
+    schema = FieldAutoCreate
+
+    @staticmethod
+    def map_to_domain_entity(model: FieldOrm) -> FieldAutoCreate:
+        return FieldAutoCreate(
+            id=model.id,
+            title=model.title,
+            major=model.major,
+            view=model.view,
+            type=model.type,
+            placeholder=model.placeholder,
+            prompt=model.prompt,
+            description=model.description,
+            order=model.order,
+            exercises=model.exercises,
+            exercise_structure_id=model.exercise_structure_id
+        )

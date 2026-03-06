@@ -364,6 +364,50 @@
     "min": 15,
     "max": 75,
     "test_id": "e89f7acb-cd31-4d27-aadd-24f6c7d52794"
-  }
+  },
 
+
+
+  {
+    "id": "d09ad4d7-3407-4249-8221-8313cb5ad09d",
+    "title": "Выгорание",
+    "min": 1,
+    "max": 5,
+    "test_id": "ea869ca2-4e8f-4a98-8b13-4fbeedf30539"
+  },
+  {
+    "id": "9b8cfdce-b075-47e6-9a42-3ed1acffc855",
+    "title": "Истощение",
+    "min": 1,
+    "max": 5,
+    "test_id": "ea869ca2-4e8f-4a98-8b13-4fbeedf30539"
+  },
+  {
+    "id": "32fb5983-eb50-46ba-8641-8b8db2cd1b21",
+    "title": "Внутреннее дистанцирование",
+    "min": 1,
+    "max": 5,
+    "test_id": "ea869ca2-4e8f-4a98-8b13-4fbeedf30539"
+  },
+  {
+    "id": "b7b95b0a-2513-4d43-b8d1-d023a6f4d00c",
+    "title": "Когнитивные затруднения",
+    "min": 1,
+    "max": 5,
+    "test_id": "ea869ca2-4e8f-4a98-8b13-4fbeedf30539"
+  },
+  {
+    "id": "9ca3095e-5c74-4801-9b9e-892297112c52",
+    "title": "Эмоциональные затруднения",
+    "min": 1,
+    "max": 5,
+    "test_id": "ea869ca2-4e8f-4a98-8b13-4fbeedf30539"
+  },
+  {
+    "id": "fb984886-0590-4916-881d-aea2b60fabb5",
+    "title": "Вторичные симптомы",
+    "min": 1,
+    "max": 5,
+    "test_id": "ea869ca2-4e8f-4a98-8b13-4fbeedf30539"
+  }
 ]

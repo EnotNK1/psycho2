@@ -1,0 +1,213 @@
+[
+    {
+        "id": "300d244f-3ac9-48e0-a962-6655004914e7",
+        "title": "Какие эмоции и мысли возникают в такие моменты?",
+        "major": false,
+        "view": "default",
+        "type": "input",
+        "placeholder": "Я боюсь...",
+        "prompt": "",
+        "description": "",
+        "order": 0,
+        "exercise_structure_id": "ccf1a405-a02a-41e2-a61a-ed57b0397af3"
+    },
+    {
+        "id": "836d8f33-4587-4887-a225-0a6388aea7e2",
+        "title": "Какие эпизоды этой истории особенно вас расстраивают?",
+        "major": false,
+        "view": "default",
+        "type": "input",
+        "placeholder": "Мне кажется...",
+        "prompt": "",
+        "description": "",
+        "order": 0,
+        "exercise_structure_id": "ccf1a405-a02a-41e2-a61a-ed57b0397af3"
+    },
+    {
+        "id": "682a4479-5693-48ae-abe1-df6b899f08df",
+        "title": "Опишите ситуацию в максимальных деталях",
+        "major": true,
+        "view": "primary",
+        "type": "input",
+        "placeholder": "Что произошло?",
+        "prompt": "",
+        "description": "",
+        "order": 0,
+        "exercise_structure_id": "ccf1a405-a02a-41e2-a61a-ed57b0397af3"
+    },
+
+
+
+
+    {
+        "id": "81a49488-99e5-4f77-bfee-4a63664c2579",
+        "title": "Чем я не хочу заниматься?",
+        "major": true,
+        "view": "primary",
+        "type": "input",
+        "placeholder": "Брать ипотеку или просить повышения...",
+        "prompt": "",
+        "description": "",
+        "order": 0,
+        "exercise_structure_id": "a684ee3c-2aaf-4bd2-82fa-49c2e0f8d2e0"
+    },
+    {
+        "id": "040dd6af-c889-463d-b8bd-c80d55db2b96",
+        "title": "Почему я не хочу это делать?",
+        "major": false,
+        "view": "default",
+        "type": "input",
+        "placeholder": "Мне кажется...",
+        "prompt": "",
+        "description": "",
+        "order": 0,
+        "exercise_structure_id": "a684ee3c-2aaf-4bd2-82fa-49c2e0f8d2e0"
+    },
+    {
+        "id": "f9df2167-87f1-43e9-b034-e33ce5f9da3d",
+        "title": "Минусы этого",
+        "major": false,
+        "view": "primary",
+        "type": "addable_list",
+        "placeholder": "Нужно много об этом думать...",
+        "prompt": "",
+        "description": "",
+        "order": 1,
+        "exercise_structure_id": "a684ee3c-2aaf-4bd2-82fa-49c2e0f8d2e0"
+    },
+    {
+        "id": "baf22516-69f4-45f3-8ceb-4f0acb9a001d",
+        "title": "Плюсы этого",
+        "major": false,
+        "view": "default",
+        "type": "addable_list",
+        "placeholder": "У меня будет своё жильё...",
+        "prompt": "",
+        "description": "",
+        "order": 1,
+        "exercise_structure_id": "a684ee3c-2aaf-4bd2-82fa-49c2e0f8d2e0"
+    },
+
+
+
+    {
+        "id": "8e4e8a0d-d473-46ca-8dec-a6b3ffac69bd",
+        "title": "",
+        "major": false,
+        "view": "primary",
+        "type": "input",
+        "placeholder": "Какие чувства вызвала эта ситуация?...",
+        "prompt": "Опишите все чувства, которые возникли. Не забывайте про настроение",
+        "description": "",
+        "order": 0,
+        "exercise_structure_id": "ad30c691-f509-4635-b749-091e50f03813"
+    },
+    {
+        "id": "983686f3-83cd-493a-b485-8c428eafaddb",
+        "title": "",
+        "major": false,
+        "view": "primary",
+        "type": "input",
+        "placeholder": "Как вы себя повели?...",
+        "prompt": "Запишите сами действия",
+        "description": "",
+        "order": 0,
+        "exercise_structure_id": "ad30c691-f509-4635-b749-091e50f03813"
+    },
+    {
+        "id": "4592b3e9-cbd8-4ec2-bed7-e29015cb4db5",
+        "title": "Опишите ситуацию",
+        "major": true,
+        "view": "primary",
+        "type": "input",
+        "placeholder": "Только что случилось такое…",
+        "prompt": "Запишите факты, без мыслей и эмоций",
+        "description": "",
+        "order": 0,
+        "exercise_structure_id": "ad30c691-f509-4635-b749-091e50f03813"
+    },
+    {
+        "id": "ee2fb3da-472a-4478-808a-9f1ab7ff81b7",
+        "title": "Настроение",
+        "major": false,
+        "view": "default",
+        "type": "slider",
+        "placeholder": "",
+        "prompt": "",
+        "description": "",
+        "order": 0,
+        "exercise_structure_id": "ad30c691-f509-4635-b749-091e50f03813"
+    },
+    {
+        "id": "c67b66e0-071e-45f7-a3ec-946c2d5e5272",
+        "title": "Расскажите больше",
+        "major": true,
+        "view": "primary",
+        "type": "input",
+        "placeholder": "Какие были мысли в этот момент?...",
+        "prompt": "Опишите все чувства, которые возникли. Не забывайте про настроение ",
+        "description": "",
+        "order": 1,
+        "exercise_structure_id": "ad30c691-f509-4635-b749-091e50f03813"
+    },
+    {
+        "id": "642b8bd9-3b58-488a-832b-c26db1d5e152",
+        "title": "",
+        "major": false,
+        "view": "primary",
+        "type": "input",
+        "placeholder": "Как вы подтверждаете эту мысль?...",
+        "prompt": "Запишите аргументы, почему эти мысли имеют место",
+        "description": "",
+        "order": 1,
+        "exercise_structure_id": "ad30c691-f509-4635-b749-091e50f03813"
+    },
+    {
+        "id": "ed97da56-754f-4259-8932-05321d19645d",
+        "title": "",
+        "major": false,
+        "view": "primary",
+        "type": "input",
+        "placeholder": "Как вы опровергаете эту мысль?...",
+        "prompt": "Запишите контраргументы, почему эти мысли потенциально опасны",
+        "description": "",
+        "order": 1,
+        "exercise_structure_id": "ad30c691-f509-4635-b749-091e50f03813"
+    },
+    {
+        "id": "3e7a45fa-161c-4d33-85ce-e14058283d33",
+        "title": "Что думаете про ситуацию сейчас?",
+        "major": false,
+        "view": "default",
+        "type": "input",
+        "placeholder": "Сейчас мне....",
+        "prompt": "Напишите, как бы поступили сейчас и что бы изменили",
+        "description": "",
+        "order": 1,
+        "exercise_structure_id": "ad30c691-f509-4635-b749-091e50f03813"
+    },
+    {
+        "id": "2be9017e-ebeb-4e09-a60f-b5d280b42651",
+        "title": "Настроение",
+        "major": false,
+        "view": "default",
+        "type": "slider",
+        "placeholder": "",
+        "prompt": "",
+        "description": "",
+        "order": 2,
+        "exercise_structure_id": "ad30c691-f509-4635-b749-091e50f03813"
+    },
+    {
+        "id": "3e20be22-9636-4bb8-a666-ef77153c30d7",
+        "title": "Какое у вас сейчас настроение?",
+        "major": false,
+        "view": "default",
+        "type": "input",
+        "placeholder": "Сейчас я чувствую....",
+        "prompt": "Опишите, как вы себя чувствуете после заполнения дневника",
+        "description": "",
+        "order": 2,
+        "exercise_structure_id": "ad30c691-f509-4635-b749-091e50f03813"
+    }
+]

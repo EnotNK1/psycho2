@@ -14,9 +14,13 @@ from src.schemas.exercise import (
     CompletedExerciseCreate, PulledFieldResponse, PageResponse, ExerciseViewCreate, ExerciseViewResponse, ResultResponse
 )
 from src.repositories.base import BaseRepository
+from src.repositories.mappers.mappers import ExerciseMapper
 
 
 class ExerciseRepository(BaseRepository):
+    model = ExerciseStructureOrm
+    mapper = ExerciseMapper
+
     async def create_exercise(self, exercise_data: ExerciseCreate) -> ExerciseResponse:
         exercise = ExerciseStructureOrm(
             id=uuid.uuid4(),
@@ -356,6 +360,8 @@ class ExerciseRepository(BaseRepository):
                 else:
                     # Берем текст из первого заполненного поля
                     preview_text = completed.filled_field[0].text
+
+                preview_text = str(preview_text)
 
             # Создаем результат
             result = ResultResponse(

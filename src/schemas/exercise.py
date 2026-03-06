@@ -39,6 +39,10 @@ class ExerciseCreate(BaseModel):
         from_attributes = True
 
 
+class ExerciseAutoCreate(ExerciseCreate):
+    id: uuid.UUID
+
+
 class ExerciseResponse(ExerciseBase):
     open: bool = False
 
@@ -79,6 +83,16 @@ class FieldCreate(BaseModel):
     description: str
     order: int
     exercises: Optional[List[str]] = None
+
+
+class FieldAutoCreate(FieldCreate):
+    id: uuid.UUID
+    exercise_structure_id: uuid.UUID
+
+    model_config = {
+        "populate_by_name": True,
+        "use_enum_values": True,
+    }
 
 
 class FieldResponse(FieldBase):

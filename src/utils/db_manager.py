@@ -24,6 +24,7 @@ from src.repositories.daily_tasks import DailyTasksRepository
 from src.repositories.emoji import EmojiRepository
 from src.repositories.gamification import UserScoreRepository
 from src.repositories.exercise import ExerciseRepository
+from src.repositories.fields import FieldsRepository
 
 
 class DBManager:
@@ -51,8 +52,11 @@ class DBManager:
         self.daily_tasks = DailyTasksRepository(self.session)
         self.emoji = EmojiRepository(self.session)
         self.user_score = UserScoreRepository(self.session)
-        self.exercise = ExerciseRepository(self.session)
         self.user_task = UserTaskRepository(self.session)
+
+        # Exercises repositories
+        self.exercise = ExerciseRepository(self.session)
+        self.field = FieldsRepository(self.session)
 
         # Education repositories
         self.education_material = EducationRepository(self.session)
