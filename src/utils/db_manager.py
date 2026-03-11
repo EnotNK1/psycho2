@@ -8,6 +8,7 @@ from src.repositories.education_card import EducationCardRepository
 from src.repositories.education_progress import EducationProgressRepository
 from src.repositories.education_theme import EducationThemeRepository
 from src.repositories.inquiry import InquiryRepository
+from src.repositories.ontology import OntologyEntryRepository
 from src.repositories.questions import QuestionRepository
 from src.repositories.scale import ScalesRepository
 from src.repositories.scale_result import ScaleResultRepository
@@ -53,6 +54,7 @@ class DBManager:
         self.emoji = EmojiRepository(self.session)
         self.user_score = UserScoreRepository(self.session)
         self.user_task = UserTaskRepository(self.session)
+        self.ontology_entry = OntologyEntryRepository(self.session)
 
         # Exercises repositories
         self.exercise = ExerciseRepository(self.session)

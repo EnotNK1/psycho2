@@ -29,6 +29,7 @@ from src.api.exercise import router as router_exercise
 from src.api.user_task import router as router_user_task
 from src.api.yandex_auth import router as router_yandex_auth
 from src.api.chat_bot import router as router_chat_bot
+from src.api.ontology import router as router_ontology
 
 from src.init import redis_manager
 
@@ -64,6 +65,7 @@ app.include_router(router_gamification)
 app.include_router(router_exercise)
 app.include_router(router_user_task)
 app.include_router(router_chat_bot)
+app.include_router(router_ontology)
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html():
