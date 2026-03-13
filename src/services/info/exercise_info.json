@@ -3,7 +3,7 @@
         "id": "ccf1a405-a02a-41e2-a61a-ed57b0397af3",
         "title": "Выявление горячих точек",
         "description": "Позволяет понять, какие скрытые эмоции, связанные с травмирующим событием, не выходят из головы",
-        "picture_link": "/images/images_education_material/img_3.png",
+        "picture_link": "/images/images/img_333.png",
         "time_to_read": 14,
         "questions_count": 3,
         "linked_exercise_id": null
@@ -12,7 +12,7 @@
         "id": "a684ee3c-2aaf-4bd2-82fa-49c2e0f8d2e0",
         "title": "Как сделать то, чего не хочется",
         "description": "Позволяет принять осознанный выбор в пользу чего-то полезного, но что может вызывать тревогу или неприятные ощущения",
-        "picture_link": "/images/images_education_material/img_3.png",
+        "picture_link": "/images/images/img_222.png",
         "time_to_read": 8,
         "questions_count": 4,
         "linked_exercise_id": "ccf1a405-a02a-41e2-a61a-ed57b0397af3"
