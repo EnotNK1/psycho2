@@ -26,6 +26,7 @@ from src.repositories.emoji import EmojiRepository
 from src.repositories.gamification import UserScoreRepository
 from src.repositories.exercise import ExerciseRepository
 from src.repositories.fields import FieldsRepository
+from src.repositories.training_exercise import TrainingExerciseRepository
 
 
 class DBManager:
@@ -65,6 +66,8 @@ class DBManager:
         self.education_card = EducationCardRepository(self.session)
         self.education_progress = EducationProgressRepository(self.session)
         self.education_theme = EducationThemeRepository(self.session)
+
+        self.training_exercise = TrainingExerciseRepository(self.session)
         return self
 
     async def __aexit__(self, *args):
