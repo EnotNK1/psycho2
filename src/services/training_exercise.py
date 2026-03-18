@@ -11,6 +11,7 @@ from src.models.training_exercises import (
     TrainingExerciseOrm,
     TrainingQuestionOrm,
     TrainingVariantOrm,
+    TrainingCompletedExerciseOrm
 )
 
 
@@ -120,3 +121,20 @@ class TrainingExerciseService(BaseService):
         is_completed = await self.db.training_exercise.is_completed(exercise_id, user_id)
 
         return {"is_completed": is_completed}
+
+    async def complete_exercise(self, exercise_id: uuid.UUID, user_id: uuid.UUID):
+        existing = await self.db.training_completed_exercise.get_one_or_none(
+            training_exercise_id=exercise_id,
+            user_id=user_id
+        )
+
+        if existing:
+            return
+
+        completed = TrainingCompletedExerciseOrm(
+            training_exercise_id=exercise_id,
+            user_id=user_id,
+        )
+
+        await self.db.training_exercise.add(completed)
+        await self.db.commit()

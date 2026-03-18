@@ -27,6 +27,7 @@ from src.repositories.gamification import UserScoreRepository
 from src.repositories.exercise import ExerciseRepository
 from src.repositories.fields import FieldsRepository
 from src.repositories.training_exercise import TrainingExerciseRepository
+from src.repositories.training_completed_exercise import TrainingCompletedExerciseRepository
 
 
 class DBManager:
@@ -68,6 +69,7 @@ class DBManager:
         self.education_theme = EducationThemeRepository(self.session)
 
         self.training_exercise = TrainingExerciseRepository(self.session)
+        self.training_completed_exercise = TrainingCompletedExerciseRepository(self.session)
         return self
 
     async def __aexit__(self, *args):

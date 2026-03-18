@@ -55,3 +55,13 @@ async def is_exercise_completed(
     user_id: UserIdDep = None
 ):
     return await TrainingExerciseService(db).is_exercise_completed_by_id(exercise_id, user_id)
+
+
+@router.post("/{exercise_id}/complete")
+async def complete_exercise(
+    exercise_id: uuid.UUID,
+    db: DBDep,
+    user_id: UserIdDep = None
+):
+    await TrainingExerciseService(db).complete_exercise(exercise_id, user_id)
+    return {"status": "ok"}
