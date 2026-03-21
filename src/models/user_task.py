@@ -11,5 +11,6 @@ class UserTaskOrm(Base):
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
     text: Mapped[str]
     created_at: Mapped[datetime.datetime]
+    completed_at: Mapped[datetime.datetime] = mapped_column(nullable=True)
     is_complete: Mapped[bool]
     user_id: Mapped[uuid.UUID]

@@ -51,12 +51,21 @@ class UserTaskService(BaseService):
 
     async def update_user_task(self, data: UserTaskRequestUpdate):
         try:
+            actual_task = await self.db.user_task.get_one(id=data.user_task_id)
+
+            if data.is_complete is True:
+                completed_at_value = datetime.now()
+            elif data.is_complete is False:
+                completed_at_value = None
+            else:
+                completed_at_value = actual_task.completed_at
+
             if data.is_complete is not None and data.text is not None:
-                new_data = UserTaskTextCompleteUpdate(text=data.text, is_complete=data.is_complete)
+                new_data = UserTaskTextCompleteUpdate(text=data.text, is_complete=data.is_complete, completed_at=completed_at_value)
             elif data.is_complete is None:
                 new_data = UserTaskTextUpdate(text=data.text)
             else:
-                new_data = UserTaskCompleteUpdate(is_complete=data.is_complete)
+                new_data = UserTaskCompleteUpdate(is_complete=data.is_complete, completed_at=completed_at_value)
 
             await self.db.user_task.edit(
                 data=new_data,
@@ -174,6 +183,7 @@ class UserTaskService(BaseService):
                     "id": str(task.id),
                     "text": task.text,
                     "created_at": task.created_at.isoformat() if task.created_at else None,
+                    "completed_at": task.completed_at.isoformat() if task.completed_at else None,
                     "is_complete": task.is_complete,
                     "user_id": str(task.user_id)
                 }

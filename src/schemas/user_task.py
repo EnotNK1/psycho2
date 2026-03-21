@@ -9,6 +9,7 @@ class UserTask(BaseModel):
     id: uuid.UUID
     text: str
     created_at: datetime.datetime
+    completed_at: Optional[datetime.datetime] = None
     is_complete: bool
     user_id: uuid.UUID
 
@@ -28,8 +29,10 @@ class UserTaskTextUpdate(BaseModel):
 
 class UserTaskCompleteUpdate(BaseModel):
     is_complete: bool
+    completed_at: Optional[datetime.datetime] = None
 
 class UserTaskTextCompleteUpdate(BaseModel):
     text: str
     is_complete: bool
+    completed_at: Optional[datetime.datetime] = None
 
