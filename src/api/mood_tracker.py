@@ -19,8 +19,9 @@ from src.exceptions import (
 
 router = APIRouter(prefix="/mood_tracker", tags=["Трекер настроения"])
 
+
 @router.post("",
-    description="""
+             description="""
     Сохранение нового трекера настроения.\n 
     Значение score от 0 до 100. 
     Опциональная дата в формате YYYY-MM-DD. 
@@ -41,15 +42,17 @@ async def add_mood_tracker(
     except Exception:
         raise InternalErrorHTTPException
 
+
 @router.get("/emoji",
-    description="""
+            description="""
     Возвращает эмодзи по его id.\n
     Опциональное поле emoji_id (всего есть 10 эмодзи, id каждого от 0 до 10). 
     Если emoji_id не указан, то возвращаются все эмодзи.
     """)
 async def get_emoji(
     db: DBDep,
-    emoji_id: Optional[int] = Query(None, description="ID эмодзи (опционально)")
+    emoji_id: Optional[int] = Query(
+        None, description="ID эмодзи (опционально)")
 ):
     try:
         service = EmojiService(db)
@@ -62,23 +65,54 @@ async def get_emoji(
     except Exception:
         raise InternalErrorHTTPException
 
+
 @router.get("",
-    description="""
+            description="""
     Возвращает трекер настроения пользователя.\n 
     Опциональная дата в формате YYYY-MM-DD. Если не указана, возвращается за все время.
     """)
 async def get_mood_tracker(
     db: DBDep,
     user_id: UserIdDep,
-    day: Optional[str] = Query(None, title="Date", description="Дата в формате YYYY-MM-DD")
+    day: Optional[str] = Query(
+        None, title="Date", description="Дата в формате YYYY-MM-DD")
 ):
     try:
         return await MoodTrackerService(db).get_mood_tracker(day, user_id)
     except Exception:
         raise InternalErrorHTTPException
 
+
+@router.get("/weekly")
+async def get_weekly_mood_tracker(
+    db: DBDep,
+    user_id: UserIdDep
+):
+    try:
+        return await MoodTrackerService(db).get_weekly_mood_tracker(user_id)
+    except Exception:
+        raise InternalErrorHTTPException
+
+
+@router.get("/period")
+async def get_mood_tracker_by_period(
+    db: DBDep,
+    user_id: UserIdDep,
+    start_date: str = Query(..., description="YYYY-MM-DD"),
+    end_date: str = Query(..., description="YYYY-MM-DD"),
+):
+    try:
+        return await MoodTrackerService(db).get_mood_tracker_by_period(
+            user_id,
+            start_date,
+            end_date
+        )
+    except Exception:
+        raise InternalErrorHTTPException
+
+
 @router.get("/{mood_tracker_id}",
-    description="""
+            description="""
     Возвращает трекер настроения по его id.
     """)
 async def get_mood_tracker_by_id(
@@ -92,5 +126,3 @@ async def get_mood_tracker_by_id(
         raise NotOwnedHTTPException
     except Exception:
         raise InternalErrorHTTPException
-
-

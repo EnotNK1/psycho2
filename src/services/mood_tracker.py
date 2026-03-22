@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional, List
 from sqlalchemy import func
 
@@ -15,6 +15,7 @@ from src.services.daily_tasks import DailyTaskService
 from src.services.emoji import EmojiService
 from src.services.gamification import GamificationService
 from src.models import MoodTrackerOrm
+
 
 class MoodTrackerService(BaseService):
     MIN_SCORE = 0
@@ -70,6 +71,68 @@ class MoodTrackerService(BaseService):
             )
         else:
             records = await self.db.mood_tracker.get_filtered(user_id=user_id)
+
+        emoji_service = EmojiService(self.db)
+        result = []
+        for record in records:
+            emoji_texts = []
+            for eid in record.emoji_ids:
+                emoji = await emoji_service.get_emoji_by_id(eid)
+                if emoji:
+                    emoji_texts.append(emoji.text)
+            result.append(MoodTracker(
+                id=record.id,
+                score=record.score,
+                created_at=record.created_at,
+                user_id=record.user_id,
+                emoji_ids=record.emoji_ids,
+                emoji_texts=emoji_texts
+            ))
+        return result
+
+    async def get_weekly_mood_tracker(self, user_id: uuid.UUID) -> List[MoodTracker]:
+        today = datetime.utcnow().date()
+        week_ago = today - timedelta(days=6)
+
+        records = await self.db.mood_tracker.get_filtered(
+            self.db.mood_tracker.model.created_at >= week_ago,
+            self.db.mood_tracker.model.created_at <= today,
+            user_id=user_id
+        )
+
+        emoji_service = EmojiService(self.db)
+        result = []
+        for record in records:
+            emoji_texts = []
+            for eid in record.emoji_ids:
+                emoji = await emoji_service.get_emoji_by_id(eid)
+                if emoji:
+                    emoji_texts.append(emoji.text)
+            result.append(MoodTracker(
+                id=record.id,
+                score=record.score,
+                created_at=record.created_at,
+                user_id=record.user_id,
+                emoji_ids=record.emoji_ids,
+                emoji_texts=emoji_texts
+            ))
+        return result
+
+    async def get_mood_tracker_by_period(
+        self,
+        user_id: uuid.UUID,
+        start_date: str,
+        end_date: str
+    ) -> List[MoodTracker]:
+
+        start = datetime.strptime(start_date, "%Y-%m-%d").date()
+        end = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+        records = await self.db.mood_tracker.get_filtered(
+            self.db.mood_tracker.model.created_at >= start,
+            self.db.mood_tracker.model.created_at <= end,
+            user_id=user_id
+        )
 
         emoji_service = EmojiService(self.db)
         result = []
