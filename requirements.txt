@@ -59,6 +59,8 @@ websockets==14.1
 itsdangerous==2.2.0
 enum34==1.1.10
 scikit-fuzzy==0.5.0
+owlready2>=0.50
+googletrans
 numpy
 scipy
 networkx

@@ -3,12 +3,13 @@ import json
 import uuid
 import logging
 from pathlib import Path
-
+from googletrans import Translator
 from typing import Dict, Any, Optional
-
 from fastapi import HTTPException
 from fastapi import status
 from src.models import AnswerChoiceOrm
+from src.ontology.wellbeing_onto.api import RecommendationRequest, recommendations
+from src.schemas.ontology import OntologyEntry
 
 from src.schemas.tests import TestAdd, ScaleAdd, BordersAdd, AnswerChoice, Question, TestResultRequest, \
     TestDetailsResponse, AnswerChoiceDetail, QuestionDetail, BorderDetail, ScaleDetail, ScaleResult, \
@@ -460,6 +461,7 @@ class TestService(BaseService):
                 await self.db.session.flush()
 
                 result = []
+                scale_results_for_ontology = []
                 for scale, score in zip(scales, scale_sum_list):
 
                     if score < scale.min or score > scale.max:
@@ -487,6 +489,11 @@ class TestService(BaseService):
                                 "color": border.color,
                                 "user_recommendation": border.user_recommendation
                             })
+                            res = await Translator().translate(scale.title, dest="en")
+                            scale_results_for_ontology.append({
+                                "scale_title": res.text,
+                                "score": score
+                            })
                             break
                     else:
                         raise ObjectNotFoundException()
@@ -501,6 +508,23 @@ class TestService(BaseService):
 
                     logger.error(
                         f"Ошибка при добавлении баллов за тест: {gamification_error}")
+
+                print(scale_results_for_ontology)
+                payload = RecommendationRequest(test_id=str(test_result_data.test_id),
+                                                scale_results=scale_results_for_ontology)
+
+                ontology_res = recommendations(payload)
+                print(ontology_res)
+
+                for rec in ontology_res:
+                    ontology_entry = OntologyEntry(
+                        id=uuid.uuid4(),
+                        type=rec["type"],
+                        created_at=datetime.datetime.now(),
+                        destination_id=rec["material_id"],
+                        user_id=user_id
+                    )
+                    await self.db.ontology_entry.add(ontology_entry)
 
                 await self.db.session.commit()
 

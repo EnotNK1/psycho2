@@ -1,0 +1,1638 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xml:base="http://example.org/wellbeing-ontology"
+         xmlns="http://example.org/wellbeing-ontology#">
+
+<owl:Ontology rdf:about="http://example.org/wellbeing-ontology"/>
+
+<owl:ObjectProperty rdf:about="#Includes">
+  <rdfs:domain rdf:resource="#Indicator"/>
+  <rdfs:range rdf:resource="#Indicator"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Включает</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Influences">
+  <rdfs:domain rdf:resource="#InternalFactor"/>
+  <rdfs:range rdf:resource="#Indicator"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Влияет</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Vhodyat">
+  <rdfs:domain rdf:resource="#InternalFactor"/>
+  <rdfs:range rdf:resource="#Indicator"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">входят</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Causes">
+  <rdfs:domain rdf:resource="#InternalFactor"/>
+  <rdfs:range rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Вызывает</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Identifies">
+  <rdfs:domain rdf:resource="#Exercise"/>
+  <rdfs:range>
+    <owl:Class>
+      <owl:unionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#InternalFactor"/>
+        <rdf:Description rdf:about="#Indicator"/>
+      </owl:unionOf>
+    </owl:Class>
+  </rdfs:range>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Выявляет</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Supplements">
+  <rdfs:domain rdf:resource="#Exercise"/>
+  <rdfs:range rdf:resource="#Exercise"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дополняет</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Moderates">
+  <rdfs:domain rdf:resource="#InternalFactor"/>
+  <rdfs:range rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Модерирует</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Motivates">
+  <rdfs:domain rdf:resource="#InternalFactor"/>
+  <rdfs:range rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Мотивирует</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Assesses">
+  <rdfs:domain>
+    <owl:Class>
+      <owl:unionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Test"/>
+        <rdf:Description rdf:about="#Exercise"/>
+      </owl:unionOf>
+    </owl:Class>
+  </rdfs:domain>
+  <rdfs:range>
+    <owl:Class>
+      <owl:unionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#InternalFactor"/>
+        <rdf:Description rdf:about="#Indicator"/>
+      </owl:unionOf>
+    </owl:Class>
+  </rdfs:range>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Оценивает</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Helps">
+  <rdfs:domain rdf:resource="#Exercise"/>
+  <rdfs:range rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Помогает</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Explains">
+  <rdfs:domain rdf:resource="#Theory"/>
+  <rdfs:range>
+    <owl:Class>
+      <owl:unionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Exercise"/>
+        <rdf:Description rdf:about="#InternalFactor"/>
+        <rdf:Description rdf:about="#Indicator"/>
+      </owl:unionOf>
+    </owl:Class>
+  </rdfs:range>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Поясняет</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Overcomes">
+  <rdfs:domain rdf:resource="#Exercise"/>
+  <rdfs:range rdf:resource="#Indicator"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Преодалевает</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#WorksThrough">
+  <rdfs:domain rdf:resource="#Exercise"/>
+  <rdfs:range rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Прорабатывает</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#ProyavlyayutsyaV">
+  <rdfs:domain rdf:resource="#InternalFactor"/>
+  <rdfs:range rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">проявляются в</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Reduces">
+  <rdfs:domain>
+    <owl:Class>
+      <owl:unionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Theory"/>
+        <rdf:Description rdf:about="#Indicator"/>
+      </owl:unionOf>
+    </owl:Class>
+  </rdfs:domain>
+  <rdfs:range rdf:resource="#Indicator"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Снижает</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#Records">
+  <rdfs:domain rdf:resource="#Exercise"/>
+  <rdfs:range rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Фиксирует</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasObservation">
+  <rdfs:domain rdf:resource="#User"/>
+  <rdfs:range rdf:resource="#Observation"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#observedBy">
+  <rdfs:domain rdf:resource="#Observation"/>
+  <rdfs:range rdf:resource="#User"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#aboutIndicator">
+  <rdfs:domain rdf:resource="#Observation"/>
+  <rdfs:range rdf:resource="#IndicatorConcept"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#aboutFactor">
+  <rdfs:domain rdf:resource="#Observation"/>
+  <rdfs:range rdf:resource="#FactorConcept"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasRecommendation">
+  <rdfs:domain rdf:resource="#User"/>
+  <rdfs:range rdf:resource="#Recommendation"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#recommendsTask">
+  <rdfs:domain rdf:resource="#Recommendation"/>
+  <rdfs:range rdf:resource="#TherapeuticTask"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#recommendationFor">
+  <rdfs:domain rdf:resource="#Recommendation"/>
+  <rdfs:range rdf:resource="#User"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#triggeredBy">
+  <rdfs:domain rdf:resource="#Recommendation"/>
+  <rdfs:range rdf:resource="#Observation"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#targetsIndicator">
+  <rdfs:domain rdf:resource="#TherapeuticTask"/>
+  <rdfs:range rdf:resource="#IndicatorConcept"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#targetsFactor">
+  <rdfs:domain rdf:resource="#TherapeuticTask"/>
+  <rdfs:range rdf:resource="#FactorConcept"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#ruleForIndicator">
+  <rdfs:domain rdf:resource="#Rule"/>
+  <rdfs:range rdf:resource="#IndicatorConcept"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#ruleForFactor">
+  <rdfs:domain rdf:resource="#Rule"/>
+  <rdfs:range rdf:resource="#FactorConcept"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#ruleMinSeverity">
+  <rdfs:domain rdf:resource="#Rule"/>
+  <rdfs:range rdf:resource="#SeverityLevel"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#ruleRecommendsTask">
+  <rdfs:domain rdf:resource="#Rule"/>
+  <rdfs:range rdf:resource="#TherapeuticTask"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#matchesRule">
+  <rdfs:domain rdf:resource="#Observation"/>
+  <rdfs:range rdf:resource="#Rule"/>
+</owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:about="#observationValue">
+  <rdfs:domain rdf:resource="#Observation"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#observationTime">
+  <rdfs:domain rdf:resource="#Observation"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#observationSource">
+  <rdfs:domain rdf:resource="#Observation"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#recommendationText">
+  <rdfs:domain rdf:resource="#Recommendation"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#recommendationScore">
+  <rdfs:domain rdf:resource="#Recommendation"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#ruleWeight">
+  <rdfs:domain rdf:resource="#Rule"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#ruleWhy">
+  <rdfs:domain rdf:resource="#Rule"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#ruleSWRL">
+  <rdfs:domain rdf:resource="#Rule"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:AnnotationProperty rdf:about="#ruLabel"/>
+
+<owl:AnnotationProperty rdf:about="#originClassIri"/>
+
+<owl:Class rdf:about="#Indicator">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#InternalFactor">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Exercise">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Test">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Theory">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#User">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Observation">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#IndicatorConcept">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#FactorConcept">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Recommendation">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#TherapeuticTask">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Trevozhnost">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Includes"/>
+      <owl:someValuesFrom rdf:resource="#Trevoga"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Тревожность</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Тревожность</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Trevoga">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#Chuvstva"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Тревога</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Тревога</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Chuvstva">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Influences"/>
+      <owl:someValuesFrom rdf:resource="#Nastroenie"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Чувства</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Чувства</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Nastroenie">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Настроение</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Настроение</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#DepressivnayaSimptomatika">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Reduces"/>
+      <owl:someValuesFrom rdf:resource="#Nastroenie"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Депрессивная симптоматика</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Депрессивная симптоматика</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Vygoranie">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Выгорание</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Выгорание</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#VosprinimaemyyStress">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Воспринимаемый стресс</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Воспринимаемый стресс</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Distress">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#VosprinimaemyyStress"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дистресс</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дистресс</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Sovladanie">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#VosprinimaemyyStress"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Совладание</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Совладание</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Situativnaya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#Trevozhnost"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ситуативная</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ситуативная</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Lichnostnaya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#Trevozhnost"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Личностная</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Личностная</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Depressiya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#DepressivnayaSimptomatika"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Депрессия</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Депрессия</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#KognitivnoAffektivnyeProyavleniya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#DepressivnayaSimptomatika"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Когнитивно-аффективные проявления</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Когнитивно-аффективные проявления</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#SomaticheskieProyavleniya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#DepressivnayaSimptomatika"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Соматические проявления</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Соматические проявления</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Istoschenie">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#Vygoranie"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Истощение</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Истощение</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#ProfessionalnayaApatiya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Профессиональная апатия</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Профессиональная апатия</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#ApatichnyeMysli">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#ProfessionalnayaApatiya"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Апатичные мысли</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Апатичные мысли</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#ApatichnyeDeystviya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#ProfessionalnayaApatiya"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Апатичные действия</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Апатичные действия</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#LichnostnyeCherty">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Личностные черты</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Личностные черты</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Ekstraversiya">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:subClassOf rdf:resource="#LichnostnyeCherty"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Экстраверсия</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Экстраверсия</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Samoregulyatsiya">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:subClassOf rdf:resource="#LichnostnyeCherty"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Саморегуляция</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Саморегуляция</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Privyazannost">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:subClassOf rdf:resource="#LichnostnyeCherty"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Привязанность</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Привязанность</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Neyrotizm">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:subClassOf rdf:resource="#LichnostnyeCherty"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Нейротизм</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Нейротизм</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#OtkrytostOpytu">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:subClassOf rdf:resource="#LichnostnyeCherty"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Открытость опыту</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Открытость опыту</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Kopingi">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Копинги</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Копинги</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#KognitivnyeIskazheniya">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Когнитивные искажения</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Когнитивные искажения</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#AvtomaticheskieMysli">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Causes"/>
+      <owl:someValuesFrom rdf:resource="#Emotsii"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Vhodyat"/>
+      <owl:someValuesFrom rdf:resource="#KognitivnoAffektivnyeProyavleniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Автоматические мысли</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Автоматические мысли</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Emotsii">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Motivates"/>
+      <owl:someValuesFrom rdf:resource="#PostupkiDeystviya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#ProyavlyayutsyaV"/>
+      <owl:someValuesFrom rdf:resource="#Chuvstva"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Эмоции</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Эмоции</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#PostupkiDeystviya">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Поступки / действия</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Поступки / действия</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#PromezhutochnyeUbezhdeniya">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Промежуточные убеждения</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Промежуточные убеждения</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#GlubinnyeUbezhdeniya">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Глубинные убеждения</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Глубинные убеждения</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#EmotsionalnyeShemy">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Moderates"/>
+      <owl:someValuesFrom rdf:resource="#Emotsii"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Эмоциональные схемы</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Эмоциональные схемы</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#SklonnostKVygoraniyu">
+  <rdfs:subClassOf rdf:resource="#InternalFactor"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Склонность к выгоранию</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Склонность к выгоранию</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#TrekerNastroeniya">
+  <rdfs:subClassOf rdf:resource="#Exercise"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Nastroenie"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Records"/>
+      <owl:someValuesFrom rdf:resource="#Emotsii"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Трекер настроения</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Трекер настроения</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#VyyavlenieGoryachihTochek">
+  <rdfs:subClassOf rdf:resource="#Exercise"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Identifies"/>
+      <owl:someValuesFrom rdf:resource="#AvtomaticheskieMysli"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Identifies"/>
+      <owl:someValuesFrom rdf:resource="#Emotsii"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Identifies"/>
+      <owl:someValuesFrom rdf:resource="#EmotsionalnyeZatrudneniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Выявление горячих точек</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Выявление горячих точек</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#EmotsionalnyeZatrudneniya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#Vygoranie"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Эмоциональные затруднения</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Эмоциональные затруднения</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#KakSdelat">
+  <rdfs:subClassOf rdf:resource="#Exercise"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Helps"/>
+      <owl:someValuesFrom rdf:resource="#PostupkiDeystviya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Overcomes"/>
+      <owl:someValuesFrom rdf:resource="#ProfessionalnayaApatiya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Overcomes"/>
+      <owl:someValuesFrom rdf:resource="#DepressivnayaSimptomatika"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Как сделать..?</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Как сделать..?</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#KptDnevnik">
+  <rdfs:subClassOf rdf:resource="#Exercise"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Supplements"/>
+      <owl:someValuesFrom rdf:resource="#DnevnikMysley"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#WorksThrough"/>
+      <owl:someValuesFrom rdf:resource="#AvtomaticheskieMysli"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Records"/>
+      <owl:someValuesFrom rdf:resource="#Chuvstva"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">КПТ-дневник</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">КПТ-дневник</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#DnevnikMysley">
+  <rdfs:subClassOf rdf:resource="#Exercise"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Supplements"/>
+      <owl:someValuesFrom rdf:resource="#TrekerNastroeniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дневник мыслей</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дневник мыслей</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Relaksatsiya">
+  <rdfs:subClassOf rdf:resource="#Theory"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Reduces"/>
+      <owl:someValuesFrom rdf:resource="#VosprinimaemyyStress"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Reduces"/>
+      <owl:someValuesFrom rdf:resource="#Trevoga"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Релаксация</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Релаксация</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#DyhatelnyeTehniki">
+  <rdfs:subClassOf rdf:resource="#Theory"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Reduces"/>
+      <owl:someValuesFrom rdf:resource="#VosprinimaemyyStress"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Reduces"/>
+      <owl:someValuesFrom rdf:resource="#Trevoga"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дыхательные техники</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дыхательные техники</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Distantsirovanie">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#Vygoranie"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дистанцирование</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дистанцирование</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#KognitivnyeZatrudneniya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#Vygoranie"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Когнитивные затруднения</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Когнитивные затруднения</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#VtorichnyeSimptomy">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#Vygoranie"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Вторичные симптомы</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Вторичные симптомы</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Dass21">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#VosprinimaemyyStress"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Trevozhnost"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#DepressivnayaSimptomatika"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">DASS-21</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">DASS-21</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Stai">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Situativnaya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Lichnostnaya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">STAI</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">STAI</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#ShkalaDepressiiBeka">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#KognitivnoAffektivnyeProyavleniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#SomaticheskieProyavleniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#DepressivnayaSimptomatika"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Шкала депрессии Бека</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Шкала депрессии Бека</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Bat">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Istoschenie"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Distantsirovanie"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#KognitivnyeZatrudneniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#EmotsionalnyeZatrudneniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#VtorichnyeSimptomy"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BAT</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BAT</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#ShkalaProfApatii">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#ApatichnyeMysli"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#ApatichnyeDeystviya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Шкала проф. апатии</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Шкала проф. апатии</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Cmq">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#KognitivnyeIskazheniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CMQ</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CMQ</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Pss">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#VosprinimaemyyStress"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Distress"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Sovladanie"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PSS</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PSS</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#5pfq">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Ekstraversiya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Samoregulyatsiya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Privyazannost"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Neyrotizm"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#OtkrytostOpytu"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5PFQ</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5PFQ</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#NechetkayaModel">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#SklonnostKVygoraniyu"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Нечеткая модель</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Нечеткая модель</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#IndikatorKopingStrategiy">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#Kopingi"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Индикатор копинг-стратегий</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Индикатор копинг-стратегий</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#OsnovyKpt">
+  <rdfs:subClassOf rdf:resource="#Theory"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Explains"/>
+      <owl:someValuesFrom rdf:resource="#KognitivnyeIskazheniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Explains"/>
+      <owl:someValuesFrom rdf:resource="#AvtomaticheskieMysli"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Основы КПТ</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Основы КПТ</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#ProfVygoranie">
+  <rdfs:subClassOf rdf:resource="#Theory"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Explains"/>
+      <owl:someValuesFrom rdf:resource="#ProfessionalnayaApatiya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Explains"/>
+      <owl:someValuesFrom rdf:resource="#Vygoranie"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Проф. выгорание</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Проф. выгорание</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#StrategiiPreodoleniyaStressa">
+  <rdfs:subClassOf rdf:resource="#Theory"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Explains"/>
+      <owl:someValuesFrom rdf:resource="#Kopingi"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Стратегии преодоления стресса</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Стратегии преодоления стресса</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#Ubezhdeniya">
+  <rdfs:subClassOf rdf:resource="#Theory"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Explains"/>
+      <owl:someValuesFrom rdf:resource="#PromezhutochnyeUbezhdeniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Explains"/>
+      <owl:someValuesFrom rdf:resource="#GlubinnyeUbezhdeniya"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Убеждения</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Убеждения</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#KptDnevnikTeoriya">
+  <rdfs:subClassOf rdf:resource="#Theory"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Explains"/>
+      <owl:someValuesFrom rdf:resource="#KptDnevnik"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">КПТ-дневник (теория)</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">КПТ-дневник (теория)</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#NashiEmotsii">
+  <rdfs:subClassOf rdf:resource="#Theory"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Explains"/>
+      <owl:someValuesFrom rdf:resource="#Emotsii"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Наши эмоции</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Наши эмоции</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#ShkalaEmotsionalnyhShem">
+  <rdfs:subClassOf rdf:resource="#Test"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#Assesses"/>
+      <owl:someValuesFrom rdf:resource="#EmotsionalnyeShemy"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Шкала эмоциональных схем</rdfs:label>
+  <ruLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Шкала эмоциональных схем</ruLabel>
+</owl:Class>
+
+<owl:Class rdf:about="#TheoryTask">
+  <rdfs:subClassOf rdf:resource="#TherapeuticTask"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ExerciseTask">
+  <rdfs:subClassOf rdf:resource="#TherapeuticTask"/>
+</owl:Class>
+
+<owl:Class rdf:about="#TestTask">
+  <rdfs:subClassOf rdf:resource="#TherapeuticTask"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Feedback">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Protocol">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#SeverityLevel">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Rule">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Trevozhnost">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Тревожность</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Trevozhnost</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Trevoga">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Тревога</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Trevoga</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_DepressivnayaSimptomatika">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Депрессивная симптоматика</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#DepressivnayaSimptomatika</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Nastroenie">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Настроение</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Nastroenie</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Vygoranie">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Выгорание</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Vygoranie</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_VosprinimaemyyStress">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Воспринимаемый стресс</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#VosprinimaemyyStress</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Distress">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дистресс</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Distress</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Sovladanie">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Совладание</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Sovladanie</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Situativnaya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ситуативная</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Situativnaya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Lichnostnaya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Личностная</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Lichnostnaya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Depressiya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Депрессия</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Depressiya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_KognitivnoAffektivnyeProyavleniya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Когнитивно-аффективные проявления</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#KognitivnoAffektivnyeProyavleniya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_SomaticheskieProyavleniya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Соматические проявления</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#SomaticheskieProyavleniya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Istoschenie">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Истощение</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Istoschenie</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_ProfessionalnayaApatiya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Профессиональная апатия</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#ProfessionalnayaApatiya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_ApatichnyeMysli">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Апатичные мысли</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#ApatichnyeMysli</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_ApatichnyeDeystviya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Апатичные действия</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#ApatichnyeDeystviya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_EmotsionalnyeZatrudneniya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Эмоциональные затруднения</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#EmotsionalnyeZatrudneniya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Distantsirovanie">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дистанцирование</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Distantsirovanie</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_KognitivnyeZatrudneniya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Когнитивные затруднения</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#KognitivnyeZatrudneniya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_VtorichnyeSimptomy">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Вторичные симптомы</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#VtorichnyeSimptomy</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_Trevoga">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Тревога</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Trevoga</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_LichnostnyeCherty">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Личностные черты</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#LichnostnyeCherty</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_Ekstraversiya">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Экстраверсия</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Ekstraversiya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_Samoregulyatsiya">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Саморегуляция</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Samoregulyatsiya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_Privyazannost">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Привязанность</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Privyazannost</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_Neyrotizm">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Нейротизм</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Neyrotizm</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_OtkrytostOpytu">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Открытость опыту</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#OtkrytostOpytu</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_Kopingi">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Копинги</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Kopingi</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_KognitivnyeIskazheniya">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Когнитивные искажения</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#KognitivnyeIskazheniya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_AvtomaticheskieMysli">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Автоматические мысли</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#AvtomaticheskieMysli</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_Emotsii">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Эмоции</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Emotsii</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_PromezhutochnyeUbezhdeniya">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Промежуточные убеждения</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#PromezhutochnyeUbezhdeniya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_GlubinnyeUbezhdeniya">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Глубинные убеждения</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#GlubinnyeUbezhdeniya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_PostupkiDeystviya">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Поступки / действия</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#PostupkiDeystviya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_Chuvstva">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Чувства</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Chuvstva</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_EmotsionalnyeShemy">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Эмоциональные схемы</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#EmotsionalnyeShemy</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_factor_SklonnostKVygoraniyu">
+  <rdf:type rdf:resource="#FactorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Склонность к выгоранию</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#SklonnostKVygoraniyu</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_theory_Relaksatsiya">
+  <rdf:type rdf:resource="#TheoryTask"/>
+  <targetsIndicator rdf:resource="#concept_indicator_VosprinimaemyyStress"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Trevoga"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Релаксация</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Relaksatsiya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_theory_DyhatelnyeTehniki">
+  <rdf:type rdf:resource="#TheoryTask"/>
+  <targetsIndicator rdf:resource="#concept_indicator_VosprinimaemyyStress"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Trevoga"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дыхательные техники</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#DyhatelnyeTehniki</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_theory_OsnovyKpt">
+  <rdf:type rdf:resource="#TheoryTask"/>
+  <targetsFactor rdf:resource="#concept_factor_KognitivnyeIskazheniya"/>
+  <targetsFactor rdf:resource="#concept_factor_AvtomaticheskieMysli"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Основы КПТ</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#OsnovyKpt</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_theory_ProfVygoranie">
+  <rdf:type rdf:resource="#TheoryTask"/>
+  <targetsIndicator rdf:resource="#concept_indicator_ProfessionalnayaApatiya"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Vygoranie"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Проф. выгорание</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#ProfVygoranie</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_theory_StrategiiPreodoleniyaStressa">
+  <rdf:type rdf:resource="#TheoryTask"/>
+  <targetsFactor rdf:resource="#concept_factor_Kopingi"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Стратегии преодоления стресса</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#StrategiiPreodoleniyaStressa</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_theory_Ubezhdeniya">
+  <rdf:type rdf:resource="#TheoryTask"/>
+  <targetsFactor rdf:resource="#concept_factor_PromezhutochnyeUbezhdeniya"/>
+  <targetsFactor rdf:resource="#concept_factor_GlubinnyeUbezhdeniya"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Убеждения</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Ubezhdeniya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_theory_KptDnevnikTeoriya">
+  <rdf:type rdf:resource="#TheoryTask"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">КПТ-дневник (теория)</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#KptDnevnikTeoriya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_theory_NashiEmotsii">
+  <rdf:type rdf:resource="#TheoryTask"/>
+  <targetsFactor rdf:resource="#concept_factor_Emotsii"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Наши эмоции</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#NashiEmotsii</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_exercise_TrekerNastroeniya">
+  <rdf:type rdf:resource="#ExerciseTask"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Nastroenie"/>
+  <targetsFactor rdf:resource="#concept_factor_Emotsii"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Трекер настроения</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#TrekerNastroeniya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_exercise_VyyavlenieGoryachihTochek">
+  <rdf:type rdf:resource="#ExerciseTask"/>
+  <targetsFactor rdf:resource="#concept_factor_AvtomaticheskieMysli"/>
+  <targetsFactor rdf:resource="#concept_factor_Emotsii"/>
+  <targetsIndicator rdf:resource="#concept_indicator_EmotsionalnyeZatrudneniya"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Выявление горячих точек</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#VyyavlenieGoryachihTochek</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_exercise_KakSdelat">
+  <rdf:type rdf:resource="#ExerciseTask"/>
+  <targetsFactor rdf:resource="#concept_factor_PostupkiDeystviya"/>
+  <targetsIndicator rdf:resource="#concept_indicator_ProfessionalnayaApatiya"/>
+  <targetsIndicator rdf:resource="#concept_indicator_DepressivnayaSimptomatika"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Как сделать..?</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#KakSdelat</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_exercise_KptDnevnik">
+  <rdf:type rdf:resource="#ExerciseTask"/>
+  <targetsFactor rdf:resource="#concept_factor_AvtomaticheskieMysli"/>
+  <targetsFactor rdf:resource="#concept_factor_Chuvstva"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">КПТ-дневник</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#KptDnevnik</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_exercise_DnevnikMysley">
+  <rdf:type rdf:resource="#ExerciseTask"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дневник мыслей</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#DnevnikMysley</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_Dass21">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsIndicator rdf:resource="#concept_indicator_VosprinimaemyyStress"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Trevozhnost"/>
+  <targetsIndicator rdf:resource="#concept_indicator_DepressivnayaSimptomatika"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">DASS-21</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Dass21</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_Stai">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Situativnaya"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Lichnostnaya"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">STAI</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Stai</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_ShkalaDepressiiBeka">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsIndicator rdf:resource="#concept_indicator_KognitivnoAffektivnyeProyavleniya"/>
+  <targetsIndicator rdf:resource="#concept_indicator_SomaticheskieProyavleniya"/>
+  <targetsIndicator rdf:resource="#concept_indicator_DepressivnayaSimptomatika"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Шкала депрессии Бека</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#ShkalaDepressiiBeka</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_Bat">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Istoschenie"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Distantsirovanie"/>
+  <targetsIndicator rdf:resource="#concept_indicator_KognitivnyeZatrudneniya"/>
+  <targetsIndicator rdf:resource="#concept_indicator_EmotsionalnyeZatrudneniya"/>
+  <targetsIndicator rdf:resource="#concept_indicator_VtorichnyeSimptomy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BAT</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Bat</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_ShkalaProfApatii">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsIndicator rdf:resource="#concept_indicator_ApatichnyeMysli"/>
+  <targetsIndicator rdf:resource="#concept_indicator_ApatichnyeDeystviya"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Шкала проф. апатии</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#ShkalaProfApatii</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_Cmq">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsFactor rdf:resource="#concept_factor_KognitivnyeIskazheniya"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CMQ</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Cmq</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_Pss">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsIndicator rdf:resource="#concept_indicator_VosprinimaemyyStress"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Distress"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Sovladanie"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PSS</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Pss</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_5pfq">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsFactor rdf:resource="#concept_factor_Ekstraversiya"/>
+  <targetsFactor rdf:resource="#concept_factor_Samoregulyatsiya"/>
+  <targetsFactor rdf:resource="#concept_factor_Privyazannost"/>
+  <targetsFactor rdf:resource="#concept_factor_Neyrotizm"/>
+  <targetsFactor rdf:resource="#concept_factor_OtkrytostOpytu"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5PFQ</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#5pfq</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_NechetkayaModel">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsFactor rdf:resource="#concept_factor_SklonnostKVygoraniyu"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Нечеткая модель</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#NechetkayaModel</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_IndikatorKopingStrategiy">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsFactor rdf:resource="#concept_factor_Kopingi"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Индикатор копинг-стратегий</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#IndikatorKopingStrategiy</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#task_test_ShkalaEmotsionalnyhShem">
+  <rdf:type rdf:resource="#TestTask"/>
+  <targetsFactor rdf:resource="#concept_factor_EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Шкала эмоциональных схем</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#ShkalaEmotsionalnyhShem</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#user_demo">
+  <rdf:type rdf:resource="#User"/>
+  <hasObservation rdf:resource="#obs_demo_perceived_stress"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Пользователь (demo)</rdfs:label>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#obs_demo_perceived_stress">
+  <rdf:type rdf:resource="#Observation"/>
+  <aboutIndicator rdf:resource="#concept_indicator_VosprinimaemyyStress"/>
+  <observedBy rdf:resource="#user_demo"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Наблюдение: воспринимаемый стресс</rdfs:label>
+  <observationValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.85</observationValue>
+  <observationTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-03-23T05:22:17.039</observationTime>
+  <observationSource rdf:datatype="http://www.w3.org/2001/XMLSchema#string">self_report_scale</observationSource>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SeverityLow">
+  <rdf:type rdf:resource="#SeverityLevel"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Low</rdfs:label>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SeverityMedium">
+  <rdf:type rdf:resource="#SeverityLevel"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Medium</rdfs:label>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SeverityHigh">
+  <rdf:type rdf:resource="#SeverityLevel"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">High</rdfs:label>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#rule_perceived_stress_medium_breathing">
+  <rdf:type rdf:resource="#Rule"/>
+  <ruleForIndicator rdf:resource="#concept_indicator_VosprinimaemyyStress"/>
+  <ruleMinSeverity rdf:resource="#SeverityMedium"/>
+  <ruleRecommendsTask rdf:resource="#task_theory_DyhatelnyeTehniki"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rule_perceived_stress_medium_breathing</rdfs:label>
+  <ruleWeight rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</ruleWeight>
+  <ruleWhy rdf:datatype="http://www.w3.org/2001/XMLSchema#string">При повышенном воспринимаемом стрессе полезны дыхательные техники.</ruleWhy>
+  <ruleSWRL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_VosprinimaemyyStress) ^ hasSeverity(?obs, :SeverityMedium) -&gt; matchesRule(?obs, :rule_perceived_stress_medium_breathing)
+Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_VosprinimaemyyStress) ^ hasSeverity(?obs, :SeverityHigh) -&gt; matchesRule(?obs, :rule_perceived_stress_medium_breathing)</ruleSWRL>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#rule_perceived_stress_medium_relax">
+  <rdf:type rdf:resource="#Rule"/>
+  <ruleForIndicator rdf:resource="#concept_indicator_VosprinimaemyyStress"/>
+  <ruleMinSeverity rdf:resource="#SeverityMedium"/>
+  <ruleRecommendsTask rdf:resource="#task_theory_Relaksatsiya"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rule_perceived_stress_medium_relax</rdfs:label>
+  <ruleWeight rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</ruleWeight>
+  <ruleWhy rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Релаксация помогает снижать воспринимаемый стресс.</ruleWhy>
+  <ruleSWRL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_VosprinimaemyyStress) ^ hasSeverity(?obs, :SeverityMedium) -&gt; matchesRule(?obs, :rule_perceived_stress_medium_relax)
+Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_VosprinimaemyyStress) ^ hasSeverity(?obs, :SeverityHigh) -&gt; matchesRule(?obs, :rule_perceived_stress_medium_relax)</ruleSWRL>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#rule_perceived_stress_high_pss">
+  <rdf:type rdf:resource="#Rule"/>
+  <ruleForIndicator rdf:resource="#concept_indicator_VosprinimaemyyStress"/>
+  <ruleMinSeverity rdf:resource="#SeverityHigh"/>
+  <ruleRecommendsTask rdf:resource="#task_test_Pss"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rule_perceived_stress_high_pss</rdfs:label>
+  <ruleWeight rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.9</ruleWeight>
+  <ruleWhy rdf:datatype="http://www.w3.org/2001/XMLSchema#string">При высоком воспринимаемом стрессе полезно уточнить его выраженность тестом PSS.</ruleWhy>
+  <ruleSWRL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_VosprinimaemyyStress) ^ hasSeverity(?obs, :SeverityHigh) -&gt; matchesRule(?obs, :rule_perceived_stress_high_pss)</ruleSWRL>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#rule_anxiety_medium_breathing">
+  <rdf:type rdf:resource="#Rule"/>
+  <ruleForIndicator rdf:resource="#concept_indicator_Trevozhnost"/>
+  <ruleMinSeverity rdf:resource="#SeverityMedium"/>
+  <ruleRecommendsTask rdf:resource="#task_theory_DyhatelnyeTehniki"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rule_anxiety_medium_breathing</rdfs:label>
+  <ruleWeight rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</ruleWeight>
+  <ruleWhy rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Дыхательные техники помогают снизить выраженность тревоги.</ruleWhy>
+  <ruleSWRL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_Trevozhnost) ^ hasSeverity(?obs, :SeverityMedium) -&gt; matchesRule(?obs, :rule_anxiety_medium_breathing)
+Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_Trevozhnost) ^ hasSeverity(?obs, :SeverityHigh) -&gt; matchesRule(?obs, :rule_anxiety_medium_breathing)</ruleSWRL>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#rule_anxiety_medium_relax">
+  <rdf:type rdf:resource="#Rule"/>
+  <ruleForIndicator rdf:resource="#concept_indicator_Trevozhnost"/>
+  <ruleMinSeverity rdf:resource="#SeverityMedium"/>
+  <ruleRecommendsTask rdf:resource="#task_theory_Relaksatsiya"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rule_anxiety_medium_relax</rdfs:label>
+  <ruleWeight rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</ruleWeight>
+  <ruleWhy rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Релаксация помогает при тревожности.</ruleWhy>
+  <ruleSWRL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_Trevozhnost) ^ hasSeverity(?obs, :SeverityMedium) -&gt; matchesRule(?obs, :rule_anxiety_medium_relax)
+Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_Trevozhnost) ^ hasSeverity(?obs, :SeverityHigh) -&gt; matchesRule(?obs, :rule_anxiety_medium_relax)</ruleSWRL>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#rule_anxiety_high_stai">
+  <rdf:type rdf:resource="#Rule"/>
+  <ruleForIndicator rdf:resource="#concept_indicator_Trevozhnost"/>
+  <ruleMinSeverity rdf:resource="#SeverityHigh"/>
+  <ruleRecommendsTask rdf:resource="#task_test_Stai"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rule_anxiety_high_stai</rdfs:label>
+  <ruleWeight rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.9</ruleWeight>
+  <ruleWhy rdf:datatype="http://www.w3.org/2001/XMLSchema#string">При высокой тревожности полезно уточнить состояние тестом STAI.</ruleWhy>
+  <ruleSWRL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_Trevozhnost) ^ hasSeverity(?obs, :SeverityHigh) -&gt; matchesRule(?obs, :rule_anxiety_high_stai)</ruleSWRL>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#rule_depression_high_beck">
+  <rdf:type rdf:resource="#Rule"/>
+  <ruleForIndicator rdf:resource="#concept_indicator_DepressivnayaSimptomatika"/>
+  <ruleMinSeverity rdf:resource="#SeverityHigh"/>
+  <ruleRecommendsTask rdf:resource="#task_test_ShkalaDepressiiBeka"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rule_depression_high_beck</rdfs:label>
+  <ruleWeight rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</ruleWeight>
+  <ruleWhy rdf:datatype="http://www.w3.org/2001/XMLSchema#string">При высокой депрессивной симптоматике полезно пройти шкалу депрессии Бека.</ruleWhy>
+  <ruleSWRL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_DepressivnayaSimptomatika) ^ hasSeverity(?obs, :SeverityHigh) -&gt; matchesRule(?obs, :rule_depression_high_beck)</ruleSWRL>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#rule_depression_medium_cbt_diary">
+  <rdf:type rdf:resource="#Rule"/>
+  <ruleForIndicator rdf:resource="#concept_indicator_DepressivnayaSimptomatika"/>
+  <ruleMinSeverity rdf:resource="#SeverityMedium"/>
+  <ruleRecommendsTask rdf:resource="#task_exercise_KptDnevnik"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rule_depression_medium_cbt_diary</rdfs:label>
+  <ruleWeight rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.9</ruleWeight>
+  <ruleWhy rdf:datatype="http://www.w3.org/2001/XMLSchema#string">КПТ-дневник помогает отслеживать и перерабатывать депрессивные проявления.</ruleWhy>
+  <ruleSWRL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_DepressivnayaSimptomatika) ^ hasSeverity(?obs, :SeverityMedium) -&gt; matchesRule(?obs, :rule_depression_medium_cbt_diary)
+Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_DepressivnayaSimptomatika) ^ hasSeverity(?obs, :SeverityHigh) -&gt; matchesRule(?obs, :rule_depression_medium_cbt_diary)</ruleSWRL>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#rule_depression_medium_mood_tracker">
+  <rdf:type rdf:resource="#Rule"/>
+  <ruleForIndicator rdf:resource="#concept_indicator_DepressivnayaSimptomatika"/>
+  <ruleMinSeverity rdf:resource="#SeverityMedium"/>
+  <ruleRecommendsTask rdf:resource="#task_exercise_TrekerNastroeniya"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">rule_depression_medium_mood_tracker</rdfs:label>
+  <ruleWeight rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.8</ruleWeight>
+  <ruleWhy rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Трекер настроения помогает фиксировать динамику состояния.</ruleWhy>
+  <ruleSWRL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_DepressivnayaSimptomatika) ^ hasSeverity(?obs, :SeverityMedium) -&gt; matchesRule(?obs, :rule_depression_medium_mood_tracker)
+Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_DepressivnayaSimptomatika) ^ hasSeverity(?obs, :SeverityHigh) -&gt; matchesRule(?obs, :rule_depression_medium_mood_tracker)</ruleSWRL>
+</owl:NamedIndividual>
+
+
+</rdf:RDF>

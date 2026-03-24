@@ -226,14 +226,13 @@ class AuthService(BaseService):
         return res
 
     async def get_ontology(self, user_id):
-        pass
 
-        # try:
-        #     return await self.db.ontology_entry.get_filtered(user_id=user_id)
-        #
-        # except Exception as e:
-        #     await self.db.rollback()
-        #     raise e
+        try:
+            return await self.db.ontology_entry.get_filtered(user_id=user_id)
+
+        except Exception as e:
+            await self.db.rollback()
+            raise e
 
 
 

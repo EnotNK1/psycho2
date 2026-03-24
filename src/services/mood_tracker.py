@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime, timedelta
 from typing import Optional, List
 from sqlalchemy import func
+from src.ontology.wellbeing_onto.api import recommendations, RecommendationRequest, ScaleResult
 
 from src.exceptions import (
     ScoreOutOfRangeError,
@@ -10,6 +11,7 @@ from src.exceptions import (
 )
 from src.schemas.daily_tasks import DailyTaskId
 from src.schemas.mood_tracker import MoodTracker, MoodTrackerDateRequestAdd, MoodTrackerCreate
+from src.schemas.ontology import OntologyEntry
 from src.services.base import BaseService
 from src.services.daily_tasks import DailyTaskService
 from src.services.emoji import EmojiService
@@ -41,8 +43,10 @@ class MoodTrackerService(BaseService):
 
         created_at = data.day or datetime.now()
 
+        mood_tracker_id = uuid.uuid4()
+
         mood_tracker = MoodTrackerCreate(
-            id=uuid.uuid4(),
+            id=mood_tracker_id,
             score=data.score,
             created_at=created_at,
             user_id=user_id,
@@ -59,6 +63,22 @@ class MoodTrackerService(BaseService):
 
         gamification_service = GamificationService(self.db)
         await gamification_service.add_points_for_activity(user_id, "mood_tracker_used")
+
+        scale_res_for_ontology = [ScaleResult(scale_title="Mood", score=data.score)]
+        payload = RecommendationRequest(test_id="Tracker", scale_results=scale_res_for_ontology)
+
+        ontology_res = recommendations(payload)
+        print(ontology_res)
+
+        for rec in ontology_res:
+            ontology_entry = OntologyEntry(
+                id=uuid.uuid4(),
+                type=rec["type"],
+                created_at=datetime.now(),
+                destination_id=rec["material_id"],
+                user_id=user_id
+            )
+            await self.db.ontology_entry.add(ontology_entry)
 
         await self.db.commit()
 
