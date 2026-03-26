@@ -509,7 +509,13 @@ class TestService(BaseService):
                     logger.error(
                         f"Ошибка при добавлении баллов за тест: {gamification_error}")
 
-                print(scale_results_for_ontology)
+
+                ontology_temp = await self.db.ontology_entry.get_filtered(user_id=user_id)
+                for temp in ontology_temp:
+                    if temp.destination_id == test.id:
+                        await self.db.ontology_entry.delete(user_id=user_id, destination_id=test.id)
+
+
                 payload = RecommendationRequest(test_id=str(test_result_data.test_id),
                                                 scale_results=scale_results_for_ontology)
 

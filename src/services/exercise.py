@@ -2,6 +2,8 @@ from typing import List, Optional
 import logging
 import uuid
 import json
+
+from celery.bin.result import result
 from fastapi import HTTPException, status
 from src.services.base import BaseService
 from src.schemas.exercise import (
@@ -169,7 +171,14 @@ class ExerciseService(BaseService):
 
     async def complete_exercise(self, user_id: uuid.UUID, completed_data: CompletedExerciseCreate) -> CompletedExerciseResponse:
         try:
-            return await self.db.exercise.complete_exercise(user_id, completed_data)
+            result = await self.db.exercise.complete_exercise(user_id, completed_data)
+            ontology_temp = await self.db.ontology_entry.get_filtered(user_id=user_id)
+            for temp in ontology_temp:
+                if temp.destination_id == completed_data.exercise_structure_id:
+                    await self.db.ontology_entry.delete(user_id=user_id,
+                                                        destination_id=completed_data.exercise_structure_id)
+            await self.db.commit()
+            return result
         except ValueError as e:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,

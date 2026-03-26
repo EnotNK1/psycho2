@@ -118,7 +118,7 @@ class EducationService(BaseService):
             logger.error(f"Error in get_all_education_themes: {ex}")
             raise MyAppException()
 
-    async def get_education_theme_materials(self, theme_id: uuid.UUID) -> EducationThemeWithMaterialsResponse:
+    async def get_education_theme_materials(self, theme_id: uuid.UUID, user_id: uuid.UUID) -> EducationThemeWithMaterialsResponse:
         try:
             theme = await self.db.education_theme.get_with_materials(theme_id)
             if not theme:
@@ -164,6 +164,11 @@ class EducationService(BaseService):
                         cards=cards_response
                     )
                 )
+
+            ontology_temp = await self.db.ontology_entry.get_filtered(user_id=user_id)
+            for temp in ontology_temp:
+                if temp.destination_id == theme_id:
+                    await self.db.ontology_entry.delete(user_id=user_id, destination_id=theme_id)
 
             return EducationThemeWithMaterialsResponse(
                 id=theme.id,

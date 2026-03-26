@@ -41,10 +41,11 @@ async def get_all_education_themes(db: DBDep) -> List[EducationThemeResponse]:
 @router.get("/themes/{theme_id}/materials/list", summary="Материалы темы")
 async def get_education_theme_materials(
     theme_id: uuid.UUID,
-    db: DBDep
+    db: DBDep,
+    user_id: UserIdDep
 ) -> EducationThemeWithMaterialsResponse:
     try:
-        return await EducationService(db).get_education_theme_materials(theme_id)
+        return await EducationService(db).get_education_theme_materials(theme_id, user_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
     except Exception as e:
