@@ -10,6 +10,7 @@ from fastapi import status
 from src.models import AnswerChoiceOrm
 from src.ontology.wellbeing_onto.api import RecommendationRequest, recommendations
 from src.schemas.ontology import OntologyEntry
+from src.api.chat_bot import load_data
 
 from src.schemas.tests import TestAdd, ScaleAdd, BordersAdd, AnswerChoice, Question, TestResultRequest, \
     TestDetailsResponse, AnswerChoiceDetail, QuestionDetail, BorderDetail, ScaleDetail, ScaleResult, \
@@ -522,12 +523,31 @@ class TestService(BaseService):
                 ontology_res = recommendations(payload)
                 print(ontology_res)
 
+                tests_data = load_data("src/services/info/test_info.json")
+                themes_data = load_data("src/services/info/education_themes.json")
+                exercise_data = load_data("src/services/info/exercise_info.json")
+
+                tests_dict = {item["id"]: item.get("link", "") for item in tests_data}
+                themes_dict = {item["id"]: item.get("link_to_picture", "") for item in themes_data}
+                exercise_dict = {item["id"]: item.get("picture_link", "") for item in exercise_data}
+
                 for rec in ontology_res:
+
+                    material_id = rec["material_id"]
+                    picture = None
+                    if material_id in tests_dict:
+                        picture = tests_dict[material_id]
+                    elif material_id in themes_dict:
+                        picture = themes_dict[material_id]
+                    elif material_id in exercise_dict:
+                        picture = exercise_dict[material_id]
+
                     ontology_entry = OntologyEntry(
                         id=uuid.uuid4(),
                         type=rec["type"],
                         created_at=datetime.datetime.now(),
-                        destination_id=rec["material_id"],
+                        destination_id=material_id,
+                        link_to_picture=picture,
                         user_id=user_id
                     )
                     await self.db.ontology_entry.add(ontology_entry)

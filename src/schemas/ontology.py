@@ -10,6 +10,7 @@ class OntologyEntry(BaseModel):
     type: str
     created_at: datetime.datetime
     destination_id: uuid.UUID
+    link_to_picture: Optional[str] = None
     user_id: uuid.UUID
 
 

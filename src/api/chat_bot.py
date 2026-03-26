@@ -29,6 +29,9 @@ class EmergencyContactSchema(BaseModel):
     description: str
     formatted: str  # Полная строка с номером и описанием
 
+def load_data(path: str):
+    with open(path, encoding="utf-8") as file:
+        return json.load(file)
 
 # Загрузка данных из JSON файла
 def load_faq_data():
