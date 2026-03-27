@@ -3,7 +3,7 @@ TRAINING_EXERCISES = [
         "id": "03bb5961-0983-44a9-b14b-4c3b3b7314df",
         "title": "Детектор эмоций",
         "description": "Учимся определять эмоциональную окраску текста.",
-        "picture_link": "images/images_training_exercises/img_1.jpg",
+        "picture_link": "/images/images_training_exercises/img_1.jpg",
         "time_to_read": 6,
         "questions": [
             {
@@ -89,7 +89,7 @@ TRAINING_EXERCISES = [
         "id": "ebf39484-222a-43e6-9a70-75ff11b8a9cf",
         "title": "Ловим автоматические мысли",
         "description": "Поймай все незаметные мысли, пока они не привели к последствиям.",
-        "picture_link": "images/images_training_exercises/img_2.jpg",
+        "picture_link": "/images/images_training_exercises/img_2.jpg",
         "time_to_read": 10,
         "questions": [
             {
@@ -137,7 +137,7 @@ TRAINING_EXERCISES = [
         "id": "1a406e72-efac-4cc8-9144-19b367a1547b",
         "title": "В поисках альтернативы",
         "description": "Выбери здоровую замену деструктивным убеждениям.",
-        "picture_link": "images/images_training_exercises/img_3.jpg",
+        "picture_link": "/images/images_training_exercises/img_3.jpg",
         "time_to_read": 5,
         "questions": [
             {
