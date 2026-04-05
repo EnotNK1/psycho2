@@ -303,6 +303,14 @@
   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
 </owl:Class>
 
+<owl:Class rdf:about="#Rule">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#SeverityLevel">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
 <owl:Class rdf:about="#Trevozhnost">
   <rdfs:subClassOf rdf:resource="#Indicator"/>
   <rdfs:subClassOf>
@@ -1069,12 +1077,88 @@
   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
 </owl:Class>
 
-<owl:Class rdf:about="#SeverityLevel">
-  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+<owl:Class rdf:about="#Invalidatsiya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Инвалидация</rdfs:label>
 </owl:Class>
 
-<owl:Class rdf:about="#Rule">
-  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+<owl:Class rdf:about="#Neponyatnost">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Непонятность</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#VinaIStyd">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Вина и стыд</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#UproshchennyyVzglyad">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Упрощенный взгляд</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#Obestsenivanie">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Обесценивание</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#PoteryaKontrolya">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Потеря контроля</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#Beschuvstvennost">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Бесчувственность</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#ChrezmernayaRatsionalnost">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Чрезмерная рациональность</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#Dlitelnost">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Длительность</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#NizkiyKonsensus">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Низкий консенсус</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#Ruminatsii">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Руминации</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#NeprinyatieChuvstv">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Непринятие чувств</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#NizkayaVyrazhennostChuvstv">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Низкая выраженность чувств</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="#Obvinenie">
+  <rdfs:subClassOf rdf:resource="#Indicator"/>
+  <rdfs:subClassOf rdf:resource="#EmotsionalnyeShemy"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Обвинение</rdfs:label>
 </owl:Class>
 
 <owl:NamedIndividual rdf:about="#concept_indicator_Trevozhnost">
@@ -1493,7 +1577,20 @@
 
 <owl:NamedIndividual rdf:about="#task_test_ShkalaEmotsionalnyhShem">
   <rdf:type rdf:resource="#TestTask"/>
-  <targetsFactor rdf:resource="#concept_factor_EmotsionalnyeShemy"/>
+  <targetsIndicator rdf:resource="#concept_indicator_PoteryaKontrolya"/>
+  <targetsIndicator rdf:resource="#concept_indicator_NeprinyatieChuvstv"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Invalidatsiya"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Beschuvstvennost"/>
+  <targetsIndicator rdf:resource="#concept_indicator_ChrezmernayaRatsionalnost"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Dlitelnost"/>
+  <targetsIndicator rdf:resource="#concept_indicator_VinaIStyd"/>
+  <targetsIndicator rdf:resource="#concept_indicator_NizkiyKonsensus"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Ruminatsii"/>
+  <targetsIndicator rdf:resource="#concept_indicator_UproshchennyyVzglyad"/>
+  <targetsIndicator rdf:resource="#concept_indicator_NizkayaVyrazhennostChuvstv"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Neponyatnost"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Obestsenivanie"/>
+  <targetsIndicator rdf:resource="#concept_indicator_Obvinenie"/>
   <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Шкала эмоциональных схем</rdfs:label>
   <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#ShkalaEmotsionalnyhShem</originClassIri>
 </owl:NamedIndividual>
@@ -1632,6 +1729,90 @@ Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_DepressivnayaSimptom
   <ruleWhy rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Трекер настроения помогает фиксировать динамику состояния.</ruleWhy>
   <ruleSWRL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_DepressivnayaSimptomatika) ^ hasSeverity(?obs, :SeverityMedium) -&gt; matchesRule(?obs, :rule_depression_medium_mood_tracker)
 Observation(?obs) ^ aboutIndicator(?obs, :concept_indicator_DepressivnayaSimptomatika) ^ hasSeverity(?obs, :SeverityHigh) -&gt; matchesRule(?obs, :rule_depression_medium_mood_tracker)</ruleSWRL>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Invalidatsiya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Инвалидация</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Invalidatsiya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Neponyatnost">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Непонятность</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Neponyatnost</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_VinaIStyd">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Вина и стыд</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#VinaIStyd</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_UproshchennyyVzglyad">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Упрощенный взгляд</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#UproshchennyyVzglyad</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Obestsenivanie">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Обесценивание</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Obestsenivanie</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_PoteryaKontrolya">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Потеря контроля</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#PoteryaKontrolya</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Beschuvstvennost">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Бесчувственность</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Beschuvstvennost</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_ChrezmernayaRatsionalnost">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Чрезмерная рациональность</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#ChrezmernayaRatsionalnost</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Dlitelnost">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Длительность</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Dlitelnost</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_NizkiyKonsensus">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Низкий консенсус</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#NizkiyKonsensus</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Ruminatsii">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Руминации</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Ruminatsii</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_NeprinyatieChuvstv">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Непринятие чувств</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#NeprinyatieChuvstv</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_NizkayaVyrazhennostChuvstv">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Низкая выраженность чувств</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#NizkayaVyrazhennostChuvstv</originClassIri>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#concept_indicator_Obvinenie">
+  <rdf:type rdf:resource="#IndicatorConcept"/>
+  <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Обвинение</rdfs:label>
+  <originClassIri rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://example.org/wellbeing-ontology#Obvinenie</originClassIri>
 </owl:NamedIndividual>
 
 

@@ -490,9 +490,8 @@ class TestService(BaseService):
                                 "color": border.color,
                                 "user_recommendation": border.user_recommendation
                             })
-                            res = await Translator().translate(scale.title, dest="en")
                             scale_results_for_ontology.append({
-                                "scale_title": res.text,
+                                "scale_title": scale.title,
                                 "score": score
                             })
                             break

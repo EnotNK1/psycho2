@@ -46,7 +46,21 @@ THRESHOLD_RULES = {
     "Эмоциональные затруднения": {"threshold": 1.2, "direction": "gte"},
     "Когнитивные затруднения": {"threshold": 1.8, "direction": "gte"},
     "Вторичные симптомы": {"threshold": 1.7, "direction": "gte"},
-    "Настроение": {"threshold": 50.0, "direction": "gte"},
+    "Настроение": {"threshold": 50.0, "direction": "lte"},
+    "Инвалидация": {"threshold": 3.0, "direction": "gte"},
+    "Непонятность": {"threshold": 3.0, "direction": "gte"},
+    "Вина и стыд": {"threshold": 3.0, "direction": "gte"},
+    "Упрощенный взгляд": {"threshold": 3.0, "direction": "gte"},
+    "Обесценивание": {"threshold": 3.0, "direction": "gte"},
+    "Потеря контроля": {"threshold": 3.0, "direction": "gte"},
+    "Бесчувственность": {"threshold": 3.0, "direction": "gte"},
+    "Чрезмерная рациональность": {"threshold": 3.0, "direction": "gte"},
+    "Длительность": {"threshold": 3.0, "direction": "gte"},
+    "Низкий консенсус": {"threshold": 3.0, "direction": "gte"},
+    "Руминации": {"threshold": 3.0, "direction": "gte"},
+    "Непринятие чувств": {"threshold": 3.0, "direction": "gte"},
+    "Низкая выраженность чувств": {"threshold": 3.0, "direction": "gte"},
+    "Обвинение": {"threshold": 3.0, "direction": "gte"},
 }
 
 SOURCE_ALIASES = {
