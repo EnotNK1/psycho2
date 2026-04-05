@@ -15,6 +15,7 @@ class OntologyEntryOrm(Base):
     type: Mapped[str]
     created_at: Mapped[datetime.datetime]
     destination_id: Mapped[uuid.UUID]
+    destination_title: Mapped[str] = mapped_column(nullable=True)
     link_to_picture: Mapped[str] = mapped_column(nullable=True)
     user_id: Mapped[uuid.UUID]
 

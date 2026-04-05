@@ -526,26 +526,51 @@ class TestService(BaseService):
                 themes_data = load_data("src/services/info/education_themes.json")
                 exercise_data = load_data("src/services/info/exercise_info.json")
 
-                tests_dict = {item["id"]: item.get("link", "") for item in tests_data}
-                themes_dict = {item["id"]: item.get("link_to_picture", "") for item in themes_data}
-                exercise_dict = {item["id"]: item.get("picture_link", "") for item in exercise_data}
+                tests_dict = {
+                    item["id"]: {
+                        "link": item.get("link", ""),
+                        "destination_title": item.get("title", "")
+                    }
+                    for item in tests_data
+                }
+
+                themes_dict = {
+                    item["id"]: {
+                        "link": item.get("link_to_picture", ""),
+                        "destination_title": item.get("theme", "")
+                    }
+                    for item in themes_data
+                }
+
+                exercise_dict = {
+                    item["id"]: {
+                        "link": item.get("picture_link", ""),
+                        "destination_title": item.get("title", "")
+                    }
+                    for item in exercise_data
+                }
 
                 for rec in ontology_res:
 
                     material_id = rec["material_id"]
                     picture = None
+                    destination_title = None
                     if material_id in tests_dict:
-                        picture = tests_dict[material_id]
+                        picture = tests_dict[material_id]["link"]
+                        destination_title = tests_dict[material_id]["destination_title"]
                     elif material_id in themes_dict:
-                        picture = themes_dict[material_id]
+                        picture = themes_dict[material_id]["link"]
+                        destination_title = themes_dict[material_id]["destination_title"]
                     elif material_id in exercise_dict:
-                        picture = exercise_dict[material_id]
+                        picture = exercise_dict[material_id]["link"]
+                        destination_title = exercise_dict[material_id]["destination_title"]
 
                     ontology_entry = OntologyEntry(
                         id=uuid.uuid4(),
                         type=rec["type"],
                         created_at=datetime.datetime.now(),
                         destination_id=material_id,
+                        destination_title=destination_title,
                         link_to_picture=picture,
                         user_id=user_id
                     )

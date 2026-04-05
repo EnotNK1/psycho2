@@ -95,6 +95,7 @@ class MoodTrackerService(BaseService):
                 type=rec["type"],
                 created_at=datetime.now(),
                 destination_id=material_id,
+                destination_title="Трекер настроения",
                 link_to_picture=picture,
                 user_id=user_id
             )
