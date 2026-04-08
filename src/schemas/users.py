@@ -5,6 +5,8 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr, field_validator
 from sqlalchemy import DateTime
 
+from src.models import InquiryOrm
+
 
 class UserRequestAdd(BaseModel):
     email: EmailStr
@@ -109,6 +111,9 @@ class UpdateManagerRequest(BaseModel):
     department: Optional[str] = None
     face_to_face: Optional[bool] = None
 
+class InquiryResponse(BaseModel):
+    id: int
+    text: str
 
 class GetAllManagerRequest(BaseModel):
     id: uuid.UUID
@@ -124,6 +129,13 @@ class GetAllManagerRequest(BaseModel):
     is_active: Optional[bool] = None
     department: Optional[str] = None
     face_to_face: Optional[bool] = None
+    higher_education_university: Optional[str] = None
+    higher_education_specialization: Optional[str] = None
+    academic_degree: Optional[str] = None
+    courses: Optional[str] = None
+    work_format: Optional[str] = None
+    association: Optional[str] = None
+    inquiries: Optional[list[InquiryResponse]] = None
     role_id: int
 
 

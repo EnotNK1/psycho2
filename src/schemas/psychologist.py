@@ -1,5 +1,5 @@
 import datetime
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
@@ -22,19 +22,42 @@ class EducationRequest(BaseModel):
     title: str
     document: str
 
+class Inquiry(BaseModel):
+    id: int
+    text: str
+
+class InquiryAddRequest(BaseModel):
+    text: str
 
 class BecomePsychologistRequest(BaseModel):
-    username: str
-    description: str
-    city: str
-    company: str
-    online: bool
-    gender: str
-    birth_date: datetime.date
-    is_active: bool
-    department: str
-    face_to_face: bool
+    username: Optional[str]
+    birth_date: Optional[datetime.date]
+    higher_education_university: Optional[str]
+    higher_education_specialization: Optional[str]
+    academic_degree: Optional[str] = None
+    courses: Optional[str] = None
+    work_format: Optional[str]
+    association: Optional[str] = None
+    inquiry_ids: List[int]
 
+class InquiryShort(BaseModel):
+    id: int
+    text: str
+
+    model_config = {"from_attributes": True}
+
+class PsychologistResponseRequest(BaseModel):
+    username: Optional[str]
+    birth_date: Optional[datetime.date]
+    higher_education_university: Optional[str]
+    higher_education_specialization: Optional[str]
+    academic_degree: Optional[str] = None
+    courses: Optional[str] = None
+    work_format: Optional[str]
+    association: Optional[str] = None
+    inquiries: List[InquiryShort]
+
+    model_config = {"from_attributes": True}
 class UpdatePsychologistRequest(BaseModel):
     username: Optional[str] = None
     description: Optional[str] = None

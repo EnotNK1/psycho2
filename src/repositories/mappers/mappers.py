@@ -57,6 +57,12 @@ class UserDataMapper(DataMapper):
             department=model.department,
             job_title=model.job_title,
             face_to_face=model.face_to_face,
+            higher_education_university=model.higher_education_university,
+            higher_education_specialization=model.higher_education_specialization,
+            academic_degree=model.academic_degree,
+            courses=model.courses,
+            work_format=model.work_format,
+            association=model.association,
             role_id=model.role_id
         )
 
