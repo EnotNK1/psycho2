@@ -36,6 +36,7 @@ class TrainingQuestionOrm(Base):
         primary_key=True, default=uuid.uuid4
     )
     text: Mapped[str]
+    formulation: Mapped[str]
 
     training_exercise_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("training_exercise.id", ondelete="CASCADE")

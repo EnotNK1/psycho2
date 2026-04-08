@@ -51,6 +51,7 @@ class TrainingExerciseService(BaseService):
             for q in ex_data["questions"]:
                 question = TrainingQuestionOrm(
                     text=q["text"],
+                    formulation=q["formulation"],
                     training_exercise_id=exercise.id,
                 )
                 await self.db.training_exercise.add(question)
