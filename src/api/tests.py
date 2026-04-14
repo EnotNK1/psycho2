@@ -4,8 +4,9 @@ from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
-from typing import Optional
+from typing import Optional, List, Dict, Any
 
+from src.api.chat_bot import load_data
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
 from src.exceptions import ObjectNotFoundHTTPException, ObjectNotFoundException, MyAppException, MyAppHTTPException, \
@@ -207,7 +208,39 @@ async def details(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
+tests_info = load_data("src/services/info/test_info.json")
 
+def should_add_relax(test_id: str, scales: List[Dict[str, Any]]) -> bool:
+    """
+    Определяет, нужно ли добавить "relax" в зависимости от test_id и результатов шкал.
+    """
+    # Тест "Почему я себя так чувствую?"
+    if test_id == "bc9f1204-ea5d-40b0-b367-359bf9b2cc21":
+        anxiety = next((s for s in scales if "тревог" in s["scale_title"].lower()), None)
+        stress = next((s for s in scales if "стресс" in s["scale_title"].lower()), None)
+        return (anxiety and anxiety["score"] >= 1) and (stress and stress["score"] >= 3)
+
+    # Тест "Насколько мне тревожно?"
+    elif test_id == "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25":
+        return any(s["score"] > 30 for s in scales)
+
+    # Тест "Определяем истощение из-за работы" (выгорание на работе)
+    elif test_id == "c9386cd7-4f63-4cbb-af35-54829ef9c14b":
+        em_exhaustion = next((s for s in scales if "эмоциональное истощение" in s["scale_title"].lower()), None)
+        depersonalization = next((s for s in scales if "деперсонализация" in s["scale_title"].lower()), None)
+        return (em_exhaustion and em_exhaustion["score"] > 15) and (depersonalization and depersonalization["score"] > 6)
+
+    # Тест "Стрессоустойчивость, это про меня?"
+    elif test_id == "f56b5284-323e-42db-bd74-c80e8a5dc29a":
+        perceived_stress = next((s for s in scales if "воспринимаемого стресса" in s["scale_title"].lower() or "стресс" in s["scale_title"].lower()), None)
+        return perceived_stress and perceived_stress["score"] > 13
+
+    # Тест "Ищем причины выгорания"
+    elif test_id == "ea869ca2-4e8f-4a98-8b13-4fbeedf30539":
+        # Уровень "средний и выше" — conclusion не "Норма"
+        return any(s.get("conclusion") in ["Средний", "Высокий"] for s in scales)
+
+    return False
 @router.post("/result",
              description="""
              Сохранение результата теста.\n
@@ -234,7 +267,17 @@ async def save_result(
         user_id: UserIdDep,
 ):
     try:
-        return await TestService(db).save_result(test_result_data, user_id)
+        res = await TestService(db).save_result(test_result_data, user_id)
+
+        test_id = str(test_result_data.test_id)
+
+        if test_id:
+            add_relax = should_add_relax(test_id, res["result"])
+            res["tags"] = ["relax"] if add_relax else []
+        else:
+            res["tags"] = []
+
+        return res
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
     except InvalidAnswersCountError:
@@ -262,7 +305,17 @@ async def result_by_user_and_test(
     try:
         test_service = TestService(db)
         target_user_id = user_id if user_id else current_user_id
-        return await test_service.get_test_result_by_user_and_test(test_id, target_user_id)
+        res = await test_service.get_test_result_by_user_and_test(test_id, target_user_id)
+
+        test_id_str = str(test_id)
+
+        # res - это список результатов
+        for item in res:
+            scales = item.get("scale_results", [])
+            add_relax = should_add_relax(test_id_str, scales)
+            item["tags"] = ["relax"] if add_relax else []
+
+        return res
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
@@ -278,7 +331,18 @@ async def get_test_result_by_id(
         db: DBDep
 ):
     try:
-        return await TestService(db).get_test_result_by_id(result_id)
+        res = await TestService(db).get_test_result_by_id(result_id)
+
+        test_id = res.get("test_id")
+        scale_results = res.get("scale_results", [])
+
+        if test_id:
+            add_relax = should_add_relax(str(test_id), scale_results)
+            res["tags"] = ["relax"] if add_relax else []
+        else:
+            res["tags"] = []
+
+        return res
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
