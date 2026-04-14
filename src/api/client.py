@@ -21,24 +21,24 @@ async def get_client(
 ):
     return await ClientService(db).get_client(mentor_id, client_id)
 
-@router.get("/my-psychologist", summary="Получить информацию о своем менторе")
-async def get_my_mentor(
-    db: DBDep,
-    client_id: UserIdDep
-):
-    return await ClientService(db).get_my_mentors(client_id)
-
-@router.get("/my-tasks", summary="Получить все свои задачи")
-async def get_my_tasks(
-    db: DBDep,
-    client_id: UserIdDep
-):
-    return await ClientService(db).get_client_tasks(client_id)
-
-@router.patch("/complete-task", summary="Изменить статус задачи")
-async def complete_task(
-    task_id: uuid.UUID,
-    db: DBDep,
-    client_id: UserIdDep
-):
-    return await ClientService(db).complete_task(task_id, client_id)
+# @router.get("/my-psychologist", summary="Получить информацию о своем менторе")
+# async def get_my_mentor(
+#     db: DBDep,
+#     client_id: UserIdDep
+# ):
+#     return await ClientService(db).get_my_mentors(client_id)
+#
+# @router.get("/my-tasks", summary="Получить все свои задачи")
+# async def get_my_tasks(
+#     db: DBDep,
+#     client_id: UserIdDep
+# ):
+#     return await ClientService(db).get_client_tasks(client_id)
+#
+# @router.patch("/complete-task", summary="Изменить статус задачи")
+# async def complete_task(
+#     task_id: uuid.UUID,
+#     db: DBDep,
+#     client_id: UserIdDep
+# ):
+#     return await ClientService(db).complete_task(task_id, client_id)
