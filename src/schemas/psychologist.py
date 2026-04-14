@@ -1,4 +1,5 @@
 import datetime
+import uuid
 from typing import Optional, List
 
 from pydantic import BaseModel
@@ -47,6 +48,7 @@ class InquiryShort(BaseModel):
     model_config = {"from_attributes": True}
 
 class PsychologistResponseRequest(BaseModel):
+    id: uuid.UUID
     username: Optional[str]
     birth_date: Optional[datetime.date]
     higher_education_university: Optional[str]
