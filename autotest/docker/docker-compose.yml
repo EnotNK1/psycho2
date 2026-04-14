@@ -1,0 +1,38 @@
+services:
+  testdb:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: testdb
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test -d testdb"]
+      interval: 5s
+      retries: 5
+
+  autotest-runner:
+    build:
+      context: ../..
+      dockerfile: ../../autotest4/docker/Dockerfile
+    working_dir: /app
+    depends_on:
+      testdb:
+        condition: service_healthy
+    command: python -m pytest autotest4/local/api autotest4/local/unit autotest4/docker/smoke -c autotest4/pytest.ini -q
+    environment:
+      MODE: TEST
+      DB_HOST: testdb
+      DB_PORT: 5432
+      DB_USER: test
+      DB_PASS: test
+      DB_NAME: testdb
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      JWT_SECRET_KEY: test-secret
+      JWT_ALGORITHM: HS256
+      JWT_REFRESH_SECRET_KEY: test-refresh-secret
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      REFRESH_TOKEN_EXPIRE_DAYS: 7
+      PYTHONPATH: /app:/app/src
