@@ -80,7 +80,6 @@ class MoodTrackerService(BaseService):
         themes_dict = {item["id"]: item.get("link_to_picture", "") for item in themes_data}
         exercise_dict = {item["id"]: item.get("picture_link", "") for item in exercise_data}
 
-        print("до")
         for rec in ontology_res:
             material_id = rec["material_id"]
             picture = None
@@ -101,8 +100,6 @@ class MoodTrackerService(BaseService):
                 user_id=user_id
             )
 
-            print("перед адд")
-            print(ontology_entry)
             await self.db.ontology_entry.add(ontology_entry)
 
         await self.db.commit()
