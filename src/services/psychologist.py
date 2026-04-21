@@ -94,7 +94,7 @@ class PsychologistService(BaseService):
             user.courses = data.courses
             user.work_format = data.work_format
             user.association = data.association
-            user.role_id = 3
+            user.role_id = 2
 
             if data.inquiry_ids is not None:
                 stmt_inq = select(InquiryOrm).where(InquiryOrm.id.in_(data.inquiry_ids))
@@ -120,7 +120,7 @@ class PsychologistService(BaseService):
             psychologist = result.scalar_one_or_none()
             if not psychologist:
                 raise ObjectNotFoundException()
-            if psychologist.role_id != 3:
+            if psychologist.role_id != 2:
                 raise ObjectNotFoundException()
             return PsychologistResponseRequest.model_validate(psychologist)
         except ObjectNotFoundException as ex:
@@ -133,7 +133,7 @@ class PsychologistService(BaseService):
         try:
             stmt = (
                 select(UsersOrm)
-                .where(UsersOrm.role_id == 3)
+                .where(UsersOrm.role_id == 2)
                 .options(selectinload(UsersOrm.inquiries))
             )
 

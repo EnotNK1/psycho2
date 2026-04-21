@@ -63,7 +63,7 @@ async def get_psychologist(
 ):
     return await PsychologistService(db).get_psychologist(psychologist_id)
 
-@router.get("/", summary="Получить всех психологов")
+@router.get("", summary="Получить всех психологов")
 async def get_all_psychologists(
         db: DBDep,
         pagination: PaginationDep,
