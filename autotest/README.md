@@ -9,7 +9,7 @@ Test architecture:
 - `autotest/factories`
   Shared data builders, constants and reusable entity payload factories.
 - `autotest/integration`
-  Integration tests for selected entities. This layer is optional and is not part of the default docker run.
+  PostgreSQL-backed integration tests for selected entities. This layer is part of the default docker run because it validates repository and database behavior against production-like PostgreSQL types.
 - `autotest/docker/smoke`
   Containerized smoke suites for fast environment-level checks.
 - `autotest/conftest.py`
@@ -52,9 +52,9 @@ docker compose -f autotest/docker/docker-compose.yml up --build --abort-on-conta
 This compose run starts:
 
 - `testdb` - PostgreSQL 15 test database
-- `autotest-runner` - pytest runner for `autotest/local/api`, `autotest/local/unit` and `autotest/docker/smoke`
+- `autotest-runner` - pytest runner for the full `autotest` suite, including PostgreSQL integration tests
 
-Run integration tests separately:
+Run integration tests separately against local PostgreSQL test database on port `5433`:
 
 ```powershell
 .\.venv\Scripts\python -m pytest autotest\integration -c autotest\pytest.ini -q

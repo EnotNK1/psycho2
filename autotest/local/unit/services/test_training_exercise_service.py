@@ -1,7 +1,7 @@
 import pytest
 
 import src.services.training_exercise as training_service_module
-from autotest4.factories.training_exercise import (
+from autotest.factories.training_exercise import (
     EXERCISE_ID,
     SECOND_EXERCISE_ID,
     USER_ID,

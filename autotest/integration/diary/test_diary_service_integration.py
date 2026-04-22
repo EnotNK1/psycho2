@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 from sqlalchemy import select
 
-from autotest4.factories.diary import DIARY_ID, USER_ID
+from autotest.factories.diary import DIARY_ID, USER_ID
 from src.models.diary import DiaryOrm
 from src.services.diary import DiaryService
 

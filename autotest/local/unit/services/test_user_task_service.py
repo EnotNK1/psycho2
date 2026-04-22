@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from autotest4.factories.user_task import OTHER_TASK_ID, TASK_ID, USER_ID, make_task
+from autotest.factories.user_task import OTHER_TASK_ID, TASK_ID, USER_ID, make_task
 from src.exceptions import DateException, InternalErrorHTTPException, TextEmptyError, TextTooLongError
 from src.services.user_task import UserTaskService
 from types import SimpleNamespace

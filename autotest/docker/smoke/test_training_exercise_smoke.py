@@ -1,7 +1,7 @@
 import pytest
 
 import src.api.training_exercise as training_api_module
-from autotest4.factories.training_exercise import EXERCISE_ID, USER_ID
+from autotest.factories.training_exercise import EXERCISE_ID, USER_ID
 from src.api.dependencies.db import get_db
 from src.api.dependencies.user_id import get_current_user_id
 

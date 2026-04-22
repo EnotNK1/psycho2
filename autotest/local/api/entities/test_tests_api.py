@@ -1,7 +1,7 @@
 import pytest
 
 import src.api.tests as tests_api_module
-from autotest4.factories.tests_entity import (
+from autotest.factories.tests_entity import (
     ANSWER_ID,
     QUESTION_ID,
     RESULT_ID,

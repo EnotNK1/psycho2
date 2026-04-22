@@ -4,7 +4,7 @@ import pytest
 
 import src.api.auth as auth_api_module
 import src.services.auth as auth_service_module
-from autotest4.factories.auth import (
+from autotest.factories.auth import (
     USER_ID,
     build_login_payload,
     build_password_change_payload,

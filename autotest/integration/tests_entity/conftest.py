@@ -1,8 +1,7 @@
 import pytest
 import pytest_asyncio
-from sqlalchemy import JSON
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
+from autotest.integration.postgres import create_integration_engine, create_session_factory, drop_test_schema, recreate_tables
 from src.database import Base
 from src.models.education import CardOrm, EducationProgressOrm, educationMaterialOrm, educationThemeOrm
 from src.models.ontology import OntologyEntryOrm
@@ -20,39 +19,27 @@ from src.utils.db_manager import DBManager
 
 
 @pytest_asyncio.fixture
-async def tests_entity_session_factory(tmp_path):
-    db_path = tmp_path / "integration_tests_entity.sqlite3"
-    engine = create_async_engine(f"sqlite+aiosqlite:///{db_path}", future=True)
+async def tests_entity_session_factory():
+    engine = create_integration_engine()
+    tables = [
+        UsersOrm.__table__,
+        OntologyEntryOrm.__table__,
+        TestOrm.__table__,
+        TestResultOrm.__table__,
+        ScaleOrm.__table__,
+        ScaleResultOrm.__table__,
+        BordersOrm.__table__,
+        QuestionOrm.__table__,
+        AnswerChoiceOrm.__table__,
+    ]
+    await recreate_tables(engine, Base.metadata, tables)
 
-    original_type = QuestionOrm.__table__.c.answer_choice.type
-    QuestionOrm.__table__.c.answer_choice.type = JSON()
-
+    session_factory = create_session_factory(engine)
     try:
-        async with engine.begin() as conn:
-            await conn.run_sync(
-                lambda sync_conn: Base.metadata.create_all(
-                    sync_conn,
-                    tables=[
-                        UsersOrm.__table__,
-                        OntologyEntryOrm.__table__,
-                        TestOrm.__table__,
-                        TestResultOrm.__table__,
-                        ScaleOrm.__table__,
-                        ScaleResultOrm.__table__,
-                        BordersOrm.__table__,
-                        QuestionOrm.__table__,
-                        AnswerChoiceOrm.__table__,
-                    ],
-                )
-            )
-
-        session_factory = async_sessionmaker(bind=engine, expire_on_commit=False)
-        try:
-            yield session_factory
-        finally:
-            await engine.dispose()
+        yield session_factory
     finally:
-        QuestionOrm.__table__.c.answer_choice.type = original_type
+        await drop_test_schema(engine)
+        await engine.dispose()
 
 
 @pytest_asyncio.fixture
