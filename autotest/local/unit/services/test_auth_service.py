@@ -6,7 +6,7 @@ import pytest
 from itsdangerous import BadData
 
 import src.services.auth as auth_service_module
-from autotest4.factories.auth import (
+from autotest.factories.auth import (
     SECOND_USER_ID,
     USER_ID,
     build_test_result,

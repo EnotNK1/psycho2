@@ -5,7 +5,7 @@ import pytest
 import src.api.user_task as user_task_api_module
 from src.api.dependencies.db import get_db
 from src.api.dependencies.user_id import get_current_user_id
-from autotest4.factories.user_task import (
+from autotest.factories.user_task import (
     TASK_ID,
     USER_ID,
     build_actual_task_payload,

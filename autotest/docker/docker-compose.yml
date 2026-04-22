@@ -15,12 +15,12 @@ services:
   autotest-runner:
     build:
       context: ../..
-      dockerfile: ../../autotest4/docker/Dockerfile
+      dockerfile: autotest/docker/Dockerfile
     working_dir: /app
     depends_on:
       testdb:
         condition: service_healthy
-    command: python -m pytest autotest4/local/api autotest4/local/unit autotest4/docker/smoke -c autotest4/pytest.ini -q
+    command: python -m pytest autotest -c autotest/pytest.ini -q
     environment:
       MODE: TEST
       DB_HOST: testdb

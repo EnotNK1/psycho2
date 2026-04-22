@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy import select
 
-from autotest4.factories.training_exercise import USER_ID
+from autotest.factories.training_exercise import USER_ID
 from src.models.training_exercises import (
     TrainingCompletedExerciseOrm,
     TrainingExerciseOrm,
@@ -64,6 +64,7 @@ async def test_training_exercise_service_get_all_marks_completed_from_real_db(
 
     async with integration_session_factory() as session:
         session.add(build_user_orm())
+        await session.commit()
         session.add(
             TrainingCompletedExerciseOrm(
                 training_exercise_id=EXERCISE_ID,

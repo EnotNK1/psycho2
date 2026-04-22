@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import pytest
 
 import src.services.mood_tracker as mood_tracker_service_module
-from autotest4.factories.mood_tracker import (
+from autotest.factories.mood_tracker import (
     MOOD_TRACKER_ID,
     SECOND_MOOD_TRACKER_ID,
     SECOND_USER_ID,

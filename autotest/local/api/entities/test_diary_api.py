@@ -1,7 +1,7 @@
 import pytest
 
 import src.api.diary as diary_api_module
-from autotest4.factories.diary import (
+from autotest.factories.diary import (
     DIARY_ID,
     USER_ID,
     build_add_diary_payload,

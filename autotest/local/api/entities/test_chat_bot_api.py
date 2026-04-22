@@ -2,7 +2,7 @@ import pytest
 from fastapi.exceptions import ResponseValidationError
 
 import src.api.chat_bot as chat_bot_module
-from autotest4.factories.chat_bot import build_faq_data
+from autotest.factories.chat_bot import build_faq_data
 
 
 @pytest.fixture

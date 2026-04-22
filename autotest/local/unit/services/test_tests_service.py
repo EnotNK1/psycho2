@@ -6,7 +6,7 @@ import pytest
 from fastapi import HTTPException
 
 import src.services.tests as tests_service_module
-from autotest4.factories.tests_entity import (
+from autotest.factories.tests_entity import (
     ANSWER_ID,
     BORDER_ID,
     QUESTION_ID,

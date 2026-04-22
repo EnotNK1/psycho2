@@ -3,7 +3,7 @@ from sqlalchemy import select
 import pytest
 
 import src.services.auth as auth_service_module
-from autotest4.factories.auth import USER_ID
+from autotest.factories.auth import USER_ID
 from src.models.ontology import OntologyEntryOrm
 from src.models.users import UsersOrm
 from src.services.auth import AuthService

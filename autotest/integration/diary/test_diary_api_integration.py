@@ -4,7 +4,7 @@ import pytest
 from sqlalchemy import select
 
 import src.api.diary as diary_api_module
-from autotest4.factories.diary import DIARY_ID, USER_ID
+from autotest.factories.diary import DIARY_ID, USER_ID
 from src.api.dependencies.db import get_db
 from src.api.dependencies.user_id import get_current_user_id
 from src.models.diary import DiaryOrm

@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 from sqlalchemy import select
 
-from autotest4.factories.user_task import TASK_ID, USER_ID
+from autotest.factories.user_task import TASK_ID, USER_ID
 from src.models.user_task import UserTaskOrm
 from src.services.user_task import UserTaskService
 

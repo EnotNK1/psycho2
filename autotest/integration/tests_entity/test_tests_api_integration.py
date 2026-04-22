@@ -7,7 +7,7 @@ from sqlalchemy import select
 import src.api.tests as tests_api_module
 import src.services.tests as tests_service_module
 import src.repositories.questions as questions_repository_module
-from autotest4.factories.tests_entity import (
+from autotest.factories.tests_entity import (
     ANSWER_ID,
     QUESTION_ID,
     RESULT_ID,
@@ -183,8 +183,7 @@ def tests_entity_client_factory(api_client_factory, tests_entity_db_manager_fact
 async def seed_bundle(session_factory, *, include_second_user=False):
     async with session_factory() as session:
         session.add(build_user_orm())
-        if include_second_user:
-            session.add(build_user_orm(user_id=SECOND_USER_ID, email="tests-second@example.com"))
+        session.add(build_user_orm(user_id=SECOND_USER_ID, email="tests-second@example.com"))
         for item in build_manual_test_bundle():
             session.add(item)
         await session.commit()
