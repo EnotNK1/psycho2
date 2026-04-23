@@ -341,3 +341,74 @@ class PsychologistService(BaseService):
         except Exception as ex:
             logger.error(f"Ошибка при получении результатов тестов клиента: {ex}", exc_info=True)
             raise MyAppException("Произошла ошибка при получении результатов тестов")
+
+    async def get_short_client_test_results(
+            self,
+            client_id: uuid.UUID,
+            psychologist_id: uuid.UUID
+    ) -> list[Dict[str, Any]]:
+        """
+        Возвращает список тестов, пройденных клиентом, с краткой информацией.
+        Каждый тест представлен один раз с датой последнего прохождения и ID этого результата.
+
+        Возвращаемая структура:
+        [
+            {
+                "test_id": str,
+                "test_name": str,
+                "short_desc": str,
+                "last_date": str (ISO format),
+                "test_result_id": str
+            },
+            ...
+        ]
+        """
+        try:
+            # 1. Проверка связи клиент-психолог
+            relation = await self.db.clients.get_one_or_none(
+                client_id=client_id,
+                mentor_id=psychologist_id,
+                status=True
+            )
+            if not relation:
+                raise ObjectNotFoundException(
+                    f"Клиент с ID {client_id} не найден или не является вашим подопечным"
+                )
+
+            # 2. Получаем все результаты тестов данного клиента
+            test_results = await self.db.test_result.get_filtered(user_id=client_id)
+            if not test_results:
+                return []
+
+            # 3. Группируем по test_id, сохраняя последнюю дату и соответствующий test_result_id
+            latest_info: Dict[uuid.UUID, tuple[datetime, uuid.UUID]] = {}
+            for tr in test_results:
+                tid = tr.test_id
+                if tid not in latest_info or tr.date > latest_info[tid][0]:
+                    latest_info[tid] = (tr.date, tr.id)
+
+            # 4. Для каждого уникального теста получаем название и краткое описание
+            results = []
+            for test_id, (last_date, last_result_id) in latest_info.items():
+                test_info = await self.db.tests.get_one(id=test_id)  # предполагаемая модель тестов
+                if not test_info:
+                    logger.warning(f"Тест с ID {test_id} не найден в базе, пропускаем")
+                    continue
+
+                results.append({
+                    "test_id": str(test_id),
+                    "test_name": test_info.title,
+                    "short_desc": test_info.short_desc,
+                    "last_date": last_date.isoformat(),
+                    "test_result_id": str(last_result_id)
+                })
+
+            # 5. Сортируем по дате (самые свежие сверху)
+            results.sort(key=lambda x: x["last_date"], reverse=True)
+            return results
+
+        except ObjectNotFoundException:
+            raise
+        except Exception as ex:
+            logger.error(f"Ошибка при получении кратких результатов тестов клиента: {ex}", exc_info=True)
+            raise MyAppException("Произошла ошибка при получении результатов тестов")

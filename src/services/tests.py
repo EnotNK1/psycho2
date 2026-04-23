@@ -604,10 +604,21 @@ class TestService(BaseService):
             )
 
     async def get_test_result_by_user_and_test(
-            self, test_id: uuid.UUID, user_id: uuid.UUID
+            self, test_id: uuid.UUID, user_id: uuid.UUID, current_user_id: uuid.UUID
     ):
 
         try:
+            # Проверяем, что клиент является подопечным данного психолога
+            relation = await self.db.clients.get_one_or_none(
+                client_id=user_id,
+                mentor_id=current_user_id,
+                status=True
+            )
+            if not relation:
+                raise ObjectNotFoundException(
+                    f"Клиент с ID {user_id} не найден или не является вашим подопечным"
+                )
+
             # Получаем ВСЕ результаты теста для указанного пользователя и теста
             test_results = await self.db.test_result.get_filtered(
                 test_id=test_id, user_id=user_id

@@ -9,9 +9,12 @@ from src.api.dependencies.admin import verify_admin
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.pagination import PaginationDep
 from src.api.dependencies.user_id import UserIdDep
+from src.api.tests import should_add_relax
+from src.exceptions import ObjectNotFoundException, ObjectNotFoundHTTPException
 from src.schemas.psychologist import BecomePsychologistRequest, InquiryAddRequest
 from src.schemas.task import TaskRequest
 from src.services.psychologist import PsychologistService
+from src.services.tests import TestService
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/psychologist", tags=["Психолог"])
@@ -71,6 +74,40 @@ async def get_all_psychologists(
 ):
     return await PsychologistService(db).get_all_psychologists(page=pagination.page, per_page=pagination.per_page, inquiry_ids=inquiry_ids)
 
+@router.get("/clients/{client_id}/test-results", summary="Получить список тестов, пройденных клиентом")
+async def client_tests_get(
+        db: DBDep,
+        user_id: UserIdDep,
+        client_id: uuid.UUID
+):
+    return await PsychologistService(db).get_short_client_test_results(client_id=client_id, psychologist_id=user_id)
+
+@router.get("/clients/{client_id}/tests/{test_id}/results",
+            description="""
+    Возвращает результат по test_id и client_id
+    """,
+            summary="Получение результатов теста по test_id и client_id")
+async def result_by_user_and_test(
+        db: DBDep,
+        current_user_id: UserIdDep,
+        test_id: uuid.UUID,
+        client_id: uuid.UUID,
+):
+    try:
+        test_service = TestService(db)
+        res = await test_service.get_test_result_by_user_and_test(test_id, client_id, current_user_id)
+
+        test_id_str = str(test_id)
+
+        # res - это список результатов
+        for item in res:
+            scales = item.get("scale_results", [])
+            add_relax = should_add_relax(test_id_str, scales)
+            item["tags"] = ["relax"] if add_relax else []
+
+        return res
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 # @router.post("/task-for-clients", summary="Создать задачу для клиентов")
 # async def create_task_for_clients(
