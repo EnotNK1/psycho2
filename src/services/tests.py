@@ -435,6 +435,7 @@ class TestService(BaseService):
                 "Есть ли у меня депрессия?": calculator_service.test_back_calculate_results,
                 "Потеряли интерес к работе?": calculator_service.test_jas_calculate_results,
                 "Стрессоустойчивость, это про меня?": calculator_service.test_stress_calculate_results,
+                "Ищем причины выгорания": calculator_service.test_bat_calculate_results,
                 "Почему я ждал этого?": calculator_service.test_leasy_calculate_results,
                 "Что мне свойственно?": calculator_service.test_five_factors_calculate_results,
             }
