@@ -3,6 +3,7 @@ from typing import List
 
 from src.services.base import BaseService
 from src.services.fixtures.training_exercise import TRAINING_EXERCISES
+from src.exceptions import ObjectNotFoundException
 from src.schemas.training_exercise import (
     ExerciseShortResponse,
     ExerciseDetailResponse,
@@ -93,7 +94,7 @@ class TrainingExerciseService(BaseService):
         exercise = await self.db.training_exercise.get_by_id(exercise_id)
 
         if not exercise:
-            raise ValueError("Exercise not found")
+            raise ObjectNotFoundException()
 
         is_completed = False
         if user_id:
@@ -112,7 +113,7 @@ class TrainingExerciseService(BaseService):
         exercise = await self.db.training_exercise.get_with_structure(exercise_id)
 
         if not exercise:
-            raise ValueError("Exercise not found")
+            raise ObjectNotFoundException()
         return exercise
 
     async def is_exercise_completed_by_id(self, exercise_id: uuid.UUID, user_id):

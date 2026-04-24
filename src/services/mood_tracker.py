@@ -8,6 +8,7 @@ from src.ontology.wellbeing_onto.api import recommendations, RecommendationReque
 
 from src.exceptions import (
     ScoreOutOfRangeError,
+    InvalidDateFormatError,
     ObjectNotFoundException,
     NotOwnedError, InvalidEmojiIdException
 )
@@ -105,7 +106,10 @@ class MoodTrackerService(BaseService):
 
     async def get_mood_tracker(self, day: Optional[str], user_id: uuid.UUID) -> List[MoodTracker]:
         if day:
-            target_date = datetime.strptime(day, "%Y-%m-%d").date()
+            try:
+                target_date = datetime.strptime(day, "%Y-%m-%d").date()
+            except ValueError:
+                raise InvalidDateFormatError()
             records = await self.db.mood_tracker.get_filtered(
                 func.date(self.db.mood_tracker.model.created_at) == target_date,
                 user_id=user_id
@@ -165,9 +169,11 @@ class MoodTrackerService(BaseService):
         start_date: str,
         end_date: str
     ) -> List[MoodTracker]:
-
-        start = datetime.strptime(start_date, "%Y-%m-%d").date()
-        end = datetime.strptime(end_date, "%Y-%m-%d").date()
+        try:
+            start = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end = datetime.strptime(end_date, "%Y-%m-%d").date()
+        except ValueError:
+            raise InvalidDateFormatError()
 
         records = await self.db.mood_tracker.get_filtered(
             self.db.mood_tracker.model.created_at >= start,

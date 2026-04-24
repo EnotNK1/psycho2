@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 router = APIRouter(prefix="/chat-bot", tags=["Чат бот"])
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 # Модели данных
@@ -30,13 +31,28 @@ class EmergencyContactSchema(BaseModel):
     formatted: str  # Полная строка с номером и описанием
 
 def load_data(path: str):
-    with open(path, encoding="utf-8") as file:
-        return json.load(file)
+    file_path = Path(path)
+    candidates = []
+
+    if file_path.is_absolute():
+        candidates.append(file_path)
+    else:
+        candidates.append(PROJECT_ROOT / file_path)
+        candidates.append(PROJECT_ROOT / "src" / file_path)
+
+    for candidate in candidates:
+        if candidate.exists():
+            with open(candidate, encoding="utf-8") as file:
+                return json.load(file)
+
+    raise FileNotFoundError(
+        f"Could not find data file '{path}'. Checked: "
+        + ", ".join(str(candidate) for candidate in candidates)
+    )
 
 # Загрузка данных из JSON файла
 def load_faq_data():
-    with open("src/services/info/chat_bot.json", encoding="utf-8") as file:
-        return json.load(file)
+    return load_data("src/services/info/chat_bot.json")
 
 
 @router.get("/groups", response_model=List[dict])

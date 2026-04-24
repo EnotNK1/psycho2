@@ -1,6 +1,6 @@
 import uuid
 from typing import Optional
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, HTTPException
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
 from src.schemas.mood_tracker import MoodTrackerDateRequestAdd
@@ -14,7 +14,8 @@ from src.exceptions import (
     NotOwnedHTTPException,
     InternalErrorHTTPException,
     ScoreOutOfRangeError,
-    NotOwnedError, InvalidEmojiIdException, InvalidEmojiIdHTTPException
+    NotOwnedError, InvalidEmojiIdException, InvalidEmojiIdHTTPException,
+    InvalidDateFormatError, ObjectNotFoundException
 )
 
 router = APIRouter(prefix="/mood_tracker", tags=["Трекер настроения"])
@@ -56,12 +57,14 @@ async def get_emoji(
 ):
     try:
         service = EmojiService(db)
-        if emoji_id:
+        if emoji_id is not None:
             emoji = await service.get_emoji_by_id(emoji_id)
             if not emoji:
-                raise ObjectNotFoundHTTPException
+                raise ObjectNotFoundHTTPException()
             return emoji
         return await service.get_all_emojis()
+    except HTTPException:
+        raise
     except Exception:
         raise InternalErrorHTTPException
 
@@ -79,6 +82,8 @@ async def get_mood_tracker(
 ):
     try:
         return await MoodTrackerService(db).get_mood_tracker(day, user_id)
+    except InvalidDateFormatError:
+        raise InvalidDateFormatHTTPException
     except Exception:
         raise InternalErrorHTTPException
 
@@ -107,6 +112,8 @@ async def get_mood_tracker_by_period(
             start_date,
             end_date
         )
+    except InvalidDateFormatError:
+        raise InvalidDateFormatHTTPException
     except Exception:
         raise InternalErrorHTTPException
 
@@ -124,5 +131,7 @@ async def get_mood_tracker_by_id(
         return await MoodTrackerService(db).get_mood_tracker_by_id(mood_tracker_id, user_id)
     except NotOwnedError:
         raise NotOwnedHTTPException
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
     except Exception:
         raise InternalErrorHTTPException

@@ -1,11 +1,11 @@
-from datetime import date
-from typing import List, Optional
+from typing import List
+
 from pydantic import BaseModel
 
 
 class ScoreEntry(BaseModel):
-    date: str  # ISO format date "YYYY-MM-DD"
-    score: int  # 0-40
+    date: str
+    score: int
 
 
 class CurrentScoreResponse(BaseModel):
@@ -20,5 +20,11 @@ class PeriodScoresResponse(BaseModel):
     scores: List[ScoreEntry]
 
 
+class PraiseResponse(BaseModel):
+    consecutive_days: int
+    title: str
+    subtitle: str
+
+
 class AddPointsRequest(BaseModel):
-    activity_type: str  # "test_completed", "exercise_done", "theory_read"
+    activity_type: str

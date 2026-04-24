@@ -258,7 +258,6 @@ class TestService(BaseService):
                 result.append(question_data)
 
             return result
-
         except ObjectNotFoundException as ex:
             raise ex
         except Exception as ex:
@@ -734,13 +733,13 @@ class TestService(BaseService):
             # Получаем все результаты тестов для указанного пользователя
             test_results = await self.db.test_result.get_filtered(user_id=user_id)
             if not test_results:
-                raise ObjectNotFoundException()
+                return []
 
             test_ids = [str(tr.test_id) for tr in test_results]
 
             tests = await self.db.tests.get_by_ids(test_ids)
             if not tests:
-                raise ObjectNotFoundException()
+                return []
 
             test_dict = {str(test.id): test for test in tests}
 
