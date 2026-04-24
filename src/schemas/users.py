@@ -85,6 +85,17 @@ class BecomeManagerRequest(BaseModel):
     department: str
     face_to_face: bool
 
+class BecomeHRDRequest(BaseModel):
+    user_email: str
+    company: str
+
+class BecomeHRequest(BaseModel):
+    user_email: str
+    company: str
+    department: str
+    job_title: str
+
+
 
 class UpdateUserRequest(BaseModel):
     username: Optional[str] = None
@@ -96,6 +107,15 @@ class UpdateUserRequest(BaseModel):
     birth_date: Optional[datetime.date] = None
     phone_number: Optional[str] = None
 
+class UpdateHDRRequest(BaseModel):
+    company: Optional[str] = None
+    role_id: Optional[int] = None
+
+class UpdateHRequest(BaseModel):
+    company: Optional[str] = None
+    department: Optional[str] = None
+    job_title: Optional[str] = None
+    role_id: Optional[int] = None
 
 class UpdateManagerRequest(BaseModel):
     username: Optional[str] = None

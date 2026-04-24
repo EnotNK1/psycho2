@@ -9,34 +9,44 @@ from src.repositories.tests import logger
 from src.schemas.task import Task
 from src.services.base import BaseService
 from src.exceptions import ObjectNotFoundException
-from src.schemas.users import UpdateUserRequest, UpdateManagerRequest
+from src.schemas.users import UpdateUserRequest, UpdateManagerRequest, UpdateHDRRequest, UpdateHRequest
 
 
 class ManagerService(BaseService):
-    async def become_manager(self, user_id: str, data: dict):
-        user = await self.db.users.get_one_or_none(id=user_id)
+    async def create_hdr(self, data):
+        user = await self.db.users.get_one_or_none(email=data.user_email)
         if not user:
             raise ObjectNotFoundException("User not found")
 
         update_data = {
-            "username": data.get("username"),
-            "description": data.get("description"),
-            "city": data.get("city"),
-            "company": data.get("company"),
-            "online": data.get("online"),
-            "gender": data.get("gender"),
-            "birth_date": data.get("birth_date"),
-            "is_active": data.get("is_active"),
-            "department": data.get("department"),
-            "face_to_face": data.get("face_to_face"),
-            "role_id": 2
+            "company": data.company,
+            "role_id": 4
         }
 
-        await self.db.users.edit(UpdateManagerRequest(**update_data), exclude_unset=True, id=user_id)
+        await self.db.users.edit(UpdateHDRRequest(**update_data), exclude_unset=True, email=data.user_email)
         await self.db.commit()
 
-    async def get_all_manager(self):
-        managers = await self.db.users.get_filtered(role_id=2)
+    async def get_all_hrd(self):
+        managers = await self.db.users.get_filtered(role_id=4)
+        return managers
+
+    async def create_hr(self, data):
+        user = await self.db.users.get_one_or_none(email=data.user_email)
+        if not user:
+            raise ObjectNotFoundException("User not found")
+
+        update_data = {
+            "company": data.company,
+            "department": data.company,
+            "job_title": data.company,
+            "role_id": 3
+        }
+
+        await self.db.users.edit(UpdateHRequest(**update_data), exclude_unset=True, email=data.user_email)
+        await self.db.commit()
+
+    async def get_all_hr(self):
+        managers = await self.db.users.get_filtered(role_id=3)
         return managers
 
     async def create_task_for_clients(

@@ -1,7 +1,7 @@
 import pytest
 import pytest_asyncio
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
+from autotest.integration.postgres import create_integration_engine, create_session_factory, drop_test_schema, recreate_tables
 from src.database import Base
 from src.models.diary import DiaryOrm
 from src.models.ontology import OntologyEntryOrm
@@ -17,31 +17,25 @@ from src.utils.db_manager import DBManager
 
 
 @pytest_asyncio.fixture
-async def integration_session_factory(tmp_path):
-    db_path = tmp_path / "integration_auth.sqlite3"
-    engine = create_async_engine(f"sqlite+aiosqlite:///{db_path}", future=True)
+async def integration_session_factory():
+    engine = create_integration_engine()
+    tables = [
+        UsersOrm.__table__,
+        OntologyEntryOrm.__table__,
+        DiaryOrm.__table__,
+        UserTaskOrm.__table__,
+        TrainingExerciseOrm.__table__,
+        TrainingQuestionOrm.__table__,
+        TrainingVariantOrm.__table__,
+        TrainingCompletedExerciseOrm.__table__,
+    ]
+    await recreate_tables(engine, Base.metadata, tables)
 
-    async with engine.begin() as conn:
-        await conn.run_sync(
-            lambda sync_conn: Base.metadata.create_all(
-                sync_conn,
-                tables=[
-                    UsersOrm.__table__,
-                    OntologyEntryOrm.__table__,
-                    DiaryOrm.__table__,
-                    UserTaskOrm.__table__,
-                    TrainingExerciseOrm.__table__,
-                    TrainingQuestionOrm.__table__,
-                    TrainingVariantOrm.__table__,
-                    TrainingCompletedExerciseOrm.__table__,
-                ],
-            )
-        )
-
-    session_factory = async_sessionmaker(bind=engine, expire_on_commit=False)
+    session_factory = create_session_factory(engine)
     try:
         yield session_factory
     finally:
+        await drop_test_schema(engine)
         await engine.dispose()
 
 

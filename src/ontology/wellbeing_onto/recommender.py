@@ -537,12 +537,12 @@ def _tasks_targeting_concept(all_tasks, concept):
 
 
 def _collect_candidates_for_observation(
-    onto,
-    obs,
-    concept,
-    pscore: float,
-    severity: str,
-    max_depth: int = 4,
+        onto,
+        obs,
+        concept,
+        pscore: float,
+        severity: str,
+        max_depth: int = 4,
 ):
     all_tasks = _collect_all_tasks(onto)
     concept_map = _concepts_by_origin_class(onto)
@@ -577,7 +577,7 @@ def _collect_candidates_for_observation(
             blocked_targets = DISALLOWED_TARGETS_BY_START.get(start_label, set())
             if _label(target_concept) in blocked_targets:
                 continue
-            
+
             tasks = _tasks_targeting_concept(all_tasks, target_concept)
 
             for task in tasks:
@@ -640,14 +640,14 @@ def _collect_candidates_for_observation(
 
 
 def recommend(
-    app_owl_path: str,
-    out_owl_path: str,
-    user_name: str,
-    low: float = DEFAULT_LOW,
-    high: float = DEFAULT_HIGH,
-    min_severity: str = "high",
-    top_k: int = 50,
-    traversal_max_depth: int = 4,
+        app_owl_path: str,
+        out_owl_path: str,
+        user_name: str,
+        low: float = DEFAULT_LOW,
+        high: float = DEFAULT_HIGH,
+        min_severity: str = "high",
+        top_k: int = 50,
+        traversal_max_depth: int = 4,
 ) -> RecommendResult:
     in_path = Path(app_owl_path)
     out_path = Path(out_owl_path)

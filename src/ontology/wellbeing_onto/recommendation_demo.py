@@ -10,7 +10,6 @@ from owlready2 import get_ontology
 
 from .recommender import recommend
 
-
 MATERIAL_ID_BY_TITLE = {
     # Тесты
     "DASS-21": "bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
@@ -32,7 +31,6 @@ MATERIAL_ID_BY_TITLE = {
     "Как сделать..?": "9bfde30c-0aca-4ed8-abdf-b768b6b8f67f",
     "КПТ-дневник": "4e3f51e9-aad8-4a13-b4b7-d748e472d394",
     "Дневник мыслей": "",
-    
 
     # Теория
     "Основы КПТ": "22cbb105-8857-48de-806d-7242ced60a97",
@@ -327,9 +325,9 @@ def save_output_json(path: str, payload):
 
 
 def generate_recommendations_from_payload(
-    payload: dict,
-    ontology_path: str = "data/ontologies/wellbeing_app_demo_rules.owl",
-    user_name: str | None = None,
+        payload: dict,
+        ontology_path: str = "data/ontologies/wellbeing_app_demo_rules.owl",
+        user_name: str | None = None,
 ):
     request_user_name = user_name or f"user_api_{uuid.uuid4().hex[:12]}"
 
@@ -366,10 +364,10 @@ def generate_recommendations_from_payload(
 
 
 def run_demo(
-    ontology_path: str,
-    json_path: str,
-    user_name: str = "user_json_demo",
-    out_json_path: str = "recommendations.json",
+        ontology_path: str,
+        json_path: str,
+        user_name: str = "user_json_demo",
+        out_json_path: str = "recommendations.json",
 ):
     data = load_user_json(json_path)
 

@@ -100,6 +100,7 @@ class MoodTrackerService(BaseService):
                 link_to_picture=picture,
                 user_id=user_id
             )
+
             await self.db.ontology_entry.add(ontology_entry)
 
         await self.db.commit()

@@ -1,7 +1,7 @@
 import pytest
 
 import src.api.diary as diary_api_module
-from autotest4.factories.diary import DIARY_ID, USER_ID, build_add_diary_payload, build_diary_response
+from autotest.factories.diary import DIARY_ID, USER_ID, build_add_diary_payload, build_diary_response
 from src.api.dependencies.db import get_db
 from src.api.dependencies.user_id import get_current_user_id
 

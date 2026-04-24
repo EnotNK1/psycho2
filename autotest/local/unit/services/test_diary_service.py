@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from autotest4.factories.diary import DIARY_ID, SECOND_DIARY_ID, USER_ID, make_diary
+from autotest.factories.diary import DIARY_ID, SECOND_DIARY_ID, USER_ID, make_diary
 from src.exceptions import (
     FutureDateError,
     InternalErrorHTTPException,
