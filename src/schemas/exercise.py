@@ -1,5 +1,5 @@
 from __future__ import annotations
-from datetime import date
+from datetime import date, datetime
 from typing import List, Optional, Union
 import uuid
 from pydantic import BaseModel
@@ -52,6 +52,20 @@ class ExerciseResponse(ExerciseBase):
 
 class ExercisesListResponse(BaseModel):
     exercises: List[ExerciseResponse]
+
+
+class CompletedExerciseItemResponse(BaseModel):
+    id: uuid.UUID
+    title: str
+    picture_link: str
+    date: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True
+
+
+class CompletedExercisesListResponse(BaseModel):
+    exercises: List[CompletedExerciseItemResponse]
 
 
 class ExerciseDetailResponse(ExerciseResponse):

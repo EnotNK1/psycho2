@@ -2,7 +2,7 @@ from typing import List, Optional
 import datetime
 import uuid
 from src import enums
-from sqlalchemy import select, and_, update, exists
+from sqlalchemy import select, and_, update, exists, func
 from sqlalchemy.orm import joinedload, selectinload
 from src.models.exercise import (
     ExerciseStructureOrm, FieldOrm, VariantOrm,
@@ -11,7 +11,8 @@ from src.models.exercise import (
 from src.schemas.exercise import (
     ExerciseCreate, ExerciseResponse, ExerciseDetailResponse, ExerciseDetail1Response, ExerciseResultsResponse, ResultSectionResponse,
     FieldResponse, VariantResponse, FieldCreate, VariantCreate, SectionResponse, CompletedExerciseResponse, ResultDetailResponse,
-    CompletedExerciseCreate, PulledFieldResponse, PageResponse, ExerciseViewCreate, ExerciseViewResponse, ResultResponse
+    CompletedExerciseCreate, PulledFieldResponse, PageResponse, ExerciseViewCreate, ExerciseViewResponse, ResultResponse,
+    CompletedExerciseItemResponse
 )
 from src.repositories.base import BaseRepository
 from src.repositories.mappers.mappers import ExerciseMapper
@@ -190,6 +191,41 @@ class ExerciseRepository(BaseRepository):
             response.append(exercise_resp)
 
         return response
+
+    async def get_passed_exercises_by_user(self, user_id: uuid.UUID) -> List[CompletedExerciseItemResponse]:
+        latest_completed_subquery = (
+            select(
+                CompletedExerciseOrm.exercise_structure_id.label("exercise_id"),
+                func.max(CompletedExerciseOrm.date).label("last_completed_at")
+            )
+            .where(CompletedExerciseOrm.user_id == user_id)
+            .group_by(CompletedExerciseOrm.exercise_structure_id)
+            .subquery()
+        )
+
+        result = await self.session.execute(
+            select(
+                ExerciseStructureOrm.id,
+                ExerciseStructureOrm.title,
+                ExerciseStructureOrm.picture_link,
+                latest_completed_subquery.c.last_completed_at
+            )
+            .outerjoin(
+                latest_completed_subquery,
+                latest_completed_subquery.c.exercise_id == ExerciseStructureOrm.id
+            )
+            .order_by(ExerciseStructureOrm.title)
+        )
+
+        return [
+            CompletedExerciseItemResponse(
+                id=exercise_id,
+                title=title,
+                picture_link=picture_link,
+                date=last_completed_at
+            )
+            for exercise_id, title, picture_link, last_completed_at in result.all()
+        ]
 
     async def get_exercise(self, exercise_id: uuid.UUID, user_id: Optional[uuid.UUID] = None) -> ExerciseDetailResponse:
         exercise = await self.session.execute(

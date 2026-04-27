@@ -5,7 +5,7 @@ from src.schemas.exercise import (
     ExerciseResponse, ExerciseDetailResponse, ExerciseDetail1Response, ResultDetailResponse,
     FieldResponse, VariantResponse, ExerciseViewCreate, ExerciseResultsResponse,
     ExerciseCreate, FieldCreate, VariantCreate, ExerciseViewResponse,
-    CompletedExerciseCreate, ExercisesListResponse, CompletedExerciseResponse
+    CompletedExerciseCreate, ExercisesListResponse, CompletedExerciseResponse, CompletedExercisesListResponse
 )
 from src.services.exercise import ExerciseService
 from src.api.dependencies.user_id import UserIdDep
@@ -99,6 +99,24 @@ async def get_all_exercises(
     return ExercisesListResponse(exercises=exercises)
 
 
+@router.get("/passed/user/{user_id}", response_model=CompletedExercisesListResponse)
+async def get_passed_exercises_by_user(
+    user_id: uuid.UUID,
+    db: DBDep
+):
+    exercises = await ExerciseService(db).get_passed_exercises_by_user(user_id)
+    return CompletedExercisesListResponse(exercises=exercises)
+
+
+@router.get("/passed/user", response_model=CompletedExercisesListResponse)
+async def get_passed_exercises(
+    db: DBDep,
+    user_id: UserIdDep
+):
+    exercises = await ExerciseService(db).get_passed_exercises_by_user(user_id)
+    return CompletedExercisesListResponse(exercises=exercises)
+
+
 @router.get("/{exercise_id}", response_model=ExerciseDetailResponse)
 async def get_exercise(
     exercise_id: uuid.UUID,
@@ -126,12 +144,31 @@ async def get_exercise_results(
     return await ExerciseService(db).get_exercise_results(exercise_id, user_id)
 
 
+@router.get("/{exercise_id}/results/user/{user_id}", response_model=ExerciseResultsResponse)
+async def get_exercise_results_by_user(
+    exercise_id: uuid.UUID,
+    user_id: uuid.UUID,
+    db: DBDep
+):
+    return await ExerciseService(db).get_exercise_results(exercise_id, user_id)
+
+
 @router.get("/{exercise_id}/results/{result_id}", response_model=ResultDetailResponse)
 async def get_exercise_result_detail(
     exercise_id: uuid.UUID,
     result_id: uuid.UUID,
     db: DBDep,
     user_id: UserIdDep
+):
+    return await ExerciseService(db).get_exercise_result_detail(exercise_id, result_id, user_id)
+
+
+@router.get("/{exercise_id}/results/{result_id}/user/{user_id}", response_model=ResultDetailResponse)
+async def get_exercise_result_detail_by_user(
+    exercise_id: uuid.UUID,
+    result_id: uuid.UUID,
+    user_id: uuid.UUID,
+    db: DBDep
 ):
     return await ExerciseService(db).get_exercise_result_detail(exercise_id, result_id, user_id)
 
