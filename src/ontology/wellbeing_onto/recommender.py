@@ -87,6 +87,7 @@ SOURCE_ALIASES = {
 GRAPH_FORWARD_PROPS = {
     "Includes",
     "Moderates",
+    "InterpretsDescribes",
 }
 
 ALLOWED_EXTRA_EDGES = {
@@ -99,6 +100,7 @@ ALLOWED_EXTRA_EDGES = {
     ("Личностная", "is_a", "Тревожность"),
     ("Тревожность", "Includes", "Тревога"),
     ("Тревога", "is_a", "Чувства"),
+    ("Настроение", "Forms_reverse", "Чувства"),
 }
 
 NON_STOP_START_CONCEPTS = {
