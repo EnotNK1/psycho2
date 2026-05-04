@@ -24,7 +24,7 @@ services:
     networks:
       - odeyalo-network
     volumes:
-      - odeyalo_data:/var/lib/postgresql/data
+      - odejalo_data:/var/lib/postgresql/data
     mac_address: 02:42:ac:18:00:02
     command: -p 4321
     expose:
