@@ -103,7 +103,7 @@ services:
       - "6789"
 
 volumes:
-  odeyalo_data:
+  odejalo_data:
     name: odeyalo_postgres_data
 
 networks:
