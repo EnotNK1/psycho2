@@ -24,7 +24,7 @@ services:
     networks:
       - odeyalo-network
     volumes:
-          - odejalo_data:/var/lib/postgresql/data
+          - odejalo_data:/db-data:/data
     mac_address: 02:42:ac:18:00:02
     command: -p 4321
     expose:
@@ -77,8 +77,8 @@ services:
     container_name: odeyalo-backend-nginx
     image: public.ecr.aws/nginx/nginx:latest
     restart: on-failure
-    # ports:
-    #   - "80:80"
+    ports:
+      - "1802:80"
     expose:
       - "80"
     volumes:
