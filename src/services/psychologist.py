@@ -1,5 +1,6 @@
 import logging
 import uuid
+from datetime import date, timedelta, datetime
 from typing import Optional, Any, Dict, List
 
 from sqlalchemy import select, func
@@ -412,3 +413,170 @@ class PsychologistService(BaseService):
         except Exception as ex:
             logger.error(f"Ошибка при получении кратких результатов тестов клиента: {ex}", exc_info=True)
             raise MyAppException("Произошла ошибка при получении результатов тестов")
+
+
+    async def get_client_diary(
+        self,
+        client_id: uuid.UUID,
+        psychologist_id: uuid.UUID,
+        start_date: Optional[date] = None,
+        end_date: Optional[date] = None
+    ) -> List[Dict[str, Any]]:
+        """
+        Возвращает список заметок клиента за указанный период.
+        По умолчанию – за последний месяц.
+
+        Параметры:
+            client_id: UUID клиента
+            psychologist_id: UUID психолога (для проверки связи)
+            start_date: начало периода (включительно). Если None – 30 дней назад.
+            end_date: конец периода (включительно). Если None – сегодня.
+
+        Возвращает:
+        [
+            {
+                "diary_id": str,
+                "date": str (ISO format),
+                "content": str
+            },
+            ...
+        ]
+        """
+        try:
+            # 1. Проверка связи клиент-психолог
+            relation = await self.db.clients.get_one_or_none(
+                client_id=client_id,
+                mentor_id=psychologist_id,
+                status=True
+            )
+            if not relation:
+                raise ObjectNotFoundException(
+                    f"Клиент с ID {client_id} не найден или не является вашим подопечным"
+                )
+
+            # 2. Определяем границы периода
+            today = date.today()
+            if start_date is None:
+                start_date = today - timedelta(days=30)
+            if end_date is None:
+                end_date = today
+
+            start_dt = datetime.combine(start_date, datetime.min.time())
+            end_dt = datetime.combine(end_date, datetime.max.time())
+
+            # 3. Получаем все заметки клиента (без фильтрации по дате)
+            all_entries = await self.db.diary.get_filtered(user_id=client_id)
+
+            if not all_entries:
+                return []
+
+            # 4. Фильтруем по датам на уровне Python
+            filtered_entries = [
+                entry for entry in all_entries
+                if start_dt <= entry.created_at <= end_dt
+            ]
+
+            # 5. Формируем ответ и сортируем (сначала новые)
+            results = []
+            for entry in filtered_entries:
+                results.append({
+                    "diary_id": str(entry.id),
+                    "date": entry.created_at.isoformat(),
+                    "content": entry.text
+                })
+
+            results.sort(key=lambda x: x["date"], reverse=True)
+            return results
+
+        except ObjectNotFoundException:
+            raise
+        except Exception as ex:
+            logger.error(
+                f"Ошибка при получении заметок клиента {client_id}: {ex}",
+                exc_info=True
+            )
+            raise MyAppException("Произошла ошибка при получении заметок клиента")
+
+    async def get_client_mood_tracker(
+            self,
+            client_id: uuid.UUID,
+            psychologist_id: uuid.UUID,
+            start_date: Optional[date] = None,
+            end_date: Optional[date] = None
+    ) -> List[Dict[str, Any]]:
+        """
+        Возвращает список записей трекера настроения клиента за указанный период.
+        По умолчанию – за последний месяц.
+
+        Параметры:
+            client_id: UUID клиента
+            psychologist_id: UUID психолога (для проверки связи)
+            start_date: начало периода (включительно). Если None – 30 дней назад.
+            end_date: конец периода (включительно). Если None – сегодня.
+
+        Возвращает:
+        [
+            {
+                "mood_id": str,
+                "date": str (ISO format),
+                "score": int,
+                "emoji_ids": list[int]
+            },
+            ...
+        ]
+        """
+        try:
+            # 1. Проверка связи клиент-психолог
+            relation = await self.db.clients.get_one_or_none(
+                client_id=client_id,
+                mentor_id=psychologist_id,
+                status=True
+            )
+            if not relation:
+                raise ObjectNotFoundException(
+                    f"Клиент с ID {client_id} не найден или не является вашим подопечным"
+                )
+
+            # 2. Определяем границы периода
+            today = date.today()
+            if start_date is None:
+                start_date = today - timedelta(days=30)
+            if end_date is None:
+                end_date = today
+
+            start_dt = datetime.combine(start_date, datetime.min.time())
+            end_dt = datetime.combine(end_date, datetime.max.time())
+
+            # 3. Получаем все записи трекера настроения клиента
+            all_entries = await self.db.mood_tracker.get_filtered(user_id=client_id)
+
+            if not all_entries:
+                return []
+
+            # 4. Фильтруем по датам на уровне Python
+            filtered_entries = [
+                entry for entry in all_entries
+                if start_dt <= entry.created_at <= end_dt
+            ]
+
+            # 5. Формируем ответ и сортируем (сначала новые)
+            results = []
+            for entry in filtered_entries:
+                results.append({
+                    "mood_id": str(entry.id),
+                    "date": entry.created_at.isoformat(),
+                    "score": entry.score,
+                    "emoji_ids": entry.emoji_ids
+                })
+
+            results.sort(key=lambda x: x["date"], reverse=True)
+            return results
+
+        except ObjectNotFoundException:
+            raise
+        except Exception as ex:
+            logger.error(
+                f"Ошибка при получении записей настроения клиента {client_id}: {ex}",
+                exc_info=True
+            )
+            raise MyAppException("Произошла ошибка при получении записей трекера настроения")

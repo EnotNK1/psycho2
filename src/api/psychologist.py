@@ -1,7 +1,8 @@
 import logging
 import uuid
+from datetime import date
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Path
 from typing import Optional, List
 from fastapi import Query
 
@@ -81,6 +82,42 @@ async def client_tests_get(
         client_id: uuid.UUID
 ):
     return await PsychologistService(db).get_short_client_test_results(client_id=client_id, psychologist_id=user_id)
+
+@router.get(
+    "/clients/{client_id}/diary",
+    summary="Получить список заметок клиента"
+)
+async def client_diary_get(
+    db: DBDep,
+    user_id: UserIdDep,
+    client_id: uuid.UUID = Path(..., description="ID клиента"),
+    start_date: Optional[date] = Query(None, description="Начало периода (включительно). По умолчанию 30 дней назад."),
+    end_date: Optional[date] = Query(None, description="Конец периода (включительно). По умолчанию сегодня.")
+):
+    return await PsychologistService(db).get_client_diary(
+        client_id=client_id,
+        psychologist_id=user_id,
+        start_date=start_date,
+        end_date=end_date
+    )
+
+@router.get(
+    "/clients/{client_id}/mood_tracker",
+    summary="Получить список трекеров настроения клиента"
+)
+async def client_mood_tracker_get(
+    db: DBDep,
+    user_id: UserIdDep,
+    client_id: uuid.UUID = Path(..., description="ID клиента"),
+    start_date: Optional[date] = Query(None, description="Начало периода (включительно). По умолчанию 30 дней назад."),
+    end_date: Optional[date] = Query(None, description="Конец периода (включительно). По умолчанию сегодня.")
+):
+    return await PsychologistService(db).get_client_mood_tracker(
+        client_id=client_id,
+        psychologist_id=user_id,
+        start_date=start_date,
+        end_date=end_date
+    )
 
 @router.get("/clients/{client_id}/tests/{test_id}/results",
             description="""
