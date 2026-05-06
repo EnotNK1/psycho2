@@ -214,6 +214,25 @@ def build_completed_response(**overrides):
     return response
 
 
+def build_completed_exercise_list_item(**overrides):
+    response = {
+        "id": str(EXERCISE_ID),
+        "title": "Free writing",
+        "picture_link": "/images/exercise.png",
+        "date": "2026-04-20T16:16:36.303731",
+    }
+    response.update(overrides)
+    return response
+
+
+def build_completed_exercises_response(**overrides):
+    response = {
+        "exercises": [build_completed_exercise_list_item()],
+    }
+    response.update(overrides)
+    return response
+
+
 def make_exercise_orm_like(
     exercise_id=EXERCISE_ID,
     *,

@@ -8,6 +8,7 @@ from sqlalchemy.dialects.postgresql import ARRAY
 
 from src.enums import FieldType, ViewType
 from src.database import Base
+from src.utils.encryption import EncryptedJSONType
 
 
 class ExerciseStructureOrm(Base):
@@ -82,7 +83,7 @@ class FilledFieldOrm(Base):
     title: Mapped[str] = mapped_column(nullable=True)
     view: Mapped[ViewType] = mapped_column(String(20))
     type: Mapped[FieldType] = mapped_column(String(20))
-    text: Mapped[Any] = mapped_column(JSON)
+    text: Mapped[Any] = mapped_column(EncryptedJSONType())
     field_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("field.id", ondelete="CASCADE"))
     completed_exercise_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("completed_exercise.id",

@@ -8,6 +8,7 @@ from src.ontology.wellbeing_onto.api import recommendations, RecommendationReque
 
 from src.exceptions import (
     ScoreOutOfRangeError,
+    InvalidDateFormatError,
     ObjectNotFoundException,
     NotOwnedError, InvalidEmojiIdException
 )
@@ -66,46 +67,75 @@ class MoodTrackerService(BaseService):
         gamification_service = GamificationService(self.db)
         await gamification_service.add_points_for_activity(user_id, "mood_tracker_used")
 
-        scale_res_for_ontology = [ScaleResult(scale_title="Mood", score=data.score)]
+        scale_res_for_ontology = [ScaleResult(scale_title="Настроение", score=data.score)]
         payload = RecommendationRequest(test_id="Tracker", scale_results=scale_res_for_ontology)
 
         ontology_res = recommendations(payload)
         print(ontology_res)
 
+
         tests_data = load_data("src/services/info/test_info.json")
         themes_data = load_data("src/services/info/education_themes.json")
         exercise_data = load_data("src/services/info/exercise_info.json")
 
-        tests_dict = {item["id"]: item.get("link", "") for item in tests_data}
-        themes_dict = {item["id"]: item.get("link_to_picture", "") for item in themes_data}
-        exercise_dict = {item["id"]: item.get("picture_link", "") for item in exercise_data}
+        tests_dict = {
+            item["id"]: {
+                "link": item.get("link", ""),
+                "destination_title": item.get("title", "")
+            }
+            for item in tests_data
+        }
+
+        themes_dict = {
+            item["id"]: {
+                "link": item.get("link_to_picture", ""),
+                "destination_title": item.get("theme", "")
+            }
+            for item in themes_data
+        }
+
+        exercise_dict = {
+            item["id"]: {
+                "link": item.get("picture_link", ""),
+                "destination_title": item.get("title", "")
+            }
+            for item in exercise_data
+        }
 
         for rec in ontology_res:
             material_id = rec["material_id"]
             picture = None
+            destination_title = None
             if material_id in tests_dict:
-                picture = tests_dict[material_id]
+                picture = tests_dict[material_id]["link"]
+                destination_title = tests_dict[material_id]["destination_title"]
             elif material_id in themes_dict:
-                picture = themes_dict[material_id]
+                picture = themes_dict[material_id]["link"]
+                destination_title = themes_dict[material_id]["destination_title"]
             elif material_id in exercise_dict:
-                picture = exercise_dict[material_id]
+                picture = exercise_dict[material_id]["link"]
+                destination_title = exercise_dict[material_id]["destination_title"]
 
             ontology_entry = OntologyEntry(
                 id=uuid.uuid4(),
                 type=rec["type"],
                 created_at=datetime.now(),
                 destination_id=material_id,
-                destination_title="Трекер настроения",
+                destination_title=destination_title,
                 link_to_picture=picture,
                 user_id=user_id
             )
+
             await self.db.ontology_entry.add(ontology_entry)
 
         await self.db.commit()
 
     async def get_mood_tracker(self, day: Optional[str], user_id: uuid.UUID) -> List[MoodTracker]:
         if day:
-            target_date = datetime.strptime(day, "%Y-%m-%d").date()
+            try:
+                target_date = datetime.strptime(day, "%Y-%m-%d").date()
+            except ValueError:
+                raise InvalidDateFormatError()
             records = await self.db.mood_tracker.get_filtered(
                 func.date(self.db.mood_tracker.model.created_at) == target_date,
                 user_id=user_id
@@ -165,9 +195,11 @@ class MoodTrackerService(BaseService):
         start_date: str,
         end_date: str
     ) -> List[MoodTracker]:
-
-        start = datetime.strptime(start_date, "%Y-%m-%d").date()
-        end = datetime.strptime(end_date, "%Y-%m-%d").date()
+        try:
+            start = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end = datetime.strptime(end_date, "%Y-%m-%d").date()
+        except ValueError:
+            raise InvalidDateFormatError()
 
         records = await self.db.mood_tracker.get_filtered(
             self.db.mood_tracker.model.created_at >= start,

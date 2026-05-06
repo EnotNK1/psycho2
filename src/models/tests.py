@@ -2,6 +2,7 @@ import datetime
 from uuid import uuid4
 from sqlalchemy.dialects.postgresql import UUID
 from src.database import Base
+from src.utils.encryption import EncryptedFloatType
 import uuid
 from sqlalchemy import ForeignKey, Enum, JSON, ARRAY
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -55,7 +56,7 @@ class ScaleResultOrm(Base):
     __tablename__ = "scale_result"
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
-    score: Mapped[float]
+    score: Mapped[float] = mapped_column(EncryptedFloatType())
     scale_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("scale.id", ondelete="CASCADE"))
     test_result_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("test_result.id", ondelete="CASCADE"))
 

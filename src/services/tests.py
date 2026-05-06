@@ -258,7 +258,6 @@ class TestService(BaseService):
                 result.append(question_data)
 
             return result
-
         except ObjectNotFoundException as ex:
             raise ex
         except Exception as ex:
@@ -436,6 +435,7 @@ class TestService(BaseService):
                 "Есть ли у меня депрессия?": calculator_service.test_back_calculate_results,
                 "Потеряли интерес к работе?": calculator_service.test_jas_calculate_results,
                 "Стрессоустойчивость, это про меня?": calculator_service.test_stress_calculate_results,
+                "Ищем причины выгорания": calculator_service.test_bat_calculate_results,
                 "Почему я ждал этого?": calculator_service.test_leasy_calculate_results,
                 "Что мне свойственно?": calculator_service.test_five_factors_calculate_results,
             }
@@ -604,10 +604,21 @@ class TestService(BaseService):
             )
 
     async def get_test_result_by_user_and_test(
-            self, test_id: uuid.UUID, user_id: uuid.UUID
+            self, test_id: uuid.UUID, user_id: uuid.UUID, current_user_id: uuid.UUID
     ):
 
         try:
+            # Проверяем, что клиент является подопечным данного психолога
+            relation = await self.db.clients.get_one_or_none(
+                client_id=user_id,
+                mentor_id=current_user_id,
+                status=True
+            )
+            if not relation:
+                raise ObjectNotFoundException(
+                    f"Клиент с ID {user_id} не найден или не является вашим подопечным"
+                )
+
             # Получаем ВСЕ результаты теста для указанного пользователя и теста
             test_results = await self.db.test_result.get_filtered(
                 test_id=test_id, user_id=user_id
@@ -734,13 +745,13 @@ class TestService(BaseService):
             # Получаем все результаты тестов для указанного пользователя
             test_results = await self.db.test_result.get_filtered(user_id=user_id)
             if not test_results:
-                raise ObjectNotFoundException()
+                return []
 
             test_ids = [str(tr.test_id) for tr in test_results]
 
             tests = await self.db.tests.get_by_ids(test_ids)
             if not tests:
-                raise ObjectNotFoundException()
+                return []
 
             test_dict = {str(test.id): test for test in tests}
 

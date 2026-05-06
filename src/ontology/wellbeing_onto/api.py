@@ -1,11 +1,20 @@
 from __future__ import annotations
 
-from typing import List, Optional
+import logging
+from pathlib import Path
+from typing import List
 
-from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from .recommendation_demo import generate_recommendations_from_payload
+
+logger = logging.getLogger(__name__)
+ONTOLOGY_PATH = (
+    Path(__file__).resolve().parent.parent
+    / "data"
+    / "ontologies"
+    / "wellbeing_app_demo_rules.owl"
+)
 
 
 class ScaleResult(BaseModel):
@@ -21,12 +30,10 @@ class RecommendationRequest(BaseModel):
 def recommendations(request: RecommendationRequest):
     try:
         payload = request.model_dump(exclude_none=True)
-
-        result = generate_recommendations_from_payload(
+        return generate_recommendations_from_payload(
             payload=payload,
-            ontology_path="src/ontology/data/ontologies/wellbeing_app_demo_rules.owl",
+            ontology_path=str(ONTOLOGY_PATH),
         )
-
-        return result
     except Exception as e:
-        print(str(e))
+        logger.exception("Failed to generate ontology recommendations: %s", e)
+        return []

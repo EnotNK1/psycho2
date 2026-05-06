@@ -2,6 +2,7 @@ import uuid
 from fastapi import APIRouter, Response
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
+from src.exceptions import ObjectNotFoundException, ObjectNotFoundHTTPException
 from src.services.training_exercise import TrainingExerciseService
 from src.schemas.training_exercise import (
     ExerciseShortResponse,
@@ -36,7 +37,10 @@ async def get_exercise(
     db: DBDep,
     user_id: UserIdDep = None
 ):
-    return await TrainingExerciseService(db).get_exercise_by_id(exercise_id, user_id)
+    try:
+        return await TrainingExerciseService(db).get_exercise_by_id(exercise_id, user_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException()
 
 
 @router.get("/{exercise_id}/structure")
@@ -45,7 +49,10 @@ async def get_exercise_structure(
     db: DBDep,
     user_id: UserIdDep = None
 ):
-    return await TrainingExerciseService(db).get_exercise_structure_by_id(exercise_id, user_id)
+    try:
+        return await TrainingExerciseService(db).get_exercise_structure_by_id(exercise_id, user_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException()
 
 
 @router.get("/{exercise_id}/completed")
