@@ -136,14 +136,12 @@ async def test_get_scores_by_period_propagates_repository_error(fake_gamificatio
     with pytest.raises(RuntimeError, match="boom"):
         await GamificationService(fake_gamification_db).get_scores_by_period(USER_ID, start_date, end_date)
 
-
 @pytest.mark.asyncio
 async def test_add_points_for_activity_returns_updated_score(fake_gamification_db):
     result = await GamificationService(fake_gamification_db).add_points_for_activity(USER_ID, "theory_read")
 
     assert result == 20
     assert fake_gamification_db.user_score.last_update_args == (USER_ID, 10)
-
 
 @pytest.mark.asyncio
 async def test_add_points_for_activity_returns_fallback_score_on_error(fake_gamification_db):
@@ -154,13 +152,11 @@ async def test_add_points_for_activity_returns_fallback_score_on_error(fake_gami
 
     assert result == 7
 
-
 @pytest.mark.asyncio
 async def test_archive_daily_scores_calls_repository(fake_gamification_db):
     await GamificationService(fake_gamification_db).archive_daily_scores()
 
     assert fake_gamification_db.user_score.archive_called is True
-
 
 @pytest.mark.asyncio
 async def test_archive_daily_scores_propagates_error(fake_gamification_db):
