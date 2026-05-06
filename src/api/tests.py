@@ -305,7 +305,7 @@ async def result_by_user_and_test(
     try:
         test_service = TestService(db)
         target_user_id = user_id if user_id else current_user_id
-        res = await test_service.get_test_result_by_user_and_test(test_id, target_user_id)
+        res = await test_service.get_test_result_by_user_and_test_not_psyc(test_id, target_user_id)
 
         test_id_str = str(test_id)
 
