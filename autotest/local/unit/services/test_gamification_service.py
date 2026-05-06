@@ -1,193 +1,166 @@
 from datetime import date, timedelta
-from types import SimpleNamespace
-import uuid
 
 import pytest
 
-import src.services.gamification as gamification_service_module
+from autotest.factories.gamification import USER_ID
 from src.services.gamification import GamificationService
-
-
-USER_ID = uuid.UUID("11111111-1111-1111-1111-111111111111")
-
-
-class FakeDate(date):
-    @classmethod
-    def today(cls):
-        return cls(2026, 4, 20)
 
 
 class FakeUserScoreRepository:
     def __init__(self):
-        self.score_by_date = {}
-        self.get_by_user_and_date_calls = []
-        self.get_scores_by_period_calls = []
-        self.create_calls = []
-        self.update_calls = []
+        self.current_score_result = 10
+        self.weekly_scores_result = [{"date": date.today().isoformat(), "score": 10}]
+        self.period_scores_result = [{"date": date.today().isoformat(), "score": 10}]
+        self.updated_score_result = 20
+        self.fallback_score_result = 7
+        self.raise_on_current = None
+        self.raise_on_weekly = None
+        self.raise_on_period = None
+        self.raise_on_update = None
+        self.raise_on_archive = None
+        self.last_current_user_id = None
+        self.last_weekly_user_id = None
+        self.last_period_args = None
+        self.last_update_args = None
+        self.archive_called = False
 
-    async def get_by_user_and_date(self, user_id, target_date):
-        self.get_by_user_and_date_calls.append((user_id, target_date))
-        return self.score_by_date.get(target_date)
+    async def get_current_score(self, user_id):
+        if self.raise_on_current:
+            raise self.raise_on_current
+        self.last_current_user_id = user_id
+        return self.current_score_result
+
+    async def get_weekly_scores(self, user_id):
+        if self.raise_on_weekly:
+            raise self.raise_on_weekly
+        self.last_weekly_user_id = user_id
+        return self.weekly_scores_result
 
     async def get_scores_by_period(self, user_id, start_date, end_date):
-        self.get_scores_by_period_calls.append((user_id, start_date, end_date))
-        return [
-            score
-            for score_date, score in sorted(self.score_by_date.items())
-            if start_date <= score_date <= end_date
-        ]
+        if self.raise_on_period:
+            raise self.raise_on_period
+        self.last_period_args = (user_id, start_date, end_date)
+        return self.period_scores_result
 
-    async def create(self, user_id, score, target_date):
-        record = SimpleNamespace(user_id=user_id, score=score, date=target_date)
-        self.score_by_date[target_date] = record
-        self.create_calls.append((user_id, score, target_date))
-        return record
-
-    async def update_score(self, score_record, new_score):
-        score_record.score = new_score
-        self.update_calls.append((score_record.date, new_score))
-        return score_record
+    async def update_current_score(self, user_id, points_to_add):
+        if self.raise_on_update:
+            raise self.raise_on_update
+        self.last_update_args = (user_id, points_to_add)
+        return self.updated_score_result
 
     async def archive_yesterday_scores(self):
-        return None
+        if self.raise_on_archive:
+            raise self.raise_on_archive
+        self.archive_called = True
 
 
-class FakeDb:
+class FakeGamificationDb:
     def __init__(self):
         self.user_score = FakeUserScoreRepository()
 
 
 @pytest.fixture
-def fake_db(monkeypatch):
-    monkeypatch.setattr(gamification_service_module, "date", FakeDate)
-    return FakeDb()
-
-
-def make_score(score_date: date, score: int):
-    return SimpleNamespace(date=score_date, score=score)
+def fake_gamification_db():
+    return FakeGamificationDb()
 
 
 @pytest.mark.asyncio
-async def test_add_points_for_activity_creates_daily_record(fake_db):
-    service = GamificationService(fake_db)
+async def test_get_current_score_returns_repository_value(fake_gamification_db):
+    result = await GamificationService(fake_gamification_db).get_current_score(USER_ID)
 
-    new_score = await service.add_points_for_activity(USER_ID, "test_completed")
-
-    assert new_score == 10
-    assert fake_db.user_score.create_calls == [(USER_ID, 10, FakeDate.today())]
+    assert result == 10
+    assert fake_gamification_db.user_score.last_current_user_id == USER_ID
 
 
 @pytest.mark.asyncio
-async def test_add_points_for_activity_respects_daily_cap(fake_db):
-    fake_db.user_score.score_by_date[FakeDate.today()] = make_score(FakeDate.today(), 35)
-    service = GamificationService(fake_db)
+async def test_get_current_score_returns_zero_on_error(fake_gamification_db):
+    fake_gamification_db.user_score.raise_on_current = RuntimeError("boom")
 
-    new_score = await service.add_points_for_activity(USER_ID, "mood_tracker_used")
+    result = await GamificationService(fake_gamification_db).get_current_score(USER_ID)
 
-    assert new_score == 40
-    assert fake_db.user_score.update_calls == [(FakeDate.today(), 40)]
+    assert result == 0
 
 
 @pytest.mark.asyncio
-async def test_get_weekly_scores_uses_service_period_window(fake_db):
-    for days_ago, score in ((6, 10), (2, 20), (0, 30)):
-        score_date = FakeDate.today() - timedelta(days=days_ago)
-        fake_db.user_score.score_by_date[score_date] = make_score(score_date, score)
+async def test_get_weekly_scores_returns_repository_value(fake_gamification_db):
+    result = await GamificationService(fake_gamification_db).get_weekly_scores(USER_ID)
 
-    service = GamificationService(fake_db)
-    scores = await service.get_weekly_scores(str(USER_ID))
-
-    assert fake_db.user_score.get_scores_by_period_calls == [
-        (USER_ID, FakeDate.today() - timedelta(days=6), FakeDate.today())
-    ]
-    assert scores == [
-        {"date": "2026-04-14", "score": 10},
-        {"date": "2026-04-15", "score": 0},
-        {"date": "2026-04-16", "score": 0},
-        {"date": "2026-04-17", "score": 0},
-        {"date": "2026-04-18", "score": 20},
-        {"date": "2026-04-19", "score": 0},
-        {"date": "2026-04-20", "score": 30},
-    ]
+    assert result == [{"date": date.today().isoformat(), "score": 10}]
+    assert fake_gamification_db.user_score.last_weekly_user_id == USER_ID
 
 
 @pytest.mark.asyncio
-async def test_get_weekly_scores_returns_seven_zero_days_when_no_scores(fake_db):
-    service = GamificationService(fake_db)
+async def test_get_weekly_scores_returns_empty_list_on_error(fake_gamification_db):
+    fake_gamification_db.user_score.raise_on_weekly = RuntimeError("boom")
 
-    scores = await service.get_weekly_scores(USER_ID)
+    result = await GamificationService(fake_gamification_db).get_weekly_scores(USER_ID)
 
-    assert scores == [
-        {"date": "2026-04-14", "score": 0},
-        {"date": "2026-04-15", "score": 0},
-        {"date": "2026-04-16", "score": 0},
-        {"date": "2026-04-17", "score": 0},
-        {"date": "2026-04-18", "score": 0},
-        {"date": "2026-04-19", "score": 0},
-        {"date": "2026-04-20", "score": 0},
-    ]
+    assert result == []
 
 
 @pytest.mark.asyncio
-async def test_get_scores_by_period_validates_dates(fake_db):
-    service = GamificationService(fake_db)
+async def test_get_scores_by_period_delegates_to_repository(fake_gamification_db):
+    start_date = date.today() - timedelta(days=5)
+    end_date = date.today()
+
+    result = await GamificationService(fake_gamification_db).get_scores_by_period(USER_ID, start_date, end_date)
+
+    assert result == [{"date": date.today().isoformat(), "score": 10}]
+    assert fake_gamification_db.user_score.last_period_args == (USER_ID, start_date, end_date)
+
+
+@pytest.mark.asyncio
+async def test_get_scores_by_period_raises_when_start_date_after_end_date(fake_gamification_db):
+    start_date = date.today()
+    end_date = date.today() - timedelta(days=1)
 
     with pytest.raises(ValueError, match="Start date cannot be after end date"):
-        await service.get_scores_by_period(
-            USER_ID, FakeDate.today(), FakeDate.today() - timedelta(days=1)
-        )
+        await GamificationService(fake_gamification_db).get_scores_by_period(USER_ID, start_date, end_date)
 
 
 @pytest.mark.asyncio
-async def test_get_scores_by_period_fills_missing_days_with_zero(fake_db):
-    fake_db.user_score.score_by_date[FakeDate(2026, 4, 18)] = make_score(
-        FakeDate(2026, 4, 18), 20
-    )
-    fake_db.user_score.score_by_date[FakeDate(2026, 4, 20)] = make_score(
-        FakeDate(2026, 4, 20), 30
-    )
-    service = GamificationService(fake_db)
+async def test_get_scores_by_period_raises_when_start_date_in_future(fake_gamification_db):
+    start_date = date.today() + timedelta(days=1)
+    end_date = start_date + timedelta(days=1)
 
-    scores = await service.get_scores_by_period(
-        USER_ID, FakeDate(2026, 4, 17), FakeDate(2026, 4, 20)
-    )
-
-    assert scores == [
-        {"date": "2026-04-17", "score": 0},
-        {"date": "2026-04-18", "score": 20},
-        {"date": "2026-04-19", "score": 0},
-        {"date": "2026-04-20", "score": 30},
-    ]
+    with pytest.raises(ValueError, match="Start date cannot be in the future"):
+        await GamificationService(fake_gamification_db).get_scores_by_period(USER_ID, start_date, end_date)
 
 
 @pytest.mark.asyncio
-async def test_get_praise_returns_title_for_three_day_streak(fake_db):
-    for days_ago in range(3):
-        score_date = FakeDate.today() - timedelta(days=days_ago)
-        fake_db.user_score.score_by_date[score_date] = make_score(score_date, 30)
+async def test_get_scores_by_period_propagates_repository_error(fake_gamification_db):
+    start_date = date.today() - timedelta(days=1)
+    end_date = date.today()
+    fake_gamification_db.user_score.raise_on_period = RuntimeError("boom")
 
-    service = GamificationService(fake_db)
-    praise = await service.get_praise(USER_ID)
-
-    assert praise == {
-        "consecutive_days": 3,
-        "title": "Ты на верном пути",
-        "subtitle": "Мы рады тебе! Продолжай в своем темпе",
-    }
-
+    with pytest.raises(RuntimeError, match="boom"):
+        await GamificationService(fake_gamification_db).get_scores_by_period(USER_ID, start_date, end_date)
 
 @pytest.mark.asyncio
-async def test_get_praise_stops_on_gap_or_low_score(fake_db):
-    fake_db.user_score.score_by_date[FakeDate.today()] = make_score(FakeDate.today(), 30)
-    fake_db.user_score.score_by_date[FakeDate.today() - timedelta(days=1)] = make_score(
-        FakeDate.today() - timedelta(days=1), 10
-    )
+async def test_add_points_for_activity_returns_updated_score(fake_gamification_db):
+    result = await GamificationService(fake_gamification_db).add_points_for_activity(USER_ID, "theory_read")
 
-    service = GamificationService(fake_db)
-    praise = await service.get_praise(USER_ID)
+    assert result == 20
+    assert fake_gamification_db.user_score.last_update_args == (USER_ID, 10)
 
-    assert praise == {
-        "consecutive_days": 1,
-        "title": "",
-        "subtitle": "",
-    }
+@pytest.mark.asyncio
+async def test_add_points_for_activity_returns_fallback_score_on_error(fake_gamification_db):
+    fake_gamification_db.user_score.raise_on_update = RuntimeError("boom")
+    fake_gamification_db.user_score.current_score_result = 7
+
+    result = await GamificationService(fake_gamification_db).add_points_for_activity(USER_ID, "theory_read")
+
+    assert result == 7
+
+@pytest.mark.asyncio
+async def test_archive_daily_scores_calls_repository(fake_gamification_db):
+    await GamificationService(fake_gamification_db).archive_daily_scores()
+
+    assert fake_gamification_db.user_score.archive_called is True
+
+@pytest.mark.asyncio
+async def test_archive_daily_scores_propagates_error(fake_gamification_db):
+    fake_gamification_db.user_score.raise_on_archive = RuntimeError("boom")
+
+    with pytest.raises(RuntimeError, match="boom"):
+        await GamificationService(fake_gamification_db).archive_daily_scores()
