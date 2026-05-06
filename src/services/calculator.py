@@ -107,6 +107,34 @@ class Calculator:
         scale_3_sum = calculator_service.sum_specific_elements(answers, indices_3)
         return [scale_1_sum, scale_2_sum, scale_3_sum]
 
+    def test_bat_calculate_results(self, answers: List[int]):
+        self.check_number_responses(len(answers), 33)
+
+        exhaustion_indices = [1, 2, 3, 4, 5, 6, 7, 8]
+        distance_indices = [9, 10, 11, 12, 13]
+        cognitive_indices = [14, 15, 16, 17, 18]
+        emotional_indices = [19, 20, 21, 22, 23]
+        secondary_symptoms_indices = [24, 25, 26, 27, 28, 29, 30, 31, 32, 33]
+        burnout_indices = exhaustion_indices + distance_indices + cognitive_indices + emotional_indices
+
+        burnout_score = round(self.sum_specific_elements(answers, burnout_indices) / len(burnout_indices), 2)
+        exhaustion_score = round(self.sum_specific_elements(answers, exhaustion_indices) / len(exhaustion_indices), 2)
+        distance_score = round(self.sum_specific_elements(answers, distance_indices) / len(distance_indices), 2)
+        cognitive_score = round(self.sum_specific_elements(answers, cognitive_indices) / len(cognitive_indices), 2)
+        emotional_score = round(self.sum_specific_elements(answers, emotional_indices) / len(emotional_indices), 2)
+        secondary_symptoms_score = round(
+            self.sum_specific_elements(answers, secondary_symptoms_indices) / len(secondary_symptoms_indices), 2
+        )
+
+        return [
+            burnout_score,
+            exhaustion_score,
+            distance_score,
+            cognitive_score,
+            emotional_score,
+            secondary_symptoms_score,
+        ]
+
     def test_leasy_calculate_results(self, answers: List[int]):
         self.check_number_responses(len(answers), 28)
 

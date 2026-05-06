@@ -1,6 +1,6 @@
 from src.models.daily_tasks import DailyTaskOrm
 from src.models.emoji import EmojiOrm
-from src.models.inquiry import InquiryOrm
+from src.models.inquiry import InquiryOrm, user_inquiry
 from src.models.ontology import OntologyEntryOrm
 from src.models.users import UsersOrm
 from src.models.tests import TestOrm, TestResultOrm, QuestionOrm, ScaleResultOrm, AnswerChoiceOrm, BordersOrm, ScaleOrm
@@ -25,5 +25,6 @@ __all__ = [
     "DailyTaskOrm",
     "EmojiOrm",
     "UserTaskOrm",
-    "OntologyEntryOrm"
+    "OntologyEntryOrm",
+    "user_inquiry"
 ]

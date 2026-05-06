@@ -3,7 +3,7 @@
         "id": "5f81cc8b-b057-47cb-96af-a0839d6c0ad9",
         "title": "Выявление горячих точек",
         "description": "Позволяет понять, какие скрытые эмоции, связанные с травмирующим событием, не выходят из головы",
-        "picture_link": "/images/images/img_333.png",
+        "picture_link": "/images/images_education_material/img_13.png",
         "time_to_read": 14,
         "questions_count": 3,
         "linked_exercise_id": null
@@ -12,7 +12,7 @@
         "id": "9bfde30c-0aca-4ed8-abdf-b768b6b8f67f",
         "title": "Как сделать то, чего не хочется",
         "description": "Позволяет принять осознанный выбор в пользу чего-то полезного, но что может вызывать тревогу или неприятные ощущения",
-        "picture_link": "/images/images/img_222.png",
+        "picture_link": "/images/images_education_material/img_12.png",
         "time_to_read": 8,
         "questions_count": 4,
         "linked_exercise_id": "5f81cc8b-b057-47cb-96af-a0839d6c0ad9"
@@ -21,7 +21,7 @@
         "id": "4e3f51e9-aad8-4a13-b4b7-d748e472d394",
         "title": "КПТ-дневник",
         "description": "Позволяет\n- отслеживать эмоции и чувства,\n- выявлять взаимосвязи между\n- ситуациями и мыслями ",
-        "picture_link": "/images/images_education_material/img_8.png",
+        "picture_link": "/images/images_education_material/img_kpt.png",
         "time_to_read": 8,
         "questions_count": 8,
         "linked_exercise_id": "9bfde30c-0aca-4ed8-abdf-b768b6b8f67f"

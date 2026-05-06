@@ -10,6 +10,7 @@ from autotest.factories.exercise import (
     VIEW_ID,
     build_complete_payload,
     build_completed_response,
+    build_completed_exercise_list_item,
     build_exercise_detail_response,
     build_exercise_payload,
     build_exercise_response,
@@ -52,6 +53,7 @@ class FakeExerciseRepository:
         self.results = build_results_response()
         self.result_detail = build_result_detail_response()
         self.completed = build_completed_response()
+        self.passed_exercises = [build_completed_exercise_list_item()]
         self.calls = []
         self.raise_on = {}
 
@@ -141,6 +143,11 @@ class FakeExerciseRepository:
         self.calls.append(("get_exercise_results", exercise_id, user_id))
         self._maybe_raise("get_exercise_results")
         return self.results
+
+    async def get_passed_exercises_by_user(self, user_id):
+        self.calls.append(("get_passed_exercises_by_user", user_id))
+        self._maybe_raise("get_passed_exercises_by_user")
+        return self.passed_exercises
 
     async def get_exercise_result_detail(self, exercise_id, result_id, user_id):
         self.calls.append(("get_exercise_result_detail", exercise_id, result_id, user_id))
@@ -406,6 +413,13 @@ async def test_service_get_all_exercises_delegates_user_id(fake_exercise_db):
     result = await ExerciseService(fake_exercise_db).get_all_exercises(USER_ID)
     assert result == [build_exercise_response()]
     assert ("get_all_exercises", USER_ID) in fake_exercise_db.exercise.calls
+
+
+@pytest.mark.asyncio
+async def test_service_get_passed_exercises_by_user_delegates_to_repository(fake_exercise_db):
+    result = await ExerciseService(fake_exercise_db).get_passed_exercises_by_user(USER_ID)
+    assert result == [build_completed_exercise_list_item()]
+    assert ("get_passed_exercises_by_user", USER_ID) in fake_exercise_db.exercise.calls
 
 
 @pytest.mark.asyncio

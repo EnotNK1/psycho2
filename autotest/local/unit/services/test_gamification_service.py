@@ -162,7 +162,6 @@ async def test_archive_daily_scores_calls_repository(fake_gamification_db):
     assert fake_gamification_db.user_score.archive_called is True
 
 
-
 @pytest.mark.asyncio
 async def test_archive_daily_scores_propagates_error(fake_gamification_db):
     fake_gamification_db.user_score.raise_on_archive = RuntimeError("boom")

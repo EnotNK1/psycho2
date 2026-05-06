@@ -15,6 +15,7 @@ from src.exceptions import (
 )
 from src.schemas.diary import Diary, DiaryDateRequestAdd
 from src.services.base import BaseService
+from src.services.gamification import GamificationService
 
 
 class DiaryService(BaseService):
@@ -58,6 +59,8 @@ class DiaryService(BaseService):
             )
 
             await self.db.diary.add(diary)
+            gamification_service = GamificationService(self.db)
+            await gamification_service.add_points_for_activity(user_id, "mood_tracker_used")
             await self.db.commit()
 
         except TextEmptyError:

@@ -2,9 +2,12 @@ import logging
 import uuid
 from typing import Optional, Dict, Any, List
 
+from sqlalchemy.orm import selectinload
+from sqlalchemy import select
 from fastapi import HTTPException
 from fastapi import status
 from src.exceptions import ObjectNotFoundException, MyAppException
+from src.models import UsersOrm
 from src.models.clients import TasksOrm
 from src.schemas.client import ClientGet
 from src.schemas.task import Task, GetMyTask, TaskUpdate
@@ -25,7 +28,10 @@ class ClientService(BaseService):
 
                 clients = []
                 for relation in relations:
-                    client = await self.db.users.get_one_or_none(id=relation.client_id)
+                    stmt = select(UsersOrm).where(UsersOrm.id == relation.client_id).options(
+                        selectinload(UsersOrm.inquiries))
+                    result = await self.db.session.execute(stmt)
+                    client = result.scalar_one_or_none()
                     if client:
                         clients.append({
                             "id": client.id,
@@ -33,7 +39,7 @@ class ClientService(BaseService):
                             "birth_date": client.birth_date,
                             "text": relation.text,
                             "gender": client.gender,
-                            "inquiry": []
+                            "inquiry": client.inquiries
                         })
 
                 return clients
@@ -48,7 +54,10 @@ class ClientService(BaseService):
                 if not relation:
                     raise ObjectNotFoundException("Клиент не найден или не привязан к вам")
 
-                client = await self.db.users.get_one_or_none(id=client_id)
+                stmt = select(UsersOrm).where(UsersOrm.id == client_id).options(
+                    selectinload(UsersOrm.inquiries))
+                result = await self.db.session.execute(stmt)
+                client = result.scalar_one_or_none()
                 if not client:
                     raise ObjectNotFoundException("Клиент не найден")
 
@@ -58,7 +67,7 @@ class ClientService(BaseService):
                     "birth_date": client.birth_date,
                     "text": relation.text,
                     "gender": client.gender,
-                    "inquiry": []
+                    "inquiry": client.inquiries
                 }
 
         except ObjectNotFoundException as ex:

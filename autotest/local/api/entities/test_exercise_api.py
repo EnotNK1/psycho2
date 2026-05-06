@@ -11,6 +11,7 @@ from autotest.factories.exercise import (
     VIEW_ID,
     build_complete_payload,
     build_completed_response,
+    build_completed_exercises_response,
     build_exercise_detail_response,
     build_exercise_payload,
     build_exercise_response,
@@ -49,6 +50,7 @@ class DummyExerciseApiService:
     results_response = build_results_response()
     result_detail_response = build_result_detail_response()
     completed_response = build_completed_response()
+    passed_exercises_response = build_completed_exercises_response()["exercises"]
 
     raise_on = {}
 
@@ -77,6 +79,7 @@ class DummyExerciseApiService:
         cls.results_response = build_results_response()
         cls.result_detail_response = build_result_detail_response()
         cls.completed_response = build_completed_response()
+        cls.passed_exercises_response = build_completed_exercises_response()["exercises"]
         cls.raise_on = {}
 
     @classmethod
@@ -132,6 +135,11 @@ class DummyExerciseApiService:
         self._maybe_raise("get_all_exercises")
         type(self).last_user_id = user_id
         return type(self).list_response
+
+    async def get_passed_exercises_by_user(self, user_id):
+        self._maybe_raise("get_passed_exercises_by_user")
+        type(self).last_user_id = user_id
+        return type(self).passed_exercises_response
 
     async def get_exercise_by_id(self, exercise_id, user_id):
         self._maybe_raise("get_exercise_by_id")
@@ -235,6 +243,35 @@ async def test_get_all_exercises_returns_500_when_service_fails(exercise_api_cli
     async for client, _ in exercise_api_client_factory():
         response = await client.get("/exercises/")
     assert response.status_code == 500
+
+
+@pytest.mark.asyncio
+async def test_get_passed_exercises_by_user_returns_wrapped_list(exercise_api_client_factory):
+    async for client, _ in exercise_api_client_factory():
+        response = await client.get(f"/exercises/passed/user/{USER_ID}")
+    assert response.status_code == 200
+    assert response.json() == build_completed_exercises_response()
+    assert DummyExerciseApiService.last_user_id == USER_ID
+
+
+@pytest.mark.asyncio
+async def test_get_passed_exercises_for_current_user_returns_wrapped_list(exercise_api_client_factory):
+    async for client, _ in exercise_api_client_factory():
+        response = await client.get("/exercises/passed/user")
+    assert response.status_code == 200
+    assert response.json() == build_completed_exercises_response()
+    assert DummyExerciseApiService.last_user_id == USER_ID
+
+
+@pytest.mark.asyncio
+async def test_get_passed_exercises_endpoints_handle_empty_and_invalid_uuid(exercise_api_client_factory):
+    DummyExerciseApiService.passed_exercises_response = []
+    async for client, _ in exercise_api_client_factory():
+        empty_response = await client.get("/exercises/passed/user")
+        invalid_uuid_response = await client.get("/exercises/passed/user/not-a-uuid")
+    assert empty_response.status_code == 200
+    assert empty_response.json() == {"exercises": []}
+    assert invalid_uuid_response.status_code == 422
 
 
 @pytest.mark.asyncio
@@ -463,6 +500,16 @@ async def test_get_exercise_results_returns_results(exercise_api_client_factory)
 
 
 @pytest.mark.asyncio
+async def test_get_exercise_results_by_user_returns_results(exercise_api_client_factory):
+    async for client, _ in exercise_api_client_factory():
+        response = await client.get(f"/exercises/{EXERCISE_ID}/results/user/{USER_ID}")
+    assert response.status_code == 200
+    assert response.json() == build_results_response()
+    assert DummyExerciseApiService.last_exercise_id == EXERCISE_ID
+    assert DummyExerciseApiService.last_user_id == USER_ID
+
+
+@pytest.mark.asyncio
 async def test_get_exercise_results_validates_uuid_and_handles_service_failure(exercise_api_client_factory):
     async for client, _ in exercise_api_client_factory():
         invalid_uuid_response = await client.get("/exercises/not-a-uuid/results")
@@ -470,6 +517,19 @@ async def test_get_exercise_results_validates_uuid_and_handles_service_failure(e
     async for client, _ in exercise_api_client_factory():
         failure_response = await client.get(f"/exercises/{EXERCISE_ID}/results")
     assert invalid_uuid_response.status_code == 422
+    assert failure_response.status_code == 500
+
+
+@pytest.mark.asyncio
+async def test_get_exercise_results_by_user_validates_uuids_and_handles_service_failure(exercise_api_client_factory):
+    async for client, _ in exercise_api_client_factory():
+        invalid_exercise_response = await client.get(f"/exercises/not-a-uuid/results/user/{USER_ID}")
+        invalid_user_response = await client.get(f"/exercises/{EXERCISE_ID}/results/user/not-a-uuid")
+    DummyExerciseApiService.raise_on["get_exercise_results"] = RuntimeError("results failed")
+    async for client, _ in exercise_api_client_factory():
+        failure_response = await client.get(f"/exercises/{EXERCISE_ID}/results/user/{USER_ID}")
+    assert invalid_exercise_response.status_code == 422
+    assert invalid_user_response.status_code == 422
     assert failure_response.status_code == 500
 
 
@@ -484,6 +544,17 @@ async def test_get_exercise_result_detail_returns_detail(exercise_api_client_fac
 
 
 @pytest.mark.asyncio
+async def test_get_exercise_result_detail_by_user_returns_detail(exercise_api_client_factory):
+    async for client, _ in exercise_api_client_factory():
+        response = await client.get(f"/exercises/{EXERCISE_ID}/results/{RESULT_ID}/user/{USER_ID}")
+    assert response.status_code == 200
+    assert response.json() == build_result_detail_response()
+    assert DummyExerciseApiService.last_exercise_id == EXERCISE_ID
+    assert DummyExerciseApiService.last_create_payload == RESULT_ID
+    assert DummyExerciseApiService.last_user_id == USER_ID
+
+
+@pytest.mark.asyncio
 async def test_get_exercise_result_detail_validates_ids_and_missing_result(exercise_api_client_factory):
     async for client, _ in exercise_api_client_factory():
         invalid_uuid_response = await client.get(f"/exercises/{EXERCISE_ID}/results/not-a-uuid")
@@ -491,6 +562,19 @@ async def test_get_exercise_result_detail_validates_ids_and_missing_result(exerc
     async for client, _ in exercise_api_client_factory():
         missing_response = await client.get(f"/exercises/{EXERCISE_ID}/results/{RESULT_ID}")
     assert invalid_uuid_response.status_code == 422
+    assert missing_response.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_get_exercise_result_detail_by_user_validates_ids_and_missing_result(exercise_api_client_factory):
+    async for client, _ in exercise_api_client_factory():
+        invalid_result_response = await client.get(f"/exercises/{EXERCISE_ID}/results/not-a-uuid/user/{USER_ID}")
+        invalid_user_response = await client.get(f"/exercises/{EXERCISE_ID}/results/{RESULT_ID}/user/not-a-uuid")
+    DummyExerciseApiService.raise_on["get_exercise_result_detail"] = HTTPException(status_code=404)
+    async for client, _ in exercise_api_client_factory():
+        missing_response = await client.get(f"/exercises/{EXERCISE_ID}/results/{RESULT_ID}/user/{USER_ID}")
+    assert invalid_result_response.status_code == 422
+    assert invalid_user_response.status_code == 422
     assert missing_response.status_code == 404
 
 

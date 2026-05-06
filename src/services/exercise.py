@@ -9,7 +9,8 @@ from src.services.base import BaseService
 from src.schemas.exercise import (
     ExerciseResponse, ExerciseDetailResponse, ExerciseDetail1Response, ExerciseResultsResponse,
     FieldResponse, VariantResponse, CompletedExerciseCreate, ExerciseViewResponse, ResultDetailResponse,
-    ExerciseCreate, FieldCreate, VariantCreate, ExerciseViewCreate, CompletedExerciseResponse, ExerciseAutoCreate, FieldAutoCreate
+    ExerciseCreate, FieldCreate, VariantCreate, ExerciseViewCreate, CompletedExerciseResponse, ExerciseAutoCreate, FieldAutoCreate,
+    CompletedExerciseItemResponse
 )
 from src.exceptions import ObjectNotFoundHTTPException, MyAppException, ObjectAlreadyExistsException
 
@@ -147,6 +148,9 @@ class ExerciseService(BaseService):
 
     async def get_all_exercises(self, user_id: Optional[uuid.UUID] = None) -> List[ExerciseResponse]:
         return await self.db.exercise.get_all_exercises(user_id)
+
+    async def get_passed_exercises_by_user(self, user_id: uuid.UUID) -> List[CompletedExerciseItemResponse]:
+        return await self.db.exercise.get_passed_exercises_by_user(user_id)
 
     async def get_exercise_by_id(self, exercise_id: uuid.UUID, user_id: Optional[uuid.UUID] = None) -> ExerciseDetailResponse:
         exercise = await self.db.exercise.get_exercise(exercise_id, user_id)
