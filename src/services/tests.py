@@ -14,7 +14,9 @@ from src.api.chat_bot import load_data
 
 from src.schemas.tests import TestAdd, ScaleAdd, BordersAdd, AnswerChoice, Question, TestResultRequest, \
     TestDetailsResponse, AnswerChoiceDetail, QuestionDetail, BorderDetail, ScaleDetail, ScaleResult, \
-    TestSaveResult
+    TestSaveResult, TestCreate, TestUpdate, TestResponse, ScaleResponse, ScaleUpdate, ScaleCreate, BorderResponse, \
+    BorderCreate, BordersUpdate, QuestionCreate, QuestionUpdate, QuestionResponse, AnswerChoiceCreate, \
+    AnswerChoiceUpdate, AnswerChoiceResponse
 from src.services.base import BaseService
 from src.exceptions import (
     ObjectAlreadyExistsException,
@@ -30,6 +32,137 @@ logger = logging.getLogger(__name__)
 
 
 class TestService(BaseService):
+    async def create_test(self, data: TestCreate) -> TestResponse:
+        test = TestAdd(id=uuid.uuid4(), **data.model_dump())
+        created = await self.db.tests.add(test)
+        await self.db.commit()
+        return TestResponse.model_validate(created)
+
+    async def update_test(self, test_id: uuid.UUID, data: TestUpdate) -> TestResponse:
+        existing = await self.db.tests.get_one_or_none(id=test_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.tests.edit(data, exclude_unset=True, id=test_id)
+        await self.db.commit()
+        updated = await self.db.tests.get_one(id=test_id)
+        return TestResponse.model_validate(updated)
+
+    async def delete_test(self, test_id: uuid.UUID) -> None:
+        existing = await self.db.tests.get_one_or_none(id=test_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.tests.delete(id=test_id)
+
+    async def create_scale(self, test_id: uuid.UUID, data: ScaleCreate) -> ScaleResponse:
+        if not await self.db.tests.get_one_or_none(id=test_id):
+            raise ObjectNotFoundException()
+        scale = ScaleAdd(
+            id=uuid.uuid4(),
+            title=data.title,
+            min=data.min,
+            max=data.max,
+            test_id=test_id,
+        )
+        created = await self.db.scales.add(scale)
+        await self.db.commit()
+        return ScaleResponse.model_validate(created)
+
+    async def update_scale(self, scale_id: uuid.UUID, data: ScaleUpdate) -> ScaleResponse:
+        existing = await self.db.scales.get_one_or_none(id=scale_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.scales.edit(data, exclude_unset=True, id=scale_id)
+        await self.db.commit()
+        updated = await self.db.scales.get_one(id=scale_id)
+        return ScaleResponse.model_validate(updated)
+
+    async def delete_scale(self, scale_id: uuid.UUID) -> None:
+        existing = await self.db.scales.get_one_or_none(id=scale_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.scales.delete(id=scale_id)
+
+    async def create_border(self, scale_id: uuid.UUID, data: BorderCreate) -> BorderResponse:
+        if not await self.db.scales.get_one_or_none(id=scale_id):
+            raise ObjectNotFoundException()
+        border = BordersAdd(
+            id=uuid.uuid4(),
+            left_border=data.left_border,
+            right_border=data.right_border,
+            color=data.color,
+            title=data.title,
+            user_recommendation=data.user_recommendation,
+            scale_id=scale_id,
+        )
+        created = await self.db.borders.add(border)
+        await self.db.commit()
+        return BorderResponse.model_validate(created)
+
+    async def update_border(self, border_id: uuid.UUID, data: BordersUpdate) -> BorderResponse:
+        existing = await self.db.borders.get_one_or_none(id=border_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.borders.edit(data, exclude_unset=True, id=border_id)
+        await self.db.commit()
+        updated = await self.db.borders.get_one(id=border_id)
+        return BorderResponse.model_validate(updated)
+
+    async def delete_border(self, border_id: uuid.UUID) -> None:
+        existing = await self.db.borders.get_one_or_none(id=border_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.borders.delete(id=border_id)
+
+    async def create_question(self, test_id: uuid.UUID, data: QuestionCreate) -> QuestionResponse:
+        if not await self.db.tests.get_one_or_none(id=test_id):
+            raise ObjectNotFoundException()
+        question = Question(
+            id=uuid.uuid4(),
+            test_id=test_id,
+            **data.model_dump(),
+        )
+        created = await self.db.question.add(question)
+        await self.db.commit()
+        return QuestionResponse.model_validate(created)
+
+    async def update_question(self, question_id: uuid.UUID, data: QuestionUpdate) -> QuestionResponse:
+        existing = await self.db.question.get_one_or_none(id=question_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.question.edit(data, exclude_unset=True, id=question_id)
+        await self.db.commit()
+        updated = await self.db.question.get_one(id=question_id)
+        return QuestionResponse.model_validate(updated)
+
+    async def delete_question(self, question_id: uuid.UUID) -> None:
+        existing = await self.db.question.get_one_or_none(id=question_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.question.delete(id=question_id)
+
+    async def create_answer_choice(self, data: AnswerChoiceCreate) -> AnswerChoiceResponse:
+        answer = AnswerChoice(id=uuid.uuid4(), **data.model_dump())
+        created = await self.db.answer_choice.add(answer)
+        await self.db.commit()
+        return AnswerChoiceResponse.model_validate(created)
+
+    async def update_answer_choice(
+        self, answer_id: uuid.UUID, data: AnswerChoiceUpdate
+    ) -> AnswerChoiceResponse:
+        existing = await self.db.answer_choice.get_one_or_none(id=answer_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.answer_choice.edit(data, exclude_unset=True, id=answer_id)
+        await self.db.commit()
+        updated = await self.db.answer_choice.get_one(id=answer_id)
+        return AnswerChoiceResponse.model_validate(updated)
+
+    async def delete_answer_choice(self, answer_id: uuid.UUID) -> None:
+        existing = await self.db.answer_choice.get_one_or_none(id=answer_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.answer_choice.delete(id=answer_id)
+
 
     def load_borders_for_scale(self, scale_id: uuid.UUID) -> list[dict]:
         with open("src/services/info/borders_info.json", encoding="utf-8") as file:

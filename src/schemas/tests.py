@@ -2,7 +2,7 @@ import datetime
 import uuid
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, Field, field_validator, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ScaleResult(BaseModel):
@@ -25,11 +25,13 @@ class TestResult(BaseModel):
     date: datetime.datetime
     scale_result: list[ScaleResult]
 
+
 class TestSaveResult(BaseModel):
     id: uuid.UUID
     user_id: uuid.UUID
     test_id: uuid.UUID
     date: datetime.datetime
+
 
 class BordersAdd(BaseModel):
     id: uuid.UUID
@@ -39,6 +41,23 @@ class BordersAdd(BaseModel):
     title: str
     user_recommendation: str
     scale_id: uuid.UUID
+
+
+class BorderCreate(BaseModel):
+    left_border: float
+    right_border: float
+    color: str
+    title: str
+    user_recommendation: str
+
+
+class BordersUpdate(BaseModel):
+    left_border: Optional[float] = None
+    right_border: Optional[float] = None
+    color: Optional[str] = None
+    title: Optional[str] = None
+    user_recommendation: Optional[str] = None
+    scale_id: Optional[uuid.UUID] = None
 
 
 class Borders(BaseModel):
@@ -51,10 +70,32 @@ class Borders(BaseModel):
     scale_id: uuid.UUID
 
 
+class BorderResponse(BordersAdd):
+    model_config = ConfigDict(from_attributes=True)
+
+
 class AnswerChoice(BaseModel):
     id: uuid.UUID
     text: str
     score: int
+
+
+class AnswerChoiceCreate(BaseModel):
+    text: str
+    score: int
+
+
+class AnswerChoiceUpdate(BaseModel):
+    text: Optional[str] = None
+    score: Optional[int] = None
+
+
+class AnswerChoiceResponse(BaseModel):
+    id: uuid.UUID
+    text: str
+    score: int
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Question(BaseModel):
@@ -66,17 +107,53 @@ class Question(BaseModel):
     answer_choice: list[uuid.UUID]
 
 
+class QuestionCreate(BaseModel):
+    text: str
+    opposite_text: Optional[str] = None
+    number: int
+    answer_choice: list[uuid.UUID] = Field(default_factory=list)
+
+
+class QuestionUpdate(BaseModel):
+    text: Optional[str] = None
+    opposite_text: Optional[str] = None
+    number: Optional[int] = None
+    test_id: Optional[uuid.UUID] = None
+    answer_choice: Optional[list[uuid.UUID]] = None
+
+
+class QuestionResponse(Question):
+    model_config = ConfigDict(from_attributes=True)
+
+
 class ScaleAdd(BaseModel):
     id: uuid.UUID
     title: str
     min: int
     max: int
-    test_id: Optional[uuid.UUID] = Field(default=None)  # Поле может быть None
+    test_id: Optional[uuid.UUID] = Field(default=None)
+
+
+class ScaleCreate(BaseModel):
+    title: str
+    min: int
+    max: int
+
+
+class ScaleUpdate(BaseModel):
+    title: Optional[str] = None
+    min: Optional[int] = None
+    max: Optional[int] = None
+    test_id: Optional[uuid.UUID] = None
 
 
 class Scale(ScaleAdd):
-    scale_result: list[ScaleResult] = []  # Поле по умолчанию пустое
-    borders: list[Borders] = []  # Поле по умолчанию пустое
+    scale_result: list[ScaleResult] = Field(default_factory=list)
+    borders: list[Borders] = Field(default_factory=list)
+
+
+class ScaleResponse(ScaleAdd):
+    model_config = ConfigDict(from_attributes=True)
 
 
 class TestAdd(BaseModel):
@@ -88,10 +165,30 @@ class TestAdd(BaseModel):
     link: str
 
 
+class TestCreate(BaseModel):
+    title: str
+    type: Optional[int] = None
+    description: str
+    short_desc: str
+    link: str
+
+
+class TestUpdate(BaseModel):
+    title: Optional[str] = None
+    type: Optional[int] = None
+    description: Optional[str] = None
+    short_desc: Optional[str] = None
+    link: Optional[str] = None
+
+
 class Test(TestAdd):
     test_result: list[TestResult]
     question: list[Question]
     scale: list[Scale]
+
+
+class TestResponse(TestAdd):
+    model_config = ConfigDict(from_attributes=True)
 
 
 class BorderDetail(BaseModel):
@@ -133,4 +230,3 @@ class TestDetailsResponse(BaseModel):
     link: str
     scales: list[ScaleDetail]
     questions: list[QuestionDetail]
-

@@ -1,16 +1,20 @@
 from __future__ import annotations
+
 from datetime import date, datetime
 from typing import List, Optional, Union
 import uuid
-from pydantic import BaseModel
+
+from pydantic import BaseModel, Field
+
 from src import enums
-# from models.exercise import FieldOrm, VariantOrm
 
 
 class ExerciseBase(BaseModel):
     id: uuid.UUID
     title: str
     picture_link: str
+    sort_order: int
+    group: int
 
 
 class ExerciseViewCreate(BaseModel):
@@ -20,7 +24,15 @@ class ExerciseViewCreate(BaseModel):
     message: str
 
 
+class ExerciseViewUpdate(BaseModel):
+    view: Optional[str] = None
+    score: Optional[int] = None
+    picture_link: Optional[str] = None
+    message: Optional[str] = None
+
+
 class ExerciseViewResponse(ExerciseViewCreate):
+    id: uuid.UUID
     open: bool = False
 
     class Config:
@@ -33,10 +45,23 @@ class ExerciseCreate(BaseModel):
     picture_link: str
     time_to_read: int
     questions_count: int
-    linked_exercise_id: Optional[uuid.UUID] = None  # Сделать опциональным
+    sort_order: int
+    group: int = 1
+    linked_exercise_id: Optional[uuid.UUID] = None
 
     class Config:
         from_attributes = True
+
+
+class ExerciseUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    picture_link: Optional[str] = None
+    time_to_read: Optional[int] = None
+    questions_count: Optional[int] = None
+    sort_order: Optional[int] = None
+    group: Optional[int] = None
+    linked_exercise_id: Optional[uuid.UUID] = None
 
 
 class ExerciseAutoCreate(ExerciseCreate):
@@ -51,7 +76,8 @@ class ExerciseResponse(ExerciseBase):
 
 
 class ExercisesListResponse(BaseModel):
-    exercises: List[ExerciseResponse]
+    regular_exercises: List[ExerciseResponse] = Field(default_factory=list)
+    related_exercises: List[ExerciseResponse] = Field(default_factory=list)
 
 
 class CompletedExerciseItemResponse(BaseModel):
@@ -68,13 +94,6 @@ class CompletedExercisesListResponse(BaseModel):
     exercises: List[CompletedExerciseItemResponse]
 
 
-class ExerciseDetailResponse(ExerciseResponse):
-    fields: List["FieldResponse"] = []
-
-    class Config:
-        from_attributes = True
-
-
 class FieldBase(BaseModel):
     title: str
     major: bool
@@ -84,7 +103,9 @@ class FieldBase(BaseModel):
     prompt: Optional[str] = None
     description: str
     order: int
-    exercises: Optional[List[str]] = None
+    position: int
+    pull_group: Optional[str] = None
+    exercises: Optional[List[uuid.UUID]] = None
 
 
 class FieldCreate(BaseModel):
@@ -96,7 +117,23 @@ class FieldCreate(BaseModel):
     prompt: Optional[str] = None
     description: str
     order: int
-    exercises: Optional[List[str]] = None
+    position: int
+    pull_group: Optional[str] = None
+    exercises: Optional[List[uuid.UUID]] = None
+
+
+class FieldUpdate(BaseModel):
+    title: Optional[str] = None
+    major: Optional[bool] = None
+    view: Optional[enums.ViewType] = None
+    type: Optional[enums.FieldType] = None
+    placeholder: Optional[str] = None
+    prompt: Optional[str] = None
+    description: Optional[str] = None
+    order: Optional[int] = None
+    position: Optional[int] = None
+    pull_group: Optional[str] = None
+    exercises: Optional[List[uuid.UUID]] = None
 
 
 class FieldAutoCreate(FieldCreate):
@@ -109,31 +146,12 @@ class FieldAutoCreate(FieldCreate):
     }
 
 
-class FieldResponse(FieldBase):
-    id: uuid.UUID
-    exercise_structure_id: uuid.UUID
-    variants: List[VariantResponse] = []
-
-    # @classmethod
-    # def from_orm(cls, field: FieldOrm):
-    #     return cls(
-    #         id=field.id,
-    #         title=field.title,
-    #         major=field.major,
-    #         view=field.view,
-    #         type=field.type,
-    #         placeholder=field.placeholder,
-    #         prompt=field.prompt,
-    #         description=field.description,
-    #         order=field.order,
-    #         exercises=field.exercises,
-    #         exercise_structure_id=field.exercise_structure_id,
-    #         variants=[VariantResponse.from_orm(v) for v in field.variants]
-    #     )
-
-
 class VariantCreate(BaseModel):
     title: str
+
+
+class VariantUpdate(BaseModel):
+    title: Optional[str] = None
 
 
 class VariantResponse(BaseModel):
@@ -141,18 +159,21 @@ class VariantResponse(BaseModel):
     title: str
     field_id: uuid.UUID
 
-    # @classmethod
-    # def from_orm(cls, variant: VariantOrm):
-    #     return cls(
-    #         id=variant.id,
-    #         title=variant.title,
-    #         field_id=variant.field_id
-    #     )
+    class Config:
+        from_attributes = True
+
+
+class FieldResponse(FieldBase):
+    id: uuid.UUID
+    exercise_structure_id: uuid.UUID
+    variants: List[VariantResponse] = Field(default_factory=list)
 
 
 class FilledFieldCreate(BaseModel):
     field_id: uuid.UUID
     text: Union[str, int, float, List[str], List[int]]
+    pulled_completed_exercise_id: Optional[uuid.UUID] = None
+    pulled_group_key: Optional[str] = None
 
 
 class CompletedExerciseCreate(BaseModel):
@@ -171,11 +192,19 @@ class CompletedExerciseResponse(BaseModel):
         from_attributes = True
 
 
-class PulledFieldResponse(BaseModel):
+class PulledFieldItemResponse(BaseModel):
+    source_filled_field_id: uuid.UUID
     field_id: uuid.UUID
     title: str
     text: Union[str, int, float, List[str], List[int], None]
+    source_group_key: str
+
+
+class PulledFieldResponse(BaseModel):
+    source_completed_exercise_id: uuid.UUID
     source_exercise_id: uuid.UUID
+    source_group_key: str
+    fields: List[PulledFieldItemResponse] = Field(default_factory=list)
 
 
 class ExerciseDetailResponse(BaseModel):
@@ -185,6 +214,8 @@ class ExerciseDetailResponse(BaseModel):
     description: str
     time_to_read: int
     questions_count: int
+    sort_order: int
+    group: int
     open: bool
 
     class Config:
@@ -196,26 +227,29 @@ class SectionResponse(BaseModel):
     title: str
     view: enums.ViewType
     type: enums.FieldType
+    position: int
     placeholder: Optional[str] = None
     prompt: Optional[str] = None
-    variants: List[VariantResponse] = []
+    variants: List[VariantResponse] = Field(default_factory=list)
 
 
 class PageResponse(BaseModel):
     page_number: int
-    sections: List[SectionResponse] = []
+    sections: List[SectionResponse] = Field(default_factory=list)
 
 
 class ExerciseDetail1Response(BaseModel):
-    pulled_fields: List[PulledFieldResponse] = []
+    pulled_fields: List[PulledFieldResponse] = Field(default_factory=list)
     id: uuid.UUID
     title: str
     picture_link: str
     description: str
     time_to_read: int
     questions_count: int
+    sort_order: int
+    group: int
     open: bool
-    pages: List[PageResponse] = []
+    pages: List[PageResponse] = Field(default_factory=list)
 
     class Config:
         from_attributes = True
@@ -236,7 +270,10 @@ class ResultSectionResponse(BaseModel):
     title: str
     view: enums.ViewType
     type: enums.FieldType
-    value: Union[str, List[str]]  # может быть строкой или массивом строк
+    value: Union[str, int, float, List[str], List[int], None]
+    pulled_completed_exercise_id: Optional[uuid.UUID] = None
+    pulled_group_key: Optional[str] = None
+    pulled_fields: List[PulledFieldItemResponse] = Field(default_factory=list)
 
 
 class ResultDetailResponse(BaseModel):
@@ -256,5 +293,4 @@ class ExerciseResultsResponse(BaseModel):
     results: List[ResultResponse]
 
 
-ExerciseDetailResponse.update_forward_refs()
-FieldResponse.update_forward_refs()
+FieldResponse.model_rebuild()

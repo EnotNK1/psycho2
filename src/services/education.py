@@ -11,7 +11,8 @@ from src.schemas.education_material import (
     CardResponse,
     EducationProgressResponse, CompleteEducation, EducationThemeAdd, EducationMaterialAdd, CardAdd,
     GetUserEducationProgressResponse, EducationThemeWithMaterialsResponse, ThemeRecommendationResponse,
-    CompleteEducationTheme
+    CompleteEducationTheme, EducationThemeCreate, EducationThemeUpdate, EducationMaterialCreate,
+    EducationMaterialUpdate, CardCreate, CardUpdate
 )
 from src.services.base import BaseService
 from src.services.daily_tasks import DailyTaskService
@@ -21,6 +22,85 @@ logger = logging.getLogger(__name__)
 
 
 class EducationService(BaseService):
+    async def create_theme(self, data: EducationThemeCreate) -> EducationThemeResponse:
+        theme = EducationThemeAdd(id=uuid.uuid4(), **data.model_dump())
+        created = await self.db.education_theme.add(theme)
+        await self.db.commit()
+        return EducationThemeResponse.model_validate(created)
+
+    async def update_theme(
+        self, theme_id: uuid.UUID, data: EducationThemeUpdate
+    ) -> EducationThemeResponse:
+        existing = await self.db.education_theme.get_one_or_none(id=theme_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.education_theme.edit(data, exclude_unset=True, id=theme_id)
+        await self.db.commit()
+        updated = await self.db.education_theme.get_one(id=theme_id)
+        return EducationThemeResponse.model_validate(updated)
+
+    async def delete_theme(self, theme_id: uuid.UUID) -> None:
+        if not await self.db.education_theme.get_one_or_none(id=theme_id):
+            raise ObjectNotFoundException()
+        await self.db.education_theme.delete(id=theme_id)
+
+    async def create_material(
+        self, theme_id: uuid.UUID, data: EducationMaterialCreate
+    ) -> EducationMaterialResponse:
+        if not await self.db.education_theme.get_one_or_none(id=theme_id):
+            raise ObjectNotFoundException()
+        material = EducationMaterialAdd(
+            id=uuid.uuid4(),
+            education_theme_id=theme_id,
+            **data.model_dump(),
+        )
+        created = await self.db.education_material.add(material)
+        await self.db.commit()
+        return EducationMaterialResponse.model_validate(created)
+
+    async def update_material(
+        self, material_id: uuid.UUID, data: EducationMaterialUpdate
+    ) -> EducationMaterialResponse:
+        existing = await self.db.education_material.get_one_or_none(id=material_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.education_material.edit(data, exclude_unset=True, id=material_id)
+        await self.db.commit()
+        updated = await self.db.education_material.get_one(id=material_id)
+        return EducationMaterialResponse.model_validate(updated)
+
+    async def delete_material(self, material_id: uuid.UUID) -> None:
+        if not await self.db.education_material.get_one_or_none(id=material_id):
+            raise ObjectNotFoundException()
+        await self.db.education_material.delete(id=material_id)
+
+    async def create_card(
+        self, material_id: uuid.UUID, data: CardCreate
+    ) -> CardResponse:
+        if not await self.db.education_material.get_one_or_none(id=material_id):
+            raise ObjectNotFoundException()
+        card = CardAdd(
+            id=uuid.uuid4(),
+            education_material_id=material_id,
+            **data.model_dump(),
+        )
+        created = await self.db.education_card.add(card)
+        await self.db.commit()
+        return CardResponse.model_validate(created)
+
+    async def update_card(self, card_id: uuid.UUID, data: CardUpdate) -> CardResponse:
+        existing = await self.db.education_card.get_one_or_none(id=card_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.education_card.edit(data, exclude_unset=True, id=card_id)
+        await self.db.commit()
+        updated = await self.db.education_card.get_one(id=card_id)
+        return CardResponse.model_validate(updated)
+
+    async def delete_card(self, card_id: uuid.UUID) -> None:
+        if not await self.db.education_card.get_one_or_none(id=card_id):
+            raise ObjectNotFoundException()
+        await self.db.education_card.delete(id=card_id)
 
     async def auto_create_education(self):
 

@@ -15,7 +15,9 @@ from src.schemas.education_material import (
     EducationThemeResponse,
     EducationMaterialResponse,
     EducationProgressResponse,
-    CompleteEducation, GetUserEducationProgressResponse, EducationThemeWithMaterialsResponse, CompleteEducationTheme
+    CompleteEducation, GetUserEducationProgressResponse, EducationThemeWithMaterialsResponse, CompleteEducationTheme,
+    EducationThemeCreate, EducationThemeUpdate, CardCreate, CardUpdate, CardResponse,
+    EducationMaterialCreate, EducationMaterialUpdate
 )
 
 logger = logging.getLogger(__name__)
@@ -30,6 +32,75 @@ async def auto_create_education(db: DBDep):
     except Exception as e:
         logger.error(f"Error in auto_create_education: {str(e)}")
         raise MyAppHTTPException
+
+
+@router.post("/themes", response_model=EducationThemeResponse)
+async def create_theme(theme_data: EducationThemeCreate, db: DBDep):
+    return await EducationService(db).create_theme(theme_data)
+
+
+@router.patch("/themes/{theme_id}", response_model=EducationThemeResponse)
+async def update_theme(theme_id: uuid.UUID, theme_data: EducationThemeUpdate, db: DBDep):
+    try:
+        return await EducationService(db).update_theme(theme_id, theme_data)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+
+
+@router.delete("/themes/{theme_id}", status_code=204)
+async def delete_theme(theme_id: uuid.UUID, db: DBDep):
+    try:
+        await EducationService(db).delete_theme(theme_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+
+
+@router.post("/themes/{theme_id}/materials", response_model=EducationMaterialResponse)
+async def create_material(theme_id: uuid.UUID, material_data: EducationMaterialCreate, db: DBDep):
+    try:
+        return await EducationService(db).create_material(theme_id, material_data)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+
+
+@router.patch("/materials/{material_id}", response_model=EducationMaterialResponse)
+async def update_material(material_id: uuid.UUID, material_data: EducationMaterialUpdate, db: DBDep):
+    try:
+        return await EducationService(db).update_material(material_id, material_data)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+
+
+@router.delete("/materials/{material_id}", status_code=204)
+async def delete_material(material_id: uuid.UUID, db: DBDep):
+    try:
+        await EducationService(db).delete_material(material_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+
+
+@router.post("/materials/{material_id}/cards", response_model=CardResponse)
+async def create_card(material_id: uuid.UUID, card_data: CardCreate, db: DBDep):
+    try:
+        return await EducationService(db).create_card(material_id, card_data)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+
+
+@router.patch("/cards/{card_id}", response_model=CardResponse)
+async def update_card(card_id: uuid.UUID, card_data: CardUpdate, db: DBDep):
+    try:
+        return await EducationService(db).update_card(card_id, card_data)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+
+
+@router.delete("/cards/{card_id}", status_code=204)
+async def delete_card(card_id: uuid.UUID, db: DBDep):
+    try:
+        await EducationService(db).delete_card(card_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 
 @router.get("/themes/all")

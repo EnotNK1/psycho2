@@ -22,6 +22,11 @@ from autotest.factories.tests_entity import (
     TEST_ID,
     USER_ID,
     build_test_result_request,
+    build_test_create_payload,
+    build_scale_create_payload,
+    build_border_create_payload,
+    build_question_create_payload,
+    build_answer_create_payload,
     make_answer,
     make_border,
     make_question,
@@ -62,16 +67,21 @@ class FakeRepository:
         self.raise_on_get_all = None
         self.raise_on_get_by_ids = None
         self.raise_on_delete = None
+        self.edit_calls = []
 
     async def add(self, data):
         if self.raise_on_add:
             raise self.raise_on_add
         self.add_calls.append(data)
+        return data
 
     async def delete(self, **filter_by):
         if self.raise_on_delete:
             raise self.raise_on_delete
         self.delete_calls.append(filter_by)
+
+    async def edit(self, data, exclude_unset=False, **filter_by):
+        self.edit_calls.append((data, exclude_unset, filter_by))
 
     async def get_one(self, *args, **filter_by):
         if self.raise_on_get_one:
@@ -280,6 +290,71 @@ async def test_service_auto_create_reads_sources_and_commits(fake_tests_db, monk
     assert [name for name, _ in calls] == ["tests", "scales", "answers", "questions"]
     assert DummyInquiryService.calls == [[{"id": "inquiry"}]]
     assert DummyEmojiService.calls == [[{"id": "emoji"}]]
+
+
+@pytest.mark.asyncio
+async def test_service_tests_crud_methods(fake_tests_db):
+    fake_tests_db.tests.one_or_none_result = make_test()
+    fake_tests_db.tests.one_result = make_test()
+    fake_tests_db.scales.one_or_none_result = make_scale()
+    fake_tests_db.scales.one_result = make_scale()
+    fake_tests_db.borders.one_or_none_result = make_border()
+    fake_tests_db.borders.one_result = make_border()
+    fake_tests_db.question.one_or_none_result = make_question()
+    fake_tests_db.question.one_result = make_question()
+    fake_tests_db.answer_choice.one_or_none_result = make_answer()
+    fake_tests_db.answer_choice.one_result = make_answer()
+
+    created_test = await TestService(fake_tests_db).create_test(
+        tests_service_module.TestCreate.model_validate(build_test_create_payload())
+    )
+    updated_test = await TestService(fake_tests_db).update_test(
+        TEST_ID,
+        tests_service_module.TestUpdate(title="Updated"),
+    )
+    await TestService(fake_tests_db).delete_test(TEST_ID)
+    created_scale = await TestService(fake_tests_db).create_scale(
+        TEST_ID,
+        tests_service_module.ScaleCreate.model_validate(build_scale_create_payload()),
+    )
+    await TestService(fake_tests_db).update_scale(
+        SCALE_ID,
+        tests_service_module.ScaleUpdate(title="Scale B"),
+    )
+    await TestService(fake_tests_db).delete_scale(SCALE_ID)
+    created_border = await TestService(fake_tests_db).create_border(
+        SCALE_ID,
+        tests_service_module.BorderCreate.model_validate(build_border_create_payload()),
+    )
+    await TestService(fake_tests_db).update_border(
+        BORDER_ID,
+        tests_service_module.BordersUpdate(title="High"),
+    )
+    await TestService(fake_tests_db).delete_border(BORDER_ID)
+    created_question = await TestService(fake_tests_db).create_question(
+        TEST_ID,
+        tests_service_module.QuestionCreate.model_validate(build_question_create_payload()),
+    )
+    await TestService(fake_tests_db).update_question(
+        QUESTION_ID,
+        tests_service_module.QuestionUpdate(text="Updated question"),
+    )
+    await TestService(fake_tests_db).delete_question(QUESTION_ID)
+    created_answer = await TestService(fake_tests_db).create_answer_choice(
+        tests_service_module.AnswerChoiceCreate.model_validate(build_answer_create_payload())
+    )
+    await TestService(fake_tests_db).update_answer_choice(
+        ANSWER_ID,
+        tests_service_module.AnswerChoiceUpdate(text="Sometimes"),
+    )
+    await TestService(fake_tests_db).delete_answer_choice(ANSWER_ID)
+
+    assert created_test.title == "Burnout Test"
+    assert updated_test.id == TEST_ID
+    assert created_scale.test_id == TEST_ID
+    assert created_border.scale_id == SCALE_ID
+    assert created_question.test_id == TEST_ID
+    assert created_answer.text == "Never"
 
 
 def test_service_load_borders_for_scale_filters_json_by_scale_id(tmp_path, monkeypatch):

@@ -7,10 +7,15 @@ import pytest
 
 import src.services.education as education_service_module
 from autotest.factories.education import (
+    CARD_ID,
     MATERIAL_ID,
     SECOND_THEME_ID,
     THEME_ID,
     USER_ID,
+    build_card_create_payload,
+    build_material_create_payload,
+    build_theme_create_payload,
+    make_card,
     make_material,
     make_ontology_entry,
     make_progress,
@@ -31,12 +36,27 @@ class FakeEducationThemeRepository:
         self.get_with_materials_result = None
         self.get_orm_one_or_none_map = {}
         self.raise_on_get_all = None
+        self.last_edit = None
+        self.delete_calls = []
 
     async def get_one_or_none(self, **filter_by):
         return self.get_one_or_none_map.get(filter_by.get("id"))
 
     async def add(self, data):
         self.add_calls.append(data)
+        return data
+
+    async def get_one(self, **filter_by):
+        item = self.get_one_or_none_map.get(filter_by.get("id"))
+        if item is None:
+            raise ObjectNotFoundException()
+        return item
+
+    async def edit(self, data, exclude_unset=False, **filter_by):
+        self.last_edit = (data, exclude_unset, filter_by)
+
+    async def delete(self, **filter_by):
+        self.delete_calls.append(filter_by)
 
     async def get_all_with_materials_and_cards(self):
         if self.raise_on_get_all:
@@ -54,24 +74,54 @@ class FakeEducationMaterialRepository:
     def __init__(self):
         self.add_calls = []
         self.get_one_or_none_map = {}
+        self.last_edit = None
+        self.delete_calls = []
 
     async def get_one_or_none(self, **filter_by):
         return self.get_one_or_none_map.get(filter_by.get("id"))
 
     async def add(self, data):
         self.add_calls.append(data)
+        return data
+
+    async def get_one(self, **filter_by):
+        item = self.get_one_or_none_map.get(filter_by.get("id"))
+        if item is None:
+            raise ObjectNotFoundException()
+        return item
+
+    async def edit(self, data, exclude_unset=False, **filter_by):
+        self.last_edit = (data, exclude_unset, filter_by)
+
+    async def delete(self, **filter_by):
+        self.delete_calls.append(filter_by)
 
 
 class FakeEducationCardRepository:
     def __init__(self):
         self.add_calls = []
         self.get_one_or_none_map = {}
+        self.last_edit = None
+        self.delete_calls = []
 
     async def get_one_or_none(self, **filter_by):
         return self.get_one_or_none_map.get(filter_by.get("id"))
 
     async def add(self, data):
         self.add_calls.append(data)
+        return data
+
+    async def get_one(self, **filter_by):
+        item = self.get_one_or_none_map.get(filter_by.get("id"))
+        if item is None:
+            raise ObjectNotFoundException()
+        return item
+
+    async def edit(self, data, exclude_unset=False, **filter_by):
+        self.last_edit = (data, exclude_unset, filter_by)
+
+    async def delete(self, **filter_by):
+        self.delete_calls.append(filter_by)
 
 
 class FakeEducationProgressRepository:
@@ -199,6 +249,47 @@ async def test_auto_create_education_rewrites_all_data_from_json(fake_education_
     assert len(fake_education_db.education_material.add_calls) == 2
     assert len(fake_education_db.education_card.add_calls) == 2
     assert fake_education_db.commit_count == 1
+
+
+@pytest.mark.asyncio
+async def test_education_service_crud_methods(fake_education_db):
+    fake_education_db.education_theme.get_one_or_none_map[THEME_ID] = make_theme()
+    fake_education_db.education_material.get_one_or_none_map[MATERIAL_ID] = make_material()
+    fake_education_db.education_card.get_one_or_none_map[CARD_ID] = make_card()
+
+    created_theme = await EducationService(fake_education_db).create_theme(
+        education_service_module.EducationThemeCreate.model_validate(build_theme_create_payload())
+    )
+    updated_theme = await EducationService(fake_education_db).update_theme(
+        THEME_ID,
+        education_service_module.EducationThemeUpdate(theme="Updated"),
+    )
+    await EducationService(fake_education_db).delete_theme(THEME_ID)
+    created_material = await EducationService(fake_education_db).create_material(
+        THEME_ID,
+        education_service_module.EducationMaterialCreate.model_validate(build_material_create_payload()),
+    )
+    updated_material = await EducationService(fake_education_db).update_material(
+        MATERIAL_ID,
+        education_service_module.EducationMaterialUpdate(title="Updated material"),
+    )
+    await EducationService(fake_education_db).delete_material(MATERIAL_ID)
+    created_card = await EducationService(fake_education_db).create_card(
+        MATERIAL_ID,
+        education_service_module.CardCreate.model_validate(build_card_create_payload()),
+    )
+    updated_card = await EducationService(fake_education_db).update_card(
+        CARD_ID,
+        education_service_module.CardUpdate(text="Updated card"),
+    )
+    await EducationService(fake_education_db).delete_card(CARD_ID)
+
+    assert created_theme.theme == "Theme title"
+    assert updated_theme.id == THEME_ID
+    assert created_material.education_theme_id == THEME_ID
+    assert updated_material.id == MATERIAL_ID
+    assert created_card.text == "Card text"
+    assert updated_card.id == CARD_ID
 
 
 @pytest.mark.asyncio

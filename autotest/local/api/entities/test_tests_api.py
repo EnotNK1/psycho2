@@ -14,6 +14,11 @@ from autotest.factories.tests_entity import (
     TEST_ID,
     USER_ID,
     build_test_result_request,
+    build_test_create_payload,
+    build_scale_create_payload,
+    build_border_create_payload,
+    build_question_create_payload,
+    build_answer_create_payload,
     make_answer,
     make_border,
     make_question,
@@ -66,6 +71,26 @@ class DummyTestApiService:
     last_result_by_id = None
     last_passed_tests_user_id = None
     auto_create_called = False
+    created_test_response = None
+    created_scale_response = None
+    created_border_response = None
+    created_question_response = None
+    created_answer_response = None
+    last_create_test_payload = None
+    last_update_test_args = None
+    last_delete_test_id = None
+    last_create_scale_args = None
+    last_update_scale_args = None
+    last_delete_scale_id = None
+    last_create_border_args = None
+    last_update_border_args = None
+    last_delete_border_id = None
+    last_create_question_args = None
+    last_update_question_args = None
+    last_delete_question_id = None
+    last_create_answer_payload = None
+    last_update_answer_args = None
+    last_delete_answer_id = None
 
     def __init__(self, db):
         self.db = db
@@ -106,6 +131,44 @@ class DummyTestApiService:
         cls.last_result_by_id = None
         cls.last_passed_tests_user_id = None
         cls.auto_create_called = False
+        cls.created_test_response = {
+            "id": str(TEST_ID),
+            **build_test_create_payload(),
+        }
+        cls.created_scale_response = {
+            "id": str(SCALE_ID),
+            "test_id": str(TEST_ID),
+            **build_scale_create_payload(),
+        }
+        cls.created_border_response = {
+            "id": str(BORDER_ID),
+            "scale_id": str(SCALE_ID),
+            **build_border_create_payload(),
+        }
+        cls.created_question_response = {
+            "id": str(QUESTION_ID),
+            "test_id": str(TEST_ID),
+            **build_question_create_payload(),
+        }
+        cls.created_answer_response = {
+            "id": str(ANSWER_ID),
+            **build_answer_create_payload(),
+        }
+        cls.last_create_test_payload = None
+        cls.last_update_test_args = None
+        cls.last_delete_test_id = None
+        cls.last_create_scale_args = None
+        cls.last_update_scale_args = None
+        cls.last_delete_scale_id = None
+        cls.last_create_border_args = None
+        cls.last_update_border_args = None
+        cls.last_delete_border_id = None
+        cls.last_create_question_args = None
+        cls.last_update_question_args = None
+        cls.last_delete_question_id = None
+        cls.last_create_answer_payload = None
+        cls.last_update_answer_args = None
+        cls.last_delete_answer_id = None
 
     async def auto_create(self):
         if type(self).raise_on_auto_create:
@@ -117,6 +180,61 @@ class DummyTestApiService:
         if type(self).raise_on_all_tests:
             raise type(self).raise_on_all_tests
         return type(self).all_tests_response
+
+    async def create_test(self, test_data):
+        type(self).last_create_test_payload = test_data
+        return type(self).created_test_response
+
+    async def update_test(self, test_id, test_data):
+        type(self).last_update_test_args = (test_id, test_data)
+        return type(self).created_test_response
+
+    async def delete_test(self, test_id):
+        type(self).last_delete_test_id = test_id
+
+    async def create_scale(self, test_id, scale_data):
+        type(self).last_create_scale_args = (test_id, scale_data)
+        return type(self).created_scale_response
+
+    async def update_scale(self, scale_id, scale_data):
+        type(self).last_update_scale_args = (scale_id, scale_data)
+        return type(self).created_scale_response
+
+    async def delete_scale(self, scale_id):
+        type(self).last_delete_scale_id = scale_id
+
+    async def create_border(self, scale_id, border_data):
+        type(self).last_create_border_args = (scale_id, border_data)
+        return type(self).created_border_response
+
+    async def update_border(self, border_id, border_data):
+        type(self).last_update_border_args = (border_id, border_data)
+        return type(self).created_border_response
+
+    async def delete_border(self, border_id):
+        type(self).last_delete_border_id = border_id
+
+    async def create_question(self, test_id, question_data):
+        type(self).last_create_question_args = (test_id, question_data)
+        return type(self).created_question_response
+
+    async def update_question(self, question_id, question_data):
+        type(self).last_update_question_args = (question_id, question_data)
+        return type(self).created_question_response
+
+    async def delete_question(self, question_id):
+        type(self).last_delete_question_id = question_id
+
+    async def create_answer_choice(self, answer_data):
+        type(self).last_create_answer_payload = answer_data
+        return type(self).created_answer_response
+
+    async def update_answer_choice(self, answer_id, answer_data):
+        type(self).last_update_answer_args = (answer_id, answer_data)
+        return type(self).created_answer_response
+
+    async def delete_answer_choice(self, answer_id):
+        type(self).last_delete_answer_id = answer_id
 
     async def test_by_id(self, test_id):
         if type(self).raise_on_test_by_id:
@@ -221,6 +339,78 @@ async def test_auto_create_returns_500_when_service_fails(tests_api_client_facto
         response = await client.post("/tests/auto")
 
     assert response.status_code == 500
+
+
+@pytest.mark.asyncio
+async def test_tests_crud_endpoints_delegate_payloads(tests_api_client_factory):
+    async for client, _ in tests_api_client_factory():
+        create_test_response = await client.post("/tests/", json=build_test_create_payload())
+        update_test_response = await client.patch(f"/tests/{TEST_ID}", json={"title": "Updated"})
+        delete_test_response = await client.delete(f"/tests/{TEST_ID}")
+        create_scale_response = await client.post(
+            f"/tests/{TEST_ID}/scales",
+            json=build_scale_create_payload(),
+        )
+        update_scale_response = await client.patch(f"/tests/scales/{SCALE_ID}", json={"title": "Scale B"})
+        delete_scale_response = await client.delete(f"/tests/scales/{SCALE_ID}")
+        create_border_response = await client.post(
+            f"/tests/scales/{SCALE_ID}/borders",
+            json=build_border_create_payload(),
+        )
+        update_border_response = await client.patch(
+            f"/tests/borders/{BORDER_ID}",
+            json={"title": "High"},
+        )
+        delete_border_response = await client.delete(f"/tests/borders/{BORDER_ID}")
+        create_question_response = await client.post(
+            f"/tests/{TEST_ID}/questions",
+            json=build_question_create_payload(),
+        )
+        update_question_response = await client.patch(
+            f"/tests/questions/{QUESTION_ID}",
+            json={"text": "Updated question"},
+        )
+        delete_question_response = await client.delete(f"/tests/questions/{QUESTION_ID}")
+        create_answer_response = await client.post(
+            "/tests/answers",
+            json=build_answer_create_payload(),
+        )
+        update_answer_response = await client.patch(
+            f"/tests/answers/{ANSWER_ID}",
+            json={"text": "Sometimes"},
+        )
+        delete_answer_response = await client.delete(f"/tests/answers/{ANSWER_ID}")
+
+    assert create_test_response.status_code == 200
+    assert update_test_response.status_code == 200
+    assert delete_test_response.status_code == 204
+    assert create_scale_response.status_code == 200
+    assert update_scale_response.status_code == 200
+    assert delete_scale_response.status_code == 204
+    assert create_border_response.status_code == 200
+    assert update_border_response.status_code == 200
+    assert delete_border_response.status_code == 204
+    assert create_question_response.status_code == 200
+    assert update_question_response.status_code == 200
+    assert delete_question_response.status_code == 204
+    assert create_answer_response.status_code == 200
+    assert update_answer_response.status_code == 200
+    assert delete_answer_response.status_code == 204
+    assert DummyTestApiService.last_create_test_payload.title == "Burnout Test"
+    assert DummyTestApiService.last_update_test_args[0] == TEST_ID
+    assert DummyTestApiService.last_delete_test_id == TEST_ID
+    assert DummyTestApiService.last_create_scale_args[0] == TEST_ID
+    assert DummyTestApiService.last_update_scale_args[0] == SCALE_ID
+    assert DummyTestApiService.last_delete_scale_id == SCALE_ID
+    assert DummyTestApiService.last_create_border_args[0] == SCALE_ID
+    assert DummyTestApiService.last_update_border_args[0] == BORDER_ID
+    assert DummyTestApiService.last_delete_border_id == BORDER_ID
+    assert DummyTestApiService.last_create_question_args[0] == TEST_ID
+    assert DummyTestApiService.last_update_question_args[0] == QUESTION_ID
+    assert DummyTestApiService.last_delete_question_id == QUESTION_ID
+    assert DummyTestApiService.last_create_answer_payload.text == "Never"
+    assert DummyTestApiService.last_update_answer_args[0] == ANSWER_ID
+    assert DummyTestApiService.last_delete_answer_id == ANSWER_ID
 
 
 @pytest.mark.asyncio

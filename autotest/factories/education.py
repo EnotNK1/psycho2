@@ -23,6 +23,40 @@ def build_complete_theme_payload(theme_id=THEME_ID):
     return {"education_theme_id": str(theme_id)}
 
 
+def build_theme_create_payload(**overrides):
+    payload = {
+        "theme": "Theme title",
+        "link": "/education/theme",
+        "link_to_picture": "/images/theme.png",
+        "tags": ["tag-1"],
+        "related_topics": [str(SECOND_THEME_ID)],
+    }
+    payload.update(overrides)
+    return payload
+
+
+def build_material_create_payload(**overrides):
+    payload = {
+        "type": 0,
+        "number": 1,
+        "title": "Material title",
+        "link_to_picture": "/images/material.png",
+        "subtitle": "Material subtitle",
+    }
+    payload.update(overrides)
+    return payload
+
+
+def build_card_create_payload(**overrides):
+    payload = {
+        "text": "Card text",
+        "number": 1,
+        "link_to_picture": None,
+    }
+    payload.update(overrides)
+    return payload
+
+
 def build_card_response(card_id=CARD_ID, text="Card text", number=1, link_to_picture=None):
     return {
         "id": str(card_id),

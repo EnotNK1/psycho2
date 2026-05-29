@@ -22,6 +22,8 @@ def build_exercise_payload(**overrides):
         "picture_link": "/images/exercise.png",
         "time_to_read": 5,
         "questions_count": 2,
+        "sort_order": 1,
+        "group": 1,
         "linked_exercise_id": None,
     }
     payload.update(overrides)
@@ -38,6 +40,8 @@ def build_field_payload(**overrides):
         "prompt": "What happened?",
         "description": "Main input",
         "order": 1,
+        "position": 1,
+        "pull_group": None,
         "exercises": [str(SECOND_EXERCISE_ID)],
     }
     payload.update(overrides)
@@ -80,6 +84,8 @@ def build_exercise_response(**overrides):
         "id": str(EXERCISE_ID),
         "title": "Free writing",
         "picture_link": "/images/exercise.png",
+        "sort_order": 1,
+        "group": 1,
         "open": True,
     }
     response.update(overrides)
@@ -94,6 +100,8 @@ def build_exercise_detail_response(**overrides):
         "description": "Describe your day",
         "time_to_read": 5,
         "questions_count": 2,
+        "sort_order": 1,
+        "group": 1,
         "open": True,
     }
     response.update(overrides)
@@ -111,6 +119,8 @@ def build_field_response(**overrides):
         "prompt": "What happened?",
         "description": "Main input",
         "order": 1,
+        "position": 1,
+        "pull_group": None,
         "exercises": [str(SECOND_EXERCISE_ID)],
         "exercise_structure_id": str(EXERCISE_ID),
         "variants": [],
@@ -131,6 +141,7 @@ def build_variant_response(**overrides):
 
 def build_view_response(**overrides):
     response = {
+        "id": str(VIEW_ID),
         "view": "success",
         "score": 10,
         "picture_link": "/images/success.png",
@@ -154,6 +165,7 @@ def build_structure_response(**overrides):
                         "title": "Mood reason",
                         "view": ViewType.DEFAULT.value,
                         "type": FieldType.INPUT.value,
+                        "position": 1,
                         "placeholder": "Write here",
                         "prompt": "What happened?",
                         "variants": [build_variant_response()],
@@ -195,6 +207,9 @@ def build_result_detail_response(**overrides):
                 "view": ViewType.DEFAULT.value,
                 "type": FieldType.INPUT.value,
                 "value": "My answer",
+                "pulled_completed_exercise_id": None,
+                "pulled_group_key": None,
+                "pulled_fields": [],
             }
         ],
     }
@@ -233,6 +248,15 @@ def build_completed_exercises_response(**overrides):
     return response
 
 
+def build_exercises_list_response(**overrides):
+    response = {
+        "regular_exercises": [build_exercise_response()],
+        "related_exercises": [],
+    }
+    response.update(overrides)
+    return response
+
+
 def make_exercise_orm_like(
     exercise_id=EXERCISE_ID,
     *,
@@ -246,6 +270,8 @@ def make_exercise_orm_like(
         picture_link="/images/exercise.png",
         time_to_read=5,
         questions_count=2,
+        sort_order=1,
+        group=1,
         linked_exercise_id=linked_exercise_id,
         field=fields or [],
     )
@@ -262,6 +288,8 @@ def make_field_orm_like(field_id=FIELD_ID, *, variants=None, exercises=None, maj
         prompt="What happened?",
         description="Main input",
         order=1,
+        position=1,
+        pull_group=None,
         exercise_structure_id=EXERCISE_ID,
         variants=variants or [],
         exercises=exercises,
@@ -292,4 +320,8 @@ def make_filled_field_orm_like(field_id=FIELD_ID, *, text="My answer", major=Tru
         field_id=field_id,
         major=major,
         exercises=None,
+        source_group_key=str(field_id),
+        pulled_completed_exercise_id=None,
+        pulled_group_key=None,
+        pulled_fields_snapshot=None,
     )
