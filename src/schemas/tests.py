@@ -5,6 +5,10 @@ from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field
 
 
+class TestImageUpdate(BaseModel):
+    id: uuid.UUID
+    link: str
+
 class ScaleResult(BaseModel):
     id: uuid.UUID
     score: float

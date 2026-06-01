@@ -28,7 +28,7 @@ from src.schemas.tests import (
     TestCreate,
     TestResponse,
     TestResultRequest,
-    TestUpdate,
+    TestUpdate, TestImageUpdate,
 )
 from src.services.tests import TestService
 logger = logging.getLogger(__name__)
@@ -43,6 +43,16 @@ async def auto_create(
 ):
     await TestService(db).auto_create()
     return {"status": "OK"}
+
+@router.post("/update-images", summary="Обновить изображения тестов")
+async def update_test_images(
+    db: DBDep,
+):
+    try:
+        await TestService(db).update_test_links_from_file()
+        return {"status": "OK", "message": "Изображения тестов обновлены"}
+    except ObjectNotFoundException as e:
+        raise ObjectNotFoundHTTPException(detail=str(e))
 
 
 @router.post("/", response_model=TestResponse)

@@ -3,20 +3,20 @@ import json
 import uuid
 import logging
 from pathlib import Path
-from googletrans import Translator
 from typing import Dict, Any, Optional
 from fastapi import HTTPException
 from fastapi import status
-from src.models import AnswerChoiceOrm
+from src.models import AnswerChoiceOrm, TestOrm
 from src.ontology.wellbeing_onto.api import RecommendationRequest, recommendations
 from src.schemas.ontology import OntologyEntry
 from src.api.chat_bot import load_data
+from sqlalchemy import update
 
 from src.schemas.tests import TestAdd, ScaleAdd, BordersAdd, AnswerChoice, Question, TestResultRequest, \
     TestDetailsResponse, AnswerChoiceDetail, QuestionDetail, BorderDetail, ScaleDetail, ScaleResult, \
     TestSaveResult, TestCreate, TestUpdate, TestResponse, ScaleResponse, ScaleUpdate, ScaleCreate, BorderResponse, \
     BorderCreate, BordersUpdate, QuestionCreate, QuestionUpdate, QuestionResponse, AnswerChoiceCreate, \
-    AnswerChoiceUpdate, AnswerChoiceResponse
+    AnswerChoiceUpdate, AnswerChoiceResponse, TestImageUpdate
 from src.services.base import BaseService
 from src.exceptions import (
     ObjectAlreadyExistsException,
@@ -32,6 +32,22 @@ logger = logging.getLogger(__name__)
 
 
 class TestService(BaseService):
+
+    async def update_test_links_from_file(self, file_path: str = "src/services/info/test_info.json"):
+        with open(file_path, encoding="utf-8") as f:
+            tests_data = json.load(f)
+
+        for item in tests_data:
+            test_id = item["id"]
+            new_link = item.get("link", "")
+            test = await self.db.tests.get_one(id=test_id)
+            if not test:
+                raise ObjectNotFoundException(f"Тест с id {test_id} не найден")
+            upd = update(TestOrm).where(TestOrm.id == test_id).values(link=new_link)
+            await self.db.session.execute(upd)
+
+        await self.db.session.commit()
+
     async def create_test(self, data: TestCreate) -> TestResponse:
         test = TestAdd(id=uuid.uuid4(), **data.model_dump())
         created = await self.db.tests.add(test)
