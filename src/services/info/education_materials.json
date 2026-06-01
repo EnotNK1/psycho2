@@ -340,5 +340,50 @@
     "link_to_picture": "/images/images_education_material/img_our_emotions.png",
     "education_theme_id": "22cbb105-8857-48de-806d-7242ced60a98",
     "subtitle": "Выводы"
+  },
+  {
+    "id": "c1a3e8d4-b2f1-4a9d-b8c7-9e5f6a3d2c01",
+    "type": 0,
+    "number": 1,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "c1a3e8d4-b2f1-4a9d-b8c7-9e5f6a3d2b1e",
+    "subtitle": "Что это такое?"
+  },
+  {
+    "id": "c1a3e8d4-b2f1-4a9d-b8c7-9e5f6a3d2c02",
+    "type": 0,
+    "number": 2,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "c1a3e8d4-b2f1-4a9d-b8c7-9e5f6a3d2b1e",
+    "subtitle": "Две системы мышления"
+  },
+  {
+    "id": "c1a3e8d4-b2f1-4a9d-b8c7-9e5f6a3d2c03",
+    "type": 0,
+    "number": 3,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "c1a3e8d4-b2f1-4a9d-b8c7-9e5f6a3d2b1e",
+    "subtitle": "Виды когнитивных искажений"
+  },
+  {
+    "id": "c1a3e8d4-b2f1-4a9d-b8c7-9e5f6a3d2c04",
+    "type": 0,
+    "number": 4,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "c1a3e8d4-b2f1-4a9d-b8c7-9e5f6a3d2b1e",
+    "subtitle": "Что я могу сделать с этим?"
+  },
+  {
+    "id": "c1a3e8d4-b2f1-4a9d-b8c7-9e5f6a3d2c05",
+    "type": 0,
+    "number": 5,
+    "title": "",
+    "link_to_picture": "",
+    "education_theme_id": "c1a3e8d4-b2f1-4a9d-b8c7-9e5f6a3d2b1e",
+    "subtitle": "Выводы"
   }
 ]
