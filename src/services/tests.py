@@ -594,6 +594,12 @@ class TestService(BaseService):
                 await self.db.test_result.add(test_res)
                 await self.db.session.flush()
 
+                try:
+                    scales_info = load_data("src/services/info/scale_info.json")
+                except Exception:
+                    scales_info = []
+                scale_desc_map = {s["id"]: s.get("description", "") for s in scales_info}
+
                 result = []
                 scale_results_for_ontology = []
                 for scale, score in zip(scales, scale_sum_list):
@@ -621,7 +627,8 @@ class TestService(BaseService):
                                 "score": score,
                                 "conclusion": border.title,
                                 "color": border.color,
-                                "user_recommendation": border.user_recommendation
+                                "user_recommendation": border.user_recommendation,
+                                "description": scale_desc_map.get(str(scale.id), "")
                             })
                             scale_results_for_ontology.append({
                                 "scale_title": scale.title,
@@ -825,6 +832,11 @@ class TestService(BaseService):
             )
 
             results = []
+            try:
+                scales_info = load_data("src/services/info/scale_info.json")
+            except Exception:
+                scales_info = []
+            scale_desc_map = {s["id"]: s.get("description", "") for s in scales_info}
             for test_result in test_results:
                 # Получаем результаты шкал для данного результата теста
                 scale_results = await self.db.scale_result.get_filtered(test_result_id=test_result.id)
@@ -867,6 +879,7 @@ class TestService(BaseService):
                         "conclusion": conclusion,
                         "color": color,
                         "user_recommendation": user_recommendation,
+                        "description": scale_desc_map.get(str(scale.id), "")
                     })
 
                 results.append(result)
@@ -900,6 +913,12 @@ class TestService(BaseService):
                 "scale_results": [],
             }
 
+            try:
+                scales_info = load_data("src/services/info/scale_info.json")
+            except Exception:
+                scales_info = []
+            scale_desc_map = {s["id"]: s.get("description", "") for s in scales_info}
+
             # Для каждого результата шкалы получаем дополнительные данные
             for sr in scale_results:
                 # Получаем информацию о шкале
@@ -930,6 +949,7 @@ class TestService(BaseService):
                     "conclusion": conclusion,
                     "color": color,
                     "user_recommendation": user_recommendation,
+                    "description": scale_desc_map.get(str(scale.id), "")
                 })
 
             return result
