@@ -170,4 +170,20 @@ class Calculator:
             low_expression, blame
         ]
 
+    def test_san_calculate_results(self, answers: List[int]):
+        self.check_number_responses(len(answers), 30)
+        self_indices = [1, 2, 7, 8, 13, 14, 19, 20, 25, 26]
+        activity_indices = [3, 4, 9, 10, 15, 16, 21, 22, 27, 28]
+        mood_indices = [5, 6, 11, 12, 17, 18, 23, 24, 29, 30]
+
+        def calc_scale(indices):
+            total = sum(answers[i - 1] for i in indices)
+            return round((total / 10) + 4, 2)
+
+        return [
+            calc_scale(self_indices),
+            calc_scale(activity_indices),
+            calc_scale(mood_indices)
+        ]
+
 calculator_service = Calculator()

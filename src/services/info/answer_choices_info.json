@@ -806,5 +806,19 @@
     "id": "7d9ad37a-a2dc-41b5-85e1-018c89c09bcd",
     "text": "Постоянно",
     "score": 5
-  }
+  },
+  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a1", "text": "3", "score": 3 },
+  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a2", "text": "2", "score": 2 },
+  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a3", "text": "1", "score": 1 },
+  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a4", "text": "0", "score": 0 },
+  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a5", "text": "-1", "score": -1 },
+  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a6", "text": "-2", "score": -2 },
+  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a7", "text": "-3", "score": -3 },
+  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b1", "text": "-3", "score": -3 },
+  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b2", "text": "-2", "score": -2 },
+  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b3", "text": "-1", "score": -1 },
+  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b4", "text": "0", "score": 0 },
+  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b5", "text": "1", "score": 1 },
+  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b6", "text": "2", "score": 2 },
+  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b7", "text": "3", "score": 3 }
 ]

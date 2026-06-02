@@ -587,6 +587,7 @@ class TestService(BaseService):
                 "Ищем причины выгорания": calculator_service.test_bat_calculate_results,
                 "Почему я ждал этого?": calculator_service.test_leasy_calculate_results,
                 "Что мне свойственно?": calculator_service.test_five_factors_calculate_results,
+                "Как я чувствую себя в данный момент?": calculator_service.test_san_calculate_results,
             }
 
             calculate_method = calculation_methods.get(test.title)
