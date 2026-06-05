@@ -1,8 +1,7 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 from src.services.auth import AuthService
-from src.exceptions import InsufficientPermissionsHTTPException
 
 async def verify_admin(
     user_id: UserIdDep,
@@ -11,7 +10,7 @@ async def verify_admin(
 
     user = await AuthService(db).get_one_or_none_user(id=user_id)
     if not user or user.role_id != 0:
-        raise InsufficientPermissionsHTTPException()
+        raise HTTPException(status_code=403, detail="Недостаточно прав для выполнения операции")
     return user_id
 
 async def verify_hrd(
@@ -21,7 +20,7 @@ async def verify_hrd(
 
     user = await AuthService(db).get_one_or_none_user(id=user_id)
     if not user or user.role_id != 4:
-        raise InsufficientPermissionsHTTPException()
+        raise HTTPException(status_code=403, detail="Недостаточно прав для выполнения операции")
     return user_id
 
 async def verify_hr(
@@ -31,7 +30,7 @@ async def verify_hr(
 
     user = await AuthService(db).get_one_or_none_user(id=user_id)
     if not user or user.role_id != 3:
-        raise InsufficientPermissionsHTTPException()
+        raise HTTPException(status_code=403, detail="Недостаточно прав для выполнения операции")
     return user_id
 
 AdminIdDep = Depends(verify_admin)
