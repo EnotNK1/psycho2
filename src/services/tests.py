@@ -3,20 +3,20 @@ import json
 import uuid
 import logging
 from pathlib import Path
-from googletrans import Translator
 from typing import Dict, Any, Optional
 from fastapi import HTTPException
 from fastapi import status
-from src.models import AnswerChoiceOrm
+from src.models import AnswerChoiceOrm, TestOrm
 from src.ontology.wellbeing_onto.api import RecommendationRequest, recommendations
 from src.schemas.ontology import OntologyEntry
 from src.api.chat_bot import load_data
+from sqlalchemy import update
 
 from src.schemas.tests import TestAdd, ScaleAdd, BordersAdd, AnswerChoice, Question, TestResultRequest, \
     TestDetailsResponse, AnswerChoiceDetail, QuestionDetail, BorderDetail, ScaleDetail, ScaleResult, \
     TestSaveResult, TestCreate, TestUpdate, TestResponse, ScaleResponse, ScaleUpdate, ScaleCreate, BorderResponse, \
     BorderCreate, BordersUpdate, QuestionCreate, QuestionUpdate, QuestionResponse, AnswerChoiceCreate, \
-    AnswerChoiceUpdate, AnswerChoiceResponse
+    AnswerChoiceUpdate, AnswerChoiceResponse, TestImageUpdate
 from src.services.base import BaseService
 from src.exceptions import (
     ObjectAlreadyExistsException,
@@ -32,6 +32,22 @@ logger = logging.getLogger(__name__)
 
 
 class TestService(BaseService):
+
+    async def update_test_links_from_file(self, file_path: str = "src/services/info/test_info.json"):
+        with open(file_path, encoding="utf-8") as f:
+            tests_data = json.load(f)
+
+        for item in tests_data:
+            test_id = item["id"]
+            new_link = item.get("link", "")
+            test = await self.db.tests.get_one(id=test_id)
+            if not test:
+                raise ObjectNotFoundException(f"Тест с id {test_id} не найден")
+            upd = update(TestOrm).where(TestOrm.id == test_id).values(link=new_link)
+            await self.db.session.execute(upd)
+
+        await self.db.session.commit()
+
     async def create_test(self, data: TestCreate) -> TestResponse:
         test = TestAdd(id=uuid.uuid4(), **data.model_dump())
         created = await self.db.tests.add(test)
@@ -571,6 +587,7 @@ class TestService(BaseService):
                 "Ищем причины выгорания": calculator_service.test_bat_calculate_results,
                 "Почему я ждал этого?": calculator_service.test_leasy_calculate_results,
                 "Что мне свойственно?": calculator_service.test_five_factors_calculate_results,
+                "Как я чувствую себя в данный момент?": calculator_service.test_san_calculate_results,
             }
 
             calculate_method = calculation_methods.get(test.title)
@@ -593,6 +610,12 @@ class TestService(BaseService):
                 )
                 await self.db.test_result.add(test_res)
                 await self.db.session.flush()
+
+                try:
+                    scales_info = load_data("src/services/info/scale_info.json")
+                except Exception:
+                    scales_info = []
+                scale_desc_map = {s["id"]: s.get("description", "") for s in scales_info}
 
                 result = []
                 scale_results_for_ontology = []
@@ -621,7 +644,8 @@ class TestService(BaseService):
                                 "score": score,
                                 "conclusion": border.title,
                                 "color": border.color,
-                                "user_recommendation": border.user_recommendation
+                                "user_recommendation": border.user_recommendation,
+                                "description": scale_desc_map.get(str(scale.id), "")
                             })
                             scale_results_for_ontology.append({
                                 "scale_title": scale.title,
@@ -825,6 +849,11 @@ class TestService(BaseService):
             )
 
             results = []
+            try:
+                scales_info = load_data("src/services/info/scale_info.json")
+            except Exception:
+                scales_info = []
+            scale_desc_map = {s["id"]: s.get("description", "") for s in scales_info}
             for test_result in test_results:
                 # Получаем результаты шкал для данного результата теста
                 scale_results = await self.db.scale_result.get_filtered(test_result_id=test_result.id)
@@ -867,6 +896,7 @@ class TestService(BaseService):
                         "conclusion": conclusion,
                         "color": color,
                         "user_recommendation": user_recommendation,
+                        "description": scale_desc_map.get(str(scale.id), "")
                     })
 
                 results.append(result)
@@ -900,6 +930,12 @@ class TestService(BaseService):
                 "scale_results": [],
             }
 
+            try:
+                scales_info = load_data("src/services/info/scale_info.json")
+            except Exception:
+                scales_info = []
+            scale_desc_map = {s["id"]: s.get("description", "") for s in scales_info}
+
             # Для каждого результата шкалы получаем дополнительные данные
             for sr in scale_results:
                 # Получаем информацию о шкале
@@ -930,6 +966,7 @@ class TestService(BaseService):
                     "conclusion": conclusion,
                     "color": color,
                     "user_recommendation": user_recommendation,
+                    "description": scale_desc_map.get(str(scale.id), "")
                 })
 
             return result
