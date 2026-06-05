@@ -55,6 +55,18 @@ class ApplicationService(BaseService):
             created_at=application.created_at
         )
 
+    async def delete_application(self, app_id: UUID):
+
+
+        applications = await self.db.application.get_filtered(id=app_id)
+
+        if not applications:
+            raise ObjectNotFoundException()
+
+        await self.db.application.delete(id=app_id)
+        return {"status": "OK"}
+
+
     async def add_application(self, data: ApplicationCreate, user_id: int):
 
         new_app_data = Application(

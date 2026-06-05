@@ -2,11 +2,17 @@ import pytest
 
 import src.api.education as education_api_module
 from autotest.factories.education import (
+    CARD_ID,
     MATERIAL_ID,
     THEME_ID,
     USER_ID,
+    build_card_create_payload,
     build_complete_material_payload,
     build_complete_theme_payload,
+    build_material_create_payload,
+    build_theme_create_payload,
+    build_card_response,
+    build_material_response,
     build_theme_response,
     build_theme_with_materials_response,
     build_user_progress_response,
@@ -32,6 +38,15 @@ class DummyEducationApiService:
     last_complete_material_args = None
     last_complete_theme_args = None
     last_progress_user_id = None
+    last_create_theme_payload = None
+    last_update_theme_args = None
+    last_delete_theme_id = None
+    last_create_material_args = None
+    last_update_material_args = None
+    last_delete_material_id = None
+    last_create_card_args = None
+    last_update_card_args = None
+    last_delete_card_id = None
 
     def __init__(self, db):
         self.db = db
@@ -54,11 +69,53 @@ class DummyEducationApiService:
         cls.last_complete_material_args = None
         cls.last_complete_theme_args = None
         cls.last_progress_user_id = None
+        cls.last_create_theme_payload = None
+        cls.last_update_theme_args = None
+        cls.last_delete_theme_id = None
+        cls.last_create_material_args = None
+        cls.last_update_material_args = None
+        cls.last_delete_material_id = None
+        cls.last_create_card_args = None
+        cls.last_update_card_args = None
+        cls.last_delete_card_id = None
 
     async def auto_create_education(self):
         if type(self).raise_on_auto_create:
             raise type(self).raise_on_auto_create
         return type(self).auto_create_response
+
+    async def create_theme(self, theme_data):
+        type(self).last_create_theme_payload = theme_data
+        return build_theme_response()
+
+    async def update_theme(self, theme_id, theme_data):
+        type(self).last_update_theme_args = (theme_id, theme_data)
+        return build_theme_response()
+
+    async def delete_theme(self, theme_id):
+        type(self).last_delete_theme_id = theme_id
+
+    async def create_material(self, theme_id, material_data):
+        type(self).last_create_material_args = (theme_id, material_data)
+        return build_material_response()
+
+    async def update_material(self, material_id, material_data):
+        type(self).last_update_material_args = (material_id, material_data)
+        return build_material_response()
+
+    async def delete_material(self, material_id):
+        type(self).last_delete_material_id = material_id
+
+    async def create_card(self, material_id, card_data):
+        type(self).last_create_card_args = (material_id, card_data)
+        return build_card_response()
+
+    async def update_card(self, card_id, card_data):
+        type(self).last_update_card_args = (card_id, card_data)
+        return build_card_response()
+
+    async def delete_card(self, card_id):
+        type(self).last_delete_card_id = card_id
 
     async def get_all_education_themes(self):
         if type(self).raise_on_get_themes:
@@ -135,6 +192,51 @@ async def test_auto_create_education_returns_500_on_unexpected_error(education_a
         response = await client.post("/education/auto-create")
 
     assert response.status_code == 500
+
+
+@pytest.mark.asyncio
+async def test_education_crud_endpoints_delegate_payloads(education_api_client_factory):
+    async for client, _ in education_api_client_factory():
+        create_theme_response = await client.post("/education/themes", json=build_theme_create_payload())
+        update_theme_response = await client.patch(f"/education/themes/{THEME_ID}", json={"theme": "Updated"})
+        delete_theme_response = await client.delete(f"/education/themes/{THEME_ID}")
+        create_material_response = await client.post(
+            f"/education/themes/{THEME_ID}/materials",
+            json=build_material_create_payload(),
+        )
+        update_material_response = await client.patch(
+            f"/education/materials/{MATERIAL_ID}",
+            json={"title": "Updated material"},
+        )
+        delete_material_response = await client.delete(f"/education/materials/{MATERIAL_ID}")
+        create_card_response = await client.post(
+            f"/education/materials/{MATERIAL_ID}/cards",
+            json=build_card_create_payload(),
+        )
+        update_card_response = await client.patch(
+            f"/education/cards/{CARD_ID}",
+            json={"text": "Updated card"},
+        )
+        delete_card_response = await client.delete(f"/education/cards/{CARD_ID}")
+
+    assert create_theme_response.status_code == 200
+    assert update_theme_response.status_code == 200
+    assert delete_theme_response.status_code == 204
+    assert create_material_response.status_code == 200
+    assert update_material_response.status_code == 200
+    assert delete_material_response.status_code == 204
+    assert create_card_response.status_code == 200
+    assert update_card_response.status_code == 200
+    assert delete_card_response.status_code == 204
+    assert DummyEducationApiService.last_create_theme_payload.theme == "Theme title"
+    assert DummyEducationApiService.last_update_theme_args[0] == THEME_ID
+    assert DummyEducationApiService.last_delete_theme_id == THEME_ID
+    assert DummyEducationApiService.last_create_material_args[0] == THEME_ID
+    assert DummyEducationApiService.last_update_material_args[0] == MATERIAL_ID
+    assert DummyEducationApiService.last_delete_material_id == MATERIAL_ID
+    assert DummyEducationApiService.last_create_card_args[0] == MATERIAL_ID
+    assert DummyEducationApiService.last_update_card_args[0] == CARD_ID
+    assert DummyEducationApiService.last_delete_card_id == CARD_ID
 
 
 @pytest.mark.asyncio

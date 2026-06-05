@@ -130,3 +130,57 @@ def build_test_result_request(
         "results": results or [0, 1],
     }
 
+
+def build_test_create_payload(**overrides):
+    payload = {
+        "title": "Burnout Test",
+        "type": 1,
+        "description": "Long description",
+        "short_desc": "Short description",
+        "link": "/images/test.png",
+    }
+    payload.update(overrides)
+    return payload
+
+
+def build_scale_create_payload(**overrides):
+    payload = {
+        "title": "Scale A",
+        "min": 0,
+        "max": 10,
+    }
+    payload.update(overrides)
+    return payload
+
+
+def build_border_create_payload(**overrides):
+    payload = {
+        "left_border": 0,
+        "right_border": 10,
+        "color": "#00AA00",
+        "title": "Norm",
+        "user_recommendation": "Take care",
+    }
+    payload.update(overrides)
+    return payload
+
+
+def build_question_create_payload(**overrides):
+    payload = {
+        "text": "Question text",
+        "opposite_text": "Opposite text",
+        "number": 1,
+        "answer_choice": [str(ANSWER_ID), str(SECOND_ANSWER_ID)],
+    }
+    payload.update(overrides)
+    return payload
+
+
+def build_answer_create_payload(**overrides):
+    payload = {
+        "text": "Never",
+        "score": 0,
+    }
+    payload.update(overrides)
+    return payload
+

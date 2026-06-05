@@ -3951,7 +3951,7 @@
 
 
   {
-    "id": "8f50d58c-f0a9-44d9-ab57-fe2dac2c4155",
+    "id": "9b84398e-45bb-46c2-8de0-4cd0f3fced57",
     "text": "На работе я чувствую душевную усталость",
     "number": 1,
     "test_id": "ea869ca2-4e8f-4a98-8b13-4fbeedf30539",
@@ -4377,6 +4377,486 @@
       "1a6779ae-8649-4baf-88fe-6b9dc16e9714",
       "d2cb101c-6407-42b0-9d80-8d2cbff81513",
       "7d9ad37a-a2dc-41b5-85e1-018c89c09bcd"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567801",
+    "text": "Самочувствие хорошее",
+    "opposite_text": "Самочувствие плохое",
+    "number": 1,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567802",
+    "text": "Чувствую себя сильным",
+    "opposite_text": "Чувствую себя слабым",
+    "number": 2,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567803",
+    "text": "Пассивный",
+    "opposite_text": "Активный",
+    "number": 3,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567804",
+    "text": "Малоподвижный",
+    "opposite_text": "Подвижный",
+    "number": 4,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567805",
+    "text": "Веселый",
+    "opposite_text": "Грустный",
+    "number": 5,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567806",
+    "text": "Хорошее настроение",
+    "opposite_text": "Плохое настроение",
+    "number": 6,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567807",
+    "text": "Работоспособный",
+    "opposite_text": "Разбитый",
+    "number": 7,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567808",
+    "text": "Полный сил",
+    "opposite_text": "Обессиленный",
+    "number": 8,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567809",
+    "text": "Медлительный",
+    "opposite_text": "Быстрый",
+    "number": 9,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567810",
+    "text": "Бездеятельный",
+    "opposite_text": "Деятельный",
+    "number": 10,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567811",
+    "text": "Счастливый",
+    "opposite_text": "Несчастный",
+    "number": 11,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567812",
+    "text": "Жизнерадостный",
+    "opposite_text": "Мрачный",
+    "number": 12,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567813",
+    "text": "Напряженный",
+    "opposite_text": "Расслабленный",
+    "number": 13,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567814",
+    "text": "Здоровый",
+    "opposite_text": "Больной",
+    "number": 14,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567815",
+    "text": "Безучастный",
+    "opposite_text": "Увлеченный",
+    "number": 15,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567816",
+    "text": "Равнодушный",
+    "opposite_text": "Взволнованный",
+    "number": 16,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567817",
+    "text": "Восторженный",
+    "opposite_text": "Унылый",
+    "number": 17,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567818",
+    "text": "Радостный",
+    "opposite_text": "Печальный",
+    "number": 18,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567819",
+    "text": "Отдохнувший",
+    "opposite_text": "Усталый",
+    "number": 19,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567820",
+    "text": "Свежий",
+    "opposite_text": "Изнуренный",
+    "number": 20,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567821",
+    "text": "Сонливый",
+    "opposite_text": "Возбужденный",
+    "number": 21,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567822",
+    "text": "Желание отдохнуть",
+    "opposite_text": "Желание работать",
+    "number": 22,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567823",
+    "text": "Спокойный",
+    "opposite_text": "Озабоченный",
+    "number": 23,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567824",
+    "text": "Оптимистичный",
+    "opposite_text": "Пессимистичный",
+    "number": 24,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567825",
+    "text": "Выносливый",
+    "opposite_text": "Утомляемый",
+    "number": 25,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567826",
+    "text": "Бодрый",
+    "opposite_text": "Вялый",
+    "number": 26,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567827",
+    "text": "Соображать трудно",
+    "opposite_text": "Соображать легко",
+    "number": 27,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567828",
+    "text": "Рассеянный",
+    "opposite_text": "Внимательный",
+    "number": 28,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+      "d1e2f3a4-b5c6-7890-abcd-ef12345678b7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567829",
+    "text": "Полный надежд",
+    "opposite_text": "Разочарованный",
+    "number": 29,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
+    ]
+  },
+  {
+    "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567830",
+    "text": "Довольный",
+    "opposite_text": "Недовольный",
+    "number": 30,
+    "test_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "answer_choice": [
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+      "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
     ]
   }
 

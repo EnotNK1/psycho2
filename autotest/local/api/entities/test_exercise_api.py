@@ -13,6 +13,7 @@ from autotest.factories.exercise import (
     build_completed_response,
     build_completed_exercises_response,
     build_exercise_detail_response,
+    build_exercises_list_response,
     build_exercise_payload,
     build_exercise_response,
     build_field_payload,
@@ -44,7 +45,7 @@ class DummyExerciseApiService:
     field_response = build_field_response()
     variant_response = build_variant_response()
     view_response = build_view_response()
-    list_response = [build_exercise_response()]
+    list_response = build_exercises_list_response()
     detail_response = build_exercise_detail_response()
     structure_response = build_structure_response()
     results_response = build_results_response()
@@ -73,7 +74,7 @@ class DummyExerciseApiService:
         cls.field_response = build_field_response()
         cls.variant_response = build_variant_response()
         cls.view_response = build_view_response()
-        cls.list_response = [build_exercise_response()]
+        cls.list_response = build_exercises_list_response()
         cls.detail_response = build_exercise_detail_response()
         cls.structure_response = build_structure_response()
         cls.results_response = build_results_response()
@@ -224,17 +225,23 @@ async def test_get_all_exercises_returns_wrapped_list(exercise_api_client_factor
     async for client, _ in exercise_api_client_factory():
         response = await client.get("/exercises/")
     assert response.status_code == 200
-    assert response.json() == {"exercises": [build_exercise_response()]}
+    assert response.json() == build_exercises_list_response()
     assert DummyExerciseApiService.last_user_id == USER_ID
 
 
 @pytest.mark.asyncio
 async def test_get_all_exercises_returns_empty_list(exercise_api_client_factory):
-    DummyExerciseApiService.list_response = []
+    DummyExerciseApiService.list_response = {
+        "regular_exercises": [],
+        "related_exercises": [],
+    }
     async for client, _ in exercise_api_client_factory():
         response = await client.get("/exercises/")
     assert response.status_code == 200
-    assert response.json() == {"exercises": []}
+    assert response.json() == {
+        "regular_exercises": [],
+        "related_exercises": [],
+    }
 
 
 @pytest.mark.asyncio

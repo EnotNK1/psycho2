@@ -40,6 +40,16 @@ async def get_application(
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
+@router.delete("/{app_id}", summary="Отклонить заявку по app_id")
+async def delete_application(
+        app_id: UUID,
+        db: DBDep
+):
+    try:
+        return await ApplicationService(db).delete_application(app_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+
 @router.post("", summary="Создание заявки")
 async def add_application(
         data: ApplicationCreate,

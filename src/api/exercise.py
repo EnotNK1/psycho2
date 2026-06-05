@@ -4,7 +4,7 @@ from fastapi import APIRouter, status
 from src.schemas.exercise import (
     ExerciseResponse, ExerciseDetailResponse, ExerciseDetail1Response, ResultDetailResponse,
     FieldResponse, VariantResponse, ExerciseViewCreate, ExerciseResultsResponse,
-    ExerciseCreate, FieldCreate, VariantCreate, ExerciseViewResponse,
+    ExerciseCreate, ExerciseUpdate, FieldCreate, FieldUpdate, VariantCreate, VariantUpdate, ExerciseViewResponse, ExerciseViewUpdate,
     CompletedExerciseCreate, ExercisesListResponse, CompletedExerciseResponse, CompletedExercisesListResponse
 )
 from src.services.exercise import ExerciseService
@@ -31,6 +31,15 @@ async def create_exercise(
     return await ExerciseService(db).create_exercise(exercise_data)
 
 
+@router.patch("/{exercise_id}", response_model=ExerciseResponse)
+async def update_exercise(
+    exercise_id: uuid.UUID,
+    exercise_data: ExerciseUpdate,
+    db: DBDep
+):
+    return await ExerciseService(db).update_exercise(exercise_id, exercise_data)
+
+
 @router.delete("/{exercise_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_exercise(
     exercise_id: uuid.UUID,
@@ -46,6 +55,15 @@ async def create_field(
     db: DBDep
 ):
     return await ExerciseService(db).create_field(exercise_id, field_data)
+
+
+@router.patch("/fields/{field_id}", response_model=FieldResponse)
+async def update_field(
+    field_id: uuid.UUID,
+    field_data: FieldUpdate,
+    db: DBDep
+):
+    return await ExerciseService(db).update_field(field_id, field_data)
 
 
 @router.delete("/fields/{field_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -65,6 +83,15 @@ async def create_variant(
     return await ExerciseService(db).create_variant(field_id, variant_data)
 
 
+@router.patch("/variants/{variant_id}", response_model=VariantResponse)
+async def update_variant(
+    variant_id: uuid.UUID,
+    variant_data: VariantUpdate,
+    db: DBDep
+):
+    return await ExerciseService(db).update_variant(variant_id, variant_data)
+
+
 @router.delete("/variants/{variant_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_variant(
     variant_id: uuid.UUID,
@@ -82,6 +109,15 @@ async def create_exercise_view(
     return await ExerciseService(db).create_exercise_view(exercise_id, view_data)
 
 
+@router.patch("/views/{view_id}", response_model=ExerciseViewResponse)
+async def update_exercise_view(
+    view_id: uuid.UUID,
+    view_data: ExerciseViewUpdate,
+    db: DBDep
+):
+    return await ExerciseService(db).update_exercise_view(view_id, view_data)
+
+
 @router.delete("/views/{view_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_exercise_view(
     view_id: uuid.UUID,
@@ -96,7 +132,7 @@ async def get_all_exercises(
     user_id: UserIdDep = None
 ):
     exercises = await ExerciseService(db).get_all_exercises(user_id)
-    return ExercisesListResponse(exercises=exercises)
+    return ExercisesListResponse(**exercises)
 
 
 @router.get("/passed/user/{user_id}", response_model=CompletedExercisesListResponse)

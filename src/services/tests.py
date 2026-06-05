@@ -3,18 +3,20 @@ import json
 import uuid
 import logging
 from pathlib import Path
-from googletrans import Translator
 from typing import Dict, Any, Optional
 from fastapi import HTTPException
 from fastapi import status
-from src.models import AnswerChoiceOrm
+from src.models import AnswerChoiceOrm, TestOrm
 from src.ontology.wellbeing_onto.api import RecommendationRequest, recommendations
 from src.schemas.ontology import OntologyEntry
 from src.api.chat_bot import load_data
+from sqlalchemy import update
 
 from src.schemas.tests import TestAdd, ScaleAdd, BordersAdd, AnswerChoice, Question, TestResultRequest, \
     TestDetailsResponse, AnswerChoiceDetail, QuestionDetail, BorderDetail, ScaleDetail, ScaleResult, \
-    TestSaveResult
+    TestSaveResult, TestCreate, TestUpdate, TestResponse, ScaleResponse, ScaleUpdate, ScaleCreate, BorderResponse, \
+    BorderCreate, BordersUpdate, QuestionCreate, QuestionUpdate, QuestionResponse, AnswerChoiceCreate, \
+    AnswerChoiceUpdate, AnswerChoiceResponse, TestImageUpdate
 from src.services.base import BaseService
 from src.exceptions import (
     ObjectAlreadyExistsException,
@@ -30,6 +32,153 @@ logger = logging.getLogger(__name__)
 
 
 class TestService(BaseService):
+
+    async def update_test_links_from_file(self, file_path: str = "src/services/info/test_info.json"):
+        with open(file_path, encoding="utf-8") as f:
+            tests_data = json.load(f)
+
+        for item in tests_data:
+            test_id = item["id"]
+            new_link = item.get("link", "")
+            test = await self.db.tests.get_one(id=test_id)
+            if not test:
+                raise ObjectNotFoundException(f"Тест с id {test_id} не найден")
+            upd = update(TestOrm).where(TestOrm.id == test_id).values(link=new_link)
+            await self.db.session.execute(upd)
+
+        await self.db.session.commit()
+
+    async def create_test(self, data: TestCreate) -> TestResponse:
+        test = TestAdd(id=uuid.uuid4(), **data.model_dump())
+        created = await self.db.tests.add(test)
+        await self.db.commit()
+        return TestResponse.model_validate(created)
+
+    async def update_test(self, test_id: uuid.UUID, data: TestUpdate) -> TestResponse:
+        existing = await self.db.tests.get_one_or_none(id=test_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.tests.edit(data, exclude_unset=True, id=test_id)
+        await self.db.commit()
+        updated = await self.db.tests.get_one(id=test_id)
+        return TestResponse.model_validate(updated)
+
+    async def delete_test(self, test_id: uuid.UUID) -> None:
+        existing = await self.db.tests.get_one_or_none(id=test_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.tests.delete(id=test_id)
+
+    async def create_scale(self, test_id: uuid.UUID, data: ScaleCreate) -> ScaleResponse:
+        if not await self.db.tests.get_one_or_none(id=test_id):
+            raise ObjectNotFoundException()
+        scale = ScaleAdd(
+            id=uuid.uuid4(),
+            title=data.title,
+            min=data.min,
+            max=data.max,
+            test_id=test_id,
+        )
+        created = await self.db.scales.add(scale)
+        await self.db.commit()
+        return ScaleResponse.model_validate(created)
+
+    async def update_scale(self, scale_id: uuid.UUID, data: ScaleUpdate) -> ScaleResponse:
+        existing = await self.db.scales.get_one_or_none(id=scale_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.scales.edit(data, exclude_unset=True, id=scale_id)
+        await self.db.commit()
+        updated = await self.db.scales.get_one(id=scale_id)
+        return ScaleResponse.model_validate(updated)
+
+    async def delete_scale(self, scale_id: uuid.UUID) -> None:
+        existing = await self.db.scales.get_one_or_none(id=scale_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.scales.delete(id=scale_id)
+
+    async def create_border(self, scale_id: uuid.UUID, data: BorderCreate) -> BorderResponse:
+        if not await self.db.scales.get_one_or_none(id=scale_id):
+            raise ObjectNotFoundException()
+        border = BordersAdd(
+            id=uuid.uuid4(),
+            left_border=data.left_border,
+            right_border=data.right_border,
+            color=data.color,
+            title=data.title,
+            user_recommendation=data.user_recommendation,
+            scale_id=scale_id,
+        )
+        created = await self.db.borders.add(border)
+        await self.db.commit()
+        return BorderResponse.model_validate(created)
+
+    async def update_border(self, border_id: uuid.UUID, data: BordersUpdate) -> BorderResponse:
+        existing = await self.db.borders.get_one_or_none(id=border_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.borders.edit(data, exclude_unset=True, id=border_id)
+        await self.db.commit()
+        updated = await self.db.borders.get_one(id=border_id)
+        return BorderResponse.model_validate(updated)
+
+    async def delete_border(self, border_id: uuid.UUID) -> None:
+        existing = await self.db.borders.get_one_or_none(id=border_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.borders.delete(id=border_id)
+
+    async def create_question(self, test_id: uuid.UUID, data: QuestionCreate) -> QuestionResponse:
+        if not await self.db.tests.get_one_or_none(id=test_id):
+            raise ObjectNotFoundException()
+        question = Question(
+            id=uuid.uuid4(),
+            test_id=test_id,
+            **data.model_dump(),
+        )
+        created = await self.db.question.add(question)
+        await self.db.commit()
+        return QuestionResponse.model_validate(created)
+
+    async def update_question(self, question_id: uuid.UUID, data: QuestionUpdate) -> QuestionResponse:
+        existing = await self.db.question.get_one_or_none(id=question_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.question.edit(data, exclude_unset=True, id=question_id)
+        await self.db.commit()
+        updated = await self.db.question.get_one(id=question_id)
+        return QuestionResponse.model_validate(updated)
+
+    async def delete_question(self, question_id: uuid.UUID) -> None:
+        existing = await self.db.question.get_one_or_none(id=question_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.question.delete(id=question_id)
+
+    async def create_answer_choice(self, data: AnswerChoiceCreate) -> AnswerChoiceResponse:
+        answer = AnswerChoice(id=uuid.uuid4(), **data.model_dump())
+        created = await self.db.answer_choice.add(answer)
+        await self.db.commit()
+        return AnswerChoiceResponse.model_validate(created)
+
+    async def update_answer_choice(
+        self, answer_id: uuid.UUID, data: AnswerChoiceUpdate
+    ) -> AnswerChoiceResponse:
+        existing = await self.db.answer_choice.get_one_or_none(id=answer_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.answer_choice.edit(data, exclude_unset=True, id=answer_id)
+        await self.db.commit()
+        updated = await self.db.answer_choice.get_one(id=answer_id)
+        return AnswerChoiceResponse.model_validate(updated)
+
+    async def delete_answer_choice(self, answer_id: uuid.UUID) -> None:
+        existing = await self.db.answer_choice.get_one_or_none(id=answer_id)
+        if not existing:
+            raise ObjectNotFoundException()
+        await self.db.answer_choice.delete(id=answer_id)
+
 
     def load_borders_for_scale(self, scale_id: uuid.UUID) -> list[dict]:
         with open("src/services/info/borders_info.json", encoding="utf-8") as file:
@@ -438,6 +587,7 @@ class TestService(BaseService):
                 "Ищем причины выгорания": calculator_service.test_bat_calculate_results,
                 "Почему я ждал этого?": calculator_service.test_leasy_calculate_results,
                 "Что мне свойственно?": calculator_service.test_five_factors_calculate_results,
+                "Как я чувствую себя в данный момент?": calculator_service.test_san_calculate_results,
             }
 
             calculate_method = calculation_methods.get(test.title)
@@ -460,6 +610,12 @@ class TestService(BaseService):
                 )
                 await self.db.test_result.add(test_res)
                 await self.db.session.flush()
+
+                try:
+                    scales_info = load_data("src/services/info/scale_info.json")
+                except Exception:
+                    scales_info = []
+                scale_desc_map = {s["id"]: s.get("description", "") for s in scales_info}
 
                 result = []
                 scale_results_for_ontology = []
@@ -488,7 +644,8 @@ class TestService(BaseService):
                                 "score": score,
                                 "conclusion": border.title,
                                 "color": border.color,
-                                "user_recommendation": border.user_recommendation
+                                "user_recommendation": border.user_recommendation,
+                                "description": scale_desc_map.get(str(scale.id), "")
                             })
                             scale_results_for_ontology.append({
                                 "scale_title": scale.title,
@@ -679,6 +836,79 @@ class TestService(BaseService):
             logger.error(f"Ошибка при получении результатов теста: {ex}")
             raise MyAppException()
 
+
+    async def get_test_result_by_user_and_test_not_psyc(
+            self, test_id: uuid.UUID, user_id: uuid.UUID
+    ):
+
+        try:
+
+            # Получаем ВСЕ результаты теста для указанного пользователя и теста
+            test_results = await self.db.test_result.get_filtered(
+                test_id=test_id, user_id=user_id
+            )
+
+            results = []
+            try:
+                scales_info = load_data("src/services/info/scale_info.json")
+            except Exception:
+                scales_info = []
+            scale_desc_map = {s["id"]: s.get("description", "") for s in scales_info}
+            for test_result in test_results:
+                # Получаем результаты шкал для данного результата теста
+                scale_results = await self.db.scale_result.get_filtered(test_result_id=test_result.id)
+
+                # Формируем ответ для каждого результата теста
+                result = {
+                    "test_id": str(test_result.test_id),
+                    "test_result_id": str(test_result.id),
+                    "datetime": test_result.date.isoformat(),
+                    "scale_results": [],
+                }
+
+                # Для каждого результата шкалы получаем дополнительные данные
+                for sr in scale_results:
+                    # Получаем информацию о шкале
+                    scale = await self.db.scales.get_one(id=sr.scale_id)
+                    if not scale:
+                        continue
+
+                    # Получаем границы для шкалы
+                    borders = await self.db.borders.get_filtered(scale_id=scale.id)
+
+                    # Определяем вывод и рекомендации на основе score
+                    conclusion = ""
+                    color = ""
+                    user_recommendation = ""
+                    for border in borders:
+                        if border.left_border <= sr.score <= border.right_border:
+                            conclusion = border.title
+                            color = border.color
+                            user_recommendation = border.user_recommendation
+                            break
+
+                    # Добавляем результат шкалы в ответ
+                    result["scale_results"].append({
+                        "scale_id": str(scale.id),
+                        "scale_title": scale.title,
+                        "score": sr.score,
+                        "max_score": scale.max,
+                        "conclusion": conclusion,
+                        "color": color,
+                        "user_recommendation": user_recommendation,
+                        "description": scale_desc_map.get(str(scale.id), "")
+                    })
+
+                results.append(result)
+
+            return results
+
+        except ObjectNotFoundException as ex:
+            raise ex
+        except Exception as ex:
+            logger.error(f"Ошибка при получении результатов теста: {ex}")
+            raise MyAppException()
+
     async def get_test_result_by_id(self, result_id: uuid.UUID) -> Dict[str, Any]:
         """
         Получает результат теста по его ID.
@@ -699,6 +929,12 @@ class TestService(BaseService):
                 "datetime": test_result.date.isoformat(),
                 "scale_results": [],
             }
+
+            try:
+                scales_info = load_data("src/services/info/scale_info.json")
+            except Exception:
+                scales_info = []
+            scale_desc_map = {s["id"]: s.get("description", "") for s in scales_info}
 
             # Для каждого результата шкалы получаем дополнительные данные
             for sr in scale_results:
@@ -730,6 +966,7 @@ class TestService(BaseService):
                     "conclusion": conclusion,
                     "color": color,
                     "user_recommendation": user_recommendation,
+                    "description": scale_desc_map.get(str(scale.id), "")
                 })
 
             return result
