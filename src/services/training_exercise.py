@@ -1,5 +1,6 @@
 import uuid
 from typing import List
+import logging
 
 from src.services.base import BaseService
 from src.services.fixtures.training_exercise import TRAINING_EXERCISES
@@ -14,6 +15,10 @@ from src.models.training_exercises import (
     TrainingVariantOrm,
     TrainingCompletedExerciseOrm
 )
+
+from src.services.gamification import GamificationService
+
+logger = logging.getLogger(__name__)
 
 
 class TrainingExerciseService(BaseService):
@@ -137,6 +142,15 @@ class TrainingExerciseService(BaseService):
             training_exercise_id=exercise_id,
             user_id=user_id,
         )
+        try:
+            gamification_service = GamificationService(self.db)
+            new_score = await gamification_service.add_points_for_activity(user_id, "training_exercise_completed")
+            logger.info(
+                f"Добавлены баллы за прохождение обучающего упражнения для пользователя {user_id}. Новый счет: {new_score}")
+        except Exception as gamification_error:
+
+            logger.error(
+                f"Ошибка при добавлении баллов за обучающее упражнение: {gamification_error}")
 
         await self.db.training_exercise.add(completed)
         await self.db.commit()
