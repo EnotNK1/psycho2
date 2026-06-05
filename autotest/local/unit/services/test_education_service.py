@@ -1,6 +1,6 @@
+import io
 import json
 import uuid
-from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -231,16 +231,31 @@ def fake_education_db(monkeypatch):
     return FakeEducationDb()
 
 
-@pytest.mark.asyncio
-async def test_auto_create_education_rewrites_all_data_from_json(fake_education_db):
-    info_dir = _workspace_tmp_dir("rewrite")
-    (info_dir / "education_themes.json").write_text(json.dumps(sample_themes_fixture()), encoding="utf-8")
-    (info_dir / "education_materials.json").write_text(json.dumps(sample_materials_fixture()), encoding="utf-8")
-    (info_dir / "education_cards.json").write_text(json.dumps(sample_cards_fixture()), encoding="utf-8")
+def patch_education_files(monkeypatch, *, themes, materials, cards):
+    payloads = {
+        "src/services/info/education_themes.json": json.dumps(themes),
+        "src/services/info/education_materials.json": json.dumps(materials),
+        "src/services/info/education_cards.json": json.dumps(cards),
+    }
 
+    def fake_open(path, *args, **kwargs):
+        if path not in payloads:
+            raise FileNotFoundError(path)
+        return io.StringIO(payloads[path])
+
+    monkeypatch.setattr("builtins.open", fake_open)
+
+
+@pytest.mark.asyncio
+async def test_auto_create_education_rewrites_all_data_from_json(fake_education_db, monkeypatch):
+    patch_education_files(
+        monkeypatch,
+        themes=sample_themes_fixture(),
+        materials=sample_materials_fixture(),
+        cards=sample_cards_fixture(),
+    )
     service = EducationService(fake_education_db)
-    service._get_info_dir = lambda: info_dir
-    service._delete_all_education_data = lambda: _noop_async()
+    service._delete_all_education_data = _noop_async
 
     result = await service.auto_create_education()
 
@@ -305,10 +320,8 @@ async def test_auto_create_education_skips_existing_entities(fake_education_db):
     fake_education_db.education_theme.get_one_or_none_map[THEME_ID] = object()
     fake_education_db.education_material.get_one_or_none_map[MATERIAL_ID] = object()
     fake_education_db.education_card.get_one_or_none_map[uuid.UUID(sample_cards_fixture()[0]["id"])] = object()
-
     service = EducationService(fake_education_db)
-    service._get_info_dir = lambda: info_dir
-    service._delete_all_education_data = lambda: _noop_async()
+    service._delete_all_education_data = _noop_async
 
     await service.auto_create_education()
 
@@ -318,13 +331,33 @@ async def test_auto_create_education_skips_existing_entities(fake_education_db):
 
 
 @pytest.mark.asyncio
-async def test_auto_create_education_rolls_back_on_unexpected_error(fake_education_db):
-    info_dir = _workspace_tmp_dir("rollback")
-    (info_dir / "education_themes.json").write_text("not-json", encoding="utf-8")
+async def test_auto_create_education_rolls_back_on_invalid_json(fake_education_db, monkeypatch):
+    def fake_open(path, *args, **kwargs):
+        if path == "src/services/info/education_themes.json":
+            return io.StringIO("not-json")
+        return io.StringIO("[]")
 
+    monkeypatch.setattr("builtins.open", fake_open)
     service = EducationService(fake_education_db)
-    service._get_info_dir = lambda: info_dir
-    service._delete_all_education_data = lambda: _noop_async()
+    service._delete_all_education_data = _noop_async
+
+    with pytest.raises(MyAppException):
+        await service.auto_create_education()
+
+    assert fake_education_db.rollback_count == 1
+
+
+@pytest.mark.asyncio
+async def test_auto_create_education_rolls_back_when_commit_fails(fake_education_db, monkeypatch):
+    patch_education_files(
+        monkeypatch,
+        themes=sample_themes_fixture(),
+        materials=sample_materials_fixture(),
+        cards=sample_cards_fixture(),
+    )
+    fake_education_db.raise_on_commit = RuntimeError("boom")
+    service = EducationService(fake_education_db)
+    service._delete_all_education_data = _noop_async
 
     with pytest.raises(MyAppException):
         await service.auto_create_education()
@@ -349,6 +382,14 @@ async def test_get_all_education_themes_returns_repository_payload(fake_educatio
 
     assert len(result) == 1
     assert result[0].id == THEME_ID
+
+
+@pytest.mark.asyncio
+async def test_get_all_education_themes_propagates_not_found(fake_education_db):
+    fake_education_db.education_theme.raise_on_get_all = ObjectNotFoundException()
+
+    with pytest.raises(ObjectNotFoundException):
+        await EducationService(fake_education_db).get_all_education_themes()
 
 
 @pytest.mark.asyncio
@@ -408,6 +449,18 @@ async def test_complete_education_theme_completes_matching_daily_task(fake_educa
     payload, user_id = DummyDailyTaskService.complete_calls[0]
     assert payload.daily_task_id == SECOND_THEME_ID
     assert user_id == USER_ID
+
+
+@pytest.mark.asyncio
+async def test_complete_education_theme_skips_when_no_matching_task(fake_education_db):
+    DummyDailyTaskService.tasks_response = [{"id": SECOND_THEME_ID, "destination_id": MATERIAL_ID}]
+
+    await EducationService(fake_education_db).complete_education_theme(
+        SimpleNamespace(education_theme_id=THEME_ID),
+        USER_ID,
+    )
+
+    assert DummyDailyTaskService.complete_calls == []
 
 
 @pytest.mark.asyncio
@@ -509,9 +562,3 @@ def _raise_async(error):
         raise error
 
     return _inner
-
-
-def _workspace_tmp_dir(name):
-    info_dir = Path("autotest") / "tmp" / f"education_{name}_{uuid.uuid4().hex}" / "info"
-    info_dir.mkdir(parents=True, exist_ok=True)
-    return info_dir
