@@ -52,6 +52,7 @@ class User(BaseModel):
     gender: str
     city: str
     phone_number: Optional[str]
+    avatar_link: Optional[str] = None
 
 
 class UserWithHashedPassword(User):
@@ -106,6 +107,11 @@ class UpdateUserRequest(BaseModel):
     gender: Optional[str] = None
     birth_date: Optional[datetime.date] = None
     phone_number: Optional[str] = None
+    avatar_link: Optional[str] = None
+
+
+class AvatarUploadResponse(BaseModel):
+    avatar_link: str
 
 class UpdateHDRRequest(BaseModel):
     company: Optional[str] = None
@@ -155,6 +161,7 @@ class GetAllManagerRequest(BaseModel):
     courses: Optional[str] = None
     work_format: Optional[str] = None
     association: Optional[str] = None
+    avatar_link: Optional[str] = None
     inquiries: Optional[list[InquiryResponse]] = None
     role_id: int
 
@@ -193,6 +200,7 @@ class AdminUserResponse(BaseModel):
     company: Optional[str] = None
     department: Optional[str] = None
     job_title: Optional[str] = None
+    avatar_link: Optional[str] = None
     role_id: int
 
 

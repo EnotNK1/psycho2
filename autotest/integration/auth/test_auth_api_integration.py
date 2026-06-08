@@ -43,6 +43,7 @@ def build_user_orm(*, user_id=USER_ID, email="user@example.com", hashed_password
         department=None,
         job_title=None,
         face_to_face=None,
+        avatar_link=None,
     )
 
 
@@ -205,6 +206,28 @@ async def test_me_update_and_delete_integration_use_real_database(
     assert delete_response.status_code == 200
     deleted_user = await fetch_user(integration_session_factory)
     assert deleted_user is None
+
+
+@pytest.mark.asyncio
+async def test_upload_avatar_integration_updates_user_avatar_link(
+    auth_integration_client_factory,
+    integration_session_factory,
+):
+    async with integration_session_factory() as session:
+        session.add(build_user_orm())
+        await session.commit()
+
+    async for client in auth_integration_client_factory():
+        response = await client.patch(
+            "/auth/avatar",
+            files={"avatar": ("avatar.png", b"avatar-bytes", "image/png")},
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["avatar_link"].startswith("/images/avatars/")
+    updated_user = await fetch_user(integration_session_factory)
+    assert updated_user.avatar_link == body["avatar_link"]
 
 
 @pytest.mark.asyncio

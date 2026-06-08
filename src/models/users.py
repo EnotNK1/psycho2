@@ -37,6 +37,7 @@ class UsersOrm(Base):
     courses: Mapped[Optional[str]] = mapped_column(String(400))
     work_format: Mapped[Optional[str]] = mapped_column(String(50))
     association: Mapped[Optional[str]] = mapped_column(String(200))
+    avatar_link: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
 
     inquiries: Mapped[list["InquiryOrm"]] = relationship(
         secondary=user_inquiry, back_populates="users"

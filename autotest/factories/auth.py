@@ -77,6 +77,7 @@ def make_user(
     username="tester",
     role_id=1,
     hashed_password="$2b$12$dummy",
+    avatar_link=None,
 ):
     return SimpleNamespace(
         id=user_id,
@@ -94,6 +95,7 @@ def make_user(
         face_to_face=False,
         role_id=role_id,
         hashed_password=hashed_password,
+        avatar_link=avatar_link,
     )
 
 

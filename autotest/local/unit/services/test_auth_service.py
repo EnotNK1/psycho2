@@ -1,5 +1,7 @@
 import datetime
 from types import SimpleNamespace
+import shutil
+from pathlib import Path
 
 import jwt
 import pytest
@@ -484,6 +486,64 @@ async def test_update_user_raises_when_user_missing(fake_auth_db):
         await AuthService(fake_auth_db).update_user(
             USER_ID,
             SimpleNamespace(username="updated"),
+        )
+
+
+@pytest.mark.asyncio
+async def test_upload_avatar_saves_file_updates_user_and_commits(fake_auth_db, monkeypatch):
+    fake_auth_db.users.one_or_none_result = make_user()
+    test_root = Path("autotest/.avatar-test-artifacts")
+    if test_root.exists():
+        shutil.rmtree(test_root)
+    fake_module_file = test_root / "src" / "services" / "auth.py"
+    fake_module_file.parent.mkdir(parents=True, exist_ok=True)
+    fake_module_file.write_text("# test auth module\n", encoding="utf-8")
+    expected_dir = test_root / "src" / "images" / "avatars"
+    monkeypatch.setattr(auth_service_module, "__file__", str(fake_module_file))
+
+    try:
+        response = await AuthService(fake_auth_db).upload_avatar(
+            user_id=USER_ID,
+            filename="avatar.png",
+            content_type="image/png",
+            content=b"avatar-bytes",
+        )
+
+        assert response.avatar_link.startswith("/images/avatars/")
+        assert fake_auth_db.commit_count == 1
+        assert fake_auth_db.users.edit_calls[0]["filter_by"] == {"id": USER_ID}
+        assert fake_auth_db.users.edit_calls[0]["data"].avatar_link == response.avatar_link
+        saved_files = list(expected_dir.glob("*.png"))
+        assert len(saved_files) == 1
+        assert saved_files[0].read_bytes() == b"avatar-bytes"
+    finally:
+        if test_root.exists():
+            shutil.rmtree(test_root)
+
+
+@pytest.mark.asyncio
+async def test_upload_avatar_raises_for_unsupported_content_type(fake_auth_db):
+    fake_auth_db.users.one_or_none_result = make_user()
+
+    with pytest.raises(ValueError):
+        await AuthService(fake_auth_db).upload_avatar(
+            user_id=USER_ID,
+            filename="avatar.gif",
+            content_type="image/gif",
+            content=b"avatar-bytes",
+        )
+
+
+@pytest.mark.asyncio
+async def test_upload_avatar_raises_when_user_missing(fake_auth_db):
+    fake_auth_db.users.one_or_none_result = None
+
+    with pytest.raises(ObjectNotFoundException):
+        await AuthService(fake_auth_db).upload_avatar(
+            user_id=USER_ID,
+            filename="avatar.png",
+            content_type="image/png",
+            content=b"avatar-bytes",
         )
 
 

@@ -43,6 +43,7 @@ class DummyAuthApiService:
     token_user = None
     token_create_response = ("token-access", "token-refresh")
     burnout_response = 0.42
+    avatar_response = {"avatar_link": "/images/avatars/avatar.png"}
     raise_on_me = None
     raise_on_delete = None
     raise_on_register = None
@@ -52,6 +53,7 @@ class DummyAuthApiService:
     raise_on_change_password = None
     raise_on_update = None
     raise_on_burnout = None
+    raise_on_avatar = None
     last_register_data = None
     last_login_data = None
     last_refresh_token = None
@@ -60,6 +62,7 @@ class DummyAuthApiService:
     last_get_one_or_none_filters = None
     last_delete_filters = None
     last_burnout_input = None
+    last_avatar_args = None
 
     def __init__(self, db):
         self.db = db
@@ -75,6 +78,7 @@ class DummyAuthApiService:
         cls.token_user = None
         cls.token_create_response = ("token-access", "token-refresh")
         cls.burnout_response = 0.42
+        cls.avatar_response = {"avatar_link": "/images/avatars/avatar.png"}
         cls.raise_on_me = None
         cls.raise_on_delete = None
         cls.raise_on_register = None
@@ -84,6 +88,7 @@ class DummyAuthApiService:
         cls.raise_on_change_password = None
         cls.raise_on_update = None
         cls.raise_on_burnout = None
+        cls.raise_on_avatar = None
         cls.last_register_data = None
         cls.last_login_data = None
         cls.last_refresh_token = None
@@ -92,6 +97,7 @@ class DummyAuthApiService:
         cls.last_get_one_or_none_filters = None
         cls.last_delete_filters = None
         cls.last_burnout_input = None
+        cls.last_avatar_args = None
 
     async def get_one_or_none_user(self, **filter_by):
         if type(self).raise_on_me:
@@ -148,6 +154,12 @@ class DummyAuthApiService:
             raise type(self).raise_on_burnout
         type(self).last_burnout_input = test_results
         return type(self).burnout_response
+
+    async def upload_avatar(self, user_id, filename, content_type, content):
+        if type(self).raise_on_avatar:
+            raise type(self).raise_on_avatar
+        type(self).last_avatar_args = (user_id, filename, content_type, content)
+        return type(self).avatar_response
 
 
 class DummyTestService:
@@ -751,6 +763,59 @@ async def test_update_user_returns_422_for_invalid_boolean(auth_api_client_facto
 
     async for client, _ in auth_api_client_factory():
         response = await client.patch("/auth/update", json=payload)
+
+    assert response.status_code == 422
+
+
+@pytest.mark.asyncio
+async def test_upload_avatar_returns_avatar_link(auth_api_client_factory):
+    async for client, _ in auth_api_client_factory():
+        response = await client.patch(
+            "/auth/avatar",
+            files={"avatar": ("avatar.png", b"avatar-bytes", "image/png")},
+        )
+
+    assert response.status_code == 200
+    assert response.json() == {"avatar_link": "/images/avatars/avatar.png"}
+    assert DummyAuthApiService.last_avatar_args == (
+        USER_ID,
+        "avatar.png",
+        "image/png",
+        b"avatar-bytes",
+    )
+
+
+@pytest.mark.asyncio
+async def test_upload_avatar_maps_not_found(auth_api_client_factory):
+    DummyAuthApiService.raise_on_avatar = ObjectNotFoundException()
+
+    async for client, _ in auth_api_client_factory():
+        response = await client.patch(
+            "/auth/avatar",
+            files={"avatar": ("avatar.png", b"avatar-bytes", "image/png")},
+        )
+
+    assert response.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_upload_avatar_maps_validation_error(auth_api_client_factory):
+    DummyAuthApiService.raise_on_avatar = ValueError("Unsupported avatar content type")
+
+    async for client, _ in auth_api_client_factory():
+        response = await client.patch(
+            "/auth/avatar",
+            files={"avatar": ("avatar.txt", b"avatar-bytes", "text/plain")},
+        )
+
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Unsupported avatar content type"
+
+
+@pytest.mark.asyncio
+async def test_upload_avatar_returns_422_when_file_missing(auth_api_client_factory):
+    async for client, _ in auth_api_client_factory():
+        response = await client.patch("/auth/avatar")
 
     assert response.status_code == 422
 

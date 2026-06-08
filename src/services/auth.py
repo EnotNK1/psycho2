@@ -6,6 +6,7 @@ from passlib.context import CryptContext
 from fastapi import HTTPException
 import jwt
 from datetime import datetime, timezone, timedelta
+from pathlib import Path
 
 from sqlalchemy.testing.suite.test_reflection import users
 
@@ -20,6 +21,7 @@ from src.exceptions import (
     PasswordDoNotMatchException, ObjectNotFoundException,
 )
 from src.schemas.users import (
+    AvatarUploadResponse,
     UserRequestAdd,
     UserAdd,
     UserAddOauth,
@@ -37,6 +39,12 @@ serializer = URLSafeTimedSerializer("secret_key")
 
 class AuthService(BaseService):
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    allowed_avatar_extensions = {".jpg", ".jpeg", ".png", ".webp"}
+    allowed_avatar_content_types = {
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+    }
 
     def create_tokens(self, data: dict) -> Tuple[str, str]:
         to_encode = data.copy()
@@ -180,6 +188,43 @@ class AuthService(BaseService):
         # Обновляем данные пользователя
         await self.db.users.edit(data, exclude_unset=True, id=user_id)
         await self.db.commit()
+
+    async def upload_avatar(
+        self,
+        user_id: uuid.UUID,
+        filename: str | None,
+        content_type: str | None,
+        content: bytes,
+    ) -> AvatarUploadResponse:
+        user = await self.db.users.get_one_or_none(id=user_id)
+        if not user:
+            raise ObjectNotFoundException("User not found")
+
+        if not filename:
+            raise ValueError("Filename is required")
+        if not content:
+            raise ValueError("Avatar file is empty")
+
+        suffix = Path(filename).suffix.lower()
+        if suffix not in self.allowed_avatar_extensions:
+            raise ValueError("Unsupported avatar file extension")
+        if content_type not in self.allowed_avatar_content_types:
+            raise ValueError("Unsupported avatar content type")
+
+        avatars_dir = Path(__file__).resolve().parent.parent / "images" / "avatars"
+        avatars_dir.mkdir(parents=True, exist_ok=True)
+        stored_name = f"{user_id}_{uuid.uuid4().hex}{suffix}"
+        stored_path = avatars_dir / stored_name
+        stored_path.write_bytes(content)
+
+        avatar_link = f"/images/avatars/{stored_name}"
+        await self.db.users.edit(
+            UpdateUserRequest(avatar_link=avatar_link),
+            exclude_unset=True,
+            id=user_id,
+        )
+        await self.db.commit()
+        return AvatarUploadResponse(avatar_link=avatar_link)
 
     async def get_all_users_admin(self):
         return await self.db.users.get_all_users_admin()

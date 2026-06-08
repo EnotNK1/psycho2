@@ -1,7 +1,7 @@
 from typing import Optional
 
 from celery.bin.result import result
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, File, HTTPException, Response, UploadFile
 from pydantic import EmailStr
 import uuid
 
@@ -20,7 +20,7 @@ from src.exceptions import (
     MyAppHTTPException,
 )
 from src.schemas.users import UserRequestAdd, UserAdd, UserRequestLogIn, PasswordResetRequest, PasswordChangeRequest, \
-    UpdateUserRequest, TokenResponse, RefreshTokenRequest
+    UpdateUserRequest, TokenResponse, RefreshTokenRequest, AvatarUploadResponse
 from src.services.auth import AuthService
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
@@ -172,6 +172,31 @@ async def update_user(
         raise SeveralObjectsFoundHTTPException()
     except IncorrectTokenException:
         raise IncorrectTokenHTTPException()
+    except MyAppException as e:
+        raise e
+    except Exception as e:
+        raise MyAppHTTPException(
+            detail="An unexpected error occurred: " + str(e))
+
+
+@router.patch("/avatar", response_model=AvatarUploadResponse)
+async def upload_avatar(
+        db: DBDep,
+        user_id: UserIdDep,
+        avatar: UploadFile = File(...)
+):
+    try:
+        content = await avatar.read()
+        return await AuthService(db).upload_avatar(
+            user_id=user_id,
+            filename=avatar.filename,
+            content_type=avatar.content_type,
+            content=content,
+        )
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException()
+    except ValueError as ex:
+        raise HTTPException(status_code=400, detail=str(ex))
     except MyAppException as e:
         raise e
     except Exception as e:

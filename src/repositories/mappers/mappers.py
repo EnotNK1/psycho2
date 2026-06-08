@@ -63,6 +63,7 @@ class UserDataMapper(DataMapper):
             courses=model.courses,
             work_format=model.work_format,
             association=model.association,
+            avatar_link=model.avatar_link,
             role_id=model.role_id
         )
 
@@ -258,6 +259,7 @@ class AdminUserDataMapper(DataMapper):
             department=model.department,
             job_title=model.job_title,
             face_to_face=model.face_to_face,
+            avatar_link=model.avatar_link,
             role_id=model.role_id,
             created_at=model.created_at,
             updated_at=model.updated_at
