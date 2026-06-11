@@ -583,7 +583,7 @@ class TestService(BaseService):
                 "Мешаю ли я себе?": calculator_service.test_cmq_calculate_results,
                 "Есть ли у меня депрессия?": calculator_service.test_back_calculate_results,
                 "Потеряли интерес к работе?": calculator_service.test_jas_calculate_results,
-                "Стрессоустойчивость, это про меня?": calculator_service.test_stress_calculate_results,
+                "Стрессоустойчивость — это про меня?": calculator_service.test_stress_calculate_results,
                 "Ищем причины выгорания": calculator_service.test_bat_calculate_results,
                 "Почему я ждал этого?": calculator_service.test_leasy_calculate_results,
                 "Что мне свойственно?": calculator_service.test_five_factors_calculate_results,
@@ -909,23 +909,44 @@ class TestService(BaseService):
             logger.error(f"Ошибка при получении результатов теста: {ex}")
             raise MyAppException()
 
-    async def get_test_result_by_id(self, result_id: uuid.UUID) -> Dict[str, Any]:
+    async def get_test_result_by_id(
+            self,
+            result_id: uuid.UUID,
+            current_user_id: uuid.UUID
+    ) -> Dict[str, Any]:
         """
-        Получает результат теста по его ID.
-        Возвращает результат в формате, соответствующем примеру выходных данных.
+        Получает результат теста по его ID с проверкой прав доступа.
         """
         try:
-            # Получаем результат теста по его ID
+            current_user = await self.db.users.get_one(id=current_user_id)
+            current_user_role = current_user.role_id
+            # Получаем результат теста
             test_result = await self.db.test_result.get_one(id=result_id)
 
-            # Получаем результаты шкал для данного результата теста
+            # Проверка прав
+            if current_user_role == 0:
+                # Администратор имеет полный доступ
+                pass
+            elif current_user_role == 2:
+                # Психолог может видеть результат, только если владелец - его клиент
+                relation = await self.db.clients.get_one_or_none(
+                    client_id=test_result.user_id,
+                    mentor_id=current_user_id,
+                    status=True
+                )
+                if not relation:
+                    raise ObjectNotFoundException("Результат не найден или доступ запрещён")
+            else:
+                # Обычный пользователь – только свои результаты
+                if test_result.user_id != current_user_id:
+                    raise ObjectNotFoundException("Результат не найден или доступ запрещён")
+
+            # Дальнейшая логика без изменений (формирование ответа)
             scale_results = await self.db.scale_result.get_filtered(test_result_id=test_result.id)
 
-            # Формируем ответ
             result = {
                 "test_id": str(test_result.test_id),
                 "test_result_id": str(test_result.id),
-                # Преобразуем дату в строку в формате ISO
                 "datetime": test_result.date.isoformat(),
                 "scale_results": [],
             }
@@ -936,17 +957,13 @@ class TestService(BaseService):
                 scales_info = []
             scale_desc_map = {s["id"]: s.get("description", "") for s in scales_info}
 
-            # Для каждого результата шкалы получаем дополнительные данные
             for sr in scale_results:
-                # Получаем информацию о шкале
                 scale = await self.db.scales.get_one(id=sr.scale_id)
                 if not scale:
-                    continue  # Пропускаем, если шкала не найдена
+                    continue
 
-                # Получаем границы для шкалы
                 borders = await self.db.borders.get_filtered(scale_id=scale.id)
 
-                # Определяем вывод и рекомендации на основе score
                 conclusion = ""
                 color = ""
                 user_recommendation = ""
@@ -957,12 +974,11 @@ class TestService(BaseService):
                         user_recommendation = border.user_recommendation
                         break
 
-                # Добавляем результат шкалы в ответ
                 result["scale_results"].append({
                     "scale_id": str(scale.id),
                     "scale_title": scale.title,
                     "score": sr.score,
-                    "max_score": scale.max,  # Максимальное значение шкалы
+                    "max_score": scale.max,
                     "conclusion": conclusion,
                     "color": color,
                     "user_recommendation": user_recommendation,
