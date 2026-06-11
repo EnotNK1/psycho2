@@ -468,11 +468,12 @@ async def result_by_user_and_test(
     """,
             summary="Получение результата теста по его ID")
 async def get_test_result_by_id(
-        result_id: uuid.UUID,  # test_result_id передается как часть пути
+        result_id: uuid.UUID,
+        user_id: UserIdDep,
         db: DBDep
 ):
     try:
-        res = await TestService(db).get_test_result_by_id(result_id)
+        res = await TestService(db).get_test_result_by_id(result_id, user_id)
 
         test_id = res.get("test_id")
         scale_results = res.get("scale_results", [])
