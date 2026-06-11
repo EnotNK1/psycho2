@@ -46,3 +46,9 @@ class EducationThemeRepository(BaseRepository):
         query = select(self.model).where(self.model.id == id)
         result = await self.session.execute(query)
         return result.scalar_one_or_none()
+
+    async def add_entity(self, entity: educationThemeOrm):
+        self.session.add(entity)
+
+    async def flush(self):
+        await self.session.flush()

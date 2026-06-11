@@ -1,5 +1,3 @@
-import io
-import json
 import uuid
 from types import SimpleNamespace
 
@@ -26,6 +24,7 @@ from autotest.factories.education import (
 )
 from src.exceptions import MyAppException, ObjectAlreadyExistsException, ObjectNotFoundException
 from src.services.education import EducationService
+from src.services.fixtures.education import EDUCATION
 
 
 class FakeEducationThemeRepository:
@@ -38,6 +37,7 @@ class FakeEducationThemeRepository:
         self.raise_on_get_all = None
         self.last_edit = None
         self.delete_calls = []
+        self.flush_count = 0
 
     async def get_one_or_none(self, **filter_by):
         return self.get_one_or_none_map.get(filter_by.get("id"))
@@ -69,6 +69,13 @@ class FakeEducationThemeRepository:
     async def get_orm_one_or_none(self, theme_id):
         return self.get_orm_one_or_none_map.get(theme_id)
 
+    async def add_entity(self, entity):
+        self.add_calls.append(entity)
+        self.get_orm_one_or_none_map[entity.id] = entity
+
+    async def flush(self):
+        self.flush_count += 1
+
 
 class FakeEducationMaterialRepository:
     def __init__(self):
@@ -76,6 +83,7 @@ class FakeEducationMaterialRepository:
         self.get_one_or_none_map = {}
         self.last_edit = None
         self.delete_calls = []
+        self.delete_not_in_calls = []
 
     async def get_one_or_none(self, **filter_by):
         return self.get_one_or_none_map.get(filter_by.get("id"))
@@ -95,6 +103,16 @@ class FakeEducationMaterialRepository:
 
     async def delete(self, **filter_by):
         self.delete_calls.append(filter_by)
+
+    async def get_orm_one_or_none(self, material_id):
+        return self.get_one_or_none_map.get(material_id)
+
+    async def add_entity(self, entity):
+        self.add_calls.append(entity)
+        self.get_one_or_none_map[entity.id] = entity
+
+    async def delete_not_in(self, theme_id, material_ids):
+        self.delete_not_in_calls.append((theme_id, material_ids))
 
 
 class FakeEducationCardRepository:
@@ -103,6 +121,7 @@ class FakeEducationCardRepository:
         self.get_one_or_none_map = {}
         self.last_edit = None
         self.delete_calls = []
+        self.delete_not_in_calls = []
 
     async def get_one_or_none(self, **filter_by):
         return self.get_one_or_none_map.get(filter_by.get("id"))
@@ -122,6 +141,16 @@ class FakeEducationCardRepository:
 
     async def delete(self, **filter_by):
         self.delete_calls.append(filter_by)
+
+    async def get_orm_one_or_none(self, card_id):
+        return self.get_one_or_none_map.get(card_id)
+
+    async def add_entity(self, entity):
+        self.add_calls.append(entity)
+        self.get_one_or_none_map[entity.id] = entity
+
+    async def delete_not_in(self, material_id, card_ids):
+        self.delete_not_in_calls.append((material_id, card_ids))
 
 
 class FakeEducationProgressRepository:
@@ -231,38 +260,49 @@ def fake_education_db(monkeypatch):
     return FakeEducationDb()
 
 
-def patch_education_files(monkeypatch, *, themes, materials, cards):
-    payloads = {
-        "src/services/info/education_themes.json": json.dumps(themes),
-        "src/services/info/education_materials.json": json.dumps(materials),
-        "src/services/info/education_cards.json": json.dumps(cards),
-    }
-
-    def fake_open(path, *args, **kwargs):
-        if path not in payloads:
-            raise FileNotFoundError(path)
-        return io.StringIO(payloads[path])
-
-    monkeypatch.setattr("builtins.open", fake_open)
+def sample_nested_education_fixture():
+    themes = sample_themes_fixture()
+    materials = sample_materials_fixture()
+    cards = sample_cards_fixture()
+    result = []
+    for theme in themes:
+        theme_data = dict(theme)
+        theme_data["materials"] = []
+        for material in materials:
+            if material["education_theme_id"] != theme["id"]:
+                continue
+            material_data = dict(material)
+            material_data.pop("education_theme_id")
+            material_data["cards"] = [
+                {
+                    key: value
+                    for key, value in card.items()
+                    if key != "education_material_id"
+                }
+                for card in cards
+                if card["education_material_id"] == material["id"]
+            ]
+            theme_data["materials"].append(material_data)
+        result.append(theme_data)
+    return result
 
 
 @pytest.mark.asyncio
-async def test_auto_create_education_rewrites_all_data_from_json(fake_education_db, monkeypatch):
-    patch_education_files(
-        monkeypatch,
-        themes=sample_themes_fixture(),
-        materials=sample_materials_fixture(),
-        cards=sample_cards_fixture(),
+async def test_auto_create_education_creates_fixture_tree(fake_education_db, monkeypatch):
+    monkeypatch.setattr(
+        education_service_module,
+        "EDUCATION",
+        sample_nested_education_fixture(),
     )
-    service = EducationService(fake_education_db)
-    service._delete_all_education_data = _noop_async
 
-    result = await service.auto_create_education()
+    result = await EducationService(fake_education_db).auto_create_education()
 
     assert result["status"] == "OK"
     assert len(fake_education_db.education_theme.add_calls) == 2
     assert len(fake_education_db.education_material.add_calls) == 2
     assert len(fake_education_db.education_card.add_calls) == 2
+    assert fake_education_db.education_theme.flush_count == 1
+    assert len(fake_education_db.education_material.delete_not_in_calls) == 2
     assert fake_education_db.commit_count == 1
 
 
@@ -301,77 +341,68 @@ async def test_education_service_crud_methods(fake_education_db):
 
     assert created_theme.theme == "Theme title"
     assert updated_theme.id == THEME_ID
-    assert created_material.education_theme_id == THEME_ID
+    assert created_material.title == "Material title"
     assert updated_material.id == MATERIAL_ID
     assert created_card.text == "Card text"
     assert updated_card.id == CARD_ID
 
 
 @pytest.mark.asyncio
-async def test_auto_create_education_skips_existing_entities(fake_education_db):
-    info_dir = _workspace_tmp_dir("skip")
-    themes = sample_themes_fixture()
-    materials = sample_materials_fixture()
-    cards = sample_cards_fixture()
-    (info_dir / "education_themes.json").write_text(json.dumps(themes), encoding="utf-8")
-    (info_dir / "education_materials.json").write_text(json.dumps(materials), encoding="utf-8")
-    (info_dir / "education_cards.json").write_text(json.dumps(cards), encoding="utf-8")
+async def test_auto_create_education_updates_existing_entities(fake_education_db, monkeypatch):
+    fixture = [sample_nested_education_fixture()[0]]
+    material_data = fixture[0]["materials"][0]
+    card_data = material_data["cards"][0]
+    theme = SimpleNamespace(
+        id=THEME_ID,
+        theme="Old theme",
+        link="old",
+        link_to_picture=None,
+        tags=None,
+        related_topics=None,
+    )
+    material = SimpleNamespace(
+        id=MATERIAL_ID,
+        type=99,
+        number=99,
+        title="Old material",
+        link_to_picture=None,
+        subtitle=None,
+        education_theme_id=SECOND_THEME_ID,
+    )
+    card = SimpleNamespace(
+        id=uuid.UUID(card_data["id"]),
+        text="Old card",
+        number=99,
+        link_to_picture=None,
+        education_material_id=uuid.uuid4(),
+    )
+    fake_education_db.education_theme.get_orm_one_or_none_map[THEME_ID] = theme
+    fake_education_db.education_material.get_one_or_none_map[MATERIAL_ID] = material
+    fake_education_db.education_card.get_one_or_none_map[card.id] = card
+    monkeypatch.setattr(education_service_module, "EDUCATION", fixture)
 
-    fake_education_db.education_theme.get_one_or_none_map[THEME_ID] = object()
-    fake_education_db.education_material.get_one_or_none_map[MATERIAL_ID] = object()
-    fake_education_db.education_card.get_one_or_none_map[uuid.UUID(sample_cards_fixture()[0]["id"])] = object()
-    service = EducationService(fake_education_db)
-    service._delete_all_education_data = _noop_async
+    await EducationService(fake_education_db).auto_create_education()
 
-    await service.auto_create_education()
-
-    assert len(fake_education_db.education_theme.add_calls) == 1
-    assert len(fake_education_db.education_material.add_calls) == 1
-    assert len(fake_education_db.education_card.add_calls) == 1
-
-
-@pytest.mark.asyncio
-async def test_auto_create_education_rolls_back_on_invalid_json(fake_education_db, monkeypatch):
-    def fake_open(path, *args, **kwargs):
-        if path == "src/services/info/education_themes.json":
-            return io.StringIO("not-json")
-        return io.StringIO("[]")
-
-    monkeypatch.setattr("builtins.open", fake_open)
-    service = EducationService(fake_education_db)
-    service._delete_all_education_data = _noop_async
-
-    with pytest.raises(MyAppException):
-        await service.auto_create_education()
-
-    assert fake_education_db.rollback_count == 1
+    assert theme.theme == fixture[0]["theme"]
+    assert material.title == material_data["title"]
+    assert material.education_theme_id == THEME_ID
+    assert card.text == card_data["text"]
+    assert card.education_material_id == MATERIAL_ID
 
 
 @pytest.mark.asyncio
 async def test_auto_create_education_rolls_back_when_commit_fails(fake_education_db, monkeypatch):
-    patch_education_files(
-        monkeypatch,
-        themes=sample_themes_fixture(),
-        materials=sample_materials_fixture(),
-        cards=sample_cards_fixture(),
+    monkeypatch.setattr(
+        education_service_module,
+        "EDUCATION",
+        sample_nested_education_fixture(),
     )
     fake_education_db.raise_on_commit = RuntimeError("boom")
-    service = EducationService(fake_education_db)
-    service._delete_all_education_data = _noop_async
 
     with pytest.raises(MyAppException):
-        await service.auto_create_education()
+        await EducationService(fake_education_db).auto_create_education()
 
     assert fake_education_db.rollback_count == 1
-
-
-@pytest.mark.asyncio
-async def test_delete_all_education_data_executes_delete_for_all_tables(fake_education_db):
-    service = EducationService(fake_education_db)
-
-    await service._delete_all_education_data()
-
-    assert len(fake_education_db.execute_calls) == 3
 
 
 @pytest.mark.asyncio
@@ -553,12 +584,35 @@ async def test_get_user_progress_wraps_unexpected_error(fake_education_db):
         await EducationService(fake_education_db).get_user_progress(USER_ID)
 
 
-async def _noop_async():
-    return None
-
-
 def _raise_async(error):
     async def _inner(*args, **kwargs):
         raise error
 
     return _inner
+
+
+def test_education_fixture_contains_self_regulation_theme():
+    theme = next(item for item in EDUCATION if item["theme"] == "Саморегуляция")
+
+    assert [material["subtitle"] for material in theme["materials"]] == [
+        "Что это такое?",
+        "В чем помогает саморегуляция?",
+        "Как выстроить процесс саморегуляции?",
+        "Техники саморегуляции",
+        "Ловушки саморегуляции: важное отличие",
+        "Выводы",
+    ]
+    assert [len(material["cards"]) for material in theme["materials"]] == [
+        2,
+        3,
+        7,
+        5,
+        3,
+        1,
+    ]
+    assert theme["link_to_picture"] is None
+    assert all(
+        material["link_to_picture"] is None
+        and all(card["link_to_picture"] is None for card in material["cards"])
+        for material in theme["materials"]
+    )

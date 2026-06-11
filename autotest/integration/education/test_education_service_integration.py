@@ -7,14 +7,21 @@ from sqlalchemy import select
 from autotest.factories.education import DAILY_TASK_ID, SECOND_USER_ID, USER_ID
 from src.enums import DailyTaskType
 from src.models.daily_tasks import DailyTaskOrm
-from src.models.education import EducationProgressOrm, educationThemeOrm
+from src.models.education import (
+    CardOrm,
+    EducationProgressOrm,
+    educationMaterialOrm,
+    educationThemeOrm,
+)
 from src.models.gamification import UserScoreOrm
 from src.models.ontology import OntologyEntryOrm
 from src.services.education import EducationService
+from src.services.fixtures.education import EDUCATION
 
 
 FIRST_THEME_ID = uuid.UUID("22cbb105-8857-48de-806d-7242ced60a97")
 FIRST_MATERIAL_ID = uuid.UUID("cd9962af-94e6-4787-9842-9e263745804f")
+FIRST_CARD_ID = uuid.UUID("a4ef0562-1c8b-46a0-9457-ac23649eae5d")
 
 
 @pytest.mark.asyncio
@@ -29,6 +36,55 @@ async def test_education_service_auto_create_persists_real_rows(
     async with education_session_factory() as session:
         themes = (await session.execute(select(educationThemeOrm))).scalars().all()
     assert len(themes) > 0
+
+
+@pytest.mark.asyncio
+async def test_education_seed_updates_content_without_deleting_progress(
+    education_db,
+    education_session_factory,
+):
+    from autotest.integration.education.conftest import build_user_orm
+
+    await EducationService(education_db).auto_create_education()
+    async with education_session_factory() as session:
+        session.add(build_user_orm(USER_ID))
+        session.add(
+            EducationProgressOrm(
+                id=uuid.uuid4(),
+                user_id=USER_ID,
+                education_material_id=FIRST_MATERIAL_ID,
+            )
+        )
+        theme = await session.get(educationThemeOrm, FIRST_THEME_ID)
+        material = await session.get(educationMaterialOrm, FIRST_MATERIAL_ID)
+        card = await session.get(CardOrm, FIRST_CARD_ID)
+        theme.theme = "Outdated theme"
+        material.subtitle = "Outdated subtitle"
+        card.text = "Outdated card"
+        await session.commit()
+
+    await EducationService(education_db).auto_create_education()
+
+    fixture_theme = EDUCATION[0]
+    fixture_material = fixture_theme["materials"][0]
+    fixture_card = fixture_material["cards"][0]
+    async with education_session_factory() as session:
+        theme = await session.get(educationThemeOrm, FIRST_THEME_ID)
+        material = await session.get(educationMaterialOrm, FIRST_MATERIAL_ID)
+        card = await session.get(CardOrm, FIRST_CARD_ID)
+        progress = (
+            await session.execute(
+                select(EducationProgressOrm).where(
+                    EducationProgressOrm.user_id == USER_ID,
+                    EducationProgressOrm.education_material_id == FIRST_MATERIAL_ID,
+                )
+            )
+        ).scalar_one()
+
+    assert theme.theme == fixture_theme["theme"]
+    assert material.subtitle == fixture_material["subtitle"]
+    assert card.text == fixture_card["text"]
+    assert progress.user_id == USER_ID
 
 
 @pytest.mark.asyncio

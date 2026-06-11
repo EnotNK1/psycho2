@@ -1,9 +1,8 @@
-import json
 import logging
 import uuid
-from typing import List, Type
+from typing import List
 from src.exceptions import ObjectNotFoundException, MyAppException, ObjectAlreadyExistsException
-from src.models.education import EducationProgressOrm, educationThemeOrm
+from src.models.education import CardOrm, educationMaterialOrm, educationThemeOrm
 from src.schemas.daily_tasks import DailyTaskId
 from src.schemas.education_material import (
     EducationThemeResponse,
@@ -16,6 +15,7 @@ from src.schemas.education_material import (
 )
 from src.services.base import BaseService
 from src.services.daily_tasks import DailyTaskService
+from src.services.fixtures.education import EDUCATION
 from src.services.gamification import GamificationService
 
 logger = logging.getLogger(__name__)
@@ -103,90 +103,75 @@ class EducationService(BaseService):
         await self.db.education_card.delete(id=card_id)
 
     async def auto_create_education(self):
-
         try:
-            await self._delete_all_education_data()
-
-            with open("src/services/info/education_themes.json", encoding="utf-8") as file:
-                themes_data = json.load(file)
-            await self._add_themes(themes_data)
-
-            with open("src/services/info/education_materials.json", encoding="utf-8") as file:
-                materials_data = json.load(file)
-            await self._add_materials(materials_data)
-
-            with open("src/services/info/education_cards.json", encoding="utf-8") as file:
-                cards_data = json.load(file)
-            await self._add_cards(cards_data)
-
+            await self.seed_education()
             await self.db.commit()
-            return {"status": "OK", "message": "Образовательные материалы успешно перезаписаны"}
-
+            return {
+                "status": "OK",
+                "message": "Education content synchronized",
+            }
         except Exception as ex:
-            logger.error(
-                f"Ошибка при перезаписи образовательных материалов: {ex}")
+            logger.error(f"Education synchronization failed: {ex}")
             await self.db.rollback()
             raise MyAppException()
 
-    async def _delete_all_education_data(self):
-        """Удаляет все образовательные данные"""
-        from sqlalchemy import text
+    async def seed_education(self):
+        for theme_data in EDUCATION:
+            theme_id = uuid.UUID(theme_data["id"])
+            theme = await self.db.education_theme.get_orm_one_or_none(theme_id)
+            if theme is None:
+                theme = educationThemeOrm(id=theme_id)
+                await self.db.education_theme.add_entity(theme)
 
-        try:
-            tables = ['education_card', 'education_material', 'education_theme']
+            theme.theme = theme_data["theme"]
+            theme.link = theme_data["link"]
+            theme.link_to_picture = theme_data.get("link_to_picture")
+            theme.tags = theme_data.get("tags")
+            theme.related_topics = theme_data.get("related_topics")
 
-            for table in tables:
-                try:
-                    await self.db.execute(text(f"DELETE FROM {table}"))
-                    logger.info(f"Данные из таблицы {table} удалены")
-                except Exception as e:
-                    logger.warning(f"Таблица {table} не существует или ошибка при удалении: {e}")
-                    continue
+            fixture_material_ids = set()
+            for material_data in theme_data.get("materials", []):
+                material_id = uuid.UUID(material_data["id"])
+                fixture_material_ids.add(material_id)
+                material = await self.db.education_material.get_orm_one_or_none(
+                    material_id
+                )
+                if material is None:
+                    material = educationMaterialOrm(id=material_id)
+                    await self.db.education_material.add_entity(material)
 
-        except Exception as e:
-            logger.error(f"Ошибка при удалении данных: {e}")
-            raise
+                material.type = material_data["type"]
+                material.number = material_data["number"]
+                material.title = material_data.get("title")
+                material.link_to_picture = material_data.get("link_to_picture")
+                material.subtitle = material_data.get("subtitle")
+                material.education_theme_id = theme_id
 
-    async def _add_themes(self, themes_data):
-        themes = [EducationThemeAdd.model_validate(
-            theme) for theme in themes_data]
-        new_count = 0
-        for theme in themes:
-            existing = await self.db.education_theme.get_one_or_none(id=theme.id)
-            if not existing:
-                await self.db.education_theme.add(theme)
-                new_count += 1
-        if new_count:
-            logger.info(f"{new_count} новых тем добавлено в базу.")
-        else:
-            logger.info("Все темы уже существуют в базе.")
+                fixture_card_ids = set()
+                for card_data in material_data.get("cards", []):
+                    card_id = uuid.UUID(card_data["id"])
+                    fixture_card_ids.add(card_id)
+                    card = await self.db.education_card.get_orm_one_or_none(card_id)
+                    if card is None:
+                        card = CardOrm(id=card_id)
+                        await self.db.education_card.add_entity(card)
 
-    async def _add_materials(self, materials_data):
-        materials = [EducationMaterialAdd.model_validate(
-            m) for m in materials_data]
-        new_count = 0
-        for material in materials:
-            existing = await self.db.education_material.get_one_or_none(id=material.id)
-            if not existing:
-                await self.db.education_material.add(material)
-                new_count += 1
-        if new_count:
-            logger.info(f"{new_count} новых материалов добавлено в базу.")
-        else:
-            logger.info("Все материалы уже существуют в базе.")
+                    card.text = card_data["text"]
+                    card.number = card_data["number"]
+                    card.link_to_picture = card_data.get("link_to_picture")
+                    card.education_material_id = material_id
 
-    async def _add_cards(self, cards_data):
-        cards = [CardAdd.model_validate(card) for card in cards_data]
-        new_count = 0
-        for card in cards:
-            existing = await self.db.education_card.get_one_or_none(id=card.id)
-            if not existing:
-                await self.db.education_card.add(card)
-                new_count += 1
-        if new_count:
-            logger.info(f"{new_count} новых карточек добавлено в базу.")
-        else:
-            logger.info("Все карточки уже существуют в базе.")
+                await self.db.education_card.delete_not_in(
+                    material_id,
+                    fixture_card_ids,
+                )
+
+            await self.db.education_material.delete_not_in(
+                theme_id,
+                fixture_material_ids,
+            )
+
+        await self.db.education_theme.flush()
 
     async def get_all_education_themes(self) -> List[educationThemeOrm]:
         try:
