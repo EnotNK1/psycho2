@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, Query, HTTPException
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
-from src.schemas.mood_tracker import MoodTrackerDateRequestAdd
+from src.schemas.mood_tracker import MoodTrackerDateRequestAdd, WeeklyMoodTrackerDay
 from src.services.mood_tracker import MoodTrackerService
 from src.services.emoji import EmojiService
 
@@ -88,7 +88,7 @@ async def get_mood_tracker(
         raise InternalErrorHTTPException
 
 
-@router.get("/weekly")
+@router.get("/weekly", response_model=list[WeeklyMoodTrackerDay])
 async def get_weekly_mood_tracker(
     db: DBDep,
     user_id: UserIdDep

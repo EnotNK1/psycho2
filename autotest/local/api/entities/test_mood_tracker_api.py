@@ -12,7 +12,13 @@ from autotest.factories.mood_tracker import (
 )
 from src.api.dependencies.db import get_db
 from src.api.dependencies.user_id import get_current_user_id
-from src.exceptions import InvalidEmojiIdException, NotOwnedError, ScoreOutOfRangeError
+from src.exceptions import (
+    InvalidDateFormatError,
+    InvalidEmojiIdException,
+    NotOwnedError,
+    ObjectNotFoundException,
+    ScoreOutOfRangeError,
+)
 
 
 class DummyMoodTrackerApiService:
@@ -242,7 +248,7 @@ async def test_get_mood_tracker_returns_empty_list(mood_tracker_api_client_facto
 
 @pytest.mark.asyncio
 async def test_get_mood_tracker_should_return_400_for_invalid_day_format(mood_tracker_api_client_factory):
-    DummyMoodTrackerApiService.raise_on_get = ValueError("bad day")
+    DummyMoodTrackerApiService.raise_on_get = InvalidDateFormatError()
 
     async for client, _ in mood_tracker_api_client_factory():
         response = await client.get("/mood_tracker?day=bad-date")
@@ -313,13 +319,25 @@ async def test_get_emoji_returns_500_for_unexpected_error(mood_tracker_api_clien
 
 @pytest.mark.asyncio
 async def test_get_weekly_mood_tracker_returns_payload(mood_tracker_api_client_factory):
-    DummyMoodTrackerApiService.weekly_response = [build_mood_tracker_response()]
+    DummyMoodTrackerApiService.weekly_response = [
+        {
+            "date": "2026-04-13",
+            "weekday": 1,
+            "mood_trackers": [build_mood_tracker_response()],
+        },
+        {
+            "date": "2026-04-14",
+            "weekday": 2,
+            "mood_trackers": [],
+        },
+    ]
 
     async for client, _ in mood_tracker_api_client_factory():
         response = await client.get("/mood_tracker/weekly")
 
     assert response.status_code == 200
-    assert response.json()[0]["id"] == str(MOOD_TRACKER_ID)
+    assert response.json()[0]["mood_trackers"][0]["id"] == str(MOOD_TRACKER_ID)
+    assert response.json()[1]["mood_trackers"] == []
     assert DummyMoodTrackerApiService.last_weekly_user_id == USER_ID
 
 
@@ -364,7 +382,7 @@ async def test_get_mood_tracker_by_period_returns_422_when_required_query_missin
 
 @pytest.mark.asyncio
 async def test_get_mood_tracker_by_period_should_return_400_for_invalid_date_format(mood_tracker_api_client_factory):
-    DummyMoodTrackerApiService.raise_on_period = ValueError("bad period")
+    DummyMoodTrackerApiService.raise_on_period = InvalidDateFormatError()
 
     async for client, _ in mood_tracker_api_client_factory():
         response = await client.get("/mood_tracker/period?start_date=bad&end_date=2026-04-15")
@@ -414,7 +432,7 @@ async def test_get_mood_tracker_by_id_returns_422_for_invalid_uuid(mood_tracker_
 
 @pytest.mark.asyncio
 async def test_get_mood_tracker_by_id_should_return_404_when_record_missing(mood_tracker_api_client_factory):
-    DummyMoodTrackerApiService.raise_on_by_id = AttributeError("record missing")
+    DummyMoodTrackerApiService.raise_on_by_id = ObjectNotFoundException()
 
     async for client, _ in mood_tracker_api_client_factory():
         response = await client.get(f"/mood_tracker/{MOOD_TRACKER_ID}")

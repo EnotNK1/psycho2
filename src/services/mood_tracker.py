@@ -1,6 +1,9 @@
 import uuid
-from datetime import datetime, timedelta
+from collections import defaultdict
+from datetime import datetime, time, timedelta
 from typing import Optional, List
+from zoneinfo import ZoneInfo
+
 from sqlalchemy import func
 
 from src.api.chat_bot import load_data
@@ -13,13 +16,26 @@ from src.exceptions import (
     NotOwnedError, InvalidEmojiIdException
 )
 from src.schemas.daily_tasks import DailyTaskId
-from src.schemas.mood_tracker import MoodTracker, MoodTrackerDateRequestAdd, MoodTrackerCreate
+from src.schemas.mood_tracker import (
+    MoodTracker,
+    MoodTrackerCreate,
+    MoodTrackerDateRequestAdd,
+    WeeklyMoodTrackerDay,
+)
 from src.schemas.ontology import OntologyEntry
 from src.services.base import BaseService
 from src.services.daily_tasks import DailyTaskService
 from src.services.emoji import EmojiService
 from src.services.gamification import GamificationService
 from src.models import MoodTrackerOrm
+
+
+APP_TIMEZONE = ZoneInfo("Asia/Tomsk")
+
+
+def local_now() -> datetime:
+    # Database timestamps are currently timezone-naive, so store Tomsk wall time.
+    return datetime.now(APP_TIMEZONE).replace(tzinfo=None)
 
 
 class MoodTrackerService(BaseService):
@@ -44,7 +60,11 @@ class MoodTrackerService(BaseService):
         self._validate_score(data.score)
         self._validate_emojis(data.emoji_ids)
 
-        created_at = data.day or datetime.now()
+        created_at = (
+            datetime.combine(data.day, time.min)
+            if data.day
+            else local_now()
+        )
 
         mood_tracker_id = uuid.uuid4()
 
@@ -119,7 +139,7 @@ class MoodTrackerService(BaseService):
             ontology_entry = OntologyEntry(
                 id=uuid.uuid4(),
                 type=rec["type"],
-                created_at=datetime.now(),
+                created_at=local_now(),
                 destination_id=material_id,
                 destination_title=destination_title,
                 link_to_picture=picture,
@@ -161,33 +181,48 @@ class MoodTrackerService(BaseService):
             ))
         return result
 
-    async def get_weekly_mood_tracker(self, user_id: uuid.UUID) -> List[MoodTracker]:
-        today = datetime.utcnow().date()
-        week_ago = today - timedelta(days=6)
+    async def get_weekly_mood_tracker(
+        self,
+        user_id: uuid.UUID,
+    ) -> List[WeeklyMoodTrackerDay]:
+        today = local_now().date()
+        week_start = today - timedelta(days=today.weekday())
+        next_week_start = week_start + timedelta(days=7)
+        period_start = datetime.combine(week_start, time.min)
+        period_end = datetime.combine(next_week_start, time.min)
 
         records = await self.db.mood_tracker.get_filtered(
-            self.db.mood_tracker.model.created_at >= week_ago,
-            self.db.mood_tracker.model.created_at <= today,
+            self.db.mood_tracker.model.created_at >= period_start,
+            self.db.mood_tracker.model.created_at < period_end,
             user_id=user_id
         )
 
         emoji_service = EmojiService(self.db)
-        result = []
-        for record in records:
+        records_by_day = defaultdict(list)
+        for record in sorted(records, key=lambda item: item.created_at):
             emoji_texts = []
             for eid in record.emoji_ids:
                 emoji = await emoji_service.get_emoji_by_id(eid)
                 if emoji:
                     emoji_texts.append(emoji.text)
-            result.append(MoodTracker(
+            serialized_record = MoodTracker(
                 id=record.id,
                 score=record.score,
                 created_at=record.created_at,
                 user_id=record.user_id,
                 emoji_ids=record.emoji_ids,
                 emoji_texts=emoji_texts
-            ))
-        return result
+            )
+            records_by_day[record.created_at.date()].append(serialized_record)
+
+        return [
+            WeeklyMoodTrackerDay(
+                date=week_start + timedelta(days=offset),
+                weekday=offset + 1,
+                mood_trackers=records_by_day[week_start + timedelta(days=offset)],
+            )
+            for offset in range(7)
+        ]
 
     async def get_mood_tracker_by_period(
         self,
@@ -202,8 +237,11 @@ class MoodTrackerService(BaseService):
             raise InvalidDateFormatError()
 
         records = await self.db.mood_tracker.get_filtered(
-            self.db.mood_tracker.model.created_at >= start,
-            self.db.mood_tracker.model.created_at <= end,
+            self.db.mood_tracker.model.created_at >= datetime.combine(start, time.min),
+            self.db.mood_tracker.model.created_at < datetime.combine(
+                end + timedelta(days=1),
+                time.min,
+            ),
             user_id=user_id
         )
 
@@ -227,6 +265,8 @@ class MoodTrackerService(BaseService):
 
     async def get_mood_tracker_by_id(self, mood_tracker_id: uuid.UUID, user_id: uuid.UUID) -> MoodTracker:
         record = await self.db.mood_tracker.get_one(id=mood_tracker_id)
+        if record is None:
+            raise ObjectNotFoundException()
         if str(record.user_id) != str(user_id):
             raise NotOwnedError()
 

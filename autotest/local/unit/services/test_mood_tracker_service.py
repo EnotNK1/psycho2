@@ -13,7 +13,13 @@ from autotest.factories.mood_tracker import (
     make_emoji,
     make_mood_tracker,
 )
-from src.exceptions import InvalidEmojiIdException, NotOwnedError, ObjectNotFoundException, ScoreOutOfRangeError
+from src.exceptions import (
+    InvalidDateFormatError,
+    InvalidEmojiIdException,
+    NotOwnedError,
+    ObjectNotFoundException,
+    ScoreOutOfRangeError,
+)
 from src.services.mood_tracker import MoodTrackerService
 
 
@@ -26,6 +32,9 @@ class FakeColumn:
 
     def __le__(self, other):
         return (self.name, "<=", other)
+
+    def __lt__(self, other):
+        return (self.name, "<", other)
 
 
 class FakeMoodTrackerRepository:
@@ -261,21 +270,44 @@ async def test_get_mood_tracker_filters_by_day(fake_mood_tracker_db, monkeypatch
 
 @pytest.mark.asyncio
 async def test_get_mood_tracker_raises_value_error_for_invalid_day(fake_mood_tracker_db):
-    with pytest.raises(ValueError):
+    with pytest.raises(InvalidDateFormatError):
         await MoodTrackerService(fake_mood_tracker_db).get_mood_tracker("bad-date", USER_ID)
 
 
 @pytest.mark.asyncio
 async def test_get_weekly_mood_tracker_returns_records(fake_mood_tracker_db, monkeypatch):
-    fake_mood_tracker_db.mood_tracker.filtered_result = [make_mood_tracker()]
+    monday = datetime.datetime(2026, 4, 13, 10, 0, 0)
+    saturday = datetime.datetime(2026, 4, 18, 10, 30, 0)
+    fake_mood_tracker_db.mood_tracker.filtered_result = [
+        make_mood_tracker(created_at=monday),
+        make_mood_tracker(
+            mood_tracker_id=SECOND_MOOD_TRACKER_ID,
+            created_at=saturday,
+        ),
+    ]
     DummyEmojiService.emoji_map = {1: make_emoji(emoji_id=1, text="happy"), 2: make_emoji(emoji_id=2, text="calm")}
     monkeypatch.setattr(mood_tracker_service_module, "EmojiService", DummyEmojiService)
+    monkeypatch.setattr(
+        mood_tracker_service_module,
+        "local_now",
+        lambda: datetime.datetime(2026, 4, 18, 10, 30, 0),
+    )
 
     result = await MoodTrackerService(fake_mood_tracker_db).get_weekly_mood_tracker(USER_ID)
 
-    assert result[0].emoji_texts == ["happy", "calm"]
+    assert len(result) == 7
+    assert result[0].date == datetime.date(2026, 4, 13)
+    assert result[0].weekday == 1
+    assert result[0].mood_trackers[0].emoji_texts == ["happy", "calm"]
+    assert result[4].date == datetime.date(2026, 4, 17)
+    assert result[4].mood_trackers == []
+    assert result[5].date == datetime.date(2026, 4, 18)
+    assert result[5].weekday == 6
+    assert result[5].mood_trackers[0].id == SECOND_MOOD_TRACKER_ID
     conditions, filters = fake_mood_tracker_db.mood_tracker.get_filtered_calls[0]
     assert len(conditions) == 2
+    assert conditions[0] == ("created_at", ">=", datetime.datetime(2026, 4, 13, 0, 0, 0))
+    assert conditions[1] == ("created_at", "<", datetime.datetime(2026, 4, 20, 0, 0, 0))
     assert filters == {"user_id": USER_ID}
 
 
@@ -299,7 +331,7 @@ async def test_get_mood_tracker_by_period_returns_records(fake_mood_tracker_db, 
 
 @pytest.mark.asyncio
 async def test_get_mood_tracker_by_period_raises_value_error_for_invalid_date(fake_mood_tracker_db):
-    with pytest.raises(ValueError):
+    with pytest.raises(InvalidDateFormatError):
         await MoodTrackerService(fake_mood_tracker_db).get_mood_tracker_by_period(USER_ID, "bad", "2026-04-15")
 
 
