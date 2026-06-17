@@ -8,7 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.enums import FieldType, ViewType
-from src.utils.encryption import EncryptedJSONType
+from src.utils.encryption import EncryptedJSONColumnType, EncryptedJSONType
 
 
 class ExerciseStructureOrm(Base):
@@ -103,7 +103,7 @@ class FilledFieldOrm(Base):
     pulled_completed_exercise_id: Mapped[uuid.UUID] = mapped_column(nullable=True)
     pulled_group_key: Mapped[str] = mapped_column(nullable=True)
     pulled_fields_snapshot: Mapped[Any] = mapped_column(
-        EncryptedJSONType(), nullable=True
+        EncryptedJSONColumnType(), nullable=True
     )
 
 

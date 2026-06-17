@@ -35,7 +35,7 @@ class DummyExerciseSmokeService:
         return None
 
     async def get_all_exercises(self, user_id):
-        return [build_exercise_response()]
+        return {"regular_exercises": [build_exercise_response()], "related_exercises": []}
 
     async def create_exercise(self, exercise_data):
         return build_exercise_response()
@@ -108,7 +108,7 @@ async def test_exercise_auto_smoke(client):
 async def test_exercise_list_smoke(client):
     response = await client.get("/exercises/")
     assert response.status_code == 200
-    assert response.json()["exercises"][0]["id"] == str(EXERCISE_ID)
+    assert response.json()["regular_exercises"][0]["id"] == str(EXERCISE_ID)
 
 
 @pytest.mark.asyncio

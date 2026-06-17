@@ -118,3 +118,14 @@ class EncryptedJSONType(EncryptedType):
 
     def __init__(self, *args, **kwargs):
         super().__init__(_coerce_json, *args, **kwargs)
+
+
+class EncryptedJSONColumnType(TypeDecorator):
+    impl = sa.JSON
+    cache_ok = True
+
+    def process_bind_param(self, value: Any, dialect) -> str | None:
+        return encrypt_for_storage(value)
+
+    def process_result_value(self, value: Any, dialect) -> Any:
+        return decrypt_from_storage(value, _coerce_json)

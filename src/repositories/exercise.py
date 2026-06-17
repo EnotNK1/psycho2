@@ -96,6 +96,38 @@ class ExerciseRepository(BaseRepository):
                 ExerciseViewOrm.exercise_structure_id == exercise_id)
         )
 
+    async def delete_stale_fields_without_results(
+        self, exercise_id: uuid.UUID, actual_field_ids: set[uuid.UUID]
+    ) -> None:
+        conditions = [FieldOrm.exercise_structure_id == exercise_id]
+        if actual_field_ids:
+            conditions.append(FieldOrm.id.not_in(actual_field_ids))
+
+        await self.session.execute(
+            delete(FieldOrm).where(
+                *conditions,
+                ~exists().where(FilledFieldOrm.field_id == FieldOrm.id),
+            )
+        )
+
+    async def delete_stale_variants(
+        self, field_id: uuid.UUID, actual_variant_ids: set[uuid.UUID]
+    ) -> None:
+        conditions = [VariantOrm.field_id == field_id]
+        if actual_variant_ids:
+            conditions.append(VariantOrm.id.not_in(actual_variant_ids))
+
+        await self.session.execute(delete(VariantOrm).where(*conditions))
+
+    async def delete_stale_views(
+        self, exercise_id: uuid.UUID, actual_view_ids: set[uuid.UUID]
+    ) -> None:
+        conditions = [ExerciseViewOrm.exercise_structure_id == exercise_id]
+        if actual_view_ids:
+            conditions.append(ExerciseViewOrm.id.not_in(actual_view_ids))
+
+        await self.session.execute(delete(ExerciseViewOrm).where(*conditions))
+
     async def exercise_exists(self, exercise_id: uuid.UUID) -> bool:
         return await self.get_exercise_entity(exercise_id) is not None
 
@@ -160,17 +192,39 @@ class ExerciseRepository(BaseRepository):
         )
         return result.scalars().first()
 
+    async def get_fields_by_exercise(self, exercise_id: uuid.UUID) -> list[FieldOrm]:
+        result = await self.session.execute(
+            select(FieldOrm)
+            .where(FieldOrm.exercise_structure_id == exercise_id)
+            .options(selectinload(FieldOrm.variants))
+        )
+        return result.scalars().all()
+
     async def get_variant(self, variant_id: uuid.UUID) -> Optional[VariantOrm]:
         result = await self.session.execute(
             select(VariantOrm).where(VariantOrm.id == variant_id)
         )
         return result.scalars().first()
 
+    async def get_variants_by_field(self, field_id: uuid.UUID) -> list[VariantOrm]:
+        result = await self.session.execute(
+            select(VariantOrm).where(VariantOrm.field_id == field_id)
+        )
+        return result.scalars().all()
+
     async def get_exercise_view(self, view_id: uuid.UUID) -> Optional[ExerciseViewOrm]:
         result = await self.session.execute(
             select(ExerciseViewOrm).where(ExerciseViewOrm.id == view_id)
         )
         return result.scalars().first()
+
+    async def get_views_by_exercise(self, exercise_id: uuid.UUID) -> list[ExerciseViewOrm]:
+        result = await self.session.execute(
+            select(ExerciseViewOrm).where(
+                ExerciseViewOrm.exercise_structure_id == exercise_id
+            )
+        )
+        return result.scalars().all()
 
     async def get_latest_exercise_view(self, exercise_id: uuid.UUID) -> Optional[ExerciseViewOrm]:
         result = await self.session.execute(
@@ -200,7 +254,7 @@ class ExerciseRepository(BaseRepository):
                 ExerciseStructureOrm.picture_link,
                 latest_completed_subquery.c.last_completed_at,
             )
-            .outerjoin(
+            .join(
                 latest_completed_subquery,
                 latest_completed_subquery.c.exercise_id == ExerciseStructureOrm.id,
             )
@@ -244,21 +298,19 @@ class ExerciseRepository(BaseRepository):
         )
         return result.scalars().all()
 
-    async def get_exercise_result_detail_rows(
+    async def get_exercise_result_detail(
         self, exercise_id: uuid.UUID, result_id: uuid.UUID, user_id: uuid.UUID
-    ) -> list[tuple[CompletedExerciseOrm, FilledFieldOrm, FieldOrm]]:
+    ) -> Optional[CompletedExerciseOrm]:
         result = await self.session.execute(
-            select(CompletedExerciseOrm, FilledFieldOrm, FieldOrm)
-            .join(FilledFieldOrm, CompletedExerciseOrm.id == FilledFieldOrm.completed_exercise_id)
-            .join(FieldOrm, FilledFieldOrm.field_id == FieldOrm.id)
+            select(CompletedExerciseOrm)
             .where(
                 CompletedExerciseOrm.id == result_id,
                 CompletedExerciseOrm.exercise_structure_id == exercise_id,
                 CompletedExerciseOrm.user_id == user_id,
             )
-            .order_by(FieldOrm.order, FieldOrm.position, FieldOrm.id)
+            .options(selectinload(CompletedExerciseOrm.filled_field))
         )
-        return result.all()
+        return result.scalars().first()
 
     async def create_completed_exercise(
         self, completed: CompletedExerciseOrm, filled_fields: list[FilledFieldOrm]

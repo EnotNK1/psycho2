@@ -187,6 +187,14 @@ class FakeExerciseRepository:
         self.calls.append(("get_variant", variant_id))
         return self.variant
 
+    async def get_variants_by_field(self, field_id):
+        self.calls.append(("get_variants_by_field", field_id))
+        self._maybe_raise("get_variants_by_field")
+        for field in getattr(self.exercise_entity, "field", []):
+            if field.id == field_id:
+                return list(getattr(field, "variants", []))
+        return []
+
     async def get_exercise_view(self, view_id):
         self.calls.append(("get_exercise_view", view_id))
         return self.view
@@ -215,6 +223,28 @@ class FakeExerciseRepository:
         self.calls.append(("delete_views_by_exercise", exercise_id))
         self._maybe_raise("delete_views_by_exercise")
 
+    async def delete_stale_fields_without_results(self, exercise_id, actual_field_ids):
+        self.calls.append(("delete_stale_fields_without_results", exercise_id, actual_field_ids))
+        self._maybe_raise("delete_stale_fields_without_results")
+
+    async def delete_stale_variants(self, field_id, actual_variant_ids):
+        self.calls.append(("delete_stale_variants", field_id, actual_variant_ids))
+        self._maybe_raise("delete_stale_variants")
+
+    async def delete_stale_views(self, exercise_id, actual_view_ids):
+        self.calls.append(("delete_stale_views", exercise_id, actual_view_ids))
+        self._maybe_raise("delete_stale_views")
+
+    async def get_fields_by_exercise(self, exercise_id):
+        self.calls.append(("get_fields_by_exercise", exercise_id))
+        self._maybe_raise("get_fields_by_exercise")
+        return list(getattr(self.exercise_entity, "field", []))
+
+    async def get_views_by_exercise(self, exercise_id):
+        self.calls.append(("get_views_by_exercise", exercise_id))
+        self._maybe_raise("get_views_by_exercise")
+        return [self.view] if self.view else []
+
     async def get_exercise_results(self, exercise_id, user_id):
         self.calls.append(("get_exercise_results", exercise_id, user_id))
         self._maybe_raise("get_exercise_results")
@@ -234,6 +264,14 @@ class FakeExerciseRepository:
         self.calls.append(("get_exercise_result_detail_rows", exercise_id, result_id, user_id))
         self._maybe_raise("get_exercise_result_detail_rows")
         return self.result_detail_rows
+
+    async def get_exercise_result_detail(self, exercise_id, result_id, user_id):
+        self.calls.append(("get_exercise_result_detail", exercise_id, result_id, user_id))
+        self._maybe_raise("get_exercise_result_detail")
+        for result in self.results:
+            if result.id == result_id and result.exercise_structure_id == exercise_id:
+                return result
+        return None
 
     async def create_completed_exercise(self, completed, filled_fields):
         self.calls.append(("create_completed_exercise", completed, filled_fields))
@@ -375,7 +413,7 @@ async def test_service_auto_create_rolls_back_on_failure(fake_exercise_db, monke
 
 
 @pytest.mark.asyncio
-async def test_service_seed_exercises_updates_existing_and_recreates_children(fake_exercise_db, monkeypatch):
+async def test_service_seed_exercises_updates_existing_and_upserts_children(fake_exercise_db, monkeypatch):
     monkeypatch.setattr(
         exercise_service_module,
         "EXERCISES",
@@ -412,9 +450,10 @@ async def test_service_seed_exercises_updates_existing_and_recreates_children(fa
     await ExerciseService(fake_exercise_db).seed_exercises()
 
     assert fake_exercise_db.exercise.exercise_entity.title == "Seeded title"
-    assert ("delete_fields_by_exercise", EXERCISE_ID) in fake_exercise_db.exercise.calls
-    assert ("delete_views_by_exercise", EXERCISE_ID) in fake_exercise_db.exercise.calls
-    assert any(call[0] == "add" for call in fake_exercise_db.exercise.calls)
+    assert ("delete_stale_fields_without_results", EXERCISE_ID, {FIELD_ID}) in fake_exercise_db.exercise.calls
+    assert ("delete_stale_views", EXERCISE_ID, set()) in fake_exercise_db.exercise.calls
+    assert all(call[0] != "delete_fields_by_exercise" for call in fake_exercise_db.exercise.calls)
+    assert fake_exercise_db.exercise.exercise_entity.field[0].title == "Seeded field"
 
 
 @pytest.mark.asyncio
@@ -656,12 +695,35 @@ async def test_service_get_exercise_results_delegates_to_repository(fake_exercis
 
 
 @pytest.mark.asyncio
+async def test_service_get_exercise_results_returns_null_preview_for_empty_result(fake_exercise_db):
+    fake_exercise_db.exercise.results = [make_completed_orm_like(filled_fields=[])]
+
+    result = await ExerciseService(fake_exercise_db).get_exercise_results(EXERCISE_ID, USER_ID)
+
+    assert result.results[0].preview is None
+
+
+@pytest.mark.asyncio
 async def test_service_get_exercise_result_detail_returns_detail_or_not_found(fake_exercise_db):
     result = await ExerciseService(fake_exercise_db).get_exercise_result_detail(EXERCISE_ID, RESULT_ID, USER_ID)
     assert result.sections[0].value == "My answer"
-    fake_exercise_db.exercise.result_detail_rows = []
+    fake_exercise_db.exercise.results = []
     with pytest.raises(ObjectNotFoundHTTPException):
         await ExerciseService(fake_exercise_db).get_exercise_result_detail(EXERCISE_ID, RESULT_ID, USER_ID)
+
+
+@pytest.mark.asyncio
+async def test_service_get_exercise_result_detail_returns_empty_sections_for_empty_result(fake_exercise_db):
+    fake_exercise_db.exercise.results = [make_completed_orm_like(filled_fields=[])]
+
+    result = await ExerciseService(fake_exercise_db).get_exercise_result_detail(
+        EXERCISE_ID,
+        RESULT_ID,
+        USER_ID,
+    )
+
+    assert result.id == RESULT_ID
+    assert result.sections == []
 
 
 @pytest.mark.asyncio

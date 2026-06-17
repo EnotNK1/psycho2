@@ -68,79 +68,111 @@ class ExerciseService(BaseService):
             existing = await self.db.exercise.get_exercise_entity(exercise_id)
 
             if existing:
-                existing.title = exercise_data["title"]
-                existing.description = exercise_data["description"]
-                existing.picture_link = exercise_data["picture_link"]
-                existing.time_to_read = exercise_data["time_to_read"]
-                existing.questions_count = exercise_data["questions_count"]
-                existing.sort_order = exercise_data["sort_order"]
-                existing.group = exercise_data.get("group", 1)
-                existing.linked_exercise_id = (
-                    uuid.UUID(exercise_data["linked_exercise_id"])
-                    if exercise_data.get("linked_exercise_id")
-                    else None
-                )
-                exercise = await self.db.exercise.update_exercise(existing)
-                await self.db.exercise.delete_fields_by_exercise(exercise_id)
-                await self.db.exercise.delete_views_by_exercise(exercise_id)
+                exercise = existing
             else:
-                exercise = ExerciseStructureOrm(
-                    id=exercise_id,
-                    title=exercise_data["title"],
-                    description=exercise_data["description"],
-                    picture_link=exercise_data["picture_link"],
-                    time_to_read=exercise_data["time_to_read"],
-                    questions_count=exercise_data["questions_count"],
-                    sort_order=exercise_data["sort_order"],
-                    group=exercise_data.get("group", 1),
-                    linked_exercise_id=(
-                        uuid.UUID(exercise_data["linked_exercise_id"])
-                        if exercise_data.get("linked_exercise_id")
-                        else None
-                    ),
-                )
+                exercise = ExerciseStructureOrm(id=exercise_id)
                 await self.db.exercise.add(exercise)
-                await self.db.exercise.flush()
 
-            for field_data in exercise_data.get("fields", []):
-                field = FieldOrm(
-                    id=uuid.UUID(field_data["id"]),
-                    title=field_data["title"],
-                    major=field_data["major"],
-                    view=field_data["view"],
-                    type=field_data["type"],
-                    placeholder=field_data.get("placeholder"),
-                    prompt=field_data.get("prompt"),
-                    description=field_data.get("description", ""),
-                    order=field_data["order"],
-                    position=field_data["position"],
-                    pull_group=field_data.get("pull_group"),
-                    exercise_structure_id=exercise_id,
-                    exercises=field_data.get("exercises"),
-                )
-                await self.db.exercise.add(field)
-                await self.db.exercise.flush()
+            exercise.title = exercise_data["title"]
+            exercise.description = exercise_data["description"]
+            exercise.picture_link = exercise_data["picture_link"]
+            exercise.time_to_read = exercise_data["time_to_read"]
+            exercise.questions_count = exercise_data["questions_count"]
+            exercise.sort_order = exercise_data["sort_order"]
+            exercise.group = exercise_data.get("group", 1)
+            exercise.linked_exercise_id = (
+                uuid.UUID(exercise_data["linked_exercise_id"])
+                if exercise_data.get("linked_exercise_id")
+                else None
+            )
+            await self.db.exercise.flush()
 
-                for variant_data in field_data.get("variants", []):
-                    variant = VariantOrm(
-                        id=uuid.UUID(variant_data["id"]),
-                        field_id=field.id,
-                        title=variant_data["title"],
-                    )
-                    await self.db.exercise.add(variant)
-
-            for view_data in exercise_data.get("views", []):
-                view = ExerciseViewOrm(
-                    id=uuid.UUID(view_data["id"]),
-                    exercise_structure_id=exercise_id,
-                    view=view_data.get("view"),
-                    score=view_data.get("score"),
-                    picture_link=view_data.get("picture_link"),
-                    message=view_data.get("message"),
-                )
-                await self.db.exercise.add(view)
+            await self._seed_exercise_fields(exercise_id, exercise_data.get("fields", []))
+            await self._seed_exercise_views(exercise_id, exercise_data.get("views", []))
 
         await self.db.exercise.flush()
+
+    async def _seed_exercise_fields(
+        self, exercise_id: uuid.UUID, fields_data: list[dict]
+    ) -> None:
+        existing_fields = {
+            field.id: field
+            for field in await self.db.exercise.get_fields_by_exercise(exercise_id)
+        }
+        actual_field_ids: set[uuid.UUID] = set()
+
+        for field_data in fields_data:
+            field_id = uuid.UUID(field_data["id"])
+            actual_field_ids.add(field_id)
+            field = existing_fields.get(field_id)
+            if field is None:
+                field = FieldOrm(id=field_id, exercise_structure_id=exercise_id)
+                await self.db.exercise.add(field)
+
+            field.title = field_data["title"]
+            field.major = field_data["major"]
+            field.view = field_data["view"]
+            field.type = field_data["type"]
+            field.placeholder = field_data.get("placeholder")
+            field.prompt = field_data.get("prompt")
+            field.description = field_data.get("description", "")
+            field.order = field_data["order"]
+            field.position = field_data["position"]
+            field.pull_group = field_data.get("pull_group")
+            field.exercises = (
+                [str(target_id) for target_id in field_data["exercises"]]
+                if field_data.get("exercises")
+                else None
+            )
+            await self.db.exercise.flush()
+            await self._seed_field_variants(field, field_data.get("variants", []))
+
+        await self.db.exercise.delete_stale_fields_without_results(
+            exercise_id, actual_field_ids
+        )
+
+    async def _seed_field_variants(
+        self, field: FieldOrm, variants_data: list[dict]
+    ) -> None:
+        existing_variants = {
+            variant.id: variant
+            for variant in await self.db.exercise.get_variants_by_field(field.id)
+        }
+        actual_variant_ids: set[uuid.UUID] = set()
+
+        for variant_data in variants_data:
+            variant_id = uuid.UUID(variant_data["id"])
+            actual_variant_ids.add(variant_id)
+            variant = existing_variants.get(variant_id)
+            if variant is None:
+                variant = VariantOrm(id=variant_id, field_id=field.id)
+                await self.db.exercise.add(variant)
+            variant.title = variant_data["title"]
+
+        await self.db.exercise.delete_stale_variants(field.id, actual_variant_ids)
+
+    async def _seed_exercise_views(
+        self, exercise_id: uuid.UUID, views_data: list[dict]
+    ) -> None:
+        existing_views = {
+            view.id: view
+            for view in await self.db.exercise.get_views_by_exercise(exercise_id)
+        }
+        actual_view_ids: set[uuid.UUID] = set()
+
+        for view_data in views_data:
+            view_id = uuid.UUID(view_data["id"])
+            actual_view_ids.add(view_id)
+            view = existing_views.get(view_id)
+            if view is None:
+                view = ExerciseViewOrm(id=view_id, exercise_structure_id=exercise_id)
+                await self.db.exercise.add(view)
+            view.view = view_data.get("view")
+            view.score = view_data.get("score")
+            view.picture_link = view_data.get("picture_link")
+            view.message = view_data.get("message")
+
+        await self.db.exercise.delete_stale_views(exercise_id, actual_view_ids)
 
     async def create_exercise(self, exercise_data: ExerciseCreate) -> ExerciseResponse:
         exercise = ExerciseStructureOrm(
@@ -366,10 +398,13 @@ class ExerciseService(BaseService):
     ) -> ExerciseResultsResponse:
         completed_exercises = await self.db.exercise.get_exercise_results(exercise_id, user_id)
         exercise = await self.db.exercise.get_exercise_with_fields(exercise_id)
+        if not exercise:
+            raise ObjectNotFoundHTTPException
+
         major_field_ids = {
             field.id for field in exercise.field
-            if exercise is not None and field.major
-        } if exercise else set()
+            if field.major
+        }
 
         results = [
             ResultResponse(
@@ -385,29 +420,37 @@ class ExerciseService(BaseService):
     async def get_exercise_result_detail(
         self, exercise_id: uuid.UUID, result_id: uuid.UUID, user_id: uuid.UUID
     ) -> ResultDetailResponse:
-        rows = await self.db.exercise.get_exercise_result_detail_rows(exercise_id, result_id, user_id)
-        if not rows:
+        completed = await self.db.exercise.get_exercise_result_detail(
+            exercise_id, result_id, user_id
+        )
+        if not completed:
             raise ObjectNotFoundHTTPException
 
-        exercise = await self.db.exercise.get_exercise_entity(exercise_id)
+        exercise = await self.db.exercise.get_exercise_with_fields(exercise_id)
         if not exercise:
             raise ObjectNotFoundHTTPException
 
-        completed = rows[0][0]
+        fields_by_id = {field.id: field for field in exercise.field}
+        sorted_filled_fields = sorted(
+            completed.filled_field,
+            key=lambda filled_field: self._result_field_sort_key(
+                filled_field, fields_by_id
+            ),
+        )
         sections = [
             ResultSectionResponse(
-                title=field.title,
-                view=field.view,
-                type=field.type,
+                title=filled_field.title,
+                view=filled_field.view,
+                type=filled_field.type,
                 value=self._normalize_filled_value(
-                    field.type, filled_field.text),
+                    filled_field.type, filled_field.text),
                 pulled_completed_exercise_id=filled_field.pulled_completed_exercise_id,
                 pulled_group_key=filled_field.pulled_group_key,
                 pulled_fields=self._build_snapshot_items(
                     filled_field.pulled_fields_snapshot
                 ),
             )
-            for _, filled_field, field in rows
+            for filled_field in sorted_filled_fields
         ]
 
         return ResultDetailResponse(
@@ -602,7 +645,7 @@ class ExerciseService(BaseService):
         self, completed: CompletedExerciseOrm, major_field_ids: set[uuid.UUID]
     ):
         if not completed.filled_field:
-            return "Нет данных"
+            return None
 
         major_field = next(
             (
@@ -614,6 +657,16 @@ class ExerciseService(BaseService):
         )
         preview_source = major_field or completed.filled_field[0]
         return preview_source.text
+
+    def _result_field_sort_key(
+        self,
+        filled_field: FilledFieldOrm,
+        fields_by_id: dict[uuid.UUID, FieldOrm],
+    ) -> tuple[int, int, str, str]:
+        field = fields_by_id.get(filled_field.field_id)
+        if field is None:
+            return (10_000, 10_000, filled_field.title or "", str(filled_field.id))
+        return (field.order, field.position, field.title, str(field.id))
 
     def _normalize_filled_value(self, field_type: enums.FieldType | str, value):
         if field_type == enums.FieldType.ADDABLE_LIST or field_type == enums.FieldType.ADDABLE_LIST.value:
