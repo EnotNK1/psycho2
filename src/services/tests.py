@@ -928,14 +928,18 @@ class TestService(BaseService):
                 # Администратор имеет полный доступ
                 pass
             elif current_user_role == 2:
-                # Психолог может видеть результат, только если владелец - его клиент
-                relation = await self.db.clients.get_one_or_none(
-                    client_id=test_result.user_id,
-                    mentor_id=current_user_id,
-                    status=True
-                )
-                if not relation:
-                    raise ObjectNotFoundException("Результат не найден или доступ запрещён")
+                # Психолог может смотреть свои результаты
+                if test_result.user_id == current_user_id:
+                    pass
+                else:
+                    # Или результаты своих подтверждённых клиентов
+                    relation = await self.db.clients.get_one_or_none(
+                        client_id=test_result.user_id,
+                        mentor_id=current_user_id,
+                        status=True
+                    )
+                    if not relation:
+                        raise ObjectNotFoundException("Результат не найден или доступ запрещён")
             else:
                 # Обычный пользователь – только свои результаты
                 if test_result.user_id != current_user_id:
