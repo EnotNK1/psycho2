@@ -3,6 +3,7 @@ import pytest
 import src.api.tests as tests_api_module
 from autotest.factories.tests_entity import (
     ANSWER_ID,
+    BORDER_ID,
     QUESTION_ID,
     RESULT_ID,
     SCALE_ID,
@@ -278,10 +279,13 @@ class DummyTestApiService:
         type(self).last_result_by_user_and_test_args = (test_id, user_id)
         return type(self).result_by_user_and_test_response
 
-    async def get_test_result_by_id(self, result_id):
+    async def get_test_result_by_user_and_test_not_psyc(self, test_id, user_id):
+        return await self.get_test_result_by_user_and_test(test_id, user_id)
+
+    async def get_test_result_by_id(self, result_id, current_user_id):
         if type(self).raise_on_result_by_id:
             raise type(self).raise_on_result_by_id
-        type(self).last_result_by_id = result_id
+        type(self).last_result_by_id = (result_id, current_user_id)
         return type(self).result_by_id_response
 
     async def get_passed_tests_by_user(self, user_id):
@@ -897,7 +901,7 @@ async def test_get_test_result_by_id_returns_payload(tests_api_client_factory):
         response = await client.get(f"/tests/test_result/{RESULT_ID}")
 
     assert response.status_code == 200
-    assert DummyTestApiService.last_result_by_id == RESULT_ID
+    assert DummyTestApiService.last_result_by_id == (RESULT_ID, USER_ID)
 
 
 @pytest.mark.asyncio

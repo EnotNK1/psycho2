@@ -125,7 +125,7 @@ class DummyTestsSmokeService:
             }
         ]
 
-    async def get_test_result_by_id(self, result_id):
+    async def get_test_result_by_id(self, result_id, current_user_id):
         return {
             "test_id": str(TEST_ID),
             "test_result_id": str(result_id),

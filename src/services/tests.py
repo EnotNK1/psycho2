@@ -27,11 +27,28 @@ from src.services.calculator import calculator_service
 from src.services.emoji import EmojiService
 from src.services.inquiry import InquiryService
 from src.services.gamification import GamificationService
+from src.services.fixtures.exercise import EXERCISES
 
 logger = logging.getLogger(__name__)
 
 
 class TestService(BaseService):
+    def _load_info_data(self, path: str) -> list[dict]:
+        try:
+            return load_data(path)
+        except FileNotFoundError:
+            logger.warning("Info file %s not found, using empty list", path)
+            return []
+
+    def _load_exercise_recommendation_data(self) -> list[dict]:
+        return [
+            {
+                "id": item["id"],
+                "title": item.get("title", ""),
+                "picture_link": item.get("picture_link", ""),
+            }
+            for item in EXERCISES
+        ]
 
     async def update_test_links_from_file(self, file_path: str = "src/services/info/test_info.json"):
         with open(file_path, encoding="utf-8") as f:
@@ -526,11 +543,15 @@ class TestService(BaseService):
             questions = await self.db.question.get_filtered(test_id=test_id)
             question_details = []
             for question in questions:
-                for answer in question.answer_choice:
-                    answers = await self.db.answer_choice.get_filtered(id=answer)
+                answers = []
+                for answer_id in question.answer_choice:
+                    answers.extend(
+                        await self.db.answer_choice.get_filtered(id=answer_id)
+                    )
                 question_details.append(QuestionDetail(
                     id=question.id,
                     text=question.text,
+                    opposite_text=question.opposite_text,
                     number=question.number,
                     answers=[AnswerChoiceDetail(
                         id=answer.id,
@@ -589,8 +610,25 @@ class TestService(BaseService):
                 "Что мне свойственно?": calculator_service.test_five_factors_calculate_results,
                 "Как я чувствую себя в данный момент?": calculator_service.test_san_calculate_results,
             }
+            calculation_methods_by_id = {
+                "c9386cd7-4f63-4cbb-af35-54829ef9c14b": calculator_service.test_maslach_calculate_results,
+                "bc9f1204-ea5d-40b0-b367-359bf9b2cc21": calculator_service.test_dass21_calculate_results,
+                "3a9a3c8d-348e-4f0d-aefd-0feaa960ac25": calculator_service.test_stai_calculate_results,
+                "f45c4528-ce69-4683-822a-91ffc52d55ba": calculator_service.test_coling_calculate_results,
+                "d7bdba0c-f5ec-410d-9b53-3bfbf20c674a": calculator_service.test_cmq_calculate_results,
+                "33d10952-aed7-4a4e-9e5a-dbd01b2f294d": calculator_service.test_back_calculate_results,
+                "6c242c64-b8c0-4f5c-877f-91b1c1d3f5af": calculator_service.test_jas_calculate_results,
+                "f56b5284-323e-42db-bd74-c80e8a5dc29a": calculator_service.test_stress_calculate_results,
+                "ea869ca2-4e8f-4a98-8b13-4fbeedf30539": calculator_service.test_bat_calculate_results,
+                "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a": calculator_service.test_leasy_calculate_results,
+                "e89f7acb-cd31-4d27-aadd-24f6c7d52794": calculator_service.test_five_factors_calculate_results,
+                "a1b2c3d4-e5f6-7890-abcd-ef1234567890": calculator_service.test_san_calculate_results,
+            }
 
-            calculate_method = calculation_methods.get(test.title)
+            calculate_method = (
+                calculation_methods_by_id.get(str(test.id))
+                or calculation_methods.get(test.title)
+            )
             if not calculate_method:
                 raise ObjectNotFoundException()
 
@@ -679,9 +717,9 @@ class TestService(BaseService):
                 ontology_res = recommendations(payload)
                 print(ontology_res)
 
-                tests_data = load_data("src/services/info/test_info.json")
-                themes_data = load_data("src/services/info/education_themes.json")
-                exercise_data = load_data("src/services/info/exercise_info.json")
+                tests_data = self._load_info_data("src/services/info/test_info.json")
+                themes_data = self._load_info_data("src/services/info/education_themes.json")
+                exercise_data = self._load_exercise_recommendation_data()
 
                 tests_dict = {
                     item["id"]: {
@@ -743,6 +781,14 @@ class TestService(BaseService):
             except HTTPException:
                 await self.db.session.rollback()
                 raise
+            except (
+                ObjectNotFoundException,
+                InvalidAnswersCountError,
+                ResultsScaleMismatchError,
+                ScoreOutOfBoundsError,
+            ):
+                await self.db.session.rollback()
+                raise
             except Exception as e:
                 await self.db.session.rollback()
                 logger.error(f"Ошибка сохранения: {str(e)}", exc_info=True)
@@ -752,6 +798,13 @@ class TestService(BaseService):
                 )
 
         except HTTPException:
+            raise
+        except (
+            ObjectNotFoundException,
+            InvalidAnswersCountError,
+            ResultsScaleMismatchError,
+            ScoreOutOfBoundsError,
+        ):
             raise
         except Exception as e:
             logger.error(f"Неожиданная ошибка: {str(e)}", exc_info=True)
@@ -922,6 +975,8 @@ class TestService(BaseService):
             current_user_role = current_user.role_id
             # Получаем результат теста
             test_result = await self.db.test_result.get_one(id=result_id)
+            if not test_result:
+                raise ObjectNotFoundException()
 
             # Проверка прав
             if current_user_role == 0:

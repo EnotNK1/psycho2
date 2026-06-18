@@ -264,6 +264,12 @@ async def test_service_auto_create_reads_sources_and_commits(fake_tests_db, monk
         "src/services/info/questions_info.json": [{"id": "question"}],
         "src/services/info/inquiry.json": [{"id": "inquiry"}],
         "src/services/info/emoji.json": [{"id": "emoji"}],
+        "services/info/test_info.json": [{"id": "test"}],
+        "services/info/scale_info.json": [{"id": "scale"}],
+        "services/info/answer_choices_info.json": [{"id": "answer"}],
+        "services/info/questions_info.json": [{"id": "question"}],
+        "services/info/inquiry.json": [{"id": "inquiry"}],
+        "services/info/emoji.json": [{"id": "emoji"}],
     }
 
     class DummyFile:
@@ -722,6 +728,87 @@ async def test_service_save_result_returns_calculated_payload(fake_tests_db, mon
 
 
 @pytest.mark.asyncio
+async def test_service_save_result_uses_test_id_when_fixture_title_differs(fake_tests_db, monkeypatch):
+    stress_test_id = tests_service_module.uuid.UUID("f56b5284-323e-42db-bd74-c80e8a5dc29a")
+    fake_tests_db.tests.one_result = make_test(
+        test_id=stress_test_id,
+        title="Стрессоустойчивость, это про меня?",
+    )
+    fake_tests_db.question.filtered_result = [
+        make_question(question_id=QUESTION_ID, test_id=stress_test_id),
+        make_question(question_id=SECOND_QUESTION_ID, test_id=stress_test_id, number=2),
+    ]
+    fake_tests_db.scales.filtered_result = [make_scale(test_id=stress_test_id)]
+
+    async def borders_get_filtered(**filter_by):
+        return [make_border(scale_id=SCALE_ID, left_border=0, right_border=10, title="Norm")]
+
+    async def ontology_get_filtered(**filter_by):
+        return []
+
+    fake_tests_db.borders.get_filtered = borders_get_filtered
+    fake_tests_db.ontology_entry.get_filtered = ontology_get_filtered
+    monkeypatch.setattr(tests_service_module.calculator_service, "test_stress_calculate_results", lambda results: [4])
+    monkeypatch.setattr(tests_service_module, "GamificationService", DummyGamificationService)
+    monkeypatch.setattr(tests_service_module, "recommendations", lambda payload: [])
+    monkeypatch.setattr(tests_service_module, "load_data", lambda path: [])
+
+    result = await TestService(fake_tests_db).save_result(
+        tests_service_module.TestResultRequest(
+            test_id=stress_test_id,
+            date=datetime.datetime(2026, 6, 18, 10, 0),
+            results=[0, 1],
+        ),
+        USER_ID,
+    )
+
+    assert result["result"][0]["score"] == 4
+
+
+@pytest.mark.asyncio
+async def test_service_save_result_does_not_require_legacy_exercise_info_file(fake_tests_db, monkeypatch):
+    burnout_test_id = tests_service_module.uuid.UUID("c9386cd7-4f63-4cbb-af35-54829ef9c14b")
+    fake_tests_db.tests.one_result = make_test(
+        test_id=burnout_test_id,
+        title="Определяем истощение из-за работы",
+    )
+    fake_tests_db.question.filtered_result = [
+        make_question(question_id=QUESTION_ID, test_id=burnout_test_id),
+        make_question(question_id=SECOND_QUESTION_ID, test_id=burnout_test_id, number=2),
+    ]
+    fake_tests_db.scales.filtered_result = [make_scale(test_id=burnout_test_id)]
+
+    async def borders_get_filtered(**filter_by):
+        return [make_border(scale_id=SCALE_ID, left_border=0, right_border=10, title="Norm")]
+
+    async def ontology_get_filtered(**filter_by):
+        return []
+
+    def load_data_without_exercise_info(path):
+        if path.endswith("exercise_info.json"):
+            raise FileNotFoundError(path)
+        return []
+
+    fake_tests_db.borders.get_filtered = borders_get_filtered
+    fake_tests_db.ontology_entry.get_filtered = ontology_get_filtered
+    monkeypatch.setattr(tests_service_module.calculator_service, "test_maslach_calculate_results", lambda results: [5])
+    monkeypatch.setattr(tests_service_module, "GamificationService", DummyGamificationService)
+    monkeypatch.setattr(tests_service_module, "recommendations", lambda payload: [])
+    monkeypatch.setattr(tests_service_module, "load_data", load_data_without_exercise_info)
+
+    result = await TestService(fake_tests_db).save_result(
+        tests_service_module.TestResultRequest(
+            test_id=burnout_test_id,
+            date=datetime.datetime(2026, 6, 18, 10, 0),
+            results=[0, 1],
+        ),
+        USER_ID,
+    )
+
+    assert result["result"][0]["score"] == 5
+
+
+@pytest.mark.asyncio
 async def test_service_save_result_raises_for_invalid_answers_count(fake_tests_db):
     fake_tests_db.tests.one_result = make_test(title="Burnout Test")
     fake_tests_db.question.filtered_result = [make_question()]
@@ -779,7 +866,10 @@ async def test_service_get_test_result_by_user_and_test_returns_serialized_histo
     fake_tests_db.scales.one_result = make_scale()
     fake_tests_db.borders.filtered_result = [make_border(left_border=0, right_border=10, title="Norm")]
 
-    result = await TestService(fake_tests_db).get_test_result_by_user_and_test(TEST_ID, USER_ID)
+    fake_tests_db.clients = FakeRepository()
+    fake_tests_db.clients.one_or_none_result = SimpleNamespace()
+
+    result = await TestService(fake_tests_db).get_test_result_by_user_and_test(TEST_ID, USER_ID, USER_ID)
 
     assert result[0]["test_result_id"] == str(RESULT_ID)
     assert result[0]["scale_results"][0]["conclusion"] == "Norm"
@@ -791,7 +881,10 @@ async def test_service_get_test_result_by_user_and_test_skips_missing_scale(fake
     fake_tests_db.scale_result.filtered_result = [make_scale_result_row(score=7)]
     fake_tests_db.scales.one_result = None
 
-    result = await TestService(fake_tests_db).get_test_result_by_user_and_test(TEST_ID, USER_ID)
+    fake_tests_db.clients = FakeRepository()
+    fake_tests_db.clients.one_or_none_result = SimpleNamespace()
+
+    result = await TestService(fake_tests_db).get_test_result_by_user_and_test(TEST_ID, USER_ID, USER_ID)
 
     assert result[0]["scale_results"] == []
 
@@ -803,7 +896,10 @@ async def test_service_get_test_result_by_id_returns_serialized_payload(fake_tes
     fake_tests_db.scales.one_result = make_scale()
     fake_tests_db.borders.filtered_result = [make_border(left_border=0, right_border=10, title="Norm")]
 
-    result = await TestService(fake_tests_db).get_test_result_by_id(RESULT_ID)
+    fake_tests_db.users = FakeRepository()
+    fake_tests_db.users.one_result = SimpleNamespace(role_id=1)
+
+    result = await TestService(fake_tests_db).get_test_result_by_id(RESULT_ID, USER_ID)
 
     assert result["test_result_id"] == str(RESULT_ID)
     assert result["scale_results"][0]["score"] == 7
@@ -812,7 +908,9 @@ async def test_service_get_test_result_by_id_returns_serialized_payload(fake_tes
 @pytest.mark.asyncio
 async def test_service_get_test_result_by_id_should_raise_not_found_when_result_missing(fake_tests_db):
     with pytest.raises(ObjectNotFoundException):
-        await TestService(fake_tests_db).get_test_result_by_id(RESULT_ID)
+        fake_tests_db.users = FakeRepository()
+        fake_tests_db.users.one_result = SimpleNamespace(role_id=1)
+        await TestService(fake_tests_db).get_test_result_by_id(RESULT_ID, USER_ID)
 
 
 @pytest.mark.asyncio
@@ -836,11 +934,13 @@ async def test_service_get_passed_tests_by_user_raises_not_found_when_tests_look
     fake_tests_db.test_result.filtered_result = [make_test_result_row(result_id=RESULT_ID, test_id=TEST_ID, user_id=USER_ID)]
     fake_tests_db.tests.by_ids_result = []
 
-    with pytest.raises(ObjectNotFoundException):
-        await TestService(fake_tests_db).get_passed_tests_by_user(USER_ID)
+    result = await TestService(fake_tests_db).get_passed_tests_by_user(USER_ID)
+
+    assert result == []
 
 
 @pytest.mark.asyncio
 async def test_service_get_passed_tests_by_user_raises_not_found_when_user_has_no_results(fake_tests_db):
-    with pytest.raises(ObjectNotFoundException):
-        await TestService(fake_tests_db).get_passed_tests_by_user(USER_ID)
+    result = await TestService(fake_tests_db).get_passed_tests_by_user(USER_ID)
+
+    assert result == []

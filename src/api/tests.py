@@ -473,7 +473,7 @@ async def get_test_result_by_id(
         db: DBDep
 ):
     try:
-        res = await TestService(db).get_test_result_by_id(result_id, uuid.UUID(user_id))
+        res = await TestService(db).get_test_result_by_id(result_id, user_id)
 
         test_id = res.get("test_id")
         scale_results = res.get("scale_results", [])
@@ -532,7 +532,10 @@ async def get_passed_tests(
         user_id: UserIdDep,  # Извлекаем user_id из токена
         db: DBDep
 ):
-    return await TestService(db).get_passed_tests_by_user(user_id)
+    try:
+        return await TestService(db).get_passed_tests_by_user(user_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
 
 
 @images_router.get("/{file_path:path}", summary="Получение изображения по пути, пример images/img_1.png")
