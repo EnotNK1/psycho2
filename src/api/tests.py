@@ -473,7 +473,7 @@ async def get_test_result_by_id(
         db: DBDep
 ):
     try:
-        res = await TestService(db).get_test_result_by_id(result_id, user_id)
+        res = await TestService(db).get_test_result_by_id(result_id, uuid.UUID(user_id))
 
         test_id = res.get("test_id")
         scale_results = res.get("scale_results", [])
