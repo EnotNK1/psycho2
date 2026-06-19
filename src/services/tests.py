@@ -198,7 +198,7 @@ class TestService(BaseService):
 
 
     def load_borders_for_scale(self, scale_id: uuid.UUID) -> list[dict]:
-        with open("src/services/info/borders_info.json", encoding="utf-8") as file:
+        with open("services/info/borders_info.json", encoding="utf-8") as file:
             borders_data = json.load(file)
 
         filtered_borders = [
@@ -334,27 +334,27 @@ class TestService(BaseService):
     async def auto_create(self):
 
         try:
-            with open("src/services/info/test_info.json", encoding="utf-8") as file:
+            with open("services/info/test_info.json", encoding="utf-8") as file:
                 tests_data = json.load(file)
             await self.add_tests(tests_data)
 
-            with open("src/services/info/scale_info.json", encoding="utf-8") as file:
+            with open("services/info/scale_info.json", encoding="utf-8") as file:
                 scales_data = json.load(file)
             await self.add_scales_and_borders(scales_data)
 
-            with open("src/services/info/answer_choices_info.json", encoding="utf-8") as file:
+            with open("services/info/answer_choices_info.json", encoding="utf-8") as file:
                 answer_choices_data = json.load(file)
             await self.add_answer_choices(answer_choices_data)
 
-            with open("src/services/info/questions_info.json", encoding="utf-8") as file:
+            with open("services/info/questions_info.json", encoding="utf-8") as file:
                 questions_data = json.load(file)
             await self.add_questions(questions_data)
 
-            with open("src/services/info/inquiry.json", encoding="utf-8") as file:
+            with open("services/info/inquiry.json", encoding="utf-8") as file:
                 inquiry_data = json.load(file)
             await InquiryService(self.db).check_and_create_inquiries(inquiry_data)
 
-            with open("src/services/info/emoji.json", encoding="utf-8") as file:
+            with open("services/info/emoji.json", encoding="utf-8") as file:
                 emojis_data = json.load(file)
             await EmojiService(self.db).check_and_create_emojis(emojis_data)
 
@@ -623,6 +623,7 @@ class TestService(BaseService):
                 "c18d71a4-7a8b-4b32-9e2a-3f8e5d6c7b9a": calculator_service.test_leasy_calculate_results,
                 "e89f7acb-cd31-4d27-aadd-24f6c7d52794": calculator_service.test_five_factors_calculate_results,
                 "a1b2c3d4-e5f6-7890-abcd-ef1234567890": calculator_service.test_san_calculate_results,
+                "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4": calculator_service.test_tipi_ru_calculate_results,
             }
 
             calculate_method = (

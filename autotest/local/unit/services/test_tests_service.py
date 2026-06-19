@@ -386,6 +386,33 @@ def test_service_load_borders_for_scale_filters_json_by_scale_id(tmp_path, monke
     assert result == [{"id": str(BORDER_ID), "scale_id": str(SCALE_ID)}]
 
 
+def test_tipi_ru_calculator_uses_average_with_reversed_items():
+    result = tests_service_module.calculator_service.test_tipi_ru_calculate_results(
+        [7, 1, 6, 2, 5, 3, 4, 4, 3, 7]
+    )
+
+    assert result == [6, 5.5, 5, 4.5, 3]
+
+
+def test_tipi_ru_fixture_contains_expected_structure():
+    test_id = "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4"
+    with open("src/services/info/test_info.json", encoding="utf-8") as file:
+        tests = json.load(file)
+    with open("src/services/info/scale_info.json", encoding="utf-8") as file:
+        scales = json.load(file)
+    with open("src/services/info/questions_info.json", encoding="utf-8") as file:
+        questions = json.load(file)
+
+    test = next(item for item in tests if item["id"] == test_id)
+    test_scales = [item for item in scales if item["test_id"] == test_id]
+    test_questions = [item for item in questions if item["test_id"] == test_id]
+
+    assert test["title"] == "Какой я?"
+    assert len(test_scales) == 5
+    assert len(test_questions) == 10
+    assert [question["number"] for question in test_questions] == list(range(1, 11))
+
+
 @pytest.mark.asyncio
 async def test_service_add_tests_adds_only_missing_records(fake_tests_db):
     responses = [None, make_test(test_id=SECOND_TEST_ID)]

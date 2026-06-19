@@ -224,7 +224,6 @@
     "text": "Всегда",
     "score": 1
   },
-
   {
     "id": "1df28c33-7e63-42e5-b2a5-c850fe952919",
     "text": "Я не чувствую себя несчастным",
@@ -265,9 +264,6 @@
     "text": "Я чувствую, что будущее безнадежно и ничто не изменится к лучшему",
     "score": 3
   },
-
-
-
   {
     "id": "468d595e-cf4f-4644-a85d-ddb138eb8fc6",
     "text": "Я не чувствую себя неудачником",
@@ -723,9 +719,6 @@
     "text": "Очень часто",
     "score": 0
   },
-
-
-
   {
     "id": "57d0413d-fa0f-4b4d-9075-7b2d8e6193ad",
     "text": "Абсолютно неверно",
@@ -781,7 +774,6 @@
     "text": "2",
     "score": 1
   },
-
   {
     "id": "19e96d8c-724f-4eeb-85d9-27d80a926166",
     "text": "Никогда",
@@ -807,18 +799,109 @@
     "text": "Постоянно",
     "score": 5
   },
-  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a1", "text": "3", "score": 3 },
-  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a2", "text": "2", "score": 2 },
-  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a3", "text": "1", "score": 1 },
-  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a4", "text": "0", "score": 0 },
-  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a5", "text": "-1", "score": -1 },
-  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a6", "text": "-2", "score": -2 },
-  { "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a7", "text": "-3", "score": -3 },
-  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b1", "text": "-3", "score": -3 },
-  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b2", "text": "-2", "score": -2 },
-  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b3", "text": "-1", "score": -1 },
-  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b4", "text": "0", "score": 0 },
-  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b5", "text": "1", "score": 1 },
-  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b6", "text": "2", "score": 2 },
-  { "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b7", "text": "3", "score": 3 }
+  {
+    "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a1",
+    "text": "3",
+    "score": 3
+  },
+  {
+    "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a2",
+    "text": "2",
+    "score": 2
+  },
+  {
+    "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a3",
+    "text": "1",
+    "score": 1
+  },
+  {
+    "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a4",
+    "text": "0",
+    "score": 0
+  },
+  {
+    "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a5",
+    "text": "-1",
+    "score": -1
+  },
+  {
+    "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
+    "text": "-2",
+    "score": -2
+  },
+  {
+    "id": "c1d2e3f4-a5b6-7890-abcd-ef12345678a7",
+    "text": "-3",
+    "score": -3
+  },
+  {
+    "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b1",
+    "text": "-3",
+    "score": -3
+  },
+  {
+    "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b2",
+    "text": "-2",
+    "score": -2
+  },
+  {
+    "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b3",
+    "text": "-1",
+    "score": -1
+  },
+  {
+    "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b4",
+    "text": "0",
+    "score": 0
+  },
+  {
+    "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b5",
+    "text": "1",
+    "score": 1
+  },
+  {
+    "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b6",
+    "text": "2",
+    "score": 2
+  },
+  {
+    "id": "d1e2f3a4-b5c6-7890-abcd-ef12345678b7",
+    "text": "3",
+    "score": 3
+  },
+  {
+    "id": "3f8ed0be-483c-5490-82e4-a668e08d3946",
+    "text": "Полностью не согласен",
+    "score": 1
+  },
+  {
+    "id": "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+    "text": "Не согласен",
+    "score": 2
+  },
+  {
+    "id": "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+    "text": "Скорее не согласен",
+    "score": 3
+  },
+  {
+    "id": "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+    "text": "Ни то, ни другое",
+    "score": 4
+  },
+  {
+    "id": "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+    "text": "Скорее согласен",
+    "score": 5
+  },
+  {
+    "id": "3144047f-c208-5e38-8666-f4bdd598d02b",
+    "text": "Согласен",
+    "score": 6
+  },
+  {
+    "id": "a99e168a-d495-5b0f-9387-25cc7ce1dab0",
+    "text": "Полностью согласен",
+    "score": 7
+  }
 ]

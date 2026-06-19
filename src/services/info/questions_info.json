@@ -2502,8 +2502,6 @@
       "42bb376c-d722-42ca-938b-6d3873b0ebdf"
     ]
   },
-
-
   {
     "id": "340a669d-b9f0-4953-adad-d9176e7784a1",
     "text": "Я часто думаю, что мои эмоциональные реакции отличаются от реакций других людей.",
@@ -3946,10 +3944,6 @@
       "15d76b6b-bd91-4e55-af57-23a8db6b4e52"
     ]
   },
-
-
-
-
   {
     "id": "9b84398e-45bb-46c2-8de0-4cd0f3fced57",
     "text": "На работе я чувствую душевную усталость",
@@ -4858,9 +4852,165 @@
       "c1d2e3f4-a5b6-7890-abcd-ef12345678a6",
       "c1d2e3f4-a5b6-7890-abcd-ef12345678a7"
     ]
+  },
+  {
+    "id": "ec7c40eb-4b39-5fe6-9aa0-b6b604f0f2a5",
+    "text": "Я вижу себя как человека экстравертированного, полного энтузиазма",
+    "opposite_text": null,
+    "number": 1,
+    "test_id": "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4",
+    "answer_choice": [
+      "3f8ed0be-483c-5490-82e4-a668e08d3946",
+      "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+      "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+      "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+      "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+      "3144047f-c208-5e38-8666-f4bdd598d02b",
+      "a99e168a-d495-5b0f-9387-25cc7ce1dab0"
+    ]
+  },
+  {
+    "id": "7cb35172-f2aa-567a-9580-87c80fa59fc4",
+    "text": "Я вижу себя как человека критичного, склонного к спорам",
+    "opposite_text": null,
+    "number": 2,
+    "test_id": "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4",
+    "answer_choice": [
+      "3f8ed0be-483c-5490-82e4-a668e08d3946",
+      "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+      "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+      "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+      "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+      "3144047f-c208-5e38-8666-f4bdd598d02b",
+      "a99e168a-d495-5b0f-9387-25cc7ce1dab0"
+    ]
+  },
+  {
+    "id": "4abb647e-e8cb-5918-9c02-c1c21b6528bc",
+    "text": "Я вижу себя как человека надежного, дисциплинированного",
+    "opposite_text": null,
+    "number": 3,
+    "test_id": "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4",
+    "answer_choice": [
+      "3f8ed0be-483c-5490-82e4-a668e08d3946",
+      "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+      "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+      "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+      "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+      "3144047f-c208-5e38-8666-f4bdd598d02b",
+      "a99e168a-d495-5b0f-9387-25cc7ce1dab0"
+    ]
+  },
+  {
+    "id": "bdb1e85b-6dfb-5f2b-9aca-d28741903987",
+    "text": "Я вижу себя как человека тревожного, легко расстраивающегося",
+    "opposite_text": null,
+    "number": 4,
+    "test_id": "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4",
+    "answer_choice": [
+      "3f8ed0be-483c-5490-82e4-a668e08d3946",
+      "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+      "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+      "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+      "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+      "3144047f-c208-5e38-8666-f4bdd598d02b",
+      "a99e168a-d495-5b0f-9387-25cc7ce1dab0"
+    ]
+  },
+  {
+    "id": "002908c7-af87-5238-8ffd-e8900f19a4f6",
+    "text": "Я вижу себя как человека открытого новому опыту, сложного",
+    "opposite_text": null,
+    "number": 5,
+    "test_id": "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4",
+    "answer_choice": [
+      "3f8ed0be-483c-5490-82e4-a668e08d3946",
+      "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+      "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+      "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+      "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+      "3144047f-c208-5e38-8666-f4bdd598d02b",
+      "a99e168a-d495-5b0f-9387-25cc7ce1dab0"
+    ]
+  },
+  {
+    "id": "597db445-8499-50f4-9ce9-f0708bc8ea6a",
+    "text": "Я вижу себя как человека сдержанного, тихого",
+    "opposite_text": null,
+    "number": 6,
+    "test_id": "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4",
+    "answer_choice": [
+      "3f8ed0be-483c-5490-82e4-a668e08d3946",
+      "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+      "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+      "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+      "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+      "3144047f-c208-5e38-8666-f4bdd598d02b",
+      "a99e168a-d495-5b0f-9387-25cc7ce1dab0"
+    ]
+  },
+  {
+    "id": "e3a2434f-8978-5009-b8f3-4b8da3dc58e8",
+    "text": "Я вижу себя как человека отзывчивого, теплого",
+    "opposite_text": null,
+    "number": 7,
+    "test_id": "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4",
+    "answer_choice": [
+      "3f8ed0be-483c-5490-82e4-a668e08d3946",
+      "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+      "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+      "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+      "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+      "3144047f-c208-5e38-8666-f4bdd598d02b",
+      "a99e168a-d495-5b0f-9387-25cc7ce1dab0"
+    ]
+  },
+  {
+    "id": "b88baf30-8f4f-5887-9532-b490c6390be2",
+    "text": "Я вижу себя как человека неорганизованного, беспечного",
+    "opposite_text": null,
+    "number": 8,
+    "test_id": "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4",
+    "answer_choice": [
+      "3f8ed0be-483c-5490-82e4-a668e08d3946",
+      "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+      "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+      "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+      "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+      "3144047f-c208-5e38-8666-f4bdd598d02b",
+      "a99e168a-d495-5b0f-9387-25cc7ce1dab0"
+    ]
+  },
+  {
+    "id": "b6ebd419-46d2-5eb8-9e88-e45b25178a03",
+    "text": "Я вижу себя как человека спокойного, эмоционально стабильного",
+    "opposite_text": null,
+    "number": 9,
+    "test_id": "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4",
+    "answer_choice": [
+      "3f8ed0be-483c-5490-82e4-a668e08d3946",
+      "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+      "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+      "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+      "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+      "3144047f-c208-5e38-8666-f4bdd598d02b",
+      "a99e168a-d495-5b0f-9387-25cc7ce1dab0"
+    ]
+  },
+  {
+    "id": "40bc8abe-ecce-5846-98eb-2fa153976ac9",
+    "text": "Я вижу себя как человека обычного, консервативного",
+    "opposite_text": null,
+    "number": 10,
+    "test_id": "d8b4371d-9a11-5b6a-8c5f-7ce3509ed8d4",
+    "answer_choice": [
+      "3f8ed0be-483c-5490-82e4-a668e08d3946",
+      "19b96d34-cce4-5c5e-88ae-656fd05e77cd",
+      "e433fe40-abf9-57fb-91e5-f6cacdfe99b5",
+      "9eec8faf-d7b2-545f-9c9b-074dbba6008e",
+      "7013ddaa-c147-5d51-8d1f-adf4be6d2284",
+      "3144047f-c208-5e38-8666-f4bdd598d02b",
+      "a99e168a-d495-5b0f-9387-25cc7ce1dab0"
+    ]
   }
-
 ]
-
-
-

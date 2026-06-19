@@ -33,6 +33,24 @@ class Calculator:
         scale_5_sum = calculator_service.sum_specific_elements(answers, indices_5)
         return [scale_1_sum, scale_2_sum, scale_3_sum, scale_4_sum, scale_5_sum]
 
+    def test_tipi_ru_calculate_results(self, answers: List[int]):
+        self.check_number_responses(len(answers), 10)
+
+        def reverse(score: int) -> int:
+            return 8 - score
+
+        def average(first: int, second: int, *, reverse_second: bool = True):
+            second_score = reverse(answers[second - 1]) if reverse_second else answers[second - 1]
+            return round((answers[first - 1] + second_score) / 2, 2)
+
+        return [
+            average(1, 6),
+            average(7, 2),
+            average(3, 8),
+            average(9, 4),
+            average(5, 10),
+        ]
+
     def test_jas_calculate_results(self, answers: List[int]):
         indices_1 = [1, 2, 3, 4, 5]
         indices_2 = [6, 7, 8, 9, 10]
