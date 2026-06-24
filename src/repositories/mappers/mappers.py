@@ -27,12 +27,12 @@ from src.models.application import ApplicationOrm
 from src.repositories.mappers.base import DataMapper
 from src.schemas.users import User
 from src.schemas.review import Review
-from src.schemas.diary import Diary
+from src.schemas.diary import Diary, AbcDiary
 from src.schemas.mood_tracker import MoodTracker
 from src.schemas.exercise import ExerciseBase, FieldAutoCreate
 from src.models.users import UsersOrm
 from src.models.review import ReviewOrm
-from src.models.diary import DiaryOrm
+from src.models.diary import DiaryOrm, AbcDiaryEntryOrm
 from src.models.mood_tracker import MoodTrackerOrm
 
 
@@ -384,3 +384,7 @@ class FieldMapper:
             exercises=model.exercises,
             exercise_structure_id=model.exercise_structure_id
         )
+
+class AbcDiaryDataMapper(DataMapper):
+    db_model = AbcDiaryEntryOrm
+    schema = AbcDiary

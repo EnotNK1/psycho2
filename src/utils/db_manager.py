@@ -1,5 +1,6 @@
 import uuid
 
+from src.repositories.abc_diary import AbcDiaryRepository
 from src.repositories.answer_choices import AnswerChoiceRepository
 from src.repositories.borders import BordersRepository
 from src.repositories.clients import ClientsRepository
@@ -70,6 +71,8 @@ class DBManager:
 
         self.training_exercise = TrainingExerciseRepository(self.session)
         self.training_completed_exercise = TrainingCompletedExerciseRepository(self.session)
+
+        self.abc_diary = AbcDiaryRepository(self.session)
         return self
 
     async def __aexit__(self, *args):
