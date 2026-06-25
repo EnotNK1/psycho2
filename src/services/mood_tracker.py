@@ -1,4 +1,5 @@
 import uuid
+import logging
 from collections import defaultdict
 from datetime import datetime, time, timedelta
 from typing import Optional, List
@@ -26,11 +27,13 @@ from src.schemas.ontology import OntologyEntry
 from src.services.base import BaseService
 from src.services.daily_tasks import DailyTaskService
 from src.services.emoji import EmojiService
+from src.services.fixtures.exercise import EXERCISES
 from src.services.gamification import GamificationService
 from src.models import MoodTrackerOrm
 
 
 APP_TIMEZONE = ZoneInfo("Asia/Tomsk")
+logger = logging.getLogger(__name__)
 
 
 def local_now() -> datetime:
@@ -43,6 +46,23 @@ class MoodTrackerService(BaseService):
     MAX_SCORE = 100
     MIN_EMOJI_ID = 1
     MAX_EMOJI_ID = 10
+
+    def _load_info_data(self, path: str) -> list[dict]:
+        try:
+            return load_data(path)
+        except FileNotFoundError:
+            logger.warning("Info file %s not found, using empty list", path)
+            return []
+
+    def _load_exercise_recommendation_data(self) -> list[dict]:
+        return [
+            {
+                "id": item["id"],
+                "title": item.get("title", ""),
+                "picture_link": item.get("picture_link", ""),
+            }
+            for item in EXERCISES
+        ]
 
     def _validate_score(self, score: int):
         if not (self.MIN_SCORE <= score <= self.MAX_SCORE):
@@ -91,12 +111,11 @@ class MoodTrackerService(BaseService):
         payload = RecommendationRequest(test_id="Tracker", scale_results=scale_res_for_ontology)
 
         ontology_res = recommendations(payload)
-        print(ontology_res)
+        logger.debug("Mood tracker ontology recommendations: %s", ontology_res)
 
-
-        tests_data = load_data("src/services/info/test_info.json")
-        themes_data = load_data("src/services/info/education_themes.json")
-        exercise_data = load_data("src/services/info/exercise_info.json")
+        tests_data = self._load_info_data("src/services/info/test_info.json")
+        themes_data = self._load_info_data("src/services/info/education_themes.json")
+        exercise_data = self._load_exercise_recommendation_data()
 
         tests_dict = {
             item["id"]: {

@@ -243,6 +243,34 @@ async def test_save_mood_tracker_creates_ontology_entries_from_recommendations(f
 
 
 @pytest.mark.asyncio
+async def test_save_mood_tracker_does_not_require_legacy_exercise_info_file(fake_mood_tracker_db, monkeypatch):
+    monkeypatch.setattr(mood_tracker_service_module, "DailyTaskService", DummyDailyTaskService)
+    monkeypatch.setattr(mood_tracker_service_module, "GamificationService", DummyGamificationService)
+    exercise = mood_tracker_service_module.EXERCISES[0]
+    monkeypatch.setattr(
+        mood_tracker_service_module,
+        "recommendations",
+        lambda payload: [{"material_id": exercise["id"], "type": "practice"}],
+    )
+
+    def load_data_without_exercise_info(path):
+        if path.endswith("exercise_info.json"):
+            raise FileNotFoundError(path)
+        return []
+
+    monkeypatch.setattr(mood_tracker_service_module, "load_data", load_data_without_exercise_info)
+
+    await MoodTrackerService(fake_mood_tracker_db).save_mood_tracker(make_request(), USER_ID)
+
+    assert fake_mood_tracker_db.commit_count == 1
+    assert len(fake_mood_tracker_db.ontology_entry.add_calls) == 1
+    created_entry = fake_mood_tracker_db.ontology_entry.add_calls[0]
+    assert str(created_entry.destination_id) == exercise["id"]
+    assert created_entry.destination_title == exercise["title"]
+    assert created_entry.link_to_picture == exercise["picture_link"]
+
+
+@pytest.mark.asyncio
 async def test_get_mood_tracker_returns_serialized_records_with_emoji_texts(fake_mood_tracker_db, monkeypatch):
     fake_mood_tracker_db.mood_tracker.filtered_result = [make_mood_tracker()]
     DummyEmojiService.emoji_map = {1: make_emoji(emoji_id=1, text="happy"), 2: make_emoji(emoji_id=2, text="calm")}
