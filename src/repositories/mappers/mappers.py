@@ -1,8 +1,8 @@
-import asyncio
 from datetime import datetime
 from symtable import Class
 
 from celery.worker.consumer import Tasks
+from sqlalchemy import inspect
 
 from src.models import ScaleOrm, InquiryOrm, EmojiOrm, UserTaskOrm, OntologyEntryOrm
 from src.models.application import ApplicationOrm
@@ -271,7 +271,7 @@ class CardDataMapper(DataMapper):
     schema = CardResponse
 
     @staticmethod
-    async def map_to_domain_entity(model: CardOrm) -> CardResponse:
+    def map_to_domain_entity(model: CardOrm) -> CardResponse:
         return CardResponse(
             id=model.id,
             text=model.text,
@@ -285,10 +285,10 @@ class EducationMaterialDataMapper(DataMapper):
     schema = EducationMaterialResponse
 
     @staticmethod
-    async def map_to_domain_entity(model: educationMaterialOrm) -> EducationMaterialResponse:
-        cards = await asyncio.gather(
-            *[CardDataMapper.map_to_domain_entity(card) for card in model.cards]
-        )
+    def map_to_domain_entity(model: educationMaterialOrm) -> EducationMaterialResponse:
+        cards = []
+        if "cards" not in inspect(model).unloaded:
+            cards = [CardDataMapper.map_to_domain_entity(card) for card in model.cards]
 
         return EducationMaterialResponse(
             id=model.id,
@@ -306,16 +306,20 @@ class EducationThemeDataMapper(DataMapper):
     schema = EducationThemeResponse
 
     @staticmethod
-    async def map_to_domain_entity(model: educationThemeOrm) -> EducationThemeResponse:
-        education_materials = await asyncio.gather(
-            *[EducationMaterialDataMapper.map_to_domain_entity(material) for material in model.education_materials]
-        )
+    def map_to_domain_entity(model: educationThemeOrm) -> EducationThemeResponse:
+        education_materials = []
+        if "education_materials" not in inspect(model).unloaded:
+            education_materials = [
+                EducationMaterialDataMapper.map_to_domain_entity(material)
+                for material in model.education_materials
+            ]
 
         return EducationThemeResponse(
             id=model.id,
             theme=model.theme,
             link=model.link,
-            related_topics=model.related_topics,
+            link_to_picture=model.link_to_picture,
+            tags=model.tags,
             education_materials=education_materials
         )
 

@@ -8,3 +8,5 @@ redis-data/
 *.doc
 *.txt
 *.pdf
+.codex-tmp/
+autotest/pytest-cache-files-*/
