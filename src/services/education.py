@@ -207,7 +207,10 @@ class EducationService(BaseService):
 
             # Материалы с карточками
             materials_response = []
-            for material in theme.education_materials:
+            for material in sorted(
+                theme.education_materials,
+                key=lambda item: item.number,
+            ):
                 cards_response = [
                     CardResponse(
                         id=card.id,
@@ -215,7 +218,7 @@ class EducationService(BaseService):
                         number=card.number,
                         link_to_picture=card.link_to_picture
                     )
-                    for card in material.cards
+                    for card in sorted(material.cards, key=lambda item: item.number)
                 ]
 
                 materials_response.append(
