@@ -1,4 +1,5 @@
-from sqlalchemy import ARRAY, TEXT
+from sqlalchemy import ARRAY
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 from src.database import Base
 import uuid
@@ -15,3 +16,5 @@ class MoodTrackerOrm(Base):
     user_id: Mapped[uuid.UUID]
 
     emoji_ids: Mapped[list[int]] = mapped_column(ARRAY(sa.Integer), nullable=True)
+    emotions: Mapped[list[str]] = mapped_column(ARRAY(sa.String), nullable=True)
+    influence_factors: Mapped[list[dict]] = mapped_column(JSONB, nullable=True)

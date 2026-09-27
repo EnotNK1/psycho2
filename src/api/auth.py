@@ -219,5 +219,7 @@ async def burnout_calculate(
         result = await AuthService(db).burnout_calculate(test_results)
 
         return {"result": result}
-    except Exception as e:
+    except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException()
+    except Exception:
+        raise MyAppHTTPException()

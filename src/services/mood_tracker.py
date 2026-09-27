@@ -21,6 +21,8 @@ from src.schemas.mood_tracker import (
     MoodTracker,
     MoodTrackerCreate,
     MoodTrackerDateRequestAdd,
+    MoodInfluenceCategory,
+    MoodInfluenceOption,
     WeeklyMoodTrackerDay,
 )
 from src.schemas.ontology import OntologyEntry
@@ -35,9 +37,78 @@ from src.models import MoodTrackerOrm
 APP_TIMEZONE = ZoneInfo("Asia/Tomsk")
 logger = logging.getLogger(__name__)
 
+MOOD_EMOTIONS = [
+    "Радость",
+    "Грусть",
+    "Страх",
+    "Гнев",
+    "Отвращение",
+    "Удивление",
+]
+
+MOOD_INFLUENCE_CATEGORIES = [
+    MoodInfluenceCategory(
+        id="contacts",
+        title="Контакты",
+        options=[
+            MoodInfluenceOption(id="family", title="Семья"),
+            MoodInfluenceOption(id="friends", title="Друзья"),
+            MoodInfluenceOption(id="partner", title="Партнер"),
+            MoodInfluenceOption(id="colleagues", title="Коллеги"),
+            MoodInfluenceOption(id="pets", title="Питомцы"),
+            MoodInfluenceOption(id="clients", title="Клиенты"),
+        ],
+    ),
+    MoodInfluenceCategory(
+        id="activities",
+        title="Занятия",
+        options=[
+            MoodInfluenceOption(id="study", title="Учеба"),
+            MoodInfluenceOption(id="sex", title="Секс"),
+            MoodInfluenceOption(id="work", title="Работа"),
+            MoodInfluenceOption(id="hobby", title="Хобби"),
+            MoodInfluenceOption(id="household", title="Быт"),
+            MoodInfluenceOption(id="walk", title="Прогулка"),
+            MoodInfluenceOption(id="reading", title="Чтение"),
+            MoodInfluenceOption(id="cinema", title="Кино"),
+        ],
+    ),
+    MoodInfluenceCategory(
+        id="general_health",
+        title="Общее здоровье",
+        options=[
+            MoodInfluenceOption(id="bad_sleep", title="Плохой сон"),
+            MoodInfluenceOption(id="sport", title="Спорт"),
+            MoodInfluenceOption(id="illness", title="Болезнь"),
+            MoodInfluenceOption(id="good_sleep", title="Хороший сон"),
+            MoodInfluenceOption(id="hunger", title="Голод"),
+            MoodInfluenceOption(id="overeating", title="Переедание"),
+            MoodInfluenceOption(id="balanced_food", title="Сбалансированная еда"),
+            MoodInfluenceOption(id="smoking", title="Курение"),
+            MoodInfluenceOption(id="alcohol", title="Алкоголь"),
+        ],
+    ),
+    MoodInfluenceCategory(
+        id="female_health",
+        title="Женское здоровье",
+        options=[
+            MoodInfluenceOption(id="menstrual_phase", title="Менструальная фаза"),
+            MoodInfluenceOption(id="follicular_phase", title="Фолликулярная фаза"),
+            MoodInfluenceOption(id="ovulatory_phase", title="Овуляторная фаза"),
+            MoodInfluenceOption(id="luteal_phase", title="Лютеиновая фаза"),
+        ],
+    ),
+    MoodInfluenceCategory(
+        id="other",
+        title="Другое",
+        allow_custom_text=True,
+        options=[],
+    ),
+]
+
 
 def local_now() -> datetime:
-    # Database timestamps are currently timezone-naive, so store Tomsk wall time.
+
     return datetime.now(APP_TIMEZONE).replace(tzinfo=None)
 
 
@@ -76,9 +147,44 @@ class MoodTrackerService(BaseService):
             if not (self.MIN_EMOJI_ID <= eid <= self.MAX_EMOJI_ID):
                 raise InvalidEmojiIdException
 
+    def _validate_mood_details(self, data: MoodTrackerDateRequestAdd):
+        if not data.emoji_ids and not data.emotions:
+            raise ValueError("At least one emotion is required")
+
+        valid_emotions = set(MOOD_EMOTIONS)
+        invalid_emotions = [emotion for emotion in data.emotions if emotion not in valid_emotions]
+        if invalid_emotions:
+            raise ValueError(f"Unknown emotions: {', '.join(invalid_emotions)}")
+
+        categories = {category.id: category for category in MOOD_INFLUENCE_CATEGORIES}
+        for factor in data.influence_factors:
+            category = categories.get(factor.category_id)
+            if category is None:
+                raise ValueError(f"Unknown influence category: {factor.category_id}")
+
+            valid_option_ids = {option.id for option in category.options}
+            invalid_option_ids = [
+                option_id
+                for option_id in factor.option_ids
+                if option_id not in valid_option_ids
+            ]
+            if invalid_option_ids:
+                raise ValueError(
+                    f"Unknown influence options for {factor.category_id}: "
+                    + ", ".join(invalid_option_ids)
+                )
+
+            if factor.custom_text and not category.allow_custom_text:
+                raise ValueError(f"Custom text is not allowed for {factor.category_id}")
+
+            if category.allow_custom_text and not factor.custom_text:
+                raise ValueError(f"Custom text is required for {factor.category_id}")
+
     async def save_mood_tracker(self, data: MoodTrackerDateRequestAdd, user_id: uuid.UUID):
         self._validate_score(data.score)
-        self._validate_emojis(data.emoji_ids)
+        if data.emoji_ids:
+            self._validate_emojis(data.emoji_ids)
+        self._validate_mood_details(data)
 
         created_at = (
             datetime.combine(data.day, time.min)
@@ -93,7 +199,9 @@ class MoodTrackerService(BaseService):
             score=data.score,
             created_at=created_at,
             user_id=user_id,
-            emoji_ids=data.emoji_ids
+            emoji_ids=data.emoji_ids,
+            emotions=data.emotions,
+            influence_factors=data.influence_factors,
         )
 
         daily_tasks = await DailyTaskService(self.db).get_daily_tasks(user_id)
@@ -186,7 +294,7 @@ class MoodTrackerService(BaseService):
         result = []
         for record in records:
             emoji_texts = []
-            for eid in record.emoji_ids:
+            for eid in record.emoji_ids or []:
                 emoji = await emoji_service.get_emoji_by_id(eid)
                 if emoji:
                     emoji_texts.append(emoji.text)
@@ -195,8 +303,10 @@ class MoodTrackerService(BaseService):
                 score=record.score,
                 created_at=record.created_at,
                 user_id=record.user_id,
-                emoji_ids=record.emoji_ids,
-                emoji_texts=emoji_texts
+                emoji_ids=record.emoji_ids or [],
+                emoji_texts=emoji_texts,
+                emotions=getattr(record, "emotions", None) or [],
+                influence_factors=getattr(record, "influence_factors", None) or [],
             ))
         return result
 
@@ -220,7 +330,7 @@ class MoodTrackerService(BaseService):
         records_by_day = defaultdict(list)
         for record in sorted(records, key=lambda item: item.created_at):
             emoji_texts = []
-            for eid in record.emoji_ids:
+            for eid in record.emoji_ids or []:
                 emoji = await emoji_service.get_emoji_by_id(eid)
                 if emoji:
                     emoji_texts.append(emoji.text)
@@ -229,8 +339,10 @@ class MoodTrackerService(BaseService):
                 score=record.score,
                 created_at=record.created_at,
                 user_id=record.user_id,
-                emoji_ids=record.emoji_ids,
-                emoji_texts=emoji_texts
+                emoji_ids=record.emoji_ids or [],
+                emoji_texts=emoji_texts,
+                emotions=getattr(record, "emotions", None) or [],
+                influence_factors=getattr(record, "influence_factors", None) or [],
             )
             records_by_day[record.created_at.date()].append(serialized_record)
 
@@ -268,7 +380,7 @@ class MoodTrackerService(BaseService):
         result = []
         for record in records:
             emoji_texts = []
-            for eid in record.emoji_ids:
+            for eid in record.emoji_ids or []:
                 emoji = await emoji_service.get_emoji_by_id(eid)
                 if emoji:
                     emoji_texts.append(emoji.text)
@@ -277,8 +389,10 @@ class MoodTrackerService(BaseService):
                 score=record.score,
                 created_at=record.created_at,
                 user_id=record.user_id,
-                emoji_ids=record.emoji_ids,
-                emoji_texts=emoji_texts
+                emoji_ids=record.emoji_ids or [],
+                emoji_texts=emoji_texts,
+                emotions=getattr(record, "emotions", None) or [],
+                influence_factors=getattr(record, "influence_factors", None) or [],
             ))
         return result
 
@@ -291,7 +405,7 @@ class MoodTrackerService(BaseService):
 
         emoji_service = EmojiService(self.db)
         emoji_texts = []
-        for eid in record.emoji_ids:
+        for eid in record.emoji_ids or []:
             emoji = await emoji_service.get_emoji_by_id(eid)
             if emoji:
                 emoji_texts.append(emoji.text)
@@ -301,6 +415,8 @@ class MoodTrackerService(BaseService):
             score=record.score,
             created_at=record.created_at,
             user_id=record.user_id,
-            emoji_ids=record.emoji_ids,
-            emoji_texts=emoji_texts
+            emoji_ids=record.emoji_ids or [],
+            emoji_texts=emoji_texts,
+            emotions=getattr(record, "emotions", None) or [],
+            influence_factors=getattr(record, "influence_factors", None) or [],
         )

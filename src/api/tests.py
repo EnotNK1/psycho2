@@ -36,6 +36,12 @@ router = APIRouter(prefix="/tests", tags=["Тесты"])
 images_router = APIRouter(prefix="/images", tags=["Изображения"])
 
 
+def _normalize_user_id(user_id: uuid.UUID | str) -> uuid.UUID:
+    if isinstance(user_id, uuid.UUID):
+        return user_id
+    return uuid.UUID(str(user_id))
+
+
 @router.post("/auto", summary="Автоматическое создание всех тестов")
 async def auto_create(
         db: DBDep,
@@ -473,7 +479,10 @@ async def get_test_result_by_id(
         db: DBDep
 ):
     try:
-        res = await TestService(db).get_test_result_by_id(result_id, uuid.UUID(user_id))
+        res = await TestService(db).get_test_result_by_id(
+            result_id,
+            _normalize_user_id(user_id),
+        )
 
         test_id = res.get("test_id")
         scale_results = res.get("scale_results", [])
@@ -487,6 +496,8 @@ async def get_test_result_by_id(
         return res
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
+    except ValueError as ex:
+        raise HTTPException(status_code=400, detail=str(ex))
 
 
 @router.get("/passed/user/{user_id}",

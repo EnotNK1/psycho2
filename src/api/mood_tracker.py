@@ -3,8 +3,16 @@ from typing import Optional
 from fastapi import APIRouter, Query, HTTPException
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
-from src.schemas.mood_tracker import MoodTrackerDateRequestAdd, WeeklyMoodTrackerDay
-from src.services.mood_tracker import MoodTrackerService
+from src.schemas.mood_tracker import (
+    MoodInfluenceCategory,
+    MoodTrackerDateRequestAdd,
+    WeeklyMoodTrackerDay,
+)
+from src.services.mood_tracker import (
+    MOOD_EMOTIONS,
+    MOOD_INFLUENCE_CATEGORIES,
+    MoodTrackerService,
+)
 from src.services.emoji import EmojiService
 
 from src.exceptions import (
@@ -26,7 +34,8 @@ router = APIRouter(prefix="/mood_tracker", tags=["Трекер настроен�
     Сохранение нового трекера настроения.\n 
     Значение score от 0 до 100. 
     Опциональная дата в формате YYYY-MM-DD. 
-    Emoji_ids: всего есть 10 эмодзи (id каждого от 0 до 10).
+    Deprecated: emoji_ids оставлены для старых клиентов.
+    Новый формат: emotions + influence_factors.
     """)
 async def add_mood_tracker(
     db: DBDep,
@@ -40,12 +49,25 @@ async def add_mood_tracker(
         raise ScoreOutOfRangeHTTPException
     except InvalidEmojiIdException:
         raise InvalidEmojiIdHTTPException
+    except ValueError as ex:
+        raise HTTPException(status_code=400, detail=str(ex))
     except Exception:
         raise InternalErrorHTTPException
 
 
+@router.get("/emotions", response_model=list[str])
+async def get_mood_emotions():
+    return MOOD_EMOTIONS
+
+
+@router.get("/influence-factors", response_model=list[MoodInfluenceCategory])
+async def get_mood_influence_factors():
+    return MOOD_INFLUENCE_CATEGORIES
+
+
 @router.get("/emoji",
             description="""
+    Deprecated: старый справочник эмодзи. Для нового экрана используйте /emotions и /influence-factors.\n
     Возвращает эмодзи по его id.\n
     Опциональное поле emoji_id (всего есть 10 эмодзи, id каждого от 0 до 10). 
     Если emoji_id не указан, то возвращаются все эмодзи.
