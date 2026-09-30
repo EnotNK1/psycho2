@@ -288,7 +288,10 @@ class EducationMaterialDataMapper(DataMapper):
     def map_to_domain_entity(model: educationMaterialOrm) -> EducationMaterialResponse:
         cards = []
         if "cards" not in inspect(model).unloaded:
-            cards = [CardDataMapper.map_to_domain_entity(card) for card in model.cards]
+            cards = [
+                CardDataMapper.map_to_domain_entity(card)
+                for card in sorted(model.cards, key=lambda item: item.number)
+            ]
 
         return EducationMaterialResponse(
             id=model.id,
@@ -311,7 +314,10 @@ class EducationThemeDataMapper(DataMapper):
         if "education_materials" not in inspect(model).unloaded:
             education_materials = [
                 EducationMaterialDataMapper.map_to_domain_entity(material)
-                for material in model.education_materials
+                for material in sorted(
+                    model.education_materials,
+                    key=lambda item: item.number,
+                )
             ]
 
         return EducationThemeResponse(
