@@ -21,6 +21,8 @@ from src.schemas.mood_tracker import (
     MoodTracker,
     MoodTrackerCreate,
     MoodTrackerDateRequestAdd,
+    MoodEmotionCatalog,
+    MoodEmotionGroup,
     MoodInfluenceCategory,
     MoodInfluenceOption,
     WeeklyMoodTrackerDay,
@@ -37,13 +39,72 @@ from src.models import MoodTrackerOrm
 APP_TIMEZONE = ZoneInfo("Asia/Tomsk")
 logger = logging.getLogger(__name__)
 
-MOOD_EMOTIONS = [
-    "Радость",
-    "Грусть",
+MOOD_PRIMARY_EMOTIONS = [
+    "Печаль",
+    "Злость",
     "Страх",
+    "Радость",
+    "Вина",
+    "Интерес",
+    "Спокойствие",
+]
+
+MOOD_ADDITIONAL_EMOTIONS = [
+    "Грусть",
+    "Одиночество",
+    "Разочарование",
+    "Беспомощность",
+    "Тоска",
+    "Апатия",
     "Гнев",
-    "Отвращение",
+    "Злость",
+    "Раздражение",
+    "Обида",
+    "Фрустрация (когда что-то не получается)",
+    "Возмущение",
+    "Ненависть",
+    "Тревога",
+    "Паника",
+    "Ужас",
+    "Неуверенность в себе",
+    "Напряжение",
+    "Стресс",
+    "Удовлетворение",
+    "Вдохновение",
+    "Благодарность",
+    "Умиротворение",
+    "Расслабленность",
+    "Стыд",
+    "Смущение",
+    "Чувство неадекватности",
     "Удивление",
+    "Любопытство",
+    "Озадаченность",
+    "Воодушевление",
+    "Равнодушие",
+]
+
+MOOD_EMOTION_CATALOG = MoodEmotionCatalog(
+    groups=[
+        MoodEmotionGroup(
+            id="primary",
+            title="Основные",
+            emotions=MOOD_PRIMARY_EMOTIONS,
+        ),
+        MoodEmotionGroup(
+            id="additional",
+            title="Дополнительные",
+            emotions=MOOD_ADDITIONAL_EMOTIONS,
+        ),
+    ],
+    allow_custom_text=True,
+    custom_title="Другое",
+)
+
+MOOD_EMOTIONS = MOOD_PRIMARY_EMOTIONS + [
+    emotion
+    for emotion in MOOD_ADDITIONAL_EMOTIONS
+    if emotion not in MOOD_PRIMARY_EMOTIONS
 ]
 
 MOOD_INFLUENCE_CATEGORIES = [
@@ -148,7 +209,8 @@ class MoodTrackerService(BaseService):
                 raise InvalidEmojiIdException
 
     def _validate_mood_details(self, data: MoodTrackerDateRequestAdd):
-        if not data.emoji_ids and not data.emotions:
+        other_emotion = data.other_emotion.strip() if data.other_emotion else None
+        if not data.emoji_ids and not data.emotions and not other_emotion:
             raise ValueError("At least one emotion is required")
 
         valid_emotions = set(MOOD_EMOTIONS)
@@ -180,11 +242,19 @@ class MoodTrackerService(BaseService):
             if category.allow_custom_text and not factor.custom_text:
                 raise ValueError(f"Custom text is required for {factor.category_id}")
 
+    def _build_emotions_for_storage(self, data: MoodTrackerDateRequestAdd) -> list[str]:
+        emotions = list(data.emotions)
+        other_emotion = data.other_emotion.strip() if data.other_emotion else None
+        if other_emotion:
+            emotions.append(other_emotion)
+        return emotions
+
     async def save_mood_tracker(self, data: MoodTrackerDateRequestAdd, user_id: uuid.UUID):
         self._validate_score(data.score)
         if data.emoji_ids:
             self._validate_emojis(data.emoji_ids)
         self._validate_mood_details(data)
+        emotions = self._build_emotions_for_storage(data)
 
         created_at = (
             datetime.combine(data.day, time.min)
@@ -200,7 +270,7 @@ class MoodTrackerService(BaseService):
             created_at=created_at,
             user_id=user_id,
             emoji_ids=data.emoji_ids,
-            emotions=data.emotions,
+            emotions=emotions,
             influence_factors=data.influence_factors,
         )
 

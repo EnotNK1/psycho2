@@ -23,11 +23,24 @@ class MoodInfluenceCategory(BaseModel):
     options: list[MoodInfluenceOption] = Field(default_factory=list)
 
 
+class MoodEmotionGroup(BaseModel):
+    id: str
+    title: str
+    emotions: list[str] = Field(default_factory=list)
+
+
+class MoodEmotionCatalog(BaseModel):
+    groups: list[MoodEmotionGroup] = Field(default_factory=list)
+    allow_custom_text: bool = True
+    custom_title: str = "Другое"
+
+
 class MoodTrackerDateRequestAdd(BaseModel):
     score: int
     day: Optional[datetime.date] = None
     emoji_ids: list[int] = Field(default_factory=list)
     emotions: list[str] = Field(default_factory=list)
+    other_emotion: Optional[str] = None
     influence_factors: list[MoodInfluenceFactorSelection] = Field(default_factory=list)
 
 

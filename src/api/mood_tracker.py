@@ -4,12 +4,13 @@ from fastapi import APIRouter, Query, HTTPException
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
 from src.schemas.mood_tracker import (
+    MoodEmotionCatalog,
     MoodInfluenceCategory,
     MoodTrackerDateRequestAdd,
     WeeklyMoodTrackerDay,
 )
 from src.services.mood_tracker import (
-    MOOD_EMOTIONS,
+    MOOD_EMOTION_CATALOG,
     MOOD_INFLUENCE_CATEGORIES,
     MoodTrackerService,
 )
@@ -55,9 +56,9 @@ async def add_mood_tracker(
         raise InternalErrorHTTPException
 
 
-@router.get("/emotions", response_model=list[str])
+@router.get("/emotions", response_model=MoodEmotionCatalog)
 async def get_mood_emotions():
-    return MOOD_EMOTIONS
+    return MOOD_EMOTION_CATALOG
 
 
 @router.get("/influence-factors", response_model=list[MoodInfluenceCategory])
