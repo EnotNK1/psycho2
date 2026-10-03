@@ -183,6 +183,34 @@ def test_validate_emojis_raises_for_out_of_range_id():
         MoodTrackerService()._validate_emojis([0, 2])
 
 
+def test_validate_mood_details_accepts_custom_other_emotion():
+    data = make_request(emoji_ids=[], emotions=[], other_emotion="Взволнованность")
+
+    MoodTrackerService()._validate_mood_details(data)
+
+
+def test_validate_mood_details_rejects_unknown_regular_emotion():
+    data = make_request(emoji_ids=[], emotions=["Неизвестная эмоция"])
+
+    with pytest.raises(ValueError, match="Unknown emotions"):
+        MoodTrackerService()._validate_mood_details(data)
+
+
+def test_get_help_materials_returns_fixed_category_materials():
+    result = MoodTrackerService().get_help_materials("relax")
+
+    assert result.title == "Успокоиться и расслабиться"
+    assert [(item.type, item.material_id) for item in result.materials] == [
+        ("theory", "686dd773-7f39-405f-807a-7a6024f982b8"),
+        ("theory", "8cd36279-61f0-4959-99de-0a642959e08b"),
+    ]
+
+
+def test_get_help_materials_rejects_unknown_category():
+    with pytest.raises(ValueError, match="Unknown help category"):
+        MoodTrackerService().get_help_materials("unknown")
+
+
 @pytest.mark.asyncio
 async def test_save_mood_tracker_creates_record_completes_daily_tasks_and_commits(fake_mood_tracker_db, monkeypatch):
     DummyDailyTaskService.tasks = [
@@ -202,6 +230,26 @@ async def test_save_mood_tracker_creates_record_completes_daily_tasks_and_commit
     assert DummyDailyTaskService.complete_calls == [(MOOD_TRACKER_ID, USER_ID)]
     assert DummyGamificationService.calls == [(USER_ID, "mood_tracker_used")]
     assert fake_mood_tracker_db.commit_count == 1
+
+
+@pytest.mark.asyncio
+async def test_save_mood_tracker_stores_selected_and_custom_emotions(fake_mood_tracker_db, monkeypatch):
+    monkeypatch.setattr(mood_tracker_service_module, "DailyTaskService", DummyDailyTaskService)
+    monkeypatch.setattr(mood_tracker_service_module, "GamificationService", DummyGamificationService)
+    monkeypatch.setattr(mood_tracker_service_module, "recommendations", lambda payload: [])
+    monkeypatch.setattr(mood_tracker_service_module, "load_data", lambda path: [])
+
+    await MoodTrackerService(fake_mood_tracker_db).save_mood_tracker(
+        make_request(
+            emoji_ids=[],
+            emotions=["Печаль", "Равнодушие"],
+            other_emotion="Своя эмоция",
+        ),
+        USER_ID,
+    )
+
+    created = fake_mood_tracker_db.mood_tracker.add_calls[0]
+    assert created.emotions == ["Печаль", "Равнодушие", "Своя эмоция"]
 
 
 @pytest.mark.asyncio

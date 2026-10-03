@@ -34,7 +34,9 @@ class FakeDiaryRepository:
         self.model = SimpleNamespace(user_id=FakeColumn("user_id"), created_at=FakeColumn("created_at"))
         self.add_calls = []
         self.get_filtered_calls = []
+        self.get_one_or_none_calls = []
         self.filtered_result = []
+        self.one_or_none_result = None
         self.raise_on_add = None
         self.raise_on_get_filtered = None
 
@@ -49,6 +51,10 @@ class FakeDiaryRepository:
         self.get_filtered_calls.append((conditions, filter_by))
         return self.filtered_result
 
+    async def get_one_or_none(self, **filter_by):
+        self.get_one_or_none_calls.append(filter_by)
+        return self.one_or_none_result
+
 
 class FakeDiaryDb:
     def __init__(self):
@@ -62,8 +68,8 @@ class FakeDiaryDb:
         self.commit_count += 1
 
 
-def make_request(text="Diary note", day="2024-04-15"):
-    return SimpleNamespace(text=text, day=day)
+def make_request(text="Diary note", day="2024-04-15", mood_tracker_id=None):
+    return SimpleNamespace(text=text, day=day, mood_tracker_id=mood_tracker_id)
 
 
 def test_validate_text_accepts_normal_text():
@@ -96,6 +102,18 @@ async def test_add_diary_creates_record_with_explicit_day_and_commits():
     assert created.user_id == USER_ID
     assert created.created_at == datetime(2024, 4, 10)
     assert db.commit_count == 1
+
+
+@pytest.mark.asyncio
+async def test_add_diary_stores_mood_tracker_id():
+    db = FakeDiaryDb()
+
+    await DiaryService(db).add_diary(
+        make_request(mood_tracker_id=DIARY_ID),
+        USER_ID,
+    )
+
+    assert db.diary.add_calls[0].mood_tracker_id == DIARY_ID
 
 
 @pytest.mark.asyncio
@@ -170,6 +188,19 @@ async def test_get_diary_returns_all_user_entries():
     conditions, filters = db.diary.get_filtered_calls[0]
     assert len(conditions) == 1
     assert filters == {}
+
+
+@pytest.mark.asyncio
+async def test_get_diary_by_mood_tracker_returns_user_note():
+    db = FakeDiaryDb()
+    db.diary.one_or_none_result = make_diary()
+
+    result = await DiaryService(db).get_diary_by_mood_tracker(USER_ID, DIARY_ID)
+
+    assert result == db.diary.one_or_none_result
+    assert db.diary.get_one_or_none_calls == [
+        {"user_id": USER_ID, "mood_tracker_id": DIARY_ID}
+    ]
 
 
 @pytest.mark.asyncio

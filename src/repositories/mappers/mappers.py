@@ -237,6 +237,18 @@ class MoodTrackerDataMapper(DataMapper):
     db_model = MoodTrackerOrm
     schema = MoodTracker
 
+    @classmethod
+    def map_to_domain_entity(cls, model: MoodTrackerOrm) -> MoodTracker:
+        return MoodTracker(
+            id=model.id,
+            score=model.score,
+            created_at=model.created_at,
+            user_id=model.user_id,
+            emoji_ids=model.emoji_ids or [],
+            emotions=model.emotions or [],
+            influence_factors=model.influence_factors or [],
+        )
+
 
 class AdminUserDataMapper(DataMapper):
     db_model = UsersOrm

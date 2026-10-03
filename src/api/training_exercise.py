@@ -39,7 +39,7 @@ async def get_exercise(
 ):
     try:
         return await TrainingExerciseService(db).get_exercise_by_id(exercise_id, user_id)
-    except ObjectNotFoundException:
+    except (ObjectNotFoundException, ValueError):
         raise ObjectNotFoundHTTPException()
 
 
@@ -51,7 +51,7 @@ async def get_exercise_structure(
 ):
     try:
         return await TrainingExerciseService(db).get_exercise_structure_by_id(exercise_id, user_id)
-    except ObjectNotFoundException:
+    except (ObjectNotFoundException, ValueError):
         raise ObjectNotFoundHTTPException()
 
 
