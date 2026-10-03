@@ -23,6 +23,9 @@ from src.schemas.mood_tracker import (
     MoodTrackerDateRequestAdd,
     MoodEmotionCatalog,
     MoodEmotionGroup,
+    MoodHelpCategory,
+    MoodHelpCategoryResponse,
+    MoodHelpMaterial,
     MoodInfluenceCategory,
     MoodInfluenceOption,
     WeeklyMoodTrackerDay,
@@ -167,6 +170,45 @@ MOOD_INFLUENCE_CATEGORIES = [
     ),
 ]
 
+MOOD_HELP_CATEGORIES = [
+    MoodHelpCategory(id="reflect", title="Обдумать и разобраться"),
+    MoodHelpCategory(id="relax", title="Успокоиться и расслабиться"),
+    MoodHelpCategory(id="focus", title="Собраться и сосредоточиться"),
+]
+
+MOOD_HELP_MATERIALS = {
+    "reflect": [
+        MoodHelpMaterial(
+            type="test",
+            material_id="bc9f1204-ea5d-40b0-b367-359bf9b2cc21",
+        ),
+        MoodHelpMaterial(
+            type="practice",
+            material_id="4e3f51e9-aad8-4a13-b4b7-d748e472d394",
+        ),
+    ],
+    "relax": [
+        MoodHelpMaterial(
+            type="theory",
+            material_id="686dd773-7f39-405f-807a-7a6024f982b8",
+        ),
+        MoodHelpMaterial(
+            type="theory",
+            material_id="8cd36279-61f0-4959-99de-0a642959e08b",
+        ),
+    ],
+    "focus": [
+        MoodHelpMaterial(
+            type="practice",
+            material_id="9bfde30c-0aca-4ed8-abdf-b768b6b8f67f",
+        ),
+        MoodHelpMaterial(
+            type="theory",
+            material_id="5b9df1dc-08db-5bfa-ac99-11ba67256405",
+        ),
+    ],
+}
+
 
 def local_now() -> datetime:
 
@@ -248,6 +290,18 @@ class MoodTrackerService(BaseService):
         if other_emotion:
             emotions.append(other_emotion)
         return emotions
+
+    def get_help_materials(self, category_id: str) -> MoodHelpCategoryResponse:
+        category_by_id = {category.id: category for category in MOOD_HELP_CATEGORIES}
+        category = category_by_id.get(category_id)
+        if category is None:
+            raise ValueError(f"Unknown help category: {category_id}")
+
+        return MoodHelpCategoryResponse(
+            id=category.id,
+            title=category.title,
+            materials=MOOD_HELP_MATERIALS[category.id],
+        )
 
     async def save_mood_tracker(self, data: MoodTrackerDateRequestAdd, user_id: uuid.UUID):
         self._validate_score(data.score)

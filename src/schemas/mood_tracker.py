@@ -35,6 +35,22 @@ class MoodEmotionCatalog(BaseModel):
     custom_title: str = "Другое"
 
 
+class MoodHelpCategory(BaseModel):
+    id: str
+    title: str
+
+
+class MoodHelpMaterial(BaseModel):
+    type: str
+    material_id: str
+
+
+class MoodHelpCategoryResponse(BaseModel):
+    id: str
+    title: str
+    materials: list[MoodHelpMaterial] = Field(default_factory=list)
+
+
 class MoodTrackerDateRequestAdd(BaseModel):
     score: int
     day: Optional[datetime.date] = None

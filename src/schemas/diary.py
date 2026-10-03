@@ -10,6 +10,7 @@ from pydantic import ConfigDict
 class DiaryDateRequestAdd(BaseModel):
     text: str
     day: str | None = None
+    mood_tracker_id: uuid.UUID | None = None
 
 
 class Diary(BaseModel):
@@ -17,6 +18,7 @@ class Diary(BaseModel):
     text: str
     created_at: datetime.datetime
     user_id: uuid.UUID
+    mood_tracker_id: uuid.UUID | None = None
 
 class AbcDiary(BaseModel):
     id: uuid.UUID

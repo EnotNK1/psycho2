@@ -196,6 +196,21 @@ def test_validate_mood_details_rejects_unknown_regular_emotion():
         MoodTrackerService()._validate_mood_details(data)
 
 
+def test_get_help_materials_returns_fixed_category_materials():
+    result = MoodTrackerService().get_help_materials("relax")
+
+    assert result.title == "Успокоиться и расслабиться"
+    assert [(item.type, item.material_id) for item in result.materials] == [
+        ("theory", "686dd773-7f39-405f-807a-7a6024f982b8"),
+        ("theory", "8cd36279-61f0-4959-99de-0a642959e08b"),
+    ]
+
+
+def test_get_help_materials_rejects_unknown_category():
+    with pytest.raises(ValueError, match="Unknown help category"):
+        MoodTrackerService().get_help_materials("unknown")
+
+
 @pytest.mark.asyncio
 async def test_save_mood_tracker_creates_record_completes_daily_tasks_and_commits(fake_mood_tracker_db, monkeypatch):
     DummyDailyTaskService.tasks = [

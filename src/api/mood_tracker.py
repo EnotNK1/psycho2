@@ -5,12 +5,15 @@ from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
 from src.schemas.mood_tracker import (
     MoodEmotionCatalog,
+    MoodHelpCategory,
+    MoodHelpCategoryResponse,
     MoodInfluenceCategory,
     MoodTrackerDateRequestAdd,
     WeeklyMoodTrackerDay,
 )
 from src.services.mood_tracker import (
     MOOD_EMOTION_CATALOG,
+    MOOD_HELP_CATEGORIES,
     MOOD_INFLUENCE_CATEGORIES,
     MoodTrackerService,
 )
@@ -64,6 +67,19 @@ async def get_mood_emotions():
 @router.get("/influence-factors", response_model=list[MoodInfluenceCategory])
 async def get_mood_influence_factors():
     return MOOD_INFLUENCE_CATEGORIES
+
+
+@router.get("/help-categories", response_model=list[MoodHelpCategory])
+async def get_mood_help_categories():
+    return MOOD_HELP_CATEGORIES
+
+
+@router.get("/help-categories/{category_id}", response_model=MoodHelpCategoryResponse)
+async def get_mood_help_category_materials(category_id: str):
+    try:
+        return MoodTrackerService().get_help_materials(category_id)
+    except ValueError as ex:
+        raise HTTPException(status_code=400, detail=str(ex))
 
 
 @router.get("/emoji",
