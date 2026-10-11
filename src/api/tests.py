@@ -2,12 +2,13 @@ import logging
 import uuid
 from pathlib import Path
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import FileResponse
 from typing import Optional, List, Dict, Any
 
 from src.api.chat_bot import load_data
 from src.api.dependencies.db import DBDep
+from src.api.dependencies.admin import verify_admin
 from src.api.dependencies.user_id import UserIdDep
 from src.exceptions import ObjectNotFoundHTTPException, ObjectNotFoundException, MyAppException, MyAppHTTPException, \
     InternalErrorHTTPException, InvalidAnswersCountError, InvalidAnswersCountHTTPError, ResultsScaleMismatchError, \
@@ -45,7 +46,7 @@ def _normalize_user_id(user_id: uuid.UUID | str) -> uuid.UUID:
 @router.post("/auto", summary="Автоматическое создание всех тестов")
 async def auto_create(
         db: DBDep,
-        user_id: UserIdDep
+        admin_id: uuid.UUID = Depends(verify_admin)
 ):
     await TestService(db).auto_create()
     return {"status": "OK"}
@@ -53,6 +54,7 @@ async def auto_create(
 @router.post("/update-images", summary="Обновить изображения тестов")
 async def update_test_images(
     db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     try:
         await TestService(db).update_test_links_from_file()
@@ -62,12 +64,12 @@ async def update_test_images(
 
 
 @router.post("/", response_model=TestResponse)
-async def create_test(test_data: TestCreate, db: DBDep):
+async def create_test(test_data: TestCreate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     return await TestService(db).create_test(test_data)
 
 
 @router.patch("/{test_id}", response_model=TestResponse)
-async def update_test(test_id: uuid.UUID, test_data: TestUpdate, db: DBDep):
+async def update_test(test_id: uuid.UUID, test_data: TestUpdate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await TestService(db).update_test(test_id, test_data)
     except ObjectNotFoundException:
@@ -75,7 +77,7 @@ async def update_test(test_id: uuid.UUID, test_data: TestUpdate, db: DBDep):
 
 
 @router.delete("/{test_id}", status_code=204)
-async def delete_test(test_id: uuid.UUID, db: DBDep):
+async def delete_test(test_id: uuid.UUID, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         await TestService(db).delete_test(test_id)
     except ObjectNotFoundException:
@@ -83,7 +85,7 @@ async def delete_test(test_id: uuid.UUID, db: DBDep):
 
 
 @router.post("/{test_id}/scales", response_model=ScaleResponse)
-async def create_scale(test_id: uuid.UUID, scale_data: ScaleCreate, db: DBDep):
+async def create_scale(test_id: uuid.UUID, scale_data: ScaleCreate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await TestService(db).create_scale(test_id, scale_data)
     except ObjectNotFoundException:
@@ -91,7 +93,7 @@ async def create_scale(test_id: uuid.UUID, scale_data: ScaleCreate, db: DBDep):
 
 
 @router.patch("/scales/{scale_id}", response_model=ScaleResponse)
-async def update_scale(scale_id: uuid.UUID, scale_data: ScaleUpdate, db: DBDep):
+async def update_scale(scale_id: uuid.UUID, scale_data: ScaleUpdate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await TestService(db).update_scale(scale_id, scale_data)
     except ObjectNotFoundException:
@@ -99,7 +101,7 @@ async def update_scale(scale_id: uuid.UUID, scale_data: ScaleUpdate, db: DBDep):
 
 
 @router.delete("/scales/{scale_id}", status_code=204)
-async def delete_scale(scale_id: uuid.UUID, db: DBDep):
+async def delete_scale(scale_id: uuid.UUID, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         await TestService(db).delete_scale(scale_id)
     except ObjectNotFoundException:
@@ -107,7 +109,7 @@ async def delete_scale(scale_id: uuid.UUID, db: DBDep):
 
 
 @router.post("/scales/{scale_id}/borders", response_model=BorderResponse)
-async def create_border(scale_id: uuid.UUID, border_data: BorderCreate, db: DBDep):
+async def create_border(scale_id: uuid.UUID, border_data: BorderCreate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await TestService(db).create_border(scale_id, border_data)
     except ObjectNotFoundException:
@@ -115,7 +117,7 @@ async def create_border(scale_id: uuid.UUID, border_data: BorderCreate, db: DBDe
 
 
 @router.patch("/borders/{border_id}", response_model=BorderResponse)
-async def update_border(border_id: uuid.UUID, border_data: BordersUpdate, db: DBDep):
+async def update_border(border_id: uuid.UUID, border_data: BordersUpdate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await TestService(db).update_border(border_id, border_data)
     except ObjectNotFoundException:
@@ -123,7 +125,7 @@ async def update_border(border_id: uuid.UUID, border_data: BordersUpdate, db: DB
 
 
 @router.delete("/borders/{border_id}", status_code=204)
-async def delete_border(border_id: uuid.UUID, db: DBDep):
+async def delete_border(border_id: uuid.UUID, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         await TestService(db).delete_border(border_id)
     except ObjectNotFoundException:
@@ -131,7 +133,7 @@ async def delete_border(border_id: uuid.UUID, db: DBDep):
 
 
 @router.post("/{test_id}/questions", response_model=QuestionResponse)
-async def create_question(test_id: uuid.UUID, question_data: QuestionCreate, db: DBDep):
+async def create_question(test_id: uuid.UUID, question_data: QuestionCreate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await TestService(db).create_question(test_id, question_data)
     except ObjectNotFoundException:
@@ -139,7 +141,7 @@ async def create_question(test_id: uuid.UUID, question_data: QuestionCreate, db:
 
 
 @router.patch("/questions/{question_id}", response_model=QuestionResponse)
-async def update_question(question_id: uuid.UUID, question_data: QuestionUpdate, db: DBDep):
+async def update_question(question_id: uuid.UUID, question_data: QuestionUpdate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await TestService(db).update_question(question_id, question_data)
     except ObjectNotFoundException:
@@ -147,7 +149,7 @@ async def update_question(question_id: uuid.UUID, question_data: QuestionUpdate,
 
 
 @router.delete("/questions/{question_id}", status_code=204)
-async def delete_question(question_id: uuid.UUID, db: DBDep):
+async def delete_question(question_id: uuid.UUID, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         await TestService(db).delete_question(question_id)
     except ObjectNotFoundException:
@@ -155,12 +157,12 @@ async def delete_question(question_id: uuid.UUID, db: DBDep):
 
 
 @router.post("/answers", response_model=AnswerChoiceResponse)
-async def create_answer_choice(answer_data: AnswerChoiceCreate, db: DBDep):
+async def create_answer_choice(answer_data: AnswerChoiceCreate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     return await TestService(db).create_answer_choice(answer_data)
 
 
 @router.patch("/answers/{answer_id}", response_model=AnswerChoiceResponse)
-async def update_answer_choice(answer_id: uuid.UUID, answer_data: AnswerChoiceUpdate, db: DBDep):
+async def update_answer_choice(answer_id: uuid.UUID, answer_data: AnswerChoiceUpdate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await TestService(db).update_answer_choice(answer_id, answer_data)
     except ObjectNotFoundException:
@@ -168,7 +170,7 @@ async def update_answer_choice(answer_id: uuid.UUID, answer_data: AnswerChoiceUp
 
 
 @router.delete("/answers/{answer_id}", status_code=204)
-async def delete_answer_choice(answer_id: uuid.UUID, db: DBDep):
+async def delete_answer_choice(answer_id: uuid.UUID, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         await TestService(db).delete_answer_choice(answer_id)
     except ObjectNotFoundException:

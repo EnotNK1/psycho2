@@ -3,10 +3,11 @@ import uuid
 from pathlib import Path
 from typing import List
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from starlette.responses import FileResponse
 
 from src.api.dependencies.db import DBDep
+from src.api.dependencies.admin import verify_admin
 from src.api.dependencies.user_id import UserIdDep
 from src.exceptions import ObjectNotFoundHTTPException, MyAppHTTPException, ObjectNotFoundException, \
     ObjectAlreadyExistsException, ObjectAlreadyExistsHTTPException
@@ -26,7 +27,7 @@ images_router = APIRouter(prefix="/images", tags=["Изображения"])
 
 
 @router.post("/auto-create", summary="Автоматическое создание материалов")
-async def auto_create_education(db: DBDep):
+async def auto_create_education(db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await EducationService(db).auto_create_education()
     except Exception as e:
@@ -35,12 +36,12 @@ async def auto_create_education(db: DBDep):
 
 
 @router.post("/themes", response_model=EducationThemeResponse)
-async def create_theme(theme_data: EducationThemeCreate, db: DBDep):
+async def create_theme(theme_data: EducationThemeCreate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     return await EducationService(db).create_theme(theme_data)
 
 
 @router.patch("/themes/{theme_id}", response_model=EducationThemeResponse)
-async def update_theme(theme_id: uuid.UUID, theme_data: EducationThemeUpdate, db: DBDep):
+async def update_theme(theme_id: uuid.UUID, theme_data: EducationThemeUpdate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await EducationService(db).update_theme(theme_id, theme_data)
     except ObjectNotFoundException:
@@ -48,7 +49,7 @@ async def update_theme(theme_id: uuid.UUID, theme_data: EducationThemeUpdate, db
 
 
 @router.delete("/themes/{theme_id}", status_code=204)
-async def delete_theme(theme_id: uuid.UUID, db: DBDep):
+async def delete_theme(theme_id: uuid.UUID, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         await EducationService(db).delete_theme(theme_id)
     except ObjectNotFoundException:
@@ -56,7 +57,7 @@ async def delete_theme(theme_id: uuid.UUID, db: DBDep):
 
 
 @router.post("/themes/{theme_id}/materials", response_model=EducationMaterialResponse)
-async def create_material(theme_id: uuid.UUID, material_data: EducationMaterialCreate, db: DBDep):
+async def create_material(theme_id: uuid.UUID, material_data: EducationMaterialCreate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await EducationService(db).create_material(theme_id, material_data)
     except ObjectNotFoundException:
@@ -64,7 +65,7 @@ async def create_material(theme_id: uuid.UUID, material_data: EducationMaterialC
 
 
 @router.patch("/materials/{material_id}", response_model=EducationMaterialResponse)
-async def update_material(material_id: uuid.UUID, material_data: EducationMaterialUpdate, db: DBDep):
+async def update_material(material_id: uuid.UUID, material_data: EducationMaterialUpdate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await EducationService(db).update_material(material_id, material_data)
     except ObjectNotFoundException:
@@ -72,7 +73,7 @@ async def update_material(material_id: uuid.UUID, material_data: EducationMateri
 
 
 @router.delete("/materials/{material_id}", status_code=204)
-async def delete_material(material_id: uuid.UUID, db: DBDep):
+async def delete_material(material_id: uuid.UUID, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         await EducationService(db).delete_material(material_id)
     except ObjectNotFoundException:
@@ -80,7 +81,7 @@ async def delete_material(material_id: uuid.UUID, db: DBDep):
 
 
 @router.post("/materials/{material_id}/cards", response_model=CardResponse)
-async def create_card(material_id: uuid.UUID, card_data: CardCreate, db: DBDep):
+async def create_card(material_id: uuid.UUID, card_data: CardCreate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await EducationService(db).create_card(material_id, card_data)
     except ObjectNotFoundException:
@@ -88,7 +89,7 @@ async def create_card(material_id: uuid.UUID, card_data: CardCreate, db: DBDep):
 
 
 @router.patch("/cards/{card_id}", response_model=CardResponse)
-async def update_card(card_id: uuid.UUID, card_data: CardUpdate, db: DBDep):
+async def update_card(card_id: uuid.UUID, card_data: CardUpdate, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         return await EducationService(db).update_card(card_id, card_data)
     except ObjectNotFoundException:
@@ -96,7 +97,7 @@ async def update_card(card_id: uuid.UUID, card_data: CardUpdate, db: DBDep):
 
 
 @router.delete("/cards/{card_id}", status_code=204)
-async def delete_card(card_id: uuid.UUID, db: DBDep):
+async def delete_card(card_id: uuid.UUID, db: DBDep, admin_id: uuid.UUID = Depends(verify_admin)):
     try:
         await EducationService(db).delete_card(card_id)
     except ObjectNotFoundException:

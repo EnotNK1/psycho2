@@ -1,6 +1,6 @@
 from typing import List
 import uuid
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Depends, status
 from src.schemas.exercise import (
     ExerciseResponse, ExerciseDetailResponse, ExerciseDetail1Response, ResultDetailResponse,
     FieldResponse, VariantResponse, ExerciseViewCreate, ExerciseResultsResponse,
@@ -8,6 +8,7 @@ from src.schemas.exercise import (
     CompletedExerciseCreate, ExercisesListResponse, CompletedExerciseResponse, CompletedExercisesListResponse
 )
 from src.services.exercise import ExerciseService
+from src.api.dependencies.admin import verify_admin
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 
@@ -21,7 +22,7 @@ router = APIRouter(prefix="/exercises", tags=["Упражнения"])
 )
 async def auto_create(
         db: DBDep,
-        user_id: UserIdDep
+        admin_id: uuid.UUID = Depends(verify_admin)
 ):
     await ExerciseService(db).auto_create()
     return {"status": "OK"}
@@ -36,7 +37,8 @@ async def auto_create(
 )
 async def create_exercise(
     exercise_data: ExerciseCreate,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     return await ExerciseService(db).create_exercise(exercise_data)
 
@@ -50,7 +52,8 @@ async def create_exercise(
 async def update_exercise(
     exercise_id: uuid.UUID,
     exercise_data: ExerciseUpdate,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     return await ExerciseService(db).update_exercise(exercise_id, exercise_data)
 
@@ -63,7 +66,8 @@ async def update_exercise(
 )
 async def delete_exercise(
     exercise_id: uuid.UUID,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     await ExerciseService(db).delete_exercise(exercise_id)
 
@@ -78,7 +82,8 @@ async def delete_exercise(
 async def create_field(
     exercise_id: uuid.UUID,
     field_data: FieldCreate,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     return await ExerciseService(db).create_field(exercise_id, field_data)
 
@@ -92,7 +97,8 @@ async def create_field(
 async def update_field(
     field_id: uuid.UUID,
     field_data: FieldUpdate,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     return await ExerciseService(db).update_field(field_id, field_data)
 
@@ -105,7 +111,8 @@ async def update_field(
 )
 async def delete_field(
     field_id: uuid.UUID,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     await ExerciseService(db).delete_field(field_id)
 
@@ -120,7 +127,8 @@ async def delete_field(
 async def create_variant(
     field_id: uuid.UUID,
     variant_data: VariantCreate,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     return await ExerciseService(db).create_variant(field_id, variant_data)
 
@@ -134,7 +142,8 @@ async def create_variant(
 async def update_variant(
     variant_id: uuid.UUID,
     variant_data: VariantUpdate,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     return await ExerciseService(db).update_variant(variant_id, variant_data)
 
@@ -147,7 +156,8 @@ async def update_variant(
 )
 async def delete_variant(
     variant_id: uuid.UUID,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     await ExerciseService(db).delete_variant(variant_id)
 
@@ -162,7 +172,8 @@ async def delete_variant(
 async def create_exercise_view(
     exercise_id: uuid.UUID,
     view_data: ExerciseViewCreate,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     return await ExerciseService(db).create_exercise_view(exercise_id, view_data)
 
@@ -176,7 +187,8 @@ async def create_exercise_view(
 async def update_exercise_view(
     view_id: uuid.UUID,
     view_data: ExerciseViewUpdate,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     return await ExerciseService(db).update_exercise_view(view_id, view_data)
 
@@ -189,7 +201,8 @@ async def update_exercise_view(
 )
 async def delete_exercise_view(
     view_id: uuid.UUID,
-    db: DBDep
+    db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     await ExerciseService(db).delete_exercise_view(view_id)
 
