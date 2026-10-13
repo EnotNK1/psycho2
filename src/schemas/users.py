@@ -11,10 +11,10 @@ from src.models import InquiryOrm
 class UserRequestAdd(BaseModel):
     email: EmailStr
     username: str
-    birth_date: datetime.date
+    birth_date: Optional[datetime.date] = None
     gender: str
-    city: str
-    phone_number: str
+    city: Optional[str] = None
+    phone_number: Optional[str] = None
     password: str
     confirm_password: str
 
@@ -27,10 +27,10 @@ class UserRequestLogIn(BaseModel):
 class UserAdd(BaseModel):
     email: EmailStr
     username: str
-    birth_date: datetime.date
+    birth_date: Optional[datetime.date] = None
     gender: str
-    city: str
-    phone_number: str
+    city: Optional[str] = None
+    phone_number: Optional[str] = None
     hashed_password: str
     role_id: int
     id: uuid.UUID
