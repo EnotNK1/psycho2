@@ -260,7 +260,7 @@ class ResultResponse(BaseModel):
     id: uuid.UUID
     exercise_id: uuid.UUID
     date: date
-    preview: Union[str, int, float, List[str], List[int], None]
+    preview: str
 
     class Config:
         from_attributes = True

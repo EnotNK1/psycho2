@@ -700,7 +700,22 @@ async def test_service_get_exercise_results_returns_null_preview_for_empty_resul
 
     result = await ExerciseService(fake_exercise_db).get_exercise_results(EXERCISE_ID, USER_ID)
 
-    assert result.results[0].preview is None
+    assert result.results[0].preview == ""
+
+
+@pytest.mark.asyncio
+async def test_service_get_exercise_results_converts_preview_to_string(fake_exercise_db):
+    fake_exercise_db.exercise.results = [
+        make_completed_orm_like(
+            filled_fields=[
+                make_filled_field_orm_like(text=11),
+            ]
+        )
+    ]
+
+    result = await ExerciseService(fake_exercise_db).get_exercise_results(EXERCISE_ID, USER_ID)
+
+    assert result.results[0].preview == "11"
 
 
 @pytest.mark.asyncio
