@@ -643,9 +643,9 @@ class ExerciseService(BaseService):
 
     def _extract_preview(
         self, completed: CompletedExerciseOrm, major_field_ids: set[uuid.UUID]
-    ):
+    ) -> str:
         if not completed.filled_field:
-            return None
+            return ""
 
         major_field = next(
             (
@@ -656,7 +656,11 @@ class ExerciseService(BaseService):
             None,
         )
         preview_source = major_field or completed.filled_field[0]
-        return preview_source.text
+        if preview_source.text is None:
+            return ""
+        if isinstance(preview_source.text, list):
+            return ", ".join(str(item) for item in preview_source.text)
+        return str(preview_source.text)
 
     def _result_field_sort_key(
         self,
