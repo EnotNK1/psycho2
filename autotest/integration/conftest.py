@@ -4,6 +4,7 @@ import pytest_asyncio
 from autotest.integration.postgres import create_integration_engine, create_session_factory, drop_test_schema, recreate_tables
 from src.database import Base
 from src.models.diary import DiaryOrm
+from src.models.mood_tracker import MoodTrackerOrm
 from src.models.ontology import OntologyEntryOrm
 from src.models.training_exercises import (
     TrainingCompletedExerciseOrm,
@@ -22,6 +23,7 @@ async def integration_session_factory():
     tables = [
         UsersOrm.__table__,
         OntologyEntryOrm.__table__,
+        MoodTrackerOrm.__table__,
         DiaryOrm.__table__,
         UserTaskOrm.__table__,
         TrainingExerciseOrm.__table__,

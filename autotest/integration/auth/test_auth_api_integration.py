@@ -124,6 +124,31 @@ async def test_register_integration_persists_user_and_returns_tokens(
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("explicit_null", [False, True])
+async def test_register_and_login_without_optional_profile_fields(
+    auth_integration_client_factory,
+    explicit_null,
+):
+    payload = build_register_payload()
+    for field in ("birth_date", "city", "phone_number"):
+        if explicit_null:
+            payload[field] = None
+        else:
+            payload.pop(field)
+
+    async for client in auth_integration_client_factory():
+        registration = await client.post("/auth/register", json=payload)
+        assert registration.status_code == 200
+
+        login = await client.post("/auth/login", json=build_login_payload())
+
+    assert login.status_code == 200
+    assert login.json()["access_token"]
+    assert login.json()["refresh_token"]
+    assert any("access_token=" in cookie for cookie in header_values(login, "set-cookie"))
+
+
+@pytest.mark.asyncio
 async def test_login_integration_checks_real_hash_and_sets_cookies(
     auth_integration_client_factory,
     integration_session_factory,
