@@ -55,7 +55,8 @@ class DiaryService(BaseService):
                 id=uuid.uuid4(),
                 text=data.text,
                 created_at=created_at,
-                user_id=user_id
+                user_id=user_id,
+                mood_tracker_id=getattr(data, "mood_tracker_id", None),
             )
 
             await self.db.diary.add(diary)
@@ -88,6 +89,15 @@ class DiaryService(BaseService):
 
         return await self.db.diary.get_filtered(*filters)
 
+    async def get_diary_by_mood_tracker(
+        self,
+        user_id: uuid.UUID,
+        mood_tracker_id: uuid.UUID,
+    ):
+        return await self.db.diary.get_one_or_none(
+            user_id=user_id,
+            mood_tracker_id=mood_tracker_id,
+        )
 
     async def get_diary_for_month(self, timestamp: int, user_id: uuid.UUID):
         try:

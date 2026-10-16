@@ -15,7 +15,7 @@ services:
 
   db:
     container_name: odeyalo-backend-db
-    image: public.ecr.aws/docker/library/postgres
+    image: public.ecr.aws/docker/library/postgres:15
     restart: on-failure
     environment:
       POSTGRES_USER: postgres
@@ -27,6 +27,8 @@ services:
       - odejalo_data:/var/lib/postgresql/data
     mac_address: 02:42:ac:18:00:02
     command: -p 4321
+    ports:
+      - "5432:4321"
     expose:
       - "4321"
 
@@ -99,6 +101,8 @@ services:
     depends_on:
       - nginx
     command: --port 6789
+    ports:
+      - "6379:6789"
     expose:
       - "6789"
 

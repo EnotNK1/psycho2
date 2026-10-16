@@ -1,4 +1,6 @@
 from typing import Annotated
+import uuid
+
 from fastapi import Depends, Request
 
 from src.exceptions import (
@@ -16,12 +18,14 @@ def get_token(request: Request) -> str:
     return token
 
 
-def get_current_user_id(token: str = Depends(get_token)) -> int:
+def get_current_user_id(token: str = Depends(get_token)) -> uuid.UUID:
     try:
         data = AuthService().decode_token(token)
+        return uuid.UUID(str(data["user_id"]))
     except IncorrectTokenException:
         raise IncorrectTokenHTTPException
-    return data["user_id"]
+    except (KeyError, ValueError, TypeError):
+        raise IncorrectTokenHTTPException
 
 
-UserIdDep = Annotated[int, Depends(get_current_user_id)]
+UserIdDep = Annotated[uuid.UUID, Depends(get_current_user_id)]

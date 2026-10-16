@@ -25,7 +25,7 @@ class UserTaskRequestDelete(BaseModel):
     user_task_id: uuid.UUID
 
 class UserTaskTextUpdate(BaseModel):
-    text: str
+    text: Optional[str] = None
 
 class UserTaskCompleteUpdate(BaseModel):
     is_complete: bool

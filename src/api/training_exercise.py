@@ -1,6 +1,7 @@
 import uuid
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Depends, Response
 from src.api.dependencies.db import DBDep
+from src.api.dependencies.admin import verify_admin
 from src.api.dependencies.user_id import UserIdDep
 from src.exceptions import ObjectNotFoundException, ObjectNotFoundHTTPException
 from src.services.training_exercise import TrainingExerciseService
@@ -17,6 +18,7 @@ router = APIRouter(prefix="/training-exercises", tags=["Обучающие Уп�
 @router.post("/auto-create")
 async def seed_exercises(
     db: DBDep,
+    admin_id: uuid.UUID = Depends(verify_admin)
 ):
     await TrainingExerciseService(db).seed_exercises()
     return {"status": "ok"}
@@ -39,7 +41,7 @@ async def get_exercise(
 ):
     try:
         return await TrainingExerciseService(db).get_exercise_by_id(exercise_id, user_id)
-    except ObjectNotFoundException:
+    except (ObjectNotFoundException, ValueError):
         raise ObjectNotFoundHTTPException()
 
 
@@ -51,7 +53,7 @@ async def get_exercise_structure(
 ):
     try:
         return await TrainingExerciseService(db).get_exercise_structure_by_id(exercise_id, user_id)
-    except ObjectNotFoundException:
+    except (ObjectNotFoundException, ValueError):
         raise ObjectNotFoundHTTPException()
 
 

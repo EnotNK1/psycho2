@@ -63,7 +63,11 @@ class UserTaskService(BaseService):
             if data.is_complete is not None and data.text is not None:
                 new_data = UserTaskTextCompleteUpdate(text=data.text, is_complete=data.is_complete, completed_at=completed_at_value)
             elif data.is_complete is None:
-                new_data = UserTaskTextUpdate(text=data.text)
+                new_data = (
+                    UserTaskTextUpdate(text=data.text)
+                    if data.text is not None
+                    else UserTaskTextUpdate()
+                )
             else:
                 new_data = UserTaskCompleteUpdate(is_complete=data.is_complete, completed_at=completed_at_value)
 

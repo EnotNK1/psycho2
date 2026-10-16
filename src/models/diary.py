@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import ForeignKey
 from src.database import Base
 import uuid
 import datetime
@@ -12,6 +13,10 @@ class DiaryOrm(Base):
     text: Mapped[str] = mapped_column(EncryptedStringType())
     created_at: Mapped[datetime.datetime]
     user_id: Mapped[uuid.UUID]
+    mood_tracker_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("mood_tracker.id", ondelete="SET NULL"),
+        nullable=True,
+    )
 
 class AbcDiaryEntryOrm(Base):
     __tablename__ = "abc_diary_entries"

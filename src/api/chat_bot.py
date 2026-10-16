@@ -32,11 +32,16 @@ class EmergencyContactSchema(BaseModel):
 
 def load_data(path: str):
     file_path = Path(path)
+    if not file_path.is_absolute() and file_path.exists():
+        with open(path, encoding="utf-8") as file:
+            return json.load(file)
+
     candidates = []
 
     if file_path.is_absolute():
         candidates.append(file_path)
     else:
+        candidates.append(file_path)
         candidates.append(PROJECT_ROOT / file_path)
         candidates.append(PROJECT_ROOT / "src" / file_path)
 

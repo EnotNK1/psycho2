@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import Query
 from fastapi import APIRouter
 
@@ -61,6 +63,24 @@ async def create_diary(
         raise InvalidDateFormatHTTPException
     except FutureDateError:
         raise FutureDateHTTPException
+    except Exception as e:
+        raise InternalErrorHTTPException
+
+
+@router.get("/by_mood_tracker/{mood_tracker_id}",
+    description="""
+    Возвращает заметку пользователя, привязанную к записи трекера настроения.
+    """)
+async def get_diary_by_mood_tracker(
+    mood_tracker_id: uuid.UUID,
+    db: DBDep,
+    user_id: UserIdDep,
+):
+    try:
+        return await DiaryService(db).get_diary_by_mood_tracker(
+            user_id,
+            mood_tracker_id,
+        )
     except Exception as e:
         raise InternalErrorHTTPException
 

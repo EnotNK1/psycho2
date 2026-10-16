@@ -2,10 +2,11 @@ from enum import Enum
 
 
 class RoleEnum(int, Enum):
-    USER = 1  # Клиент
-    MANAGER = 2  # Менеджер
-    PSYСHOLOGIST = 3  # Психолог
-    ADMIN = 0  # Администратор
+    ADMIN = 0
+    USER = 1
+    PSYCHOLOGIST = 2
+    HR = 3
+    HRD = 4
 
 
 class DailyTaskType(int, Enum):

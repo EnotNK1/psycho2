@@ -1354,3 +1354,12 @@ EDUCATION = [{'id': '22cbb105-8857-48de-806d-7242ced60a97',
                                         'стресса. Мы верим, что у вас всё получится!',
                                         'number': 1,
                                         'link_to_picture': ''}]}]}]
+
+for theme in EDUCATION:
+    if theme["id"] == "5b9df1dc-08db-5bfa-ac99-11ba67256405":
+        theme["link_to_picture"] = None
+        for material in theme["materials"]:
+            material["link_to_picture"] = None
+            for card in material["cards"]:
+                card["link_to_picture"] = None
+        break
