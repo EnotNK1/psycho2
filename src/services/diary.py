@@ -11,9 +11,10 @@ from src.exceptions import (
     FutureDateError,
     InternalErrorHTTPException,
     InvalidDateFormatError,
-    InvalidTimestampError
+    InvalidTimestampError,
+    NotOwnedError,
 )
-from src.schemas.diary import Diary, DiaryDateRequestAdd
+from src.schemas.diary import Diary, DiaryDateRequestAdd, DiaryRequestUpdate
 from src.services.base import BaseService
 from src.services.gamification import GamificationService
 
@@ -98,6 +99,27 @@ class DiaryService(BaseService):
             user_id=user_id,
             mood_tracker_id=mood_tracker_id,
         )
+
+    async def update_diary(
+        self,
+        diary_id: uuid.UUID,
+        data: DiaryRequestUpdate,
+        user_id: uuid.UUID,
+    ):
+        self._validate_text(data.text)
+        diary = await self.db.diary.get_one(id=diary_id)
+        if str(diary.user_id) != str(user_id):
+            raise NotOwnedError()
+
+        await self.db.diary.edit(data=data, id=diary_id)
+        await self.db.commit()
+
+    async def delete_diary(self, diary_id: uuid.UUID, user_id: uuid.UUID):
+        diary = await self.db.diary.get_one(id=diary_id)
+        if str(diary.user_id) != str(user_id):
+            raise NotOwnedError()
+
+        await self.db.diary.delete(id=diary_id)
 
     async def get_diary_for_month(self, timestamp: int, user_id: uuid.UUID):
         try:

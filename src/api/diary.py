@@ -14,9 +14,13 @@ from src.exceptions import (
     TextTooLongHTTPException,
     TextEmptyHTTPException,
     InvalidTimestampError,
-    InvalidTimestampHTTPException
+    InvalidTimestampHTTPException,
+    ObjectNotFoundException,
+    ObjectNotFoundHTTPException,
+    NotOwnedError,
+    NotOwnedHTTPException,
 )
-from src.schemas.diary import DiaryDateRequestAdd
+from src.schemas.diary import DiaryDateRequestAdd, DiaryRequestUpdate
 from src.api.dependencies.user_id import UserIdDep
 from src.api.dependencies.db import DBDep
 from src.services.diary import DiaryService
@@ -82,6 +86,49 @@ async def get_diary_by_mood_tracker(
             mood_tracker_id,
         )
     except Exception as e:
+        raise InternalErrorHTTPException
+
+
+@router.patch("/{diary_id}", description="""
+    Изменяет текст своей записи дневника.
+    """)
+async def update_diary(
+    diary_id: uuid.UUID,
+    data: DiaryRequestUpdate,
+    db: DBDep,
+    user_id: UserIdDep,
+):
+    try:
+        await DiaryService(db).update_diary(diary_id, data, user_id)
+        return {"status": "OK"}
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+    except NotOwnedError:
+        raise NotOwnedHTTPException
+    except TextEmptyError:
+        raise TextEmptyHTTPException
+    except TextTooLongError:
+        raise TextTooLongHTTPException
+    except Exception:
+        raise InternalErrorHTTPException
+
+
+@router.delete("/{diary_id}", description="""
+    Удаляет свою запись дневника.
+    """)
+async def delete_diary(
+    diary_id: uuid.UUID,
+    db: DBDep,
+    user_id: UserIdDep,
+):
+    try:
+        await DiaryService(db).delete_diary(diary_id, user_id)
+        return {"status": "OK"}
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
+    except NotOwnedError:
+        raise NotOwnedHTTPException
+    except Exception:
         raise InternalErrorHTTPException
 
 @router.get("/by_month",

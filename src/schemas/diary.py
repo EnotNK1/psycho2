@@ -13,6 +13,10 @@ class DiaryDateRequestAdd(BaseModel):
     mood_tracker_id: uuid.UUID | None = None
 
 
+class DiaryRequestUpdate(BaseModel):
+    text: str
+
+
 class Diary(BaseModel):
     id: uuid.UUID
     text: str

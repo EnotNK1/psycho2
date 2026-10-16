@@ -13,6 +13,8 @@ from src.exceptions import (
     FutureDateError,
     InvalidDateFormatError,
     InvalidTimestampError,
+    NotOwnedError,
+    ObjectNotFoundException,
     TextEmptyError,
     TextTooLongError,
 )
@@ -24,9 +26,13 @@ class DummyDiaryApiService:
     raise_on_get = None
     raise_on_add = None
     raise_on_by_month = None
+    raise_on_update = None
+    raise_on_delete = None
     last_get_args = None
     last_add_args = None
     last_by_month_args = None
+    last_update_args = None
+    last_delete_args = None
 
     def __init__(self, db):
         self.db = db
@@ -38,9 +44,13 @@ class DummyDiaryApiService:
         cls.raise_on_get = None
         cls.raise_on_add = None
         cls.raise_on_by_month = None
+        cls.raise_on_update = None
+        cls.raise_on_delete = None
         cls.last_get_args = None
         cls.last_add_args = None
         cls.last_by_month_args = None
+        cls.last_update_args = None
+        cls.last_delete_args = None
 
     async def get_diary(self, user_id, day):
         if type(self).raise_on_get:
@@ -58,6 +68,16 @@ class DummyDiaryApiService:
             raise type(self).raise_on_by_month
         type(self).last_by_month_args = (timestamp, user_id)
         return type(self).by_month_response
+
+    async def update_diary(self, diary_id, data, user_id):
+        if type(self).raise_on_update:
+            raise type(self).raise_on_update
+        type(self).last_update_args = (diary_id, data, user_id)
+
+    async def delete_diary(self, diary_id, user_id):
+        if type(self).raise_on_delete:
+            raise type(self).raise_on_delete
+        type(self).last_delete_args = (diary_id, user_id)
 
 
 @pytest.fixture
@@ -149,6 +169,48 @@ async def test_create_diary_returns_ok(diary_api_client_factory):
     assert response.json() == {"status": "OK"}
     assert DummyDiaryApiService.last_add_args[1] == USER_ID
     assert DummyDiaryApiService.last_add_args[0].text == "Diary note"
+
+
+@pytest.mark.asyncio
+async def test_update_diary_returns_ok(diary_api_client_factory):
+    async for client, _ in diary_api_client_factory():
+        response = await client.patch(f"/diary/{DIARY_ID}", json={"text": "Updated note"})
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "OK"}
+    assert DummyDiaryApiService.last_update_args[0] == DIARY_ID
+    assert DummyDiaryApiService.last_update_args[1].text == "Updated note"
+    assert DummyDiaryApiService.last_update_args[2] == USER_ID
+
+
+@pytest.mark.asyncio
+async def test_update_diary_rejects_unowned_entry(diary_api_client_factory):
+    DummyDiaryApiService.raise_on_update = NotOwnedError()
+
+    async for client, _ in diary_api_client_factory():
+        response = await client.patch(f"/diary/{DIARY_ID}", json={"text": "Updated note"})
+
+    assert response.status_code == 403
+
+
+@pytest.mark.asyncio
+async def test_delete_diary_returns_ok(diary_api_client_factory):
+    async for client, _ in diary_api_client_factory():
+        response = await client.delete(f"/diary/{DIARY_ID}")
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "OK"}
+    assert DummyDiaryApiService.last_delete_args == (DIARY_ID, USER_ID)
+
+
+@pytest.mark.asyncio
+async def test_delete_diary_returns_404_for_missing_entry(diary_api_client_factory):
+    DummyDiaryApiService.raise_on_delete = ObjectNotFoundException()
+
+    async for client, _ in diary_api_client_factory():
+        response = await client.delete(f"/diary/{DIARY_ID}")
+
+    assert response.status_code == 404
 
 
 @pytest.mark.asyncio
