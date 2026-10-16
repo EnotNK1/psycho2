@@ -48,10 +48,10 @@ class User(BaseModel):
     id: uuid.UUID
     email: EmailStr
     username: str
-    birth_date: datetime.date
+    birth_date: Optional[datetime.date] = None
     gender: str
-    city: str
-    phone_number: Optional[str]
+    city: Optional[str] = None
+    phone_number: Optional[str] = None
     avatar_link: Optional[str] = None
 
 
