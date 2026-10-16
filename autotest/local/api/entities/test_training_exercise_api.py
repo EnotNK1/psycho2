@@ -1,6 +1,7 @@
 import pytest
 
 import src.api.training_exercise as training_api_module
+from src.api.dependencies.admin import verify_admin
 from src.api.dependencies.db import get_db
 from src.api.dependencies.user_id import get_current_user_id
 from src.schemas.training_exercise import ExerciseDetailResponse, ExerciseShortResponse
@@ -98,9 +99,13 @@ def training_api_client_factory(api_client_factory, monkeypatch):
         def override_get_current_user_id():
             return user_id
 
+        async def override_verify_admin():
+            return user_id
+
         dependency_overrides = {
             get_db: override_get_db,
             get_current_user_id: override_get_current_user_id,
+            verify_admin: override_verify_admin,
         }
 
         async def _client():

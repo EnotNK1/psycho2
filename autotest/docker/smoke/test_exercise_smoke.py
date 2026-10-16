@@ -24,6 +24,7 @@ from autotest.factories.exercise import (
     build_view_response,
 )
 from src.api.dependencies.db import get_db
+from src.api.dependencies.admin import verify_admin
 from src.api.dependencies.user_id import get_current_user_id
 
 
@@ -87,11 +88,15 @@ async def client(api_client_factory, monkeypatch):
     def override_get_current_user_id():
         return USER_ID
 
+    async def override_verify_admin():
+        return USER_ID
+
     async for async_client, _ in api_client_factory(
         exercise_api_module.router,
         dependency_overrides={
             get_db: override_get_db,
             get_current_user_id: override_get_current_user_id,
+            verify_admin: override_verify_admin,
         },
     ):
         yield async_client

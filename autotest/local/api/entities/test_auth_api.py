@@ -326,10 +326,7 @@ async def test_register_returns_422_for_invalid_email(auth_api_client_factory):
     [
         "email",
         "username",
-        "birth_date",
         "gender",
-        "city",
-        "phone_number",
         "password",
         "confirm_password",
     ],
@@ -345,6 +342,18 @@ async def test_register_returns_422_when_required_field_missing(
         response = await client.post("/auth/register", json=payload)
 
     assert response.status_code == 422
+
+
+@pytest.mark.asyncio
+async def test_register_accepts_missing_optional_profile_fields(auth_api_client_factory):
+    payload = build_register_payload()
+    for field in ("birth_date", "city", "phone_number"):
+        payload.pop(field)
+
+    async for client, _ in auth_api_client_factory():
+        response = await client.post("/auth/register", json=payload)
+
+    assert response.status_code == 200
 
 
 @pytest.mark.asyncio
