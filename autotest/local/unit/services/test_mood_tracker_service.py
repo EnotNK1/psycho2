@@ -1,4 +1,5 @@
 import datetime
+import uuid
 from types import SimpleNamespace
 
 import pytest
@@ -288,6 +289,29 @@ async def test_save_mood_tracker_creates_ontology_entries_from_recommendations(f
 
     assert len(fake_mood_tracker_db.ontology_entry.add_calls) == 1
     assert str(fake_mood_tracker_db.ontology_entry.add_calls[0].destination_id) == material_id
+
+
+@pytest.mark.asyncio
+async def test_save_mood_tracker_does_not_duplicate_existing_recommendation(fake_mood_tracker_db, monkeypatch):
+    monkeypatch.setattr(mood_tracker_service_module, "DailyTaskService", DummyDailyTaskService)
+    monkeypatch.setattr(mood_tracker_service_module, "GamificationService", DummyGamificationService)
+    material_id = "17171717-1717-1717-1717-171717171717"
+    fake_mood_tracker_db.ontology_entry.filtered_result = [
+        SimpleNamespace(destination_id=uuid.UUID(material_id))
+    ]
+    monkeypatch.setattr(
+        mood_tracker_service_module,
+        "recommendations",
+        lambda payload: [
+            {"material_id": material_id, "type": "test"},
+            {"material_id": material_id, "type": "test"},
+        ],
+    )
+    monkeypatch.setattr(mood_tracker_service_module, "load_data", lambda path: [])
+
+    await MoodTrackerService(fake_mood_tracker_db).save_mood_tracker(make_request(), USER_ID)
+
+    assert fake_mood_tracker_db.ontology_entry.add_calls == []
 
 
 @pytest.mark.asyncio

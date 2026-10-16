@@ -373,8 +373,16 @@ class MoodTrackerService(BaseService):
             for item in exercise_data
         }
 
+        existing_entries = await self.db.ontology_entry.get_filtered(user_id=user_id)
+        existing_destination_ids = {
+            str(entry.destination_id) for entry in existing_entries
+        }
+
         for rec in ontology_res:
             material_id = rec["material_id"]
+            if material_id in existing_destination_ids:
+                continue
+
             picture = None
             destination_title = None
             if material_id in tests_dict:
@@ -398,6 +406,7 @@ class MoodTrackerService(BaseService):
             )
 
             await self.db.ontology_entry.add(ontology_entry)
+            existing_destination_ids.add(material_id)
 
         await self.db.commit()
 
