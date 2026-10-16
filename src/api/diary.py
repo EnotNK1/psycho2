@@ -73,7 +73,7 @@ async def create_diary(
 
 @router.get("/by_mood_tracker/{mood_tracker_id}",
     description="""
-    Возвращает заметку пользователя, привязанную к записи трекера настроения.
+    Возвращает последнюю заметку пользователя, привязанную к записи трекера настроения.
     """)
 async def get_diary_by_mood_tracker(
     mood_tracker_id: uuid.UUID,

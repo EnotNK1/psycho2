@@ -6,6 +6,8 @@ from fastapi import Query
 from fastapi import APIRouter
 
 from src.exceptions import (
+    ObjectNotFoundException,
+    ObjectNotFoundHTTPException,
     InternalErrorHTTPException,
     FutureDateError,
     InvalidDateFormatError,
@@ -81,11 +83,14 @@ async def create_user_task(
 @router.patch("/update", description="Поля text и is_complete опциональные, можно передавать либо по одному, либо оба сразу")
 async def update_user_task(
     db: DBDep,
+    user_id: UserIdDep,
     data: UserTaskRequestUpdate
 ):
     try:
-        await UserTaskService(db).update_user_task(data)
+        await UserTaskService(db).update_user_task(data, user_id)
         return {"status": "OK"}
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
     except TextEmptyError:
         raise TextEmptyHTTPException
     except TextTooLongError:
@@ -100,10 +105,13 @@ async def update_user_task(
 @router.delete("")
 async def delete_user_task(
     db: DBDep,
+    user_id: UserIdDep,
     data: UserTaskRequestDelete
 ):
     try:
-        return await UserTaskService(db).delete(data)
+        return await UserTaskService(db).delete(data, user_id)
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
     except InvalidTimestampError:
         raise InvalidTimestampHTTPException
     except Exception as e:

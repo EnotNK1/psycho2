@@ -33,20 +33,22 @@ async def get_applications(
 @router.get("/{app_id}", summary="Получить заявку по app_id")
 async def get_application(
         app_id: UUID,
-        db: DBDep
+        db: DBDep,
+        user_id: UserIdDep,
 ):
     try:
-        return await ApplicationService(db).get_application(app_id)
+        return await ApplicationService(db).get_application(app_id, user_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 
 @router.delete("/{app_id}", summary="Отклонить заявку по app_id")
 async def delete_application(
         app_id: UUID,
-        db: DBDep
+        db: DBDep,
+        user_id: UserIdDep,
 ):
     try:
-        return await ApplicationService(db).delete_application(app_id)
+        return await ApplicationService(db).delete_application(app_id, user_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 

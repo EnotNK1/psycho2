@@ -7,6 +7,7 @@ from venv import logger
 from sqlalchemy import func, false, select
 
 from src.exceptions import (
+    ObjectNotFoundException,
     TextEmptyError,
     TextTooLongError,
     FutureDateError,
@@ -49,9 +50,11 @@ class UserTaskService(BaseService):
             logger.error(f"Ошибка добавления записи: {str(e)}")
             raise InternalErrorHTTPException()
 
-    async def update_user_task(self, data: UserTaskRequestUpdate):
+    async def update_user_task(self, data: UserTaskRequestUpdate, user_id: uuid.UUID):
         try:
             actual_task = await self.db.user_task.get_one(id=data.user_task_id)
+            if str(actual_task.user_id) != str(user_id):
+                raise ObjectNotFoundException()
 
             if data.is_complete is True:
                 completed_at_value = datetime.now()
@@ -74,12 +77,15 @@ class UserTaskService(BaseService):
             await self.db.user_task.edit(
                 data=new_data,
                 exclude_unset=True,
-                id=data.user_task_id
+                id=data.user_task_id,
+                user_id=user_id,
             )
 
 
             await self.db.commit()
 
+        except ObjectNotFoundException:
+            raise
         except TextEmptyError:
             raise
         except TextTooLongError:
@@ -201,13 +207,18 @@ class UserTaskService(BaseService):
             return []
 
 
-    async def delete(self, data: UserTaskRequestDelete):
+    async def delete(self, data: UserTaskRequestDelete, user_id: uuid.UUID):
         try:
-            await self.db.user_task.delete(id=data.user_task_id)
+            task = await self.db.user_task.get_one(id=data.user_task_id)
+            if str(task.user_id) != str(user_id):
+                raise ObjectNotFoundException()
+            await self.db.user_task.delete(id=data.user_task_id, user_id=user_id)
             await self.db.commit()
 
             return {"status": "OK"}
 
+        except ObjectNotFoundException:
+            raise
         except Exception as e:
             logger.error(f"Ошибка: {str(e)}")
             raise InternalErrorHTTPException()

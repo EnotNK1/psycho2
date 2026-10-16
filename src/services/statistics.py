@@ -33,42 +33,20 @@ class StatisticsService(BaseService):
 
     async def _get_exercise_statistics(self, user_id: UUID) -> Dict[str, Any]:
         try:
-            exercise_results = await self.db.CompletedExerciseOrm.get_filtered(user_id=user_id)
-
-            if not exercise_results:
-                return {
-                    "total_exercises": 0,
-                    "by_exercise": {}
-                }
-
-            exercise_counts = {}
-            for result in exercise_results:
-                exercise_id = str(result.exercise_id)
-                exercise_counts[exercise_id] = exercise_counts.get(exercise_id, 0) + 1
-
+            exercise_counts = await self.db.exercise.get_completion_counts(user_id)
             exercise_details = {}
-            exercise_ids = list(exercise_counts.keys())
-
-            if exercise_ids:
-                exercises = await self.db.exercises.get_by_ids(exercise_ids)
-                exercise_map = {str(exercise.id): exercise for exercise in exercises}
-
-                for exercise_id, count in exercise_counts.items():
-                    exercise = exercise_map.get(exercise_id)
-                    exercise_name = exercise.title if exercise else f"Упражнение_{exercise_id}"
-                    exercise_details[exercise_name] = count
+            for exercise_id, title, count in exercise_counts:
+                exercise_name = title or f"Упражнение_{exercise_id}"
+                exercise_details[exercise_name] = exercise_details.get(exercise_name, 0) + count
 
             return {
-                "total_exercises": len(exercise_results),
+                "total_exercises": sum(count for _, _, count in exercise_counts),
                 "by_exercise": exercise_details
             }
 
         except Exception as e:
             logger.error(f"Ошибка получения статистики упражнений: {str(e)}")
-            return {
-                "total_exercises": 0,
-                "by_exercise": {}
-            }
+            raise MyAppException() from e
 
     async def _get_test_statistics(self, user_id: UUID) -> Dict[str, Any]:
         try:

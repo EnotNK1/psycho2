@@ -27,7 +27,7 @@ class FakeExecuteResult:
 class FakeUserTaskRepository:
     def __init__(self):
         self.filtered_result = []
-        self.get_one_result = None
+        self.get_one_result = make_task()
         self.get_filtered_calls = []
         self.get_one_calls = []
         self.add_calls = []
@@ -148,7 +148,7 @@ async def test_service_update_user_task_updates_text_only(fake_user_task_db):
     fake_user_task_db.user_task.get_one_result = make_task(completed_at=datetime(2026, 4, 1, 12, 0, 0))
     data = SimpleNamespace(user_task_id=TASK_ID, text="Updated", is_complete=None)
 
-    await UserTaskService(fake_user_task_db).update_user_task(data)
+    await UserTaskService(fake_user_task_db).update_user_task(data, USER_ID)
 
     edit_call = fake_user_task_db.user_task.edit_calls[0]
     assert edit_call["id"] == TASK_ID
@@ -173,7 +173,7 @@ async def test_service_update_user_task_updates_completion_true_and_sets_complet
     fake_user_task_db.user_task.get_one_result = make_task(completed_at=None)
     data = SimpleNamespace(user_task_id=TASK_ID, text=None, is_complete=True)
 
-    await UserTaskService(fake_user_task_db).update_user_task(data)
+    await UserTaskService(fake_user_task_db).update_user_task(data, USER_ID)
 
     edit_call = fake_user_task_db.user_task.edit_calls[0]
     assert edit_call["data"].is_complete is True
@@ -185,7 +185,7 @@ async def test_service_update_user_task_updates_completion_false_and_clears_comp
     fake_user_task_db.user_task.get_one_result = make_task(completed_at=datetime(2026, 4, 10, 10, 0, 0))
     data = SimpleNamespace(user_task_id=TASK_ID, text=None, is_complete=False)
 
-    await UserTaskService(fake_user_task_db).update_user_task(data)
+    await UserTaskService(fake_user_task_db).update_user_task(data, USER_ID)
 
     edit_call = fake_user_task_db.user_task.edit_calls[0]
     assert edit_call["data"].is_complete is False
@@ -205,7 +205,7 @@ async def test_service_update_user_task_updates_text_and_completion(fake_user_ta
     fake_user_task_db.user_task.get_one_result = make_task()
     data = SimpleNamespace(user_task_id=TASK_ID, text="Done", is_complete=True)
 
-    await UserTaskService(fake_user_task_db).update_user_task(data)
+    await UserTaskService(fake_user_task_db).update_user_task(data, USER_ID)
 
     edit_call = fake_user_task_db.user_task.edit_calls[0]
     assert edit_call["data"].text == "Done"
@@ -219,7 +219,7 @@ async def test_service_update_user_task_with_no_optional_fields_keeps_completion
     fake_user_task_db.user_task.get_one_result = make_task(completed_at=existing_completed_at)
 
     await UserTaskService(fake_user_task_db).update_user_task(
-        SimpleNamespace(user_task_id=TASK_ID, text=None, is_complete=None)
+        SimpleNamespace(user_task_id=TASK_ID, text=None, is_complete=None), USER_ID
     )
 
     edit_call = fake_user_task_db.user_task.edit_calls[0]
@@ -233,7 +233,7 @@ async def test_service_update_user_task_reraises_text_empty_error(fake_user_task
 
     with pytest.raises(TextEmptyError):
         await UserTaskService(fake_user_task_db).update_user_task(
-            SimpleNamespace(user_task_id=TASK_ID, text="", is_complete=None)
+            SimpleNamespace(user_task_id=TASK_ID, text="", is_complete=None), USER_ID
         )
 
 
@@ -244,7 +244,7 @@ async def test_service_update_user_task_reraises_text_too_long_error(fake_user_t
 
     with pytest.raises(TextTooLongError):
         await UserTaskService(fake_user_task_db).update_user_task(
-            SimpleNamespace(user_task_id=TASK_ID, text="x", is_complete=None)
+            SimpleNamespace(user_task_id=TASK_ID, text="x", is_complete=None), USER_ID
         )
 
 
@@ -254,7 +254,7 @@ async def test_service_update_user_task_wraps_unexpected_error(fake_user_task_db
 
     with pytest.raises(InternalErrorHTTPException):
         await UserTaskService(fake_user_task_db).update_user_task(
-            SimpleNamespace(user_task_id=TASK_ID, text="Task", is_complete=None)
+            SimpleNamespace(user_task_id=TASK_ID, text="Task", is_complete=None), USER_ID
         )
 
 
@@ -265,7 +265,7 @@ async def test_service_update_user_task_wraps_commit_error(fake_user_task_db):
 
     with pytest.raises(InternalErrorHTTPException):
         await UserTaskService(fake_user_task_db).update_user_task(
-            SimpleNamespace(user_task_id=TASK_ID, text="Task", is_complete=None)
+            SimpleNamespace(user_task_id=TASK_ID, text="Task", is_complete=None), USER_ID
         )
 
 
@@ -417,10 +417,10 @@ async def test_service_get_completed_user_tasks_returns_empty_list_on_execute_er
 
 @pytest.mark.asyncio
 async def test_service_delete_calls_repository_and_commits(fake_user_task_db):
-    result = await UserTaskService(fake_user_task_db).delete(SimpleNamespace(user_task_id=TASK_ID))
+    result = await UserTaskService(fake_user_task_db).delete(SimpleNamespace(user_task_id=TASK_ID), USER_ID)
 
     assert result == {"status": "OK"}
-    assert fake_user_task_db.user_task.delete_calls == [{"id": TASK_ID}]
+    assert fake_user_task_db.user_task.delete_calls == [{"id": TASK_ID, "user_id": USER_ID}]
     assert fake_user_task_db.commit_count == 1
 
 
@@ -429,7 +429,7 @@ async def test_service_delete_wraps_repository_error(fake_user_task_db):
     fake_user_task_db.user_task.raise_on_delete = RuntimeError("boom")
 
     with pytest.raises(InternalErrorHTTPException):
-        await UserTaskService(fake_user_task_db).delete(SimpleNamespace(user_task_id=TASK_ID))
+        await UserTaskService(fake_user_task_db).delete(SimpleNamespace(user_task_id=TASK_ID), USER_ID)
 
 
 @pytest.mark.asyncio
@@ -437,4 +437,4 @@ async def test_service_delete_wraps_commit_error(fake_user_task_db):
     fake_user_task_db.commit_should_raise = RuntimeError("commit failed")
 
     with pytest.raises(InternalErrorHTTPException):
-        await UserTaskService(fake_user_task_db).delete(SimpleNamespace(user_task_id=TASK_ID))
+        await UserTaskService(fake_user_task_db).delete(SimpleNamespace(user_task_id=TASK_ID), USER_ID)
