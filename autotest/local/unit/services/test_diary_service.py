@@ -60,6 +60,10 @@ class FakeDiaryRepository:
         self.get_one_or_none_calls.append(filter_by)
         return self.one_or_none_result
 
+    async def get_latest_by_mood_tracker(self, **filter_by):
+        self.get_one_or_none_calls.append(filter_by)
+        return self.one_or_none_result
+
     async def get_one(self, **filter_by):
         self.get_one_calls.append(filter_by)
         return self.one_result

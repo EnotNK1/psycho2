@@ -51,7 +51,7 @@ async def test_user_task_service_update_complete_and_get_completed_integration(
         await session.commit()
 
     await UserTaskService(integration_db).update_user_task(
-        type("Req", (), {"user_task_id": TASK_ID, "text": "Updated", "is_complete": True})()
+        type("Req", (), {"user_task_id": TASK_ID, "text": "Updated", "is_complete": True})(), USER_ID
     )
 
     completed = await UserTaskService(integration_db).get_completed_user_tasks(
@@ -70,7 +70,7 @@ async def test_user_task_service_delete_integration(integration_db, integration_
         session.add(build_task_orm())
         await session.commit()
 
-    await UserTaskService(integration_db).delete(type("Req", (), {"user_task_id": TASK_ID})())
+    await UserTaskService(integration_db).delete(type("Req", (), {"user_task_id": TASK_ID})(), USER_ID)
 
     async with integration_session_factory() as session:
         result = await session.execute(select(UserTaskOrm).filter_by(id=TASK_ID))

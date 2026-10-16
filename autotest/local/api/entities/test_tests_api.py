@@ -274,6 +274,9 @@ class DummyTestApiService:
         type(self).last_save_result_args = (test_result_data, user_id)
         return type(self).save_result_response
 
+    async def authorize_results_access(self, user_id, current_user_id):
+        return None
+
     async def get_test_result_by_user_and_test(self, test_id, user_id):
         if type(self).raise_on_result_by_user_and_test:
             raise type(self).raise_on_result_by_user_and_test

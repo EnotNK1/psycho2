@@ -71,12 +71,12 @@ class DummyUserTaskApiService:
             raise type(self).raise_on_add
         type(self).last_add_args = (data, user_id)
 
-    async def update_user_task(self, data):
+    async def update_user_task(self, data, user_id):
         if type(self).raise_on_update:
             raise type(self).raise_on_update
         type(self).last_update_args = data
 
-    async def delete(self, data):
+    async def delete(self, data, user_id):
         if type(self).raise_on_delete:
             raise type(self).raise_on_delete
         type(self).last_delete_args = data

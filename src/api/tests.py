@@ -454,6 +454,7 @@ async def result_by_user_and_test(
     try:
         test_service = TestService(db)
         target_user_id = user_id if user_id else current_user_id
+        await test_service.authorize_results_access(target_user_id, current_user_id)
         res = await test_service.get_test_result_by_user_and_test_not_psyc(test_id, target_user_id)
 
         test_id_str = str(test_id)
@@ -519,10 +520,13 @@ async def get_test_result_by_id(
             summary="Получение всех пройденных тестов для пользователя")
 async def get_passed_tests_by_user(
         user_id: uuid.UUID,  # user_id передается как часть пути
-        db: DBDep
+        db: DBDep,
+        current_user_id: UserIdDep,
 ):
     try:
-        return await TestService(db).get_passed_tests_by_user(user_id)
+        service = TestService(db)
+        await service.authorize_results_access(user_id, current_user_id)
+        return await service.get_passed_tests_by_user(user_id)
     except ObjectNotFoundException:
         raise ObjectNotFoundHTTPException
 

@@ -202,11 +202,11 @@ class DailyTaskService(BaseService):
             current_day_tasks = [t for t in unfinished_tasks if t.day == current_day]
             unfinished_count = len(current_day_tasks)
 
-            for task in unfinished_tasks:
-                task.is_current = False
-
-            for task in unfinished_tasks:
-                task.is_current = True
+            await self.db.session.execute(
+                update(DailyTaskOrm)
+                .where(DailyTaskOrm.user_id == user_id, DailyTaskOrm.is_complete == False)
+                .values(is_current=True)
+            )
 
             tasks_to_add_count = 0
             if unfinished_count == 1:
