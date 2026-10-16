@@ -9,6 +9,7 @@ from src.exceptions import (
     InternalErrorHTTPException,
     InvalidDateFormatError,
     InvalidTimestampError,
+    NotOwnedError,
     TextEmptyError,
     TextTooLongError,
 )
@@ -35,8 +36,12 @@ class FakeDiaryRepository:
         self.add_calls = []
         self.get_filtered_calls = []
         self.get_one_or_none_calls = []
+        self.get_one_calls = []
+        self.edit_calls = []
+        self.delete_calls = []
         self.filtered_result = []
         self.one_or_none_result = None
+        self.one_result = None
         self.raise_on_add = None
         self.raise_on_get_filtered = None
 
@@ -54,6 +59,16 @@ class FakeDiaryRepository:
     async def get_one_or_none(self, **filter_by):
         self.get_one_or_none_calls.append(filter_by)
         return self.one_or_none_result
+
+    async def get_one(self, **filter_by):
+        self.get_one_calls.append(filter_by)
+        return self.one_result
+
+    async def edit(self, data, **filter_by):
+        self.edit_calls.append((data, filter_by))
+
+    async def delete(self, **filter_by):
+        self.delete_calls.append(filter_by)
 
 
 class FakeDiaryDb:
@@ -201,6 +216,45 @@ async def test_get_diary_by_mood_tracker_returns_user_note():
     assert db.diary.get_one_or_none_calls == [
         {"user_id": USER_ID, "mood_tracker_id": DIARY_ID}
     ]
+
+
+@pytest.mark.asyncio
+async def test_update_diary_updates_owned_entry():
+    db = FakeDiaryDb()
+    db.diary.one_result = make_diary()
+    data = SimpleNamespace(text="Updated note")
+
+    await DiaryService(db).update_diary(DIARY_ID, data, USER_ID)
+
+    assert db.diary.get_one_calls == [{"id": DIARY_ID}]
+    assert db.diary.edit_calls == [(data, {"id": DIARY_ID})]
+    assert db.commit_count == 1
+
+
+@pytest.mark.asyncio
+async def test_update_diary_rejects_other_users_entry():
+    db = FakeDiaryDb()
+    db.diary.one_result = make_diary(user_id=SECOND_DIARY_ID)
+
+    with pytest.raises(NotOwnedError):
+        await DiaryService(db).update_diary(
+            DIARY_ID,
+            SimpleNamespace(text="Updated note"),
+            USER_ID,
+        )
+
+    assert db.diary.edit_calls == []
+
+
+@pytest.mark.asyncio
+async def test_delete_diary_deletes_owned_entry():
+    db = FakeDiaryDb()
+    db.diary.one_result = make_diary()
+
+    await DiaryService(db).delete_diary(DIARY_ID, USER_ID)
+
+    assert db.diary.get_one_calls == [{"id": DIARY_ID}]
+    assert db.diary.delete_calls == [{"id": DIARY_ID}]
 
 
 @pytest.mark.asyncio
