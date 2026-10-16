@@ -18,6 +18,7 @@ from autotest.factories.education import (
     build_user_progress_response,
 )
 from src.api.dependencies.db import get_db
+from src.api.dependencies.admin import verify_admin
 from src.api.dependencies.user_id import get_current_user_id
 from src.exceptions import ObjectAlreadyExistsException, ObjectNotFoundException
 
@@ -159,12 +160,16 @@ def education_api_client_factory(api_client_factory, monkeypatch):
         def override_get_current_user_id():
             return user_id
 
+        async def override_verify_admin():
+            return user_id
+
         async def _client():
             async for async_client, _ in api_client_factory(
                 education_api_module.router,
                 dependency_overrides={
                     get_db: override_get_db,
                     get_current_user_id: override_get_current_user_id,
+                    verify_admin: override_verify_admin,
                 },
             ):
                 yield async_client, fake_db
