@@ -26,7 +26,6 @@ from src.schemas.mood_tracker import (
     MoodHelpCategory,
     MoodHelpCategoryResponse,
     MoodHelpMaterial,
-    MoodHelpMaterialResponse,
     MoodInfluenceCategory,
     MoodInfluenceOption,
     WeeklyMoodTrackerDay,
@@ -211,11 +210,6 @@ MOOD_HELP_MATERIALS = {
 }
 
 
-MOOD_HELP_IMAGE_FALLBACKS = {
-    "5b9df1dc-08db-5bfa-ac99-11ba67256405": "/images/images_education_material/self-regulation.png",
-}
-
-
 def local_now() -> datetime:
 
     return datetime.now(APP_TIMEZONE).replace(tzinfo=None)
@@ -297,40 +291,16 @@ class MoodTrackerService(BaseService):
             emotions.append(other_emotion)
         return emotions
 
-    async def get_help_materials(self, category_id: str) -> MoodHelpCategoryResponse:
+    def get_help_materials(self, category_id: str) -> MoodHelpCategoryResponse:
         category_by_id = {category.id: category for category in MOOD_HELP_CATEGORIES}
         category = category_by_id.get(category_id)
         if category is None:
             raise ValueError(f"Unknown help category: {category_id}")
 
-        materials = []
-        for reference in MOOD_HELP_MATERIALS[category.id]:
-            material_id = uuid.UUID(reference.material_id)
-            if reference.type == "test":
-                material = await self.db.tests.get_one_or_none(id=material_id)
-                title = material.title if material else None
-                image_url = material.link if material else None
-            elif reference.type == "practice":
-                material = await self.db.exercise.get_exercise_entity(material_id)
-                title = material.title if material else None
-                image_url = material.picture_link if material else None
-            else:
-                material = await self.db.education_theme.get_orm_one_or_none(material_id)
-                title = material.theme if material else None
-                image_url = material.link_to_picture if material else None
-            if material is None:
-                raise ObjectNotFoundException()
-            materials.append(MoodHelpMaterialResponse(
-                type=reference.type,
-                material_id=reference.material_id,
-                title=title,
-                image_url=image_url or MOOD_HELP_IMAGE_FALLBACKS.get(reference.material_id),
-            ))
-
         return MoodHelpCategoryResponse(
             id=category.id,
             title=category.title,
-            materials=materials,
+            materials=MOOD_HELP_MATERIALS[category.id],
         )
 
     async def save_mood_tracker(self, data: MoodTrackerDateRequestAdd, user_id: uuid.UUID):
