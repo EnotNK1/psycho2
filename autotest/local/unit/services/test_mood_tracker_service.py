@@ -197,8 +197,14 @@ def test_validate_mood_details_rejects_unknown_regular_emotion():
         MoodTrackerService()._validate_mood_details(data)
 
 
-def test_get_help_materials_returns_fixed_category_materials():
-    result = MoodTrackerService().get_help_materials("relax")
+@pytest.mark.asyncio
+async def test_get_help_materials_returns_fixed_category_materials():
+    from unittest.mock import AsyncMock
+
+    db = SimpleNamespace(education_theme=SimpleNamespace(get_orm_one_or_none=AsyncMock(
+        return_value=SimpleNamespace(theme="Theory", link_to_picture="/images/theory.png"),
+    )))
+    result = await MoodTrackerService(db).get_help_materials("relax")
 
     assert result.title == "Успокоиться и расслабиться"
     assert [(item.type, item.material_id) for item in result.materials] == [
@@ -207,9 +213,10 @@ def test_get_help_materials_returns_fixed_category_materials():
     ]
 
 
-def test_get_help_materials_rejects_unknown_category():
+@pytest.mark.asyncio
+async def test_get_help_materials_rejects_unknown_category():
     with pytest.raises(ValueError, match="Unknown help category"):
-        MoodTrackerService().get_help_materials("unknown")
+        await MoodTrackerService().get_help_materials("unknown")
 
 
 @pytest.mark.asyncio
