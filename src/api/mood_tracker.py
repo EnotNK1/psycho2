@@ -1,6 +1,7 @@
 import uuid
+from urllib.parse import urljoin
 from typing import Optional
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Request
 from src.api.dependencies.db import DBDep
 from src.api.dependencies.user_id import UserIdDep
 from src.schemas.mood_tracker import (
@@ -75,9 +76,15 @@ async def get_mood_help_categories():
 
 
 @router.get("/help-categories/{category_id}", response_model=MoodHelpCategoryResponse)
-async def get_mood_help_category_materials(category_id: str):
+async def get_mood_help_category_materials(category_id: str, db: DBDep, request: Request):
     try:
-        return MoodTrackerService().get_help_materials(category_id)
+        result = await MoodTrackerService(db).get_help_materials(category_id)
+        for material in result.materials:
+            if material.image_url:
+                material.image_url = urljoin(str(request.base_url), material.image_url)
+        return result
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException
     except ValueError as ex:
         raise HTTPException(status_code=400, detail=str(ex))
 
