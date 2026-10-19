@@ -45,10 +45,15 @@ class MoodHelpMaterial(BaseModel):
     material_id: str
 
 
+class MoodHelpMaterialResponse(MoodHelpMaterial):
+    title: str
+    image_url: Optional[str] = None
+
+
 class MoodHelpCategoryResponse(BaseModel):
     id: str
     title: str
-    materials: list[MoodHelpMaterial] = Field(default_factory=list)
+    materials: list[MoodHelpMaterialResponse] = Field(default_factory=list)
 
 
 class MoodTrackerDateRequestAdd(BaseModel):
