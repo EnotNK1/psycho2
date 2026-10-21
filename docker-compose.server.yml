@@ -1,0 +1,108 @@
+services:
+  app:
+    container_name: odeyalo-backend-app
+    restart: on-failure
+    build:
+      context: .
+    command: ["sh", "-c", "alembic upgrade head && exec python src/main.py"]
+    expose:
+      - "8000"
+    networks:
+      - odeyalo-network
+    env_file:
+      - .env
+
+  db:
+    container_name: odeyalo-backend-db
+    image: public.ecr.aws/docker/library/postgres:18
+    restart: on-failure
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASS:?DB_PASS is required}
+      POSTGRES_DB: psycho2
+      PGDATA: /var/lib/postgresql/18/docker
+    networks:
+      - odeyalo-network
+    volumes:
+      - recovered_data:/var/lib/postgresql
+    command: ["postgres", "-p", "4321"]
+    expose:
+      - "4321"
+
+  backup:
+    container_name: odeyalo-backend-backup
+    image: prodrigestivill/postgres-backup-local:18
+    restart: always
+    volumes:
+      - ./backups:/backups
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: psycho2
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASS:?DB_PASS is required}
+      POSTGRES_PORT: "4321"
+      BACKUP_DIR: /backups
+      BACKUP_KEEP_DAYS: "2"
+      BACKUP_SUFFIX: .sql.gz
+      SCHEDULE: "@daily"
+    networks:
+      - odeyalo-network
+    depends_on:
+      - db
+
+  celery_worker:
+    container_name: odeyalo-backend-celery-worker
+    restart: on-failure
+    build:
+      context: .
+    networks:
+      - odeyalo-network
+    env_file:
+      - .env
+    command: ["celery", "--app=src.tasks.celery_app:celery_instance", "worker", "-l", "INFO", "--concurrency=2"]
+
+  celery_beat:
+    container_name: odeyalo-backend-celery-beat
+    restart: on-failure
+    build:
+      context: .
+    networks:
+      - odeyalo-network
+    env_file:
+      - .env
+    command: ["celery", "--app=src.tasks.celery_app:celery_instance", "beat", "-l", "INFO"]
+
+  nginx:
+    container_name: odeyalo-backend-nginx
+    image: public.ecr.aws/nginx/nginx:latest
+    restart: on-failure
+    ports:
+      - "1802:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    networks:
+      - odeyalo-network
+    depends_on:
+      - app
+
+  redis:
+    container_name: odeyalo-backend-redis
+    image: public.ecr.aws/docker/library/redis:latest
+    restart: on-failure
+    volumes:
+      - ./redis-data:/data
+    networks:
+      - odeyalo-network
+    command: ["redis-server", "--port", "6789"]
+    expose:
+      - "6789"
+
+volumes:
+  recovered_data:
+    external: true
+    name: ${POSTGRES_DATA_VOLUME:?POSTGRES_DATA_VOLUME is required}
+
+networks:
+  odeyalo-network:
+    external: true
+    name: odeyalo-network

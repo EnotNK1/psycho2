@@ -25,3 +25,11 @@ autotest/**/__pycache__
 .env
 .env.*
 !.env.example
+
+backups
+redis-data
+*.sql
+*.sql.gz
+docker-compose.yml.before-*
+docker-compose.rescue-check.yml
+docker-compose.safety-check.yml
