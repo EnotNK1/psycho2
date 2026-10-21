@@ -4,6 +4,12 @@ venv/
 __pycache__
 .env
 redis-data/
+backups/
+*.sql
+*.sql.gz
+docker-compose.yml.before-*
+docker-compose.rescue-check.yml
+docker-compose.safety-check.yml
 *.docx
 *.doc
 *.txt
