@@ -127,7 +127,7 @@ async def test_help_cards_include_titles_images_and_existing_references(
     for material in body["materials"]:
         assert set(material) == {"type", "material_id", "title", "image_url"}
         assert material["title"]
-        assert material["image_url"].startswith("https://api.example.com/images/")
+        assert material["image_url"].startswith("/images/")
         assert (
             Path("src") / urlparse(material["image_url"]).path.lstrip("/")
         ).is_file()
@@ -176,10 +176,23 @@ async def test_self_regulation_uses_existing_image_without_changing_database(
     response = await help_client.get("/mood_tracker/help-categories/focus")
     assert response.status_code == 200
     assert response.json()["materials"][1]["image_url"] == (
-        "https://api.example.com/images/images_education_material/self-regulation.png"
+        "/images/images_education_material/self-regulation.png"
     )
     session.refresh(material)
     assert material.link_to_picture is None
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("host", ["localhost", "api.example.com"])
+async def test_help_image_paths_do_not_depend_on_request_host(help_client, host):
+    response = await help_client.get(
+        "/mood_tracker/help-categories/reflect", headers={"Host": host}
+    )
+    assert response.status_code == 200
+    assert all(
+        material["image_url"].startswith("/images/")
+        for material in response.json()["materials"]
+    )
 
 
 @pytest.mark.asyncio
