@@ -16,6 +16,8 @@ from src.schemas.psychologist import BecomePsychologistRequest, InquiryAddReques
 from src.schemas.task import TaskRequest
 from src.services.psychologist import PsychologistService
 from src.services.tests import TestService
+from src.schemas.test_alerts import TestAlert
+from src.services.test_alerts import TestAlertService
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/psychologist", tags=["Психолог"])
@@ -60,6 +62,26 @@ async def inquiry_delete(
     return await PsychologistService(db).delete_inquiry(inquiry_id)
 
 
+@router.get(
+    "/alerts",
+    response_model=list[TestAlert],
+    summary="Алерты о повышенных результатах тестов клиентов",
+    description=(
+        "Только для психолога и его подтвержденных клиентов. "
+        "DASS-21: хотя бы одна шкала в категории «Высокий». "
+        "STAI: хотя бы одна шкала в категории «Выше нормы». "
+        "Бек: только общая шкала, 30–63 балла включительно. "
+        "Одна карточка на прохождение, новые результаты первыми. "
+        "Возвращаются все подходящие сохраненные прохождения; закрытие на фронте "
+        "не удаляет их из ответа. test_result_id используется для просмотра результата. "
+        "Фронт получает обновления повторным запросом этой ручки."
+    ),
+    responses={403: {"description": "Доступ разрешен только психологу"}},
+)
+async def get_test_alerts(db: DBDep, user_id: UserIdDep):
+    return await TestAlertService(db).get_alerts(user_id)
+
+
 @router.get("/{psychologist_id}", summary="Получить психолога по id")
 async def get_psychologist(
         psychologist_id: uuid.UUID,
@@ -81,7 +103,12 @@ async def client_tests_get(
         user_id: UserIdDep,
         client_id: uuid.UUID
 ):
-    return await PsychologistService(db).get_short_client_test_results(client_id=client_id, psychologist_id=user_id)
+    try:
+        return await PsychologistService(db).get_short_client_test_results(
+            client_id=client_id, psychologist_id=user_id
+        )
+    except ObjectNotFoundException:
+        raise ObjectNotFoundHTTPException()
 
 @router.get(
     "/clients/{client_id}/diary",
