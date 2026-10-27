@@ -505,6 +505,8 @@ async def get_test_result_by_id(
 @router.get("/passed/user/{user_id}",
             description="""
     Возвращает все пройденные тесты по user_id.\n
+    Каждый test_id возвращается один раз независимо от числа прохождений.
+    Все прохождения с датами доступны через /tests/{test_id}/results/.
     Входные параметры: user_id.
     Содержит следующее:
     [
@@ -530,6 +532,8 @@ async def get_passed_tests_by_user(
 @router.get("/passed/user",
             description="""
     Возвращает все пройденные тесты для текущего пользователя.\n
+    Каждый test_id возвращается один раз независимо от числа прохождений.
+    Все прохождения с датами доступны через /tests/{test_id}/results/.
     Содержит следующее:
     [
         {

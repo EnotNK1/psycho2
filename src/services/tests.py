@@ -1060,7 +1060,8 @@ class TestService(BaseService):
             if not test_results:
                 return []
 
-            test_ids = [str(tr.test_id) for tr in test_results]
+            # A card represents a test, not an individual attempt.
+            test_ids = list(dict.fromkeys(uuid.UUID(str(tr.test_id)) for tr in test_results))
 
             tests = await self.db.tests.get_by_ids(test_ids)
             if not tests:
@@ -1069,8 +1070,8 @@ class TestService(BaseService):
             test_dict = {str(test.id): test for test in tests}
 
             passed_tests = []
-            for test_result in test_results:
-                test = test_dict.get(str(test_result.test_id))
+            for test_id in test_ids:
+                test = test_dict.get(str(test_id))
                 if test:
                     passed_tests.append({
                         "title": test.title,
