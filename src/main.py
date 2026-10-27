@@ -17,6 +17,7 @@ from src.api.tests import router as tests_router
 from src.api.psychologist import router as psychologist_router
 from src.api.application import router as applications_router
 from src.api.client import router as client_router
+from src.api.yandex_auth import router as yandex_router
 from src.exceptions import (
     MyAppException,
     ObjectNotFoundException,
@@ -43,10 +44,11 @@ app.add_middleware(
 )
 for router in (
     auth_router,
+    yandex_router,
     tests_router,
-    psychologist_router,
     applications_router,
     client_router,
+    psychologist_router,
 ):
     app.include_router(router)
 app.mount("/images", StaticFiles(directory=ROOT / "src/images"), name="images")

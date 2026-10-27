@@ -44,7 +44,7 @@ class User(BaseModel):
 
 
 class UserWithHashedPassword(User):
-    hashed_password: str
+    hashed_password: Optional[str]
     role_id: int
 
 

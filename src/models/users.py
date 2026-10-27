@@ -14,6 +14,7 @@ class UsersOrm(Base):
     username: Mapped[str]
     email: Mapped[str] = mapped_column(String(200), unique=True)
     hashed_password: Mapped[Optional[str]] = mapped_column(String(200))
+    yandex_id: Mapped[Optional[str]] = mapped_column(String(255), unique=True)
     city: Mapped[Optional[str]]
     company: Mapped[Optional[str]]
     online: Mapped[Optional[bool]]

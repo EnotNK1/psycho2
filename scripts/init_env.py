@@ -18,6 +18,9 @@ content = "\n".join(
         "DATA_ENCRYPTION_KEY=" + Fernet.generate_key().decode(),
         "COOKIE_SECURE=false",
         "ALLOWED_ORIGINS=[]",
+        "YANDEX_CLIENT_ID=",
+        "YANDEX_CLIENT_SECRET=",
+        "YANDEX_REDIRECT_URI=http://127.0.0.1:8001/yandex/callback/code",
         "",
     ]
 )

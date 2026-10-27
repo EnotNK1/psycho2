@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     SMTP_PASSWORD: str = ""
     SMTP_FROM: str = ""
     PASSWORD_RESET_URL: str = "http://localhost:8001/reset-password"
+    YANDEX_CLIENT_ID: str = ""
+    YANDEX_CLIENT_SECRET: str = ""
+    YANDEX_REDIRECT_URI: str = "http://127.0.0.1:8001/yandex/callback/code"
     model_config = SettingsConfigDict(env_file=ROOT / ".env", extra="forbid")
 
     @property
