@@ -215,7 +215,9 @@ async def burnout_calculate(
         else:
             target_user_id = user_id
         test_service = TestService(db)
-        test_results = await test_service.get_test_result_by_user_and_test("e89f7acb-cd31-4d27-aadd-24f6c7d52794", target_user_id)
+        test_results = await test_service.get_test_result_by_user_and_test(
+            "e89f7acb-cd31-4d27-aadd-24f6c7d52794", target_user_id, my_user_id
+        )
         result = await AuthService(db).burnout_calculate(test_results)
 
         return {"result": result}

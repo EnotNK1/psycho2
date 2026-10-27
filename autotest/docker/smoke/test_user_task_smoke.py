@@ -19,10 +19,10 @@ class DummyUserTaskSmokeService:
     async def add_user_task(self, data, user_id):
         return None
 
-    async def update_user_task(self, data):
+    async def update_user_task(self, data, user_id):
         return None
 
-    async def delete(self, data):
+    async def delete(self, data, user_id):
         return {"status": "OK"}
 
 

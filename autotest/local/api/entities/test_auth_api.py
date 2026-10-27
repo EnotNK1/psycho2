@@ -176,7 +176,7 @@ class DummyTestService:
         cls.raise_on_get = None
         cls.last_args = None
 
-    async def get_test_result_by_user_and_test(self, test_id, user_id):
+    async def get_test_result_by_user_and_test(self, test_id, user_id, current_user_id):
         if type(self).raise_on_get:
             raise type(self).raise_on_get
         type(self).last_args = (test_id, user_id)

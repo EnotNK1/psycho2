@@ -235,6 +235,22 @@ class ExerciseRepository(BaseRepository):
         )
         return result.scalars().first()
 
+    async def get_completion_counts(self, user_id: uuid.UUID):
+        result = await self.session.execute(
+            select(
+                ExerciseStructureOrm.id,
+                ExerciseStructureOrm.title,
+                func.count(CompletedExerciseOrm.id),
+            )
+            .join(
+                CompletedExerciseOrm,
+                CompletedExerciseOrm.exercise_structure_id == ExerciseStructureOrm.id,
+            )
+            .where(CompletedExerciseOrm.user_id == user_id)
+            .group_by(ExerciseStructureOrm.id, ExerciseStructureOrm.title)
+        )
+        return result.all()
+
     async def get_passed_exercises_by_user(self, user_id: uuid.UUID):
         latest_completed_subquery = (
             select(
