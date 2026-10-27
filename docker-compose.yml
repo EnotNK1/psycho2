@@ -1,0 +1,51 @@
+name: compas
+services:
+  db:
+    image: public.ecr.aws/docker/library/postgres:18
+    environment:
+      POSTGRES_USER: ${DB_USER:-compas}
+      POSTGRES_DB: ${DB_NAME:-compas}
+      POSTGRES_PASSWORD: ${DB_PASS:?Run scripts/init_env.py first}
+    ports:
+      - '127.0.0.1:5544:5432'
+    volumes:
+      - compas_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+  migrate:
+    build: .
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+    command: ['alembic', 'upgrade', 'head']
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: 'no'
+  app:
+    build: .
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+    ports:
+      - '127.0.0.1:8001:8000'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'python', '-c', 'import urllib.request; urllib.request.urlopen("http://localhost:8000/health/ready", timeout=5)']
+      interval: 15s
+      timeout: 6s
+      retries: 3
+    volumes:
+      - compas_avatars:/app/src/images/avatars
+volumes:
+  compas_data:
+  compas_avatars:
