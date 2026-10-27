@@ -957,6 +957,30 @@ async def test_service_get_passed_tests_by_user_returns_test_summaries(fake_test
 
 
 @pytest.mark.asyncio
+async def test_passed_test_cards_are_unique_by_id_without_changing_attempts(fake_tests_db):
+    attempts = [
+        make_test_result_row(result_id=RESULT_ID, test_id=TEST_ID),
+        make_test_result_row(result_id=SECOND_RESULT_ID, test_id=str(TEST_ID)),
+        make_test_result_row(test_id=SECOND_TEST_ID),
+    ]
+    fake_tests_db.test_result.filtered_result = attempts.copy()
+    fake_tests_db.tests.by_ids_result = [
+        make_test(test_id=TEST_ID, title="Same name"),
+        make_test(test_id=SECOND_TEST_ID, title="Same name"),
+    ]
+
+    result = await TestService(fake_tests_db).get_passed_tests_by_user(USER_ID)
+
+    assert [item["test_id"] for item in result] == [str(TEST_ID), str(SECOND_TEST_ID)]
+    assert all(set(item) == {"title", "description", "test_id", "link"} for item in result)
+    assert fake_tests_db.tests.get_by_ids_calls == [[TEST_ID, SECOND_TEST_ID]]
+    assert fake_tests_db.test_result.filtered_result == attempts
+    assert fake_tests_db.test_result.delete_calls == []
+    assert fake_tests_db.session.commit_count == 0
+    assert fake_tests_db.commit_count == 0
+
+
+@pytest.mark.asyncio
 async def test_service_get_passed_tests_by_user_raises_not_found_when_tests_lookup_is_empty(fake_tests_db):
     fake_tests_db.test_result.filtered_result = [make_test_result_row(result_id=RESULT_ID, test_id=TEST_ID, user_id=USER_ID)]
     fake_tests_db.tests.by_ids_result = []
