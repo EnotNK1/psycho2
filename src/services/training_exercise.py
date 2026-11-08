@@ -53,10 +53,11 @@ class TrainingExerciseService(BaseService):
             await self.db.training_exercise.flush()
 
             # создаём вопросы
-            for q in ex_data["questions"]:
+            for position, q in enumerate(ex_data["questions"], start=1):
                 question = TrainingQuestionOrm(
                     text=q["text"],
                     formulation=q.get("formulation") or q["text"],
+                    position=position,
                     training_exercise_id=exercise.id,
                 )
                 await self.db.training_exercise.add(question)
