@@ -5,6 +5,7 @@ from pydantic import EmailStr
 import smtplib
 
 from src.database import async_session_maker_null_pool
+from src.config import settings
 from src.tasks.celery_app import celery_instance
 from src.utils.db_manager import DBManager
 
@@ -23,15 +24,19 @@ def send_email_to_recover_password(email: EmailStr):
 
 
 def send_email(receiver_email: str, subject: str, message: str):
-    sender_email = "athaethaet@mail.ru"
-    password = "I2pGEnTYbGVtRVkLW1Qi"
+    sender_email = settings.SMTP_SENDER_EMAIL
+    password = settings.SMTP_SENDER_PASSWORD
+    if not sender_email or not password:
+        raise RuntimeError(
+            "Email delivery is not configured. Set SMTP_SENDER_EMAIL and "
+            "SMTP_SENDER_PASSWORD in the environment."
+        )
 
     msg = MIMEText(message)
     msg["Subject"] = subject
     msg["From"] = sender_email
     msg["To"] = receiver_email
 
-    server = smtplib.SMTP_SSL("smtp.mail.ru", 465)
-    server.login(sender_email, password)
-    server.sendmail(sender_email, receiver_email, msg.as_string())
-    server.quit()
+    with smtplib.SMTP_SSL(settings.SMTP_HOST, settings.SMTP_PORT) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, msg.as_string())

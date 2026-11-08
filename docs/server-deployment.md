@@ -13,6 +13,12 @@ The default configuration is unchanged for existing local PostgreSQL 15 users.
 - `REDIS_HOST=redis`, `REDIS_PORT=6789`.
 - `DB_PASS` must match the existing PostgreSQL role password. Changing
   `POSTGRES_PASSWORD` does not reset a password in an initialized cluster.
+- Set `SMTP_SENDER_EMAIL` and the newly rotated `SMTP_SENDER_PASSWORD` in the
+  server's untracked `.env`. `SMTP_HOST` defaults to `smtp.mail.ru` and
+  `SMTP_PORT` to `465`; override them only if the mail provider requires it.
+- The old mail password was exposed in the repository. Revoke or replace it in
+  the mail provider before enabling password-recovery email. Never put the new
+  value in Git or share it in logs or chat.
 - Preserve the original encryption and JWT keys. A new encryption key cannot
   decrypt existing sensitive records.
 - The existing Docker network `odeyalo-network` must be present.
@@ -52,6 +58,9 @@ docker compose -p back -f docker-compose.server.yml ps
 docker compose -p back -f docker-compose.server.yml logs --since 5m --tail 80 app celery_worker backup
 docker compose -p back -f docker-compose.server.yml exec -T backup /backup.sh
 ```
+
+The worker reads mail settings at startup. Recreate `celery_worker` after
+changing the server `.env` so it receives the rotated credentials.
 
 The first transition can recreate containers and requires a maintenance window.
 Do not run it merely to validate the file. Application startup stops if Alembic

@@ -35,6 +35,11 @@ class Settings(BaseSettings):
     ClientID: str
     ClientSecret: str
 
+    SMTP_HOST: str = "smtp.mail.ru"
+    SMTP_PORT: int = 465
+    SMTP_SENDER_EMAIL: Optional[str] = None
+    SMTP_SENDER_PASSWORD: Optional[str] = None
+
     model_config = SettingsConfigDict(env_file=DOTENV)
 
 
