@@ -273,7 +273,15 @@ class AuthService(BaseService):
     async def get_ontology(self, user_id):
 
         try:
-            return await self.db.ontology_entry.get_filtered(user_id=user_id)
+            entries = await self.db.ontology_entry.get_filtered(user_id=user_id)
+            unique_entries = {}
+            # Older databases can contain repeated recommendations for a material.
+            for entry in entries:
+                key = (entry.type, str(entry.destination_id))
+                previous = unique_entries.get(key)
+                if previous is None or entry.created_at > previous.created_at:
+                    unique_entries[key] = entry
+            return list(unique_entries.values())
 
         except Exception as e:
             await self.db.rollback()
