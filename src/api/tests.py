@@ -557,21 +557,14 @@ async def get_passed_tests(
 
 @images_router.get("/{file_path:path}", summary="Получение изображения по пути, пример images/img_1.png")
 async def get_image(file_path: str):
-    # Получаем абсолютный путь к директории images
-    base_dir = Path(__file__).parent.parent  # Остаёмся в директории src
-    images_dir = base_dir / "images"
-
-    # Полный путь к файлу
-    image_path = images_dir / file_path
-
-    # Логирование для отладки
-    logging.info(f"Requested file path: {file_path}")
-    logging.info(f"Full image path: {image_path}")
-
-    # Проверка, существует ли файл
-    if not image_path.is_file():
-        logging.error(f"Image not found: {image_path}")
+    images_dir = (Path(__file__).resolve().parent.parent / "images").resolve()
+    try:
+        image_path = (images_dir / file_path).resolve()
+        image_path.relative_to(images_dir)
+    except (OSError, RuntimeError, ValueError):
         raise HTTPException(status_code=404, detail="Изображение не найдено")
 
-    # Возвращаем файл как ответ
+    if not image_path.is_file():
+        raise HTTPException(status_code=404, detail="Изображение не найдено")
+
     return FileResponse(image_path)
