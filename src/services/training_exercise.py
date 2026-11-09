@@ -77,6 +77,17 @@ class TrainingExerciseService(BaseService):
 
     async def get_all_exercises(self, user_id) -> List[ExerciseShortResponse]:
         exercises = await self.db.training_exercise.get_all()
+        fixture_order = {
+            uuid.UUID(exercise_data["id"]): index
+            for index, exercise_data in enumerate(TRAINING_EXERCISES)
+        }
+        exercises.sort(
+            key=lambda exercise: (
+                fixture_order.get(exercise.id, len(fixture_order)),
+                exercise.title.casefold(),
+                str(exercise.id),
+            )
+        )
 
         result = []
         completed_ids = set()
