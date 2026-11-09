@@ -618,12 +618,63 @@ async def test_burnout_calculate_uses_latest_test_and_score_order(fake_auth_db, 
 
 @pytest.mark.asyncio
 async def test_get_ontology_returns_repository_result(fake_auth_db):
-    fake_auth_db.ontology_entry.filtered_result = ["item-1"]
+    entry = SimpleNamespace(
+        type="test", destination_id=USER_ID,
+        created_at=datetime.datetime(2026, 10, 22),
+    )
+    fake_auth_db.ontology_entry.filtered_result = [entry]
 
     result = await AuthService(fake_auth_db).get_ontology(USER_ID)
 
-    assert result == ["item-1"]
+    assert result == [entry]
     assert fake_auth_db.ontology_entry.calls == [{"user_id": USER_ID}]
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("newest_first", [False, True])
+async def test_get_ontology_hides_old_duplicates_without_modifying_records(
+    fake_auth_db, newest_first
+):
+    old = SimpleNamespace(
+        id="old", type="practice", destination_id=USER_ID,
+        created_at=datetime.datetime(2026, 10, 20),
+    )
+    new = SimpleNamespace(
+        id="new", type="practice", destination_id=str(USER_ID),
+        created_at=datetime.datetime(2026, 10, 22),
+    )
+    other = SimpleNamespace(
+        id="other", type="test", destination_id=SECOND_USER_ID,
+        created_at=datetime.datetime(2026, 10, 21),
+    )
+    entries = [new, old, other] if newest_first else [old, new, other]
+    fake_auth_db.ontology_entry.filtered_result = entries.copy()
+
+    result = await AuthService(fake_auth_db).get_ontology(USER_ID)
+
+    assert result == [new, other]
+    assert fake_auth_db.ontology_entry.filtered_result == entries
+    assert fake_auth_db.commit_count == 0
+    assert fake_auth_db.rollback_count == 0
+    assert fake_auth_db.ontology_entry.calls == [{"user_id": USER_ID}]
+
+
+@pytest.mark.asyncio
+async def test_get_ontology_keeps_distinct_materials_with_same_title(fake_auth_db):
+    entries = [
+        SimpleNamespace(
+            type="test", destination_id=material_id, destination_title="Same title",
+            created_at=datetime.datetime(2026, 10, 22),
+        )
+        for material_id in (USER_ID, SECOND_USER_ID)
+    ]
+    fake_auth_db.ontology_entry.filtered_result = entries
+    assert await AuthService(fake_auth_db).get_ontology(USER_ID) == entries
+
+
+@pytest.mark.asyncio
+async def test_get_ontology_returns_empty_plan(fake_auth_db):
+    assert await AuthService(fake_auth_db).get_ontology(USER_ID) == []
 
 
 @pytest.mark.asyncio
