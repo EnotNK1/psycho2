@@ -155,9 +155,11 @@ class PsychologistService(BaseService):
             result = await self.db.session.execute(stmt)
             psychologists = result.scalars().all()
 
-            total = 0
+            total = len(psychologists)
             if per_page is not None:
-                count_stmt = select(func.count()).select_from(UsersOrm).where(UsersOrm.role_id == 3)
+                count_stmt = select(func.count()).select_from(
+                    stmt.order_by(None).limit(None).offset(None).subquery()
+                )
                 total_result = await self.db.session.execute(count_stmt)
                 total = total_result.scalar_one()
 
@@ -167,7 +169,7 @@ class PsychologistService(BaseService):
                 "total": total,
                 "page": page,
                 "per_page": per_page,
-                "pages": (total + per_page - 1) // per_page if per_page and total else 1
+                "pages": (total + per_page - 1) // per_page if per_page else 1
             }
         except ObjectNotFoundException as ex:
             raise ex

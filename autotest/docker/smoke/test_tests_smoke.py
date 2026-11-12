@@ -115,6 +115,9 @@ class DummyTestsSmokeService:
             ],
         }
 
+    async def authorize_results_access(self, user_id, current_user_id):
+        return None
+
     async def get_test_result_by_user_and_test(self, test_id, user_id):
         return [
             {

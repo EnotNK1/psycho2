@@ -33,6 +33,22 @@ logger = logging.getLogger(__name__)
 
 
 class TestService(BaseService):
+    async def authorize_results_access(self, user_id: uuid.UUID, current_user_id: uuid.UUID):
+        if str(user_id) == str(current_user_id):
+            return
+        current_user = await self.db.users.get_one_or_none(id=current_user_id)
+        if current_user and current_user.role_id == 0:
+            return
+        if current_user and current_user.role_id == 2:
+            relation = await self.db.clients.get_one_or_none(
+                client_id=user_id,
+                mentor_id=current_user_id,
+                status=True,
+            )
+            if relation:
+                return
+        raise ObjectNotFoundException()
+
     def _load_info_data(self, path: str) -> list[dict]:
         try:
             return load_data(path)
@@ -819,16 +835,7 @@ class TestService(BaseService):
     ):
 
         try:
-            # Проверяем, что клиент является подопечным данного психолога
-            relation = await self.db.clients.get_one_or_none(
-                client_id=user_id,
-                mentor_id=current_user_id,
-                status=True
-            )
-            if not relation:
-                raise ObjectNotFoundException(
-                    f"Клиент с ID {user_id} не найден или не является вашим подопечным"
-                )
+            await self.authorize_results_access(user_id, current_user_id)
 
             # Получаем ВСЕ результаты теста для указанного пользователя и теста
             test_results = await self.db.test_result.get_filtered(

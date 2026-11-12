@@ -95,7 +95,7 @@ class DiaryService(BaseService):
         user_id: uuid.UUID,
         mood_tracker_id: uuid.UUID,
     ):
-        return await self.db.diary.get_one_or_none(
+        return await self.db.diary.get_latest_by_mood_tracker(
             user_id=user_id,
             mood_tracker_id=mood_tracker_id,
         )

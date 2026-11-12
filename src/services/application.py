@@ -34,17 +34,19 @@ class ApplicationService(BaseService):
             for app in applications
         ]
               
-    async def get_application(self, app_id: UUID) -> ApplicationResponse:
-
-
+    async def _get_accessible_application(self, app_id: UUID, user_id: UUID):
         applications = await self.db.application.get_filtered(id=app_id)
-
         if not applications:
             raise ObjectNotFoundException()
-
-        # Берем первую (и единственную) заявку из списка
         application = applications[0]
+        if str(user_id) not in {str(application.client_id), str(application.manager_id)}:
+            user = await self.db.users.get_one_or_none(id=user_id)
+            if not user or user.role_id != 0:
+                raise ObjectNotFoundException()
+        return application
 
+    async def get_application(self, app_id: UUID, user_id: UUID) -> ApplicationResponse:
+        application = await self._get_accessible_application(app_id, user_id)
         return ApplicationResponse(
             id=application.id,
             client_id=application.client_id,
@@ -55,14 +57,8 @@ class ApplicationService(BaseService):
             created_at=application.created_at
         )
 
-    async def delete_application(self, app_id: UUID):
-
-
-        applications = await self.db.application.get_filtered(id=app_id)
-
-        if not applications:
-            raise ObjectNotFoundException()
-
+    async def delete_application(self, app_id: UUID, user_id: UUID):
+        await self._get_accessible_application(app_id, user_id)
         await self.db.application.delete(id=app_id)
         return {"status": "OK"}
 
@@ -93,6 +89,9 @@ class ApplicationService(BaseService):
         if not applications:
             raise ObjectNotFoundException()
         application = applications[0]
+
+        if str(application.manager_id) != str(manager_id):
+            raise ObjectNotFoundException()
 
         # Обновляем статус заявки
         application.status = not application.status

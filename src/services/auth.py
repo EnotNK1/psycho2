@@ -34,7 +34,10 @@ from src.services.daily_tasks import DailyTaskService
 
 from src.burnout_personality import burnout_calculate
 
-serializer = URLSafeTimedSerializer("secret_key")
+serializer = URLSafeTimedSerializer(
+    settings.PASSWORD_RESET_SECRET_KEY or settings.JWT_SECRET_KEY,
+    salt="password-reset-v2",
+)
 
 
 class AuthService(BaseService):

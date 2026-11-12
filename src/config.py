@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str
     JWT_REFRESH_SECRET_KEY: str
+    PASSWORD_RESET_SECRET_KEY: Optional[str] = None
     DATA_ENCRYPTION_KEY: Optional[str] = None
     ACCESS_TOKEN_EXPIRE_MINUTES: int
     REFRESH_TOKEN_EXPIRE_DAYS: int
