@@ -50,6 +50,11 @@ from src.services.fixtures.exercise import EXERCISES
 
 logger = logging.getLogger(__name__)
 
+SITUATION_FIRST_FIELD_IDS = {
+    uuid.UUID("682a4479-5693-48ae-abe1-df6b899f08df"),
+    uuid.UUID("4592b3e9-cbd8-4ec2-bed7-e29015cb4db5"),
+}
+
 
 class ExerciseService(BaseService):
     async def auto_create(self):
@@ -601,30 +606,38 @@ class ExerciseService(BaseService):
         open_status: bool,
         pulled_rows: list[tuple[FilledFieldOrm, CompletedExerciseOrm]],
     ) -> ExerciseDetail1Response:
-        pages_map: dict[int, list[SectionResponse]] = {}
-        for field in sorted(
-            exercise.field,
-            key=lambda item: (item.order, item.position,
-                              item.title, str(item.id)),
-        ):
-            pages_map.setdefault(field.order, []).append(
+        fields_by_page: dict[int, list[FieldOrm]] = {}
+        for field in exercise.field:
+            fields_by_page.setdefault(field.order, []).append(field)
+
+        pages = []
+        for page_number, fields in sorted(fields_by_page.items()):
+            ordered_fields = sorted(
+                fields,
+                key=lambda item: (
+                    0 if item.id in SITUATION_FIRST_FIELD_IDS else 1,
+                    item.position,
+                    item.title,
+                    str(item.id),
+                ),
+            )
+            sections = [
                 SectionResponse(
                     id=field.id,
                     title=field.title,
                     view=field.view,
                     type=field.type,
-                    position=field.position,
+                    # Return display order without updating the stored position.
+                    position=position,
                     placeholder=field.placeholder,
                     prompt=field.prompt,
-                    variants=[VariantResponse.model_validate(
-                        variant) for variant in field.variants],
+                    variants=[VariantResponse.model_validate(variant)
+                              for variant in field.variants],
                 )
-            )
+                for position, field in enumerate(ordered_fields, start=1)
+            ]
+            pages.append(PageResponse(page_number=page_number, sections=sections))
 
-        pages = [
-            PageResponse(page_number=page_number, sections=sections)
-            for page_number, sections in sorted(pages_map.items())
-        ]
         pulled_fields = list(self._index_pulled_groups(pulled_rows).values())
 
         return ExerciseDetail1Response(
