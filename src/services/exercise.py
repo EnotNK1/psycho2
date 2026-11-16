@@ -54,6 +54,7 @@ SITUATION_FIRST_FIELD_IDS = {
     uuid.UUID("682a4479-5693-48ae-abe1-df6b899f08df"),
     uuid.UUID("4592b3e9-cbd8-4ec2-bed7-e29015cb4db5"),
 }
+CBT_DIARY_EXERCISE_ID = uuid.UUID("4e3f51e9-aad8-4a13-b4b7-d748e472d394")
 
 
 class ExerciseService(BaseService):
@@ -624,7 +625,7 @@ class ExerciseService(BaseService):
             sections = [
                 SectionResponse(
                     id=field.id,
-                    title=field.title,
+                    title=self._exercise_field_title(exercise, field),
                     view=field.view,
                     type=field.type,
                     # Return display order without updating the stored position.
@@ -653,6 +654,18 @@ class ExerciseService(BaseService):
             pulled_fields=pulled_fields,
             pages=pages,
         )
+
+    @staticmethod
+    def _exercise_field_title(
+        exercise: ExerciseStructureOrm, field: FieldOrm
+    ) -> str:
+        field_type = getattr(field.type, "value", field.type)
+        if (
+            exercise.id == CBT_DIARY_EXERCISE_ID
+            and field_type == enums.FieldType.SLIDER.value
+        ):
+            return "Сила эмоций"
+        return field.title
 
     def _extract_preview(
         self, completed: CompletedExerciseOrm, major_field_ids: set[uuid.UUID]
