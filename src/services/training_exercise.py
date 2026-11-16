@@ -53,11 +53,10 @@ class TrainingExerciseService(BaseService):
             await self.db.training_exercise.flush()
 
             # создаём вопросы
-            for position, q in enumerate(ex_data["questions"], start=1):
+            for q in ex_data["questions"]:
                 question = TrainingQuestionOrm(
                     text=q["text"],
                     formulation=q.get("formulation") or q["text"],
-                    position=position,
                     training_exercise_id=exercise.id,
                 )
                 await self.db.training_exercise.add(question)
@@ -130,7 +129,62 @@ class TrainingExerciseService(BaseService):
 
         if not exercise:
             raise ValueError("Exercise not found")
-        return exercise
+
+        fixture_exercise = next(
+            (
+                fixture
+                for fixture in TRAINING_EXERCISES
+                if uuid.UUID(fixture["id"]) == exercise_id
+            ),
+            None,
+        )
+        # The order is defined by the fixture so reads do not depend on the
+        # optional DB column introduced by a later migration.
+        fixture_question_order = {
+            question["text"]: position
+            for position, question in enumerate(
+                fixture_exercise["questions"] if fixture_exercise else (),
+                start=1,
+            )
+        }
+        questions = sorted(
+            exercise.questions,
+            key=lambda question: (
+                fixture_question_order.get(
+                    question.text, len(fixture_question_order) + 1
+                ),
+                question.text.casefold(),
+                str(question.id),
+            ),
+        )
+
+        return {
+            "id": exercise.id,
+            "title": exercise.title,
+            "description": exercise.description,
+            "picture_link": exercise.picture_link,
+            "time_to_read": exercise.time_to_read,
+            "questions": [
+                {
+                    "id": question.id,
+                    "text": question.text,
+                    "formulation": question.formulation,
+                    "training_exercise_id": question.training_exercise_id,
+                    "position": position,
+                    "variants": [
+                        {
+                            "id": variant.id,
+                            "title": variant.title,
+                            "correct": variant.correct,
+                            "explanation": variant.explanation,
+                            "question_id": variant.question_id,
+                        }
+                        for variant in question.variants
+                    ],
+                }
+                for position, question in enumerate(questions, start=1)
+            ],
+        }
 
     async def is_exercise_completed_by_id(self, exercise_id: uuid.UUID, user_id):
         if not user_id:

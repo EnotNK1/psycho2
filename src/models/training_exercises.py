@@ -22,7 +22,6 @@ class TrainingExerciseOrm(Base):
     questions: Mapped[List["TrainingQuestionOrm"]] = relationship(
         back_populates="exercise",
         cascade="all, delete-orphan",
-        order_by=lambda: (TrainingQuestionOrm.position, TrainingQuestionOrm.id),
     )
     completed: Mapped[List["TrainingCompletedExerciseOrm"]] = relationship(
         back_populates="exercise",
@@ -38,7 +37,6 @@ class TrainingQuestionOrm(Base):
     )
     text: Mapped[str]
     formulation: Mapped[str]
-    position: Mapped[int] = mapped_column(default=1_000_000, nullable=False)
 
     training_exercise_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("training_exercise.id", ondelete="CASCADE")
