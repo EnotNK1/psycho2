@@ -53,18 +53,22 @@ mix the server file with the default local file.
 
 ```bash
 docker compose -p back -f docker-compose.server.yml build app celery_worker celery_beat
+docker compose -p back -f docker-compose.server.yml run --rm --no-deps app alembic upgrade head
 docker compose -p back -f docker-compose.server.yml up -d
 docker compose -p back -f docker-compose.server.yml ps
 docker compose -p back -f docker-compose.server.yml logs --since 5m --tail 80 app celery_worker backup
 docker compose -p back -f docker-compose.server.yml exec -T backup /backup.sh
 ```
 
+Alembic is run explicitly before the application is recreated. If the upgrade
+fails, stop here and resolve the migration error before running `up -d`.
+
 The worker reads mail settings at startup. Recreate `celery_worker` after
 changing the server `.env` so it receives the rotated credentials.
 
 The first transition can recreate containers and requires a maintenance window.
-Do not run it merely to validate the file. Application startup stops if Alembic
-fails. Before deploying schema changes, test migrations on an isolated restored
-backup; successful startup alone does not prove that existing records are usable.
+Do not run it merely to validate the file. Before deploying schema changes,
+test migrations on an isolated restored backup; a successful upgrade alone does
+not prove that existing records are usable.
 Check login, old diary text, mood history, worker readiness, and backup output.
 Reverting Git commits does not revert database schemas or recover lost records.

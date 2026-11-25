@@ -4,7 +4,7 @@ services:
     restart: on-failure
     build:
       context: .
-    command: ["sh", "-c", "alembic upgrade head && exec python src/main.py"]
+    command: ["python", "src/main.py"]
     expose:
       - "8000"
     networks:
